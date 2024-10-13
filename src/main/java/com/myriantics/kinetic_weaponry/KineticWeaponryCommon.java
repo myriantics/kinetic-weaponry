@@ -1,6 +1,7 @@
 package com.myriantics.kinetic_weaponry;
 
 import com.myriantics.kinetic_weaponry.block.KineticWeaponryBlocks;
+import com.myriantics.kinetic_weaponry.block.customblocks.KineticDetonatorBlock;
 import org.slf4j.Logger;
 
 import com.mojang.logging.LogUtils;
@@ -83,6 +84,7 @@ public class KineticWeaponryCommon
         // Note that this is necessary if and only if we want *this* class (ExampleMod) to respond directly to events.
         // Do not add this line if there are no @SubscribeEvent-annotated functions in this class, like onServerStarting() below.
         NeoForge.EVENT_BUS.register(this);
+        NeoForge.EVENT_BUS.addListener(KineticDetonatorBlock::onAttackBlock);
 
         // Register the item to a creative tab
         modEventBus.addListener(this::addCreative);

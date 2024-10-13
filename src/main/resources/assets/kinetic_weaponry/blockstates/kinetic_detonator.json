@@ -1,0 +1,52 @@
+{
+  "variants": {
+    "axis=x,powered=false,lit=false": {
+      "model": "kinetic_weaponry:block/kinetic_detonator/kinetic_detonator_unlit_unpowered",
+      "x": 90,
+      "y": 90
+    },
+    "axis=x,powered=true,lit=false": {
+      "model": "kinetic_weaponry:block/kinetic_detonator/kinetic_detonator_unlit_powered",
+      "x": 90,
+      "y": 90
+    },
+    "axis=x,powered=false,lit=true": {
+      "model": "kinetic_weaponry:block/kinetic_detonator/kinetic_detonator_lit_unpowered",
+      "x": 90,
+      "y": 90
+    },
+    "axis=x,powered=true,lit=true": {
+      "model": "kinetic_weaponry:block/kinetic_detonator/kinetic_detonator_lit_powered",
+      "x": 90,
+      "y": 90
+    },
+    "axis=y,powered=false,lit=false": {
+      "model": "kinetic_weaponry:block/kinetic_detonator/kinetic_detonator_unlit_unpowered"
+    },
+    "axis=y,powered=true,lit=false": {
+      "model": "kinetic_weaponry:block/kinetic_detonator/kinetic_detonator_unlit_powered"
+    },
+    "axis=y,powered=false,lit=true": {
+      "model": "kinetic_weaponry:block/kinetic_detonator/kinetic_detonator_lit_unpowered"
+    },
+    "axis=y,powered=true,lit=true": {
+      "model": "kinetic_weaponry:block/kinetic_detonator/kinetic_detonator_lit_powered"
+    },
+    "axis=z,powered=false,lit=false": {
+      "model": "kinetic_weaponry:block/kinetic_detonator/kinetic_detonator_unlit_unpowered",
+      "x": 90
+    },
+    "axis=z,powered=true,lit=false": {
+      "model": "kinetic_weaponry:block/kinetic_detonator/kinetic_detonator_unlit_powered",
+      "x": 90
+    },
+    "axis=z,powered=false,lit=true": {
+      "model": "kinetic_weaponry:block/kinetic_detonator/kinetic_detonator_lit_unpowered",
+      "x": 90
+    },
+    "axis=z,powered=true,lit=true": {
+      "model": "kinetic_weaponry:block/kinetic_detonator/kinetic_detonator_lit_powered",
+      "x": 90
+    }
+  }
+}

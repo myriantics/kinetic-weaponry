@@ -1,54 +1,81 @@
 package com.myriantics.kinetic_weaponry.block.customblocks;
 
+import com.myriantics.kinetic_weaponry.KineticWeaponryCommon;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
-import net.minecraft.world.damagesource.DamageSources;
-import net.minecraft.world.entity.item.PrimedTnt;
-import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.MaceItem;
+import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.Explosion;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
-import net.minecraft.world.level.block.FallingBlock;
-import net.minecraft.world.level.block.PointedDripstoneBlock;
+import net.minecraft.world.level.block.RotatedPillarBlock;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.block.state.StateDefinition;
+import net.minecraft.world.level.block.state.properties.BlockStateProperties;
+import net.minecraft.world.level.block.state.properties.BooleanProperty;
+import net.minecraft.world.level.block.state.properties.DirectionProperty;
+import net.minecraft.world.level.block.state.properties.EnumProperty;
 import net.neoforged.bus.api.SubscribeEvent;
-import net.neoforged.neoforge.common.NeoForge;
-import org.jetbrains.annotations.NotNull;
+import net.neoforged.neoforge.event.entity.player.PlayerInteractEvent;
+import org.jetbrains.annotations.Nullable;
 
 public class KineticDetonatorBlock extends Block {
+
+    public static final EnumProperty<Direction.Axis> AXIS = BlockStateProperties.AXIS;
+    public static final BooleanProperty POWERED = BlockStateProperties.POWERED;
+    public static final BooleanProperty LIT = BlockStateProperties.LIT;
+
     public KineticDetonatorBlock(Properties properties) {
         super(properties);
+
+        registerDefaultState(stateDefinition.any()
+                        .setValue(AXIS, Direction.Axis.Y)
+                        .setValue(POWERED, false)
+                        .setValue(LIT, true));
+    }
+
+    private static void detonate(ServerLevel serverLevel, BlockPos pos, ServerPlayer serverPlayer) {
+        float explosionPower = Items.MACE.getAttackDamageBonus(serverPlayer, 0, Explosion.getDefaultDamageSource(serverLevel, serverPlayer));
+
+        if (explosionPower > 0) {
+            // kaboom? yes rico, kaboom.
+            serverLevel.explode(serverPlayer, pos.getCenter().x, pos.getCenter().y, pos.getCenter().z, explosionPower,
+                    Level.ExplosionInteraction.BLOCK);
+
+            serverPlayer.setSpawnExtraParticlesOnFall(true);
+            SoundEvent soundevent = serverPlayer.fallDistance > 5.0F ? SoundEvents.MACE_SMASH_GROUND_HEAVY : SoundEvents.MACE_SMASH_GROUND;
+            serverLevel.playSound(null, serverPlayer.getX(), serverPlayer.getY(), serverPlayer.getZ(), soundevent, serverPlayer.getSoundSource(), 1.0F, 1.0F);
+
+            serverPlayer.resetFallDistance();
+        }
+    }
+
+    @SubscribeEvent
+    public static void onAttackBlock(PlayerInteractEvent.LeftClickBlock event) {
+        Level level = event.getLevel();
+        if (event.getLevel() instanceof ServerLevel serverLevel && event.getEntity() instanceof ServerPlayer serverPlayer) {
+            BlockPos pos = event.getPos();
+            if (level.getBlockState(pos).getBlock() instanceof KineticDetonatorBlock
+                    && serverPlayer.getMainHandItem().getItem() instanceof MaceItem) {
+                detonate(serverLevel, pos, serverPlayer);
+            }
+        }
     }
 
     @Override
-    protected void attack(@NotNull BlockState state, @NotNull Level level, @NotNull BlockPos pos, Player player) {
-        if (level instanceof ServerLevel serverLevel && player instanceof ServerPlayer serverPlayer) {
-            detonate(state, serverLevel, pos, serverPlayer);
-        }
-        super.attack(state, level, pos, player);
+    protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> builder) {
+        builder.add(AXIS, POWERED, LIT);
     }
 
-    private void detonate(BlockState state, ServerLevel serverLevel, BlockPos pos, ServerPlayer serverPlayer) {
-        if (serverPlayer.getMainHandItem().getItem() instanceof MaceItem maceItem) {
-            float explosionPower = maceItem.getAttackDamageBonus(serverPlayer, 0, Explosion.getDefaultDamageSource(serverLevel, serverPlayer));
-
-            if (explosionPower > 0) {
-                // kaboom? yes rico, kaboom.
-                serverLevel.explode(serverPlayer, pos.getCenter().x, pos.getCenter().y, pos.getCenter().z, explosionPower,
-                        Level.ExplosionInteraction.BLOCK);
-
-                serverPlayer.setSpawnExtraParticlesOnFall(true);
-                SoundEvent soundevent = serverPlayer.fallDistance > 5.0F ? SoundEvents.MACE_SMASH_GROUND_HEAVY : SoundEvents.MACE_SMASH_GROUND;
-                serverLevel.playSound(null, serverPlayer.getX(), serverPlayer.getY(), serverPlayer.getZ(), soundevent, serverPlayer.getSoundSource(), 1.0F, 1.0F);
-
-                serverPlayer.resetFallDistance();
-            }
-        }
+    @Nullable
+    @Override
+    public BlockState getStateForPlacement(BlockPlaceContext context) {
+        return this.defaultBlockState().setValue(AXIS, context.getClickedFace().getAxis());
     }
 }
