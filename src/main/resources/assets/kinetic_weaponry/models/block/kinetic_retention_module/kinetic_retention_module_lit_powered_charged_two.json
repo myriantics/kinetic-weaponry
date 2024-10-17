@@ -1,0 +1,52 @@
+{
+	"credit": "Made with Blockbench",
+	"texture_size": [16, 16],
+	"textures": {
+		"1": "kinetic_weaponry:block/kinetic_retention_module/kinetic_retention_module_bottom_lit_powered",
+		"2": "kinetic_weaponry:block/kinetic_retention_module/kinetic_retention_module_side_charged_two",
+		"3": "kinetic_weaponry:block/kinetic_retention_module/kinetic_retention_module_top",
+		"particle": "kinetic_weaponry:block/kinetic_retention_module/kinetic_retention_module_side_charged_two"
+	},
+	"elements": [
+		{
+			"from": [5, 5, 0],
+			"to": [11, 11, 10],
+			"rotation": {"angle": 0, "axis": "y", "origin": [8, 8, 8]},
+			"faces": {
+				"north": {"uv": [6, 6, 0, 0], "texture": "#3"},
+				"east": {"uv": [0, 0, 6, 10], "rotation": 90, "texture": "#2"},
+				"south": {"uv": [6, 0, 0, 6], "rotation": 180, "texture": "#1"},
+				"west": {"uv": [0, 0, 6, 10], "rotation": 270, "texture": "#2"},
+				"up": {"uv": [0, 0, 6, 10], "texture": "#2"},
+				"down": {"uv": [0, 0, 6, 10], "rotation": 180, "texture": "#2"}
+			}
+		}
+	],
+	"display": {
+		"thirdperson_righthand": {
+			"rotation": [90, 0, 0],
+			"translation": [0, -1, 0],
+			"scale": [0.55, 0.55, 0.55]
+		},
+		"thirdperson_lefthand": {
+			"rotation": [90, 0, 0],
+			"translation": [0, -1, 0],
+			"scale": [0.55, 0.55, 0.55]
+		},
+		"firstperson_lefthand": {
+			"rotation": [0, 225, 0],
+			"scale": [0.5, 0.5, 0.5]
+		},
+		"ground": {
+			"translation": [0, 3, 1],
+			"scale": [0.5, 0.5, 0.5]
+		},
+		"gui": {
+			"rotation": [30, 225, 0],
+			"translation": [-2.12, 1, 0]
+		},
+		"head": {
+			"rotation": [0, -180, 0]
+		}
+	}
+}

@@ -1,5 +1,6 @@
 {
   "itemGroup.examplemod": "Example Mod Tab",
-  "block.examplemod.example_block": "Example Block",
+  "block.kinetic_weaponry.kinetic_detonator": "Kinetic Detonator",
+  "block.kinetic_weaponry.kinetic_retention_module": "Kinetic Retention Module",
   "item.examplemod.example_item": "Example Item"
 }
