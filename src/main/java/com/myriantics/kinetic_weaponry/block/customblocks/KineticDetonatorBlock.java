@@ -43,19 +43,7 @@ public class KineticDetonatorBlock extends Block implements KineticImpactActionB
     }
 
     private static void detonate(ServerLevel serverLevel, BlockPos pos, ServerPlayer serverPlayer) {
-        float explosionPower = Items.MACE.getAttackDamageBonus(serverPlayer, 0, Explosion.getDefaultDamageSource(serverLevel, serverPlayer));
 
-        if (explosionPower > 0) {
-            // kaboom? yes rico, kaboom.
-            serverLevel.explode(serverPlayer, pos.getCenter().x, pos.getCenter().y, pos.getCenter().z, explosionPower,
-                    Level.ExplosionInteraction.BLOCK);
-
-            serverPlayer.setSpawnExtraParticlesOnFall(true);
-            SoundEvent soundevent = serverPlayer.fallDistance > 5.0F ? SoundEvents.MACE_SMASH_GROUND_HEAVY : SoundEvents.MACE_SMASH_GROUND;
-            serverLevel.playSound(null, serverPlayer.getX(), serverPlayer.getY(), serverPlayer.getZ(), soundevent, serverPlayer.getSoundSource(), 1.0F, 1.0F);
-
-            serverPlayer.resetFallDistance();
-        }
     }
 
     @Override
@@ -70,7 +58,17 @@ public class KineticDetonatorBlock extends Block implements KineticImpactActionB
     }
 
     @Override
-    public void onImpact(ServerLevel serverLevel, BlockPos pos, ServerPlayer player) {
-        detonate(serverLevel, pos, player);
+    public void onImpact(ServerLevel serverLevel, BlockPos pos, ServerPlayer player, float impactDamage) {
+        if (impactDamage > 0) {
+            // kaboom? yes rico, kaboom.
+            serverLevel.explode(player, pos.getCenter().x, pos.getCenter().y, pos.getCenter().z, impactDamage,
+                    Level.ExplosionInteraction.BLOCK);
+
+            player.setSpawnExtraParticlesOnFall(true);
+            SoundEvent soundevent = player.fallDistance > 5.0F ? SoundEvents.MACE_SMASH_GROUND_HEAVY : SoundEvents.MACE_SMASH_GROUND;
+            serverLevel.playSound(null, player.getX(), player.getY(), player.getZ(), soundevent, player.getSoundSource(), 1.0F, 1.0F);
+
+            player.resetFallDistance();
+        }
     }
 }

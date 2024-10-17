@@ -6,5 +6,5 @@ import net.minecraft.server.level.ServerPlayer;
 
 public interface KineticImpactActionBlock {
 
-    public void onImpact(ServerLevel serverLevel, BlockPos pos, ServerPlayer player);
+    public void onImpact(ServerLevel serverLevel, BlockPos pos, ServerPlayer player, float impactDamage);
 }

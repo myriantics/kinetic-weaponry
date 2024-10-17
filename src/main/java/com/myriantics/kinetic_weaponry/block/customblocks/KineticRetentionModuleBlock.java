@@ -19,7 +19,7 @@ import net.minecraft.world.phys.shapes.VoxelShape;
 import org.jetbrains.annotations.Nullable;
 
 public class KineticRetentionModuleBlock extends Block implements KineticImpactActionBlock {
-    public static final IntegerProperty KINETIC_CHARGE = KineticWeaponryBlockStateProperties.KINETIC_RELOAD_CHARGES;
+    public static final IntegerProperty KINETIC_RELOAD_CHARGES = KineticWeaponryBlockStateProperties.KINETIC_RELOAD_CHARGES;
     public static final DirectionProperty FACING = BlockStateProperties.FACING;
     public static final BooleanProperty LIT = BlockStateProperties.LIT;
     public static final BooleanProperty POWERED = BlockStateProperties.POWERED;
@@ -46,7 +46,7 @@ public class KineticRetentionModuleBlock extends Block implements KineticImpactA
 
     @Override
     protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> builder) {
-        builder.add(KINETIC_CHARGE, FACING, LIT, POWERED);
+        builder.add(KINETIC_RELOAD_CHARGES, FACING, LIT, POWERED);
     }
 
     @Nullable
@@ -55,8 +55,26 @@ public class KineticRetentionModuleBlock extends Block implements KineticImpactA
         return this.defaultBlockState().setValue(FACING, context.getClickedFace().getOpposite());
     }
 
-    @Override
-    public void onImpact(ServerLevel serverLevel, BlockPos pos, ServerPlayer player) {
+    private int incrementCharge(ServerLevel serverLevel, BlockPos pos, int inboundCharge) {
+        BlockState state = serverLevel.getBlockState(pos);
+        int existingCharge = state.getValue(KINETIC_RELOAD_CHARGES);
 
+        int newCharge = Math.clamp(inboundCharge, existingCharge, 4);
+        int residualCharge = (inboundCharge + existingCharge) - newCharge;
+
+        serverLevel.setBlockAndUpdate(pos, state.setValue(KINETIC_RELOAD_CHARGES, newCharge));
+
+        return residualCharge;
+    }
+
+    @Override
+    public void onImpact(ServerLevel serverLevel, BlockPos pos, ServerPlayer player, float impactDamage) {
+        int inboundCharge = 0;
+
+        if (impactDamage > 0) {
+            inboundCharge = 1;
+        }
+
+        incrementCharge(serverLevel, pos, inboundCharge);
     }
 }
