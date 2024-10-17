@@ -1,7 +1,10 @@
 package com.myriantics.kinetic_weaponry.block.customblocks;
 
+import com.myriantics.kinetic_weaponry.api.KineticImpactActionBlock;
 import com.myriantics.kinetic_weaponry.api.KineticWeaponryBlockStateProperties;
 import net.minecraft.core.BlockPos;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.block.Block;
@@ -16,7 +19,7 @@ import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.VoxelShape;
 import org.jetbrains.annotations.Nullable;
 
-public class KineticRetentionModuleBlock extends Block {
+public class KineticRetentionModuleBlock extends Block implements KineticImpactActionBlock {
     public static final IntegerProperty KINETIC_CHARGE = KineticWeaponryBlockStateProperties.KINETIC_CHARGE;
     public static final DirectionProperty FACING = BlockStateProperties.FACING;
     public static final BooleanProperty LIT = BlockStateProperties.LIT;
@@ -46,5 +49,10 @@ public class KineticRetentionModuleBlock extends Block {
     @Override
     public BlockState getStateForPlacement(BlockPlaceContext context) {
         return super.getStateForPlacement(context);
+    }
+
+    @Override
+    public void onImpact(ServerLevel serverLevel, BlockPos pos, ServerPlayer player) {
+
     }
 }

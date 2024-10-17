@@ -1,6 +1,8 @@
 package com.myriantics.kinetic_weaponry.block.customblocks;
 
 import com.myriantics.kinetic_weaponry.KineticWeaponryCommon;
+import com.myriantics.kinetic_weaponry.api.KineticImpactActionBlock;
+import com.myriantics.kinetic_weaponry.block.KineticWeaponryBlocks;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.network.chat.Component;
@@ -25,7 +27,7 @@ import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.neoforge.event.entity.player.PlayerInteractEvent;
 import org.jetbrains.annotations.Nullable;
 
-public class KineticDetonatorBlock extends Block {
+public class KineticDetonatorBlock extends Block implements KineticImpactActionBlock {
 
     public static final EnumProperty<Direction.Axis> AXIS = BlockStateProperties.AXIS;
     public static final BooleanProperty POWERED = BlockStateProperties.POWERED;
@@ -56,18 +58,6 @@ public class KineticDetonatorBlock extends Block {
         }
     }
 
-    @SubscribeEvent
-    public static void onAttackBlock(PlayerInteractEvent.LeftClickBlock event) {
-        Level level = event.getLevel();
-        if (event.getLevel() instanceof ServerLevel serverLevel && event.getEntity() instanceof ServerPlayer serverPlayer) {
-            BlockPos pos = event.getPos();
-            if (level.getBlockState(pos).getBlock() instanceof KineticDetonatorBlock
-                    && serverPlayer.getMainHandItem().getItem() instanceof MaceItem) {
-                detonate(serverLevel, pos, serverPlayer);
-            }
-        }
-    }
-
     @Override
     protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> builder) {
         builder.add(AXIS, POWERED, LIT);
@@ -77,5 +67,10 @@ public class KineticDetonatorBlock extends Block {
     @Override
     public BlockState getStateForPlacement(BlockPlaceContext context) {
         return this.defaultBlockState().setValue(AXIS, context.getClickedFace().getAxis());
+    }
+
+    @Override
+    public void onImpact(ServerLevel serverLevel, BlockPos pos, ServerPlayer player) {
+        detonate(serverLevel, pos, player);
     }
 }
