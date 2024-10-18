@@ -1,3 +1,29 @@
 {
-  "parent": "kinetic_weaponry:block/kinetic_retention_module/kinetic_retention_module_lit_powered_charged_four"
+  "parent": "kinetic_weaponry:block/kinetic_retention_module/kinetic_retention_module_unlit_unpowered_charged_zero",
+  "overrides": [
+    {
+      "predicate": {
+        "custom_model_data": 1
+      },
+      "model": "kinetic_weaponry:block/kinetic_retention_module/kinetic_retention_module_lit_powered_charged_one"
+    },
+    {
+      "predicate": {
+        "custom_model_data": 2
+      },
+      "model": "kinetic_weaponry:block/kinetic_retention_module/kinetic_retention_module_lit_powered_charged_two"
+    },
+    {
+      "predicate": {
+        "custom_model_data": 3
+      },
+      "model": "kinetic_weaponry:block/kinetic_retention_module/kinetic_retention_module_lit_powered_charged_three"
+    },
+    {
+      "predicate": {
+        "custom_model_data": 4
+      },
+      "model": "kinetic_weaponry:block/kinetic_retention_module/kinetic_retention_module_lit_powered_charged_four"
+    }
+  ]
 }

@@ -5,8 +5,14 @@ import com.myriantics.kinetic_weaponry.api.KineticWeaponryDataComponents;
 import com.myriantics.kinetic_weaponry.api.data_components.KineticReloadChargesDataComponent;
 import com.myriantics.kinetic_weaponry.block.KineticWeaponryBlocks;
 import com.myriantics.kinetic_weaponry.item.blockitems.KineticRetentionModuleBlockItem;
+import net.minecraft.client.renderer.block.model.ItemOverride;
+import net.minecraft.core.component.DataComponents;
 import net.minecraft.world.item.BlockItem;
+import net.minecraft.world.item.CompassItem;
 import net.minecraft.world.item.Item;
+import net.minecraft.world.item.Items;
+import net.minecraft.world.item.component.BlockItemStateProperties;
+import net.minecraft.world.item.component.CustomModelData;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.neoforge.registries.DeferredItem;
 import net.neoforged.neoforge.registries.DeferredRegister;
@@ -22,6 +28,8 @@ public class KineticWeaponryItems {
             ITEMS.register("kinetic_retention_module",
                     () -> new KineticRetentionModuleBlockItem(KineticWeaponryBlocks.KINETIC_RETENTION_MODULE.get(), new Item.Properties()
                         .component(KineticWeaponryDataComponents.KINETIC_RELOAD_CHARGES.value(), new KineticReloadChargesDataComponent(0))
+                        .component(DataComponents.CUSTOM_MODEL_DATA, new CustomModelData(0))
+                        .stacksTo(1)
                     )
             );
 

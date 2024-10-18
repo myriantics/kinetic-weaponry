@@ -1,10 +1,12 @@
 package com.myriantics.kinetic_weaponry.block.customblocks;
 
-import com.myriantics.kinetic_weaponry.api.KineticImpactActionBlock;
+import com.myriantics.kinetic_weaponry.api.AbstractKineticImpactActionBlock;
 import com.myriantics.kinetic_weaponry.api.KineticWeaponryBlockStateProperties;
+import com.myriantics.kinetic_weaponry.item.blockitems.KineticRetentionModuleBlockItem;
 import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.block.Block;
@@ -14,11 +16,14 @@ import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.level.block.state.properties.BooleanProperty;
 import net.minecraft.world.level.block.state.properties.DirectionProperty;
 import net.minecraft.world.level.block.state.properties.IntegerProperty;
+import net.minecraft.world.level.storage.loot.LootParams;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.VoxelShape;
 import org.jetbrains.annotations.Nullable;
 
-public class KineticRetentionModuleBlock extends Block implements KineticImpactActionBlock {
+import java.util.List;
+
+public class KineticRetentionModuleBlock extends AbstractKineticImpactActionBlock {
     public static final IntegerProperty KINETIC_RELOAD_CHARGES = KineticWeaponryBlockStateProperties.KINETIC_RELOAD_CHARGES;
     public static final DirectionProperty FACING = BlockStateProperties.FACING;
     public static final BooleanProperty LIT = BlockStateProperties.LIT;
@@ -59,7 +64,7 @@ public class KineticRetentionModuleBlock extends Block implements KineticImpactA
         BlockState state = serverLevel.getBlockState(pos);
         int existingCharge = state.getValue(KINETIC_RELOAD_CHARGES);
 
-        int newCharge = Math.clamp(inboundCharge, existingCharge, 4);
+        int newCharge = Math.clamp(inboundCharge + existingCharge, existingCharge, 4);
         int residualCharge = (inboundCharge + existingCharge) - newCharge;
 
         serverLevel.setBlockAndUpdate(pos, state.setValue(KINETIC_RELOAD_CHARGES, newCharge));
@@ -76,5 +81,16 @@ public class KineticRetentionModuleBlock extends Block implements KineticImpactA
         }
 
         incrementCharge(serverLevel, pos, inboundCharge);
+    }
+
+    @Override
+    protected List<ItemStack> getDrops(BlockState state, LootParams.Builder params) {
+        List<ItemStack> items = super.getDrops(state, params);
+        for (ItemStack stack : items) {
+            if (stack.getItem() instanceof KineticRetentionModuleBlockItem) {
+                KineticRetentionModuleBlockItem.setCharge(stack, state.getValue(KINETIC_RELOAD_CHARGES));
+            }
+        }
+        return items;
     }
 }

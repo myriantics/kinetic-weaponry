@@ -1,6 +1,6 @@
 package com.myriantics.kinetic_weaponry.events;
 
-import com.myriantics.kinetic_weaponry.api.KineticImpactActionBlock;
+import com.myriantics.kinetic_weaponry.api.AbstractKineticImpactActionBlock;
 import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
@@ -17,7 +17,7 @@ public class KineticWeaponryEvents {
         Level level = event.getLevel();
         if (event.getLevel() instanceof ServerLevel serverLevel && event.getEntity() instanceof ServerPlayer serverPlayer) {
             BlockPos pos = event.getPos();
-            if (level.getBlockState(pos).getBlock() instanceof KineticImpactActionBlock bonkedBlock
+            if (level.getBlockState(pos).getBlock() instanceof AbstractKineticImpactActionBlock bonkedBlock
                     && serverPlayer.getMainHandItem().getItem() instanceof MaceItem) {
 
                 float impactDamage = Items.MACE.getAttackDamageBonus(serverPlayer, 0, Explosion.getDefaultDamageSource(serverLevel, serverPlayer));
