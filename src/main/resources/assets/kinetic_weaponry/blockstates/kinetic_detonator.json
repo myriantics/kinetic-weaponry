@@ -1,52 +1,96 @@
 {
   "variants": {
-    "axis=x,powered=false,lit=false": {
+    "facing=up,powered=false,lit=false": {
       "model": "kinetic_weaponry:block/kinetic_detonator/kinetic_detonator_unlit_unpowered",
-      "x": 90,
-      "y": 90
+      "x": -90
     },
-    "axis=x,powered=true,lit=false": {
+    "facing=up,powered=true,lit=false": {
       "model": "kinetic_weaponry:block/kinetic_detonator/kinetic_detonator_unlit_powered",
-      "x": 90,
-      "y": 90
+      "x": -90
     },
-    "axis=x,powered=false,lit=true": {
+    "facing=up,powered=false,lit=true": {
       "model": "kinetic_weaponry:block/kinetic_detonator/kinetic_detonator_lit_unpowered",
-      "x": 90,
-      "y": 90
+      "x": -90
     },
-    "axis=x,powered=true,lit=true": {
+    "facing=up,powered=true,lit=true": {
       "model": "kinetic_weaponry:block/kinetic_detonator/kinetic_detonator_lit_powered",
-      "x": 90,
+      "x": -90
+    },
+    "facing=down,powered=false,lit=false": {
+      "model": "kinetic_weaponry:block/kinetic_detonator/kinetic_detonator_unlit_unpowered",
+      "x": 90
+    },
+    "facing=down,powered=true,lit=false": {
+      "model": "kinetic_weaponry:block/kinetic_detonator/kinetic_detonator_unlit_powered",
+      "x": 90
+    },
+    "facing=down,powered=false,lit=true": {
+      "model": "kinetic_weaponry:block/kinetic_detonator/kinetic_detonator_lit_unpowered",
+      "x": 90
+    },
+    "facing=down,powered=true,lit=true": {
+      "model": "kinetic_weaponry:block/kinetic_detonator/kinetic_detonator_lit_powered",
+      "x": 90
+    },
+    "facing=east,powered=false,lit=false": {
+      "model": "kinetic_weaponry:block/kinetic_detonator/kinetic_detonator_unlit_unpowered",
       "y": 90
     },
-    "axis=y,powered=false,lit=false": {
+    "facing=east,powered=true,lit=false": {
+      "model": "kinetic_weaponry:block/kinetic_detonator/kinetic_detonator_unlit_powered",
+      "y": 90
+    },
+    "facing=east,powered=false,lit=true": {
+      "model": "kinetic_weaponry:block/kinetic_detonator/kinetic_detonator_lit_unpowered",
+      "y": 90
+    },
+    "facing=east,powered=true,lit=true": {
+      "model": "kinetic_weaponry:block/kinetic_detonator/kinetic_detonator_lit_powered",
+      "y": 90
+    },
+    "facing=west,powered=false,lit=false": {
+      "model": "kinetic_weaponry:block/kinetic_detonator/kinetic_detonator_unlit_unpowered",
+      "y": -90
+    },
+    "facing=west,powered=true,lit=false": {
+      "model": "kinetic_weaponry:block/kinetic_detonator/kinetic_detonator_unlit_powered",
+      "y": -90
+    },
+    "facing=west,powered=false,lit=true": {
+      "model": "kinetic_weaponry:block/kinetic_detonator/kinetic_detonator_lit_unpowered",
+      "y": -90
+    },
+    "facing=west,powered=true,lit=true": {
+      "model": "kinetic_weaponry:block/kinetic_detonator/kinetic_detonator_lit_powered",
+      "y": -90
+    },
+    "facing=north,powered=false,lit=false": {
       "model": "kinetic_weaponry:block/kinetic_detonator/kinetic_detonator_unlit_unpowered"
     },
-    "axis=y,powered=true,lit=false": {
+    "facing=north,powered=true,lit=false": {
       "model": "kinetic_weaponry:block/kinetic_detonator/kinetic_detonator_unlit_powered"
     },
-    "axis=y,powered=false,lit=true": {
+    "facing=north,powered=false,lit=true": {
       "model": "kinetic_weaponry:block/kinetic_detonator/kinetic_detonator_lit_unpowered"
     },
-    "axis=y,powered=true,lit=true": {
+    "facing=north,powered=true,lit=true": {
       "model": "kinetic_weaponry:block/kinetic_detonator/kinetic_detonator_lit_powered"
     },
-    "axis=z,powered=false,lit=false": {
+    "facing=south,powered=false,lit=false": {
       "model": "kinetic_weaponry:block/kinetic_detonator/kinetic_detonator_unlit_unpowered",
-      "x": 90
+      "y": 180
     },
-    "axis=z,powered=true,lit=false": {
+    "facing=south,powered=true,lit=false": {
       "model": "kinetic_weaponry:block/kinetic_detonator/kinetic_detonator_unlit_powered",
-      "x": 90
+      "y": 180
     },
-    "axis=z,powered=false,lit=true": {
+    "facing=south,powered=false,lit=true": {
       "model": "kinetic_weaponry:block/kinetic_detonator/kinetic_detonator_lit_unpowered",
-      "x": 90
+      "y": 180
     },
-    "axis=z,powered=true,lit=true": {
+    "facing=south,powered=true,lit=true": {
       "model": "kinetic_weaponry:block/kinetic_detonator/kinetic_detonator_lit_powered",
-      "x": 90
+      "y": 180
     }
   }
 }

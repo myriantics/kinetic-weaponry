@@ -13,12 +13,13 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.level.block.state.properties.BooleanProperty;
+import net.minecraft.world.level.block.state.properties.DirectionProperty;
 import net.minecraft.world.level.block.state.properties.EnumProperty;
 import org.jetbrains.annotations.Nullable;
 
 public class KineticDetonatorBlock extends AbstractKineticImpactActionBlock {
 
-    public static final EnumProperty<Direction.Axis> AXIS = BlockStateProperties.AXIS;
+    public static final DirectionProperty FACING = BlockStateProperties.FACING;
     public static final BooleanProperty POWERED = BlockStateProperties.POWERED;
     public static final BooleanProperty LIT = BlockStateProperties.LIT;
 
@@ -26,20 +27,20 @@ public class KineticDetonatorBlock extends AbstractKineticImpactActionBlock {
         super(properties);
 
         registerDefaultState(stateDefinition.any()
-                        .setValue(AXIS, Direction.Axis.Y)
+                        .setValue(FACING, Direction.UP)
                         .setValue(POWERED, false)
                         .setValue(LIT, true));
     }
 
     @Override
     protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> builder) {
-        builder.add(AXIS, POWERED, LIT);
+        builder.add(FACING, POWERED, LIT);
     }
 
     @Nullable
     @Override
     public BlockState getStateForPlacement(BlockPlaceContext context) {
-        return this.defaultBlockState().setValue(AXIS, context.getClickedFace().getAxis());
+        return this.defaultBlockState().setValue(FACING, context.getClickedFace());
     }
 
     @Override

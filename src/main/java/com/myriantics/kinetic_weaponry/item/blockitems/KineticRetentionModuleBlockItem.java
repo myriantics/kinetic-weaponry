@@ -2,19 +2,24 @@ package com.myriantics.kinetic_weaponry.item.blockitems;
 
 import com.myriantics.kinetic_weaponry.api.KineticWeaponryBlockStateProperties;
 import com.myriantics.kinetic_weaponry.api.KineticWeaponryDataComponents;
+import com.myriantics.kinetic_weaponry.api.data_components.ArcadeModeDataComponent;
 import com.myriantics.kinetic_weaponry.api.data_components.KineticReloadChargesDataComponent;
 import com.myriantics.kinetic_weaponry.item.KineticWeaponryItems;
 import net.minecraft.core.component.DataComponentHolder;
 import net.minecraft.core.component.DataComponentMap;
 import net.minecraft.core.component.DataComponents;
 import net.minecraft.core.component.PatchedDataComponentMap;
+import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.item.component.CustomModelData;
 import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
 import org.jetbrains.annotations.Nullable;
+
+import java.util.List;
 
 public class KineticRetentionModuleBlockItem extends BlockItem {
 
@@ -22,8 +27,12 @@ public class KineticRetentionModuleBlockItem extends BlockItem {
         super(block, properties);
     }
 
-    public static ItemStack setCharge(ItemStack stack, int charge) {
+    public static ItemStack setCharge(ItemStack stack, int charge, boolean arcadeMode) {
         PatchedDataComponentMap componentMap = (PatchedDataComponentMap) stack.getComponents();
+        if (arcadeMode) {
+            charge = 4;
+        }
+        componentMap.set(KineticWeaponryDataComponents.ARCADE_MODE.get(), new ArcadeModeDataComponent(arcadeMode));
         componentMap.set(KineticWeaponryDataComponents.KINETIC_RELOAD_CHARGES.get(), new KineticReloadChargesDataComponent(charge));
         componentMap.set(DataComponents.CUSTOM_MODEL_DATA, new CustomModelData(charge));
         return stack;
@@ -33,6 +42,7 @@ public class KineticRetentionModuleBlockItem extends BlockItem {
     @Override
     protected BlockState getPlacementState(BlockPlaceContext context) {
         int charges = context.getItemInHand().get(KineticWeaponryDataComponents.KINETIC_RELOAD_CHARGES).charges();
+        boolean arcadeMode = context.getItemInHand().get(KineticWeaponryDataComponents.ARCADE_MODE).enabled();
 
         BlockState defaultState = super.getPlacementState(context);
 
@@ -40,6 +50,19 @@ public class KineticRetentionModuleBlockItem extends BlockItem {
             return null;
         }
 
-        return defaultState.setValue(KineticWeaponryBlockStateProperties.KINETIC_RELOAD_CHARGES, charges);
+        return defaultState.setValue(KineticWeaponryBlockStateProperties.KINETIC_RELOAD_CHARGES, charges).setValue(KineticWeaponryBlockStateProperties.ARCADE_MODE, arcadeMode);
+    }
+
+    @Override
+    public void appendHoverText(ItemStack stack, TooltipContext context, List<Component> tooltipComponents, TooltipFlag tooltipFlag) {
+        int reloadCharges = stack.getComponents().get(KineticWeaponryDataComponents.KINETIC_RELOAD_CHARGES.get()).charges();
+        boolean arcadeMode = stack.getComponents().get(KineticWeaponryDataComponents.ARCADE_MODE.get()).enabled();
+
+        tooltipComponents.add(Component.translatable("tooltip.kinetic_weaponry.kinetic_reload_charges")
+                .append("" + reloadCharges));
+        if (arcadeMode) {
+            tooltipComponents.add(Component.translatable("tooltip.kinetic_weaponry.arcade_mode"));
+        }
+        super.appendHoverText(stack, context, tooltipComponents, tooltipFlag);
     }
 }

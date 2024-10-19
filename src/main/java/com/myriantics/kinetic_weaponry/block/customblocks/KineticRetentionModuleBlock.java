@@ -3,12 +3,17 @@ package com.myriantics.kinetic_weaponry.block.customblocks;
 import com.myriantics.kinetic_weaponry.api.AbstractKineticImpactActionBlock;
 import com.myriantics.kinetic_weaponry.api.KineticWeaponryBlockStateProperties;
 import com.myriantics.kinetic_weaponry.item.blockitems.KineticRetentionModuleBlockItem;
+import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
+import net.minecraft.network.protocol.game.ServerboundPickItemPacket;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.BlockGetter;
+import net.minecraft.world.level.LevelReader;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
@@ -17,6 +22,7 @@ import net.minecraft.world.level.block.state.properties.BooleanProperty;
 import net.minecraft.world.level.block.state.properties.DirectionProperty;
 import net.minecraft.world.level.block.state.properties.IntegerProperty;
 import net.minecraft.world.level.storage.loot.LootParams;
+import net.minecraft.world.phys.HitResult;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.VoxelShape;
 import org.jetbrains.annotations.Nullable;
@@ -28,9 +34,17 @@ public class KineticRetentionModuleBlock extends AbstractKineticImpactActionBloc
     public static final DirectionProperty FACING = BlockStateProperties.FACING;
     public static final BooleanProperty LIT = BlockStateProperties.LIT;
     public static final BooleanProperty POWERED = BlockStateProperties.POWERED;
+    public static final BooleanProperty ARCADE_MODE = KineticWeaponryBlockStateProperties.ARCADE_MODE;
 
     public KineticRetentionModuleBlock(Properties properties) {
         super(properties);
+
+        registerDefaultState(stateDefinition.any()
+                .setValue(KINETIC_RELOAD_CHARGES, 0)
+                .setValue(FACING, Direction.UP)
+                .setValue(POWERED, false)
+                .setValue(ARCADE_MODE, false)
+                .setValue(LIT, true));
     }
 
     @Override
@@ -51,7 +65,7 @@ public class KineticRetentionModuleBlock extends AbstractKineticImpactActionBloc
 
     @Override
     protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> builder) {
-        builder.add(KINETIC_RELOAD_CHARGES, FACING, LIT, POWERED);
+        builder.add(KINETIC_RELOAD_CHARGES, FACING, LIT, POWERED, ARCADE_MODE);
     }
 
     @Nullable
@@ -61,11 +75,17 @@ public class KineticRetentionModuleBlock extends AbstractKineticImpactActionBloc
     }
 
     private int incrementCharge(ServerLevel serverLevel, BlockPos pos, int inboundCharge) {
+
         BlockState state = serverLevel.getBlockState(pos);
+
         int existingCharge = state.getValue(KINETIC_RELOAD_CHARGES);
 
         int newCharge = Math.clamp(inboundCharge + existingCharge, existingCharge, 4);
         int residualCharge = (inboundCharge + existingCharge) - newCharge;
+
+        if (state.getValue(ARCADE_MODE)) {
+            newCharge = 4;
+        }
 
         serverLevel.setBlockAndUpdate(pos, state.setValue(KINETIC_RELOAD_CHARGES, newCharge));
 
@@ -90,9 +110,21 @@ public class KineticRetentionModuleBlock extends AbstractKineticImpactActionBloc
         List<ItemStack> items = super.getDrops(state, params);
         for (ItemStack stack : items) {
             if (stack.getItem() instanceof KineticRetentionModuleBlockItem) {
-                KineticRetentionModuleBlockItem.setCharge(stack, state.getValue(KINETIC_RELOAD_CHARGES));
+                KineticRetentionModuleBlockItem.setCharge(stack, state.getValue(KINETIC_RELOAD_CHARGES), state.getValue(ARCADE_MODE));
             }
         }
         return items;
+    }
+
+    // so you can pick block it while in creative :D
+    @Override
+    public ItemStack getCloneItemStack(BlockState state, HitResult target, LevelReader level, BlockPos pos, Player player) {
+        ItemStack pickedStack = new ItemStack(this);
+        if (level.isClientSide()) {
+            if (Screen.hasControlDown()) {
+                KineticRetentionModuleBlockItem.setCharge(pickedStack, state.getValue(KINETIC_RELOAD_CHARGES), state.getValue(ARCADE_MODE));
+            }
+        }
+        return pickedStack;
     }
 }

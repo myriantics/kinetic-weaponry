@@ -1,6 +1,7 @@
 package com.myriantics.kinetic_weaponry.api;
 
 import com.myriantics.kinetic_weaponry.KineticWeaponryCommon;
+import com.myriantics.kinetic_weaponry.api.data_components.ArcadeModeDataComponent;
 import com.myriantics.kinetic_weaponry.api.data_components.KineticChargeDataComponent;
 import com.myriantics.kinetic_weaponry.api.data_components.KineticReloadChargesDataComponent;
 import net.minecraft.core.component.DataComponentType;
@@ -27,6 +28,13 @@ public class KineticWeaponryDataComponents {
             integerBuilder -> integerBuilder
                     .persistent(KineticChargeDataComponent.CODEC)
                     .networkSynchronized(KineticChargeDataComponent.STREAM_CODEC)
+    );
+
+    public static final DeferredHolder<DataComponentType<?>, DataComponentType<ArcadeModeDataComponent>> ARCADE_MODE = DATA_COMPONENTS.registerComponentType(
+            "arcade_mode",
+            booleanBuilder -> booleanBuilder
+                    .persistent(ArcadeModeDataComponent.CODEC)
+                    .networkSynchronized(ArcadeModeDataComponent.STREAM_CODEC)
     );
 
     public static void registerKineticWeaponryDataComponents(IEventBus eventBus) {

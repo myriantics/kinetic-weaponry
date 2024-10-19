@@ -2,5 +2,6 @@
   "itemGroup.examplemod": "Example Mod Tab",
   "block.kinetic_weaponry.kinetic_detonator": "Kinetic Detonator",
   "block.kinetic_weaponry.kinetic_retention_module": "Kinetic Retention Module",
-  "item.examplemod.example_item": "Example Item"
+  "tooltip.kinetic_weaponry.kinetic_reload_charges": "Kinetic Reload Charges: ",
+  "tooltip.kinetic_weaponry.arcade_mode": "Arcade Mode Enabled"
 }
