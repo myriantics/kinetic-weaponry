@@ -1,0 +1,12 @@
+{
+  "required": true,
+  "minVersion": "0.8.3",
+  "package": "com.myriantics.kinetic_weaponry.mixin",
+  "compatibilityLevel": "JAVA_21",
+  "mixins": [
+    "FallingBlockEntityMixin"
+  ],
+  "injectors": {
+    "defaultRequire": 1
+  }
+}

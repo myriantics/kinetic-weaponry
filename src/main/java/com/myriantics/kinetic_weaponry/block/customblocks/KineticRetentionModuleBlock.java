@@ -80,6 +80,8 @@ public class KineticRetentionModuleBlock extends AbstractKineticImpactActionBloc
             inboundCharge = 1;
         }
 
+        super.onImpact(serverLevel, pos, player, impactDamage);
+
         incrementCharge(serverLevel, pos, inboundCharge);
     }
 
