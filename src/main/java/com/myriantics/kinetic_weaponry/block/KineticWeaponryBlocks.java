@@ -18,7 +18,8 @@ public class KineticWeaponryBlocks {
 
     public static final DeferredBlock<KineticDetonatorBlock> KINETIC_DETONATOR =
             BLOCKS.registerBlock("kinetic_detonator", KineticDetonatorBlock::new, BlockBehaviour.Properties
-                    .ofFullCopy(Blocks.COPPER_BULB).explosionResistance(300.0f));
+                    .ofFullCopy(Blocks.COPPER_BULB)
+                    .explosionResistance(300.0f));
 
     public static final DeferredBlock<KineticRetentionModuleBlock> KINETIC_RETENTION_MODULE =
             BLOCKS.registerBlock("kinetic_retention_module", KineticRetentionModuleBlock::new, BlockBehaviour.Properties

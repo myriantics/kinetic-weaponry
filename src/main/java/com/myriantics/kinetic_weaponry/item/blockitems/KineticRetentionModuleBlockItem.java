@@ -4,6 +4,7 @@ import com.myriantics.kinetic_weaponry.api.KineticWeaponryBlockStateProperties;
 import com.myriantics.kinetic_weaponry.api.KineticWeaponryDataComponents;
 import com.myriantics.kinetic_weaponry.api.data_components.ArcadeModeDataComponent;
 import com.myriantics.kinetic_weaponry.api.data_components.KineticReloadChargesDataComponent;
+import com.myriantics.kinetic_weaponry.block.KineticWeaponryBlocks;
 import com.myriantics.kinetic_weaponry.item.KineticWeaponryItems;
 import net.minecraft.core.component.DataComponentHolder;
 import net.minecraft.core.component.DataComponentMap;
@@ -43,19 +44,7 @@ public class KineticRetentionModuleBlockItem extends BlockItem {
     @Nullable
     @Override
     protected BlockState getPlacementState(BlockPlaceContext context) {
-        int charges = context.getItemInHand().get(KineticWeaponryDataComponents.KINETIC_RELOAD_CHARGES).charges();
-        boolean arcadeMode = context.getItemInHand().get(KineticWeaponryDataComponents.ARCADE_MODE).enabled();
-
-        BlockState defaultState = super.getPlacementState(context);
-
-        if (defaultState == null) {
-            return null;
-        }
-
-        return defaultState
-                .setValue(KineticWeaponryBlockStateProperties.KINETIC_RELOAD_CHARGES, charges)
-                .setValue(KineticWeaponryBlockStateProperties.ARCADE_MODE, arcadeMode)
-                .setValue(BlockStateProperties.LIT, charges > 0);
+        return getPlacementState(context.getItemInHand()).setValue(BlockStateProperties.FACING, context.getClickedFace().getOpposite());
     }
 
     @Override
@@ -69,5 +58,20 @@ public class KineticRetentionModuleBlockItem extends BlockItem {
             tooltipComponents.add(Component.translatable("tooltip.kinetic_weaponry.arcade_mode"));
         }
         super.appendHoverText(stack, context, tooltipComponents, tooltipFlag);
+    }
+
+    public static BlockState getPlacementState(ItemStack moduleStack) {
+        BlockState defaultState = KineticWeaponryBlocks.KINETIC_RETENTION_MODULE.get().defaultBlockState();
+
+        if (moduleStack.getItem() instanceof KineticRetentionModuleBlockItem) {
+            int charges = moduleStack.get(KineticWeaponryDataComponents.KINETIC_RELOAD_CHARGES).charges();
+            boolean arcadeMode = moduleStack.get(KineticWeaponryDataComponents.ARCADE_MODE).enabled();
+
+            return defaultState
+                    .setValue(KineticWeaponryBlockStateProperties.KINETIC_RELOAD_CHARGES, charges)
+                    .setValue(KineticWeaponryBlockStateProperties.ARCADE_MODE, arcadeMode)
+                    .setValue(BlockStateProperties.LIT, charges > 0);
+        }
+        return defaultState;
     }
 }

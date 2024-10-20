@@ -2,11 +2,12 @@ package com.myriantics.kinetic_weaponry;
 
 import com.myriantics.kinetic_weaponry.api.KineticWeaponryDataComponents;
 import com.myriantics.kinetic_weaponry.block.KineticWeaponryBlocks;
-import com.myriantics.kinetic_weaponry.block.customblocks.KineticDetonatorBlock;
 import com.myriantics.kinetic_weaponry.entity.KineticWeaponryEntities;
 import com.myriantics.kinetic_weaponry.events.KineticWeaponryEvents;
 import com.myriantics.kinetic_weaponry.item.KineticWeaponryItems;
+import com.myriantics.kinetic_weaponry.api.KineticRetentionModuleDispenserBehavior;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.level.block.DispenserBlock;
 import org.slf4j.Logger;
 
 import com.mojang.logging.LogUtils;
@@ -15,10 +16,8 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.network.chat.Component;
-import net.minecraft.world.food.FoodProperties;
 import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.CreativeModeTabs;
-import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.Blocks;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.bus.api.IEventBus;
@@ -33,7 +32,6 @@ import net.neoforged.neoforge.common.NeoForge;
 import net.neoforged.neoforge.event.BuildCreativeModeTabContentsEvent;
 import net.neoforged.neoforge.event.server.ServerStartingEvent;
 import net.neoforged.neoforge.registries.DeferredHolder;
-import net.neoforged.neoforge.registries.DeferredItem;
 import net.neoforged.neoforge.registries.DeferredRegister;
 
 // The value here should match an entry in the META-INF/neoforge.mods.toml file
@@ -64,6 +62,7 @@ public class KineticWeaponryCommon
         KineticWeaponryItems.registerKineticWeaponryItems(modEventBus);
         KineticWeaponryEntities.registerKineticWeaponryEntities(modEventBus);
 
+
         // Register the commonSetup method for modloading
         modEventBus.addListener(this::commonSetup);
 
@@ -83,6 +82,7 @@ public class KineticWeaponryCommon
         modContainer.registerConfig(ModConfig.Type.COMMON, Config.SPEC);
     }
 
+
     public static ResourceLocation locate(String id) {
         return ResourceLocation.fromNamespaceAndPath(MODID, id);
     }
@@ -91,6 +91,8 @@ public class KineticWeaponryCommon
     {
         // Some common setup code
         LOGGER.info("HELLO FROM COMMON SETUP");
+
+        DispenserBlock.registerBehavior(KineticWeaponryItems.KINETIC_RETENTION_MODULE_BLOCK_ITEM.asItem(), new KineticRetentionModuleDispenserBehavior());
 
         if (Config.logDirtBlock)
             LOGGER.info("DIRT BLOCK >> {}", BuiltInRegistries.BLOCK.getKey(Blocks.DIRT));
