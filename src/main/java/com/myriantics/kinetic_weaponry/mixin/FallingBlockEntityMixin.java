@@ -4,14 +4,12 @@ import com.llamalad7.mixinextras.sugar.Local;
 import com.myriantics.kinetic_weaponry.api.AbstractKineticImpactActionBlock;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
-import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.item.FallingBlockEntity;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
-import net.minecraft.world.level.block.state.properties.DirectionProperty;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
@@ -32,6 +30,8 @@ public abstract class FallingBlockEntityMixin {
         // check if block can do thing
         if (level.getBlockState(impactedBlockPos).getBlock() instanceof AbstractKineticImpactActionBlock kineticBlock
                 && level instanceof ServerLevel serverLevel
+                // are conditions good for a kinetic impact
+                && kineticBlock.isImpactValid(serverLevel, impactedBlockPos)
                 // is the heavy core on the top of the block???
                 && impactedState.getValue(BlockStateProperties.FACING).equals(Direction.UP)) {
             kineticBlock.onImpact(serverLevel, impactedBlockPos, null, damageBonus);

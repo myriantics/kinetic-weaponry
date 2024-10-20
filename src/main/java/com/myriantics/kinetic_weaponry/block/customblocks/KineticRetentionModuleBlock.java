@@ -6,21 +6,24 @@ import com.myriantics.kinetic_weaponry.item.blockitems.KineticRetentionModuleBlo
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
-import net.minecraft.network.protocol.game.ServerboundPickItemPacket;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.sounds.SoundEvents;
+import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.BlockGetter;
+import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelReader;
-import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.*;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.level.block.state.properties.BooleanProperty;
 import net.minecraft.world.level.block.state.properties.DirectionProperty;
 import net.minecraft.world.level.block.state.properties.IntegerProperty;
+import net.minecraft.world.level.material.PushReaction;
 import net.minecraft.world.level.storage.loot.LootParams;
 import net.minecraft.world.phys.HitResult;
 import net.minecraft.world.phys.shapes.CollisionContext;
@@ -74,35 +77,54 @@ public class KineticRetentionModuleBlock extends AbstractKineticImpactActionBloc
         return this.defaultBlockState().setValue(FACING, context.getClickedFace().getOpposite());
     }
 
-    private int incrementCharge(ServerLevel serverLevel, BlockPos pos, int inboundCharge) {
+    private void updateCharge(ServerLevel serverLevel, BlockPos pos, int inboundChargeModifier) {
+        BlockState initialState = serverLevel.getBlockState(pos);
+        int initialCharge = initialState.getValue(KINETIC_RELOAD_CHARGES);
 
-        BlockState state = serverLevel.getBlockState(pos);
+        // calculate new charge
+        int newCharge = Math.clamp(initialCharge + inboundChargeModifier, 0, 4);
 
-        int existingCharge = state.getValue(KINETIC_RELOAD_CHARGES);
-
-        int newCharge = Math.clamp(inboundCharge + existingCharge, existingCharge, 4);
-        int residualCharge = (inboundCharge + existingCharge) - newCharge;
-
-        if (state.getValue(ARCADE_MODE)) {
+        // validate arcade mode
+        if (initialState.getValue(ARCADE_MODE)) {
             newCharge = 4;
         }
 
-        serverLevel.setBlockAndUpdate(pos, state.setValue(KINETIC_RELOAD_CHARGES, newCharge));
+        // determine new update state
+        BlockState appendedState = initialState
+                .setValue(LIT, newCharge > 0)
+                .setValue(KINETIC_RELOAD_CHARGES, newCharge);
 
-        return residualCharge;
+        // play sound if necessary
+        if (appendedState.getValue(LIT) != initialState.getValue(LIT)) {
+            serverLevel.playSound(null, pos, appendedState.getValue(LIT) ? SoundEvents.COPPER_BULB_TURN_ON : SoundEvents.COPPER_BULB_TURN_OFF, SoundSource.BLOCKS);
+        }
+
+        // commit changes
+        serverLevel.setBlockAndUpdate(pos, appendedState);
     }
 
     @Override
     public void onImpact(ServerLevel serverLevel, BlockPos pos, ServerPlayer player, float impactDamage) {
-        int inboundCharge = 0;
+        int inboundChargeModifier = 0;
 
+        // scale charge gained based on impact damage
         if (impactDamage > 0) {
-            inboundCharge = 1;
+            inboundChargeModifier = (int) impactDamage / 10;
         }
 
-        super.onImpact(serverLevel, pos, player, impactDamage);
+        // commit charge update
+        updateCharge(serverLevel, pos, inboundChargeModifier);
 
-        incrementCharge(serverLevel, pos, inboundCharge);
+        // do tasks common to all kinetic impact blocks
+        super.onImpact(serverLevel, pos, player, impactDamage);
+    }
+
+    @Override
+    public boolean isImpactValid(ServerLevel serverLevel, BlockPos pos) {
+        BlockState state = serverLevel.getBlockState(pos);
+        return !state.getValue(ARCADE_MODE)
+                && !state.getValue(POWERED)
+                && state.getValue(KINETIC_RELOAD_CHARGES) != 4;
     }
 
     @Override
@@ -126,5 +148,41 @@ public class KineticRetentionModuleBlock extends AbstractKineticImpactActionBloc
             }
         }
         return pickedStack;
+    }
+
+    protected void onPlace(BlockState state, Level level, BlockPos pos, BlockState oldState, boolean movedByPiston) {
+        if (oldState.getBlock() != state.getBlock() && level instanceof ServerLevel serverlevel) {
+            this.updateRedstoneState(serverlevel, state, pos);
+        }
+    }
+
+    @Override
+    protected void neighborChanged(BlockState state, Level level, BlockPos pos, Block neighborBlock, BlockPos neighborPos, boolean movedByPiston) {
+        if (level instanceof ServerLevel serverLevel) {
+            this.updateRedstoneState(serverLevel, state, pos);
+        }
+    }
+
+    private void updateRedstoneState(ServerLevel serverLevel, BlockState state, BlockPos pos) {
+        boolean inboundRedstoneSignal = serverLevel.hasNeighborSignal(pos);
+        if (inboundRedstoneSignal != state.getValue(POWERED)) {
+            serverLevel.setBlockAndUpdate(pos, state.setValue(POWERED, inboundRedstoneSignal));
+        }
+    }
+
+    @Override
+    protected boolean hasAnalogOutputSignal(BlockState state) {
+        return true;
+    }
+
+    @Override
+    protected int getAnalogOutputSignal(BlockState state, Level level, BlockPos pos) {
+        return (int) (15.0 / 4 * level.getBlockState(pos).getValue(KINETIC_RELOAD_CHARGES));
+    }
+
+    public static PushReaction getCorrectedPistonPushReaction(PushReaction originalPushReaction, BlockState targetBlockState, Direction pistonPushDirection) {
+        Direction.Axis retentionModuleAxis = targetBlockState.getValue(FACING).getAxis();
+        Direction.Axis pistonPushAxis = pistonPushDirection.getAxis();
+        return retentionModuleAxis.equals(pistonPushAxis) ? originalPushReaction : PushReaction.DESTROY;
     }
 }

@@ -16,7 +16,9 @@ import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.item.component.CustomModelData;
 import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.DispenserBlock;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
@@ -50,7 +52,10 @@ public class KineticRetentionModuleBlockItem extends BlockItem {
             return null;
         }
 
-        return defaultState.setValue(KineticWeaponryBlockStateProperties.KINETIC_RELOAD_CHARGES, charges).setValue(KineticWeaponryBlockStateProperties.ARCADE_MODE, arcadeMode);
+        return defaultState
+                .setValue(KineticWeaponryBlockStateProperties.KINETIC_RELOAD_CHARGES, charges)
+                .setValue(KineticWeaponryBlockStateProperties.ARCADE_MODE, arcadeMode)
+                .setValue(BlockStateProperties.LIT, charges > 0);
     }
 
     @Override

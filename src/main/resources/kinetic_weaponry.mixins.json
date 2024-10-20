@@ -4,7 +4,9 @@
   "package": "com.myriantics.kinetic_weaponry.mixin",
   "compatibilityLevel": "JAVA_21",
   "mixins": [
-    "FallingBlockEntityMixin"
+    "FallingBlockEntityMixin",
+    "PistonBaseBlockMixin",
+    "PistonStructureResolverMixin"
   ],
   "injectors": {
     "defaultRequire": 1

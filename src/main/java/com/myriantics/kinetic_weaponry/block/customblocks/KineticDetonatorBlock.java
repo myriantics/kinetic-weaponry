@@ -3,12 +3,16 @@ package com.myriantics.kinetic_weaponry.block.customblocks;
 import com.myriantics.kinetic_weaponry.api.AbstractKineticImpactActionBlock;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.sounds.SoundEvents;
+import net.minecraft.sounds.SoundSource;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.level.block.Block;
-import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.LevelAccessor;
+import net.minecraft.world.level.block.*;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
@@ -29,7 +33,7 @@ public class KineticDetonatorBlock extends AbstractKineticImpactActionBlock {
         registerDefaultState(stateDefinition.any()
                         .setValue(FACING, Direction.UP)
                         .setValue(POWERED, false)
-                        .setValue(LIT, true));
+                        .setValue(LIT, false));
     }
 
     @Override
@@ -46,14 +50,60 @@ public class KineticDetonatorBlock extends AbstractKineticImpactActionBlock {
     @Override
     public void onImpact(ServerLevel serverLevel, BlockPos pos, ServerPlayer player, float impactDamage) {
         if (impactDamage > 0) {
+            BlockState state = serverLevel.getBlockState(pos);
 
-            // so the explosion actually goes through
-            serverLevel.setBlockAndUpdate(pos, Blocks.AIR.defaultBlockState());
-            // kaboom? yes rico, kaboom.
-            serverLevel.explode(player, pos.getCenter().x, pos.getCenter().y, pos.getCenter().z, impactDamage,
-                    Level.ExplosionInteraction.BLOCK);
+            if (!state.getValue(LIT)) {
+                // so the explosion actually goes through the block
+                serverLevel.setBlockAndUpdate(pos, Blocks.AIR.defaultBlockState());
+                // kaboom? yes rico, kaboom.
+                serverLevel.explode(player, pos.getCenter().x, pos.getCenter().y, pos.getCenter().z, impactDamage,
+                        Level.ExplosionInteraction.BLOCK);
+            }
 
             super.onImpact(serverLevel, pos, player, impactDamage);
         }
+    }
+
+    @Override
+    public boolean isImpactValid(ServerLevel serverLevel, BlockPos pos) {
+        BlockState state = serverLevel.getBlockState(pos);
+        return !state.getValue(LIT);
+    }
+
+    protected void onPlace(BlockState state, Level level, BlockPos pos, BlockState oldState, boolean movedByPiston) {
+        if (oldState.getBlock() != state.getBlock() && level instanceof ServerLevel serverlevel) {
+            this.checkAndFlip(state, serverlevel, pos);
+        }
+    }
+
+    @Override
+    protected void neighborChanged(BlockState state, Level level, BlockPos pos, Block neighborBlock, BlockPos neighborPos, boolean movedByPiston) {
+        if (level instanceof ServerLevel serverLevel) {
+            this.checkAndFlip(state, serverLevel, pos);
+        }
+    }
+
+    public void checkAndFlip(BlockState state, ServerLevel level, BlockPos pos) {
+        boolean flag = level.hasNeighborSignal(pos);
+        if (flag != state.getValue(POWERED)) {
+            BlockState blockstate = state;
+            if (!state.getValue(POWERED)) {
+                blockstate = state.cycle(LIT);
+                level.playSound(null, pos, blockstate.getValue(LIT) ? SoundEvents.COPPER_BULB_TURN_ON : SoundEvents.COPPER_BULB_TURN_OFF, SoundSource.BLOCKS);
+            }
+
+            level.setBlock(pos, blockstate.setValue(POWERED, flag), 3);
+        }
+
+    }
+
+    @Override
+    protected boolean hasAnalogOutputSignal(BlockState state) {
+        return true;
+    }
+
+    @Override
+    protected int getAnalogOutputSignal(BlockState state, Level level, BlockPos pos) {
+        return level.getBlockState(pos).getValue(LIT) ? 15 : 0;
     }
 }

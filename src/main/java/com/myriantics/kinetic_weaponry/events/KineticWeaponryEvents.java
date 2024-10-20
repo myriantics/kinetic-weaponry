@@ -18,6 +18,9 @@ public class KineticWeaponryEvents {
         if (event.getLevel() instanceof ServerLevel serverLevel && event.getEntity() instanceof ServerPlayer serverPlayer) {
             BlockPos pos = event.getPos();
             if (level.getBlockState(pos).getBlock() instanceof AbstractKineticImpactActionBlock bonkedBlock
+                    // is block ready for impact
+                    && bonkedBlock.isImpactValid(serverLevel, pos)
+                    // check if holding mace
                     && serverPlayer.getMainHandItem().getItem() instanceof MaceItem) {
 
                 float impactDamage = Items.MACE.getAttackDamageBonus(serverPlayer, 0, Explosion.getDefaultDamageSource(serverLevel, serverPlayer));
