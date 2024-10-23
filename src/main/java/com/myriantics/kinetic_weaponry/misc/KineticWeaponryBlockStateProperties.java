@@ -1,4 +1,4 @@
-package com.myriantics.kinetic_weaponry.api;
+package com.myriantics.kinetic_weaponry.misc;
 
 import net.minecraft.world.level.block.state.properties.BooleanProperty;
 import net.minecraft.world.level.block.state.properties.IntegerProperty;

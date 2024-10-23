@@ -1,4 +1,4 @@
-package com.myriantics.kinetic_weaponry.api;
+package com.myriantics.kinetic_weaponry.misc;
 
 import com.myriantics.kinetic_weaponry.item.blockitems.KineticRetentionModuleBlockItem;
 import net.minecraft.core.BlockPos;

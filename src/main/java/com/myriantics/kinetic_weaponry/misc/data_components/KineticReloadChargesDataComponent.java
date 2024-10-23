@@ -1,4 +1,4 @@
-package com.myriantics.kinetic_weaponry.api.data_components;
+package com.myriantics.kinetic_weaponry.misc.data_components;
 
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;

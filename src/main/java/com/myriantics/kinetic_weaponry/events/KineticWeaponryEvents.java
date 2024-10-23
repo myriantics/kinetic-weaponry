@@ -1,6 +1,6 @@
 package com.myriantics.kinetic_weaponry.events;
 
-import com.myriantics.kinetic_weaponry.api.AbstractKineticImpactActionBlock;
+import com.myriantics.kinetic_weaponry.block.customblocks.AbstractKineticImpactActionBlock;
 import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;

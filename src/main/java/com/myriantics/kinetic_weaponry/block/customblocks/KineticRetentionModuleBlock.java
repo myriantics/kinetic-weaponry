@@ -1,7 +1,6 @@
 package com.myriantics.kinetic_weaponry.block.customblocks;
 
-import com.myriantics.kinetic_weaponry.api.AbstractKineticImpactActionBlock;
-import com.myriantics.kinetic_weaponry.api.KineticWeaponryBlockStateProperties;
+import com.myriantics.kinetic_weaponry.misc.KineticWeaponryBlockStateProperties;
 import com.myriantics.kinetic_weaponry.item.blockitems.KineticRetentionModuleBlockItem;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.core.BlockPos;

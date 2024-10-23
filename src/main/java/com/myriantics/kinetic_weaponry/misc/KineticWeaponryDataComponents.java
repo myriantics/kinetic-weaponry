@@ -1,13 +1,11 @@
-package com.myriantics.kinetic_weaponry.api;
+package com.myriantics.kinetic_weaponry.misc;
 
 import com.myriantics.kinetic_weaponry.KineticWeaponryCommon;
-import com.myriantics.kinetic_weaponry.api.data_components.ArcadeModeDataComponent;
-import com.myriantics.kinetic_weaponry.api.data_components.KineticChargeDataComponent;
-import com.myriantics.kinetic_weaponry.api.data_components.KineticReloadChargesDataComponent;
+import com.myriantics.kinetic_weaponry.misc.data_components.ArcadeModeDataComponent;
+import com.myriantics.kinetic_weaponry.misc.data_components.KineticChargeDataComponent;
+import com.myriantics.kinetic_weaponry.misc.data_components.KineticReloadChargesDataComponent;
 import net.minecraft.core.component.DataComponentType;
 import net.minecraft.core.registries.Registries;
-import net.minecraft.network.codec.ByteBufCodecs;
-import net.minecraft.util.ExtraCodecs;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.neoforge.registries.DeferredHolder;
 import net.neoforged.neoforge.registries.DeferredRegister;

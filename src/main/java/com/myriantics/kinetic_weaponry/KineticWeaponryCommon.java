@@ -1,11 +1,11 @@
 package com.myriantics.kinetic_weaponry;
 
-import com.myriantics.kinetic_weaponry.api.KineticWeaponryDataComponents;
+import com.myriantics.kinetic_weaponry.misc.KineticWeaponryDataComponents;
 import com.myriantics.kinetic_weaponry.block.KineticWeaponryBlocks;
 import com.myriantics.kinetic_weaponry.entity.KineticWeaponryEntities;
 import com.myriantics.kinetic_weaponry.events.KineticWeaponryEvents;
 import com.myriantics.kinetic_weaponry.item.KineticWeaponryItems;
-import com.myriantics.kinetic_weaponry.api.KineticRetentionModuleDispenserBehavior;
+import com.myriantics.kinetic_weaponry.misc.KineticRetentionModuleDispenserBehavior;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.block.DispenserBlock;
 import org.slf4j.Logger;
