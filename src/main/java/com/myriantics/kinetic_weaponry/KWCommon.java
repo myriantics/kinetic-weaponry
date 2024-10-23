@@ -1,10 +1,10 @@
 package com.myriantics.kinetic_weaponry;
 
-import com.myriantics.kinetic_weaponry.misc.KineticWeaponryDataComponents;
-import com.myriantics.kinetic_weaponry.block.KineticWeaponryBlocks;
-import com.myriantics.kinetic_weaponry.entity.KineticWeaponryEntities;
-import com.myriantics.kinetic_weaponry.events.KineticWeaponryEvents;
-import com.myriantics.kinetic_weaponry.item.KineticWeaponryItems;
+import com.myriantics.kinetic_weaponry.item.KWItems;
+import com.myriantics.kinetic_weaponry.misc.KWDataComponents;
+import com.myriantics.kinetic_weaponry.block.KWBlocks;
+import com.myriantics.kinetic_weaponry.entity.KWEntities;
+import com.myriantics.kinetic_weaponry.events.KWEvents;
 import com.myriantics.kinetic_weaponry.misc.KineticRetentionModuleDispenserBehavior;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.block.DispenserBlock;
@@ -35,8 +35,8 @@ import net.neoforged.neoforge.registries.DeferredHolder;
 import net.neoforged.neoforge.registries.DeferredRegister;
 
 // The value here should match an entry in the META-INF/neoforge.mods.toml file
-@Mod(KineticWeaponryCommon.MODID)
-public class KineticWeaponryCommon
+@Mod(KWCommon.MODID)
+public class KWCommon
 {
     public static final String MODID = "kinetic_weaponry";
     public static final Logger LOGGER = LogUtils.getLogger();
@@ -48,19 +48,19 @@ public class KineticWeaponryCommon
     public static final DeferredHolder<CreativeModeTab, CreativeModeTab> EXAMPLE_TAB = CREATIVE_MODE_TABS.register("example_tab", () -> CreativeModeTab.builder()
             .title(Component.translatable("itemGroup.examplemod")) //The language key for the title of your CreativeModeTab
             .withTabsBefore(CreativeModeTabs.COMBAT)
-            .icon(() -> KineticWeaponryBlocks.KINETIC_RETENTION_MODULE.asItem().getDefaultInstance())
+            .icon(() -> KWBlocks.KINETIC_RETENTION_MODULE.asItem().getDefaultInstance())
             .displayItems((parameters, output) -> {
-                output.accept(KineticWeaponryBlocks.KINETIC_RETENTION_MODULE.get());
-                output.accept(KineticWeaponryBlocks.KINETIC_DETONATOR);
+                output.accept(KWBlocks.KINETIC_RETENTION_MODULE.get());
+                output.accept(KWBlocks.KINETIC_DETONATOR);
             }).build());
 
 
-    public KineticWeaponryCommon(IEventBus modEventBus, ModContainer modContainer)
+    public KWCommon(IEventBus modEventBus, ModContainer modContainer)
     {
-        KineticWeaponryDataComponents.registerKineticWeaponryDataComponents(modEventBus);
-        KineticWeaponryBlocks.registerKineticWeaponryBlocks(modEventBus);
-        KineticWeaponryItems.registerKineticWeaponryItems(modEventBus);
-        KineticWeaponryEntities.registerKineticWeaponryEntities(modEventBus);
+        KWDataComponents.registerKineticWeaponryDataComponents(modEventBus);
+        KWBlocks.registerKineticWeaponryBlocks(modEventBus);
+        KWItems.registerKineticWeaponryItems(modEventBus);
+        KWEntities.registerKineticWeaponryEntities(modEventBus);
 
 
         // Register the commonSetup method for modloading
@@ -73,7 +73,7 @@ public class KineticWeaponryCommon
         // Note that this is necessary if and only if we want *this* class (ExampleMod) to respond directly to events.
         // Do not add this line if there are no @SubscribeEvent-annotated functions in this class, like onServerStarting() below.
         NeoForge.EVENT_BUS.register(this);
-        NeoForge.EVENT_BUS.addListener(KineticWeaponryEvents::onAttackBlock);
+        NeoForge.EVENT_BUS.addListener(KWEvents::onAttackBlock);
 
         // Register the item to a creative tab
         modEventBus.addListener(this::addCreative);
@@ -92,7 +92,7 @@ public class KineticWeaponryCommon
         // Some common setup code
         LOGGER.info("HELLO FROM COMMON SETUP");
 
-        DispenserBlock.registerBehavior(KineticWeaponryItems.KINETIC_RETENTION_MODULE_BLOCK_ITEM.asItem(), new KineticRetentionModuleDispenserBehavior());
+        DispenserBlock.registerBehavior(KWItems.KINETIC_RETENTION_MODULE_BLOCK_ITEM.asItem(), new KineticRetentionModuleDispenserBehavior());
 
         if (Config.logDirtBlock)
             LOGGER.info("DIRT BLOCK >> {}", BuiltInRegistries.BLOCK.getKey(Blocks.DIRT));
@@ -106,7 +106,7 @@ public class KineticWeaponryCommon
     private void addCreative(BuildCreativeModeTabContentsEvent event)
     {
         if (event.getTabKey() == CreativeModeTabs.COMBAT) {
-            event.accept(KineticWeaponryItems.KINETIC_DETONATOR_BLOCK_ITEM);
+            event.accept(KWItems.KINETIC_DETONATOR_BLOCK_ITEM);
         }
     }
 

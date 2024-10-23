@@ -2,10 +2,8 @@ package com.myriantics.kinetic_weaponry.mixin;
 
 import com.llamalad7.mixinextras.injector.ModifyExpressionValue;
 import com.llamalad7.mixinextras.sugar.Local;
-import com.myriantics.kinetic_weaponry.KineticWeaponryCommon;
 import com.myriantics.kinetic_weaponry.block.customblocks.KineticRetentionModuleBlock;
 import net.minecraft.core.Direction;
-import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.level.block.piston.PistonBaseBlock;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.material.PushReaction;

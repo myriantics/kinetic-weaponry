@@ -2,12 +2,12 @@ package com.myriantics.kinetic_weaponry.item.blockitems;
 
 import com.myriantics.kinetic_weaponry.Constants;
 import com.myriantics.kinetic_weaponry.entity.KineticRetentionModuleEntity;
-import com.myriantics.kinetic_weaponry.entity.KineticWeaponryEntities;
-import com.myriantics.kinetic_weaponry.item.KineticWeaponryItems;
+import com.myriantics.kinetic_weaponry.entity.KWEntities;
+import com.myriantics.kinetic_weaponry.item.KWItems;
 import com.myriantics.kinetic_weaponry.item.KineticChargeStoringItem;
-import com.myriantics.kinetic_weaponry.misc.KineticWeaponryBlockStateProperties;
-import com.myriantics.kinetic_weaponry.misc.KineticWeaponryDataComponents;
-import com.myriantics.kinetic_weaponry.block.KineticWeaponryBlocks;
+import com.myriantics.kinetic_weaponry.misc.KWBlockStateProperties;
+import com.myriantics.kinetic_weaponry.misc.KWDataComponents;
+import com.myriantics.kinetic_weaponry.block.KWBlocks;
 import com.myriantics.kinetic_weaponry.misc.data_components.ArcadeModeDataComponent;
 import com.myriantics.kinetic_weaponry.misc.data_components.KineticChargeDataComponent;
 import net.minecraft.network.chat.Component;
@@ -44,8 +44,8 @@ public class KineticRetentionModuleBlockItem extends BlockItem implements Equipa
 
     @Override
     public void appendHoverText(ItemStack stack, TooltipContext context, List<Component> tooltipComponents, TooltipFlag tooltipFlag) {
-        Optional<KineticChargeDataComponent> chargeComponent = Optional.ofNullable(stack.getComponents().get(KineticWeaponryDataComponents.KINETIC_CHARGE.get()));
-        Optional<ArcadeModeDataComponent> arcadeModeComponent = Optional.ofNullable(stack.getComponents().get(KineticWeaponryDataComponents.ARCADE_MODE.get()));
+        Optional<KineticChargeDataComponent> chargeComponent = Optional.ofNullable(stack.getComponents().get(KWDataComponents.KINETIC_CHARGE.get()));
+        Optional<ArcadeModeDataComponent> arcadeModeComponent = Optional.ofNullable(stack.getComponents().get(KWDataComponents.ARCADE_MODE.get()));
 
         int reloadCharges = chargeComponent.map(KineticChargeDataComponent::charge).orElse(0);
         boolean arcadeMode = arcadeModeComponent.map(ArcadeModeDataComponent::enabled).orElse(false);
@@ -59,18 +59,18 @@ public class KineticRetentionModuleBlockItem extends BlockItem implements Equipa
     }
 
     public static BlockState getPlacementState(ItemStack moduleStack) {
-        BlockState defaultState = KineticWeaponryBlocks.KINETIC_RETENTION_MODULE.get().defaultBlockState();
+        BlockState defaultState = KWBlocks.KINETIC_RETENTION_MODULE.get().defaultBlockState();
 
         if (moduleStack.getItem() instanceof KineticRetentionModuleBlockItem) {
-            Optional<KineticChargeDataComponent> chargeComponent = Optional.ofNullable(moduleStack.get(KineticWeaponryDataComponents.KINETIC_CHARGE));
-            Optional<ArcadeModeDataComponent> arcadeModeComponent = Optional.ofNullable(moduleStack.get(KineticWeaponryDataComponents.ARCADE_MODE));
+            Optional<KineticChargeDataComponent> chargeComponent = Optional.ofNullable(moduleStack.get(KWDataComponents.KINETIC_CHARGE));
+            Optional<ArcadeModeDataComponent> arcadeModeComponent = Optional.ofNullable(moduleStack.get(KWDataComponents.ARCADE_MODE));
 
             int charge = chargeComponent.map(KineticChargeDataComponent::charge).orElse(0);
             boolean arcadeMode = arcadeModeComponent.map(ArcadeModeDataComponent::enabled).orElse(false);
 
             return defaultState
-                    .setValue(KineticWeaponryBlockStateProperties.STORED_KINETIC_CHARGES_RETENTION_MODULE, charge)
-                    .setValue(KineticWeaponryBlockStateProperties.ARCADE_MODE, arcadeMode)
+                    .setValue(KWBlockStateProperties.STORED_KINETIC_CHARGES_RETENTION_MODULE, charge)
+                    .setValue(KWBlockStateProperties.ARCADE_MODE, arcadeMode)
                     .setValue(BlockStateProperties.LIT, charge > 0);
         }
         return defaultState;
@@ -89,7 +89,7 @@ public class KineticRetentionModuleBlockItem extends BlockItem implements Equipa
     @Override
     public void inventoryTick(ItemStack stack, Level level, Entity entity, int slotId, boolean isSelected) {
         if (!level.isClientSide) {
-            if(stack.is(KineticWeaponryItems.KINETIC_RETENTION_MODULE_BLOCK_ITEM.get())
+            if(stack.is(KWItems.KINETIC_RETENTION_MODULE_BLOCK_ITEM.get())
                     /* add entity whitelist tag here */
                     && ((LivingEntity)entity).getEquipmentSlotForItem(stack).equals(EquipmentSlot.BODY)
                     && !entity.isSpectator()) {
@@ -104,7 +104,7 @@ public class KineticRetentionModuleBlockItem extends BlockItem implements Equipa
         Vec3 rawEntityPos = entity.getPosition(0.5f);
         Vec3 entityLookDirection = entity.getLookAngle();
         Vec3 entityPos = rawEntityPos.subtract(entityLookDirection.multiply(3, 3, 3));
-        KineticRetentionModuleEntity retentionModuleEntity = KineticWeaponryEntities.KINETIC_RETENTION_MODULE_ENTITY.get().create(level);
+        KineticRetentionModuleEntity retentionModuleEntity = KWEntities.KINETIC_RETENTION_MODULE_ENTITY.get().create(level);
         if (retentionModuleEntity != null) {
             retentionModuleEntity.moveTo(entityPos.x, entityPos.y, entityPos.z, entity.getYRot(), entity.getXRot());
             level.addFreshEntity(retentionModuleEntity);

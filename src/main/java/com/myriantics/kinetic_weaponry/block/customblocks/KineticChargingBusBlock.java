@@ -1,8 +1,8 @@
 package com.myriantics.kinetic_weaponry.block.customblocks;
 
 import com.myriantics.kinetic_weaponry.Constants;
-import com.myriantics.kinetic_weaponry.misc.KineticWeaponryBlockStateProperties;
-import com.myriantics.kinetic_weaponry.misc.KineticWeaponryDataComponents;
+import com.myriantics.kinetic_weaponry.misc.KWBlockStateProperties;
+import com.myriantics.kinetic_weaponry.misc.KWDataComponents;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -28,7 +28,7 @@ import org.jetbrains.annotations.Nullable;
 
 
 public class KineticChargingBusBlock extends AbstractKineticImpactActionBlock {
-    public static final IntegerProperty STORED_KINETIC_CHARGES = KineticWeaponryBlockStateProperties.STORED_KINETIC_CHARGES_CHARGING_BUS;
+    public static final IntegerProperty STORED_KINETIC_CHARGES = KWBlockStateProperties.STORED_KINETIC_CHARGES_CHARGING_BUS;
     public static final DirectionProperty FACING = BlockStateProperties.FACING;
     public static final BooleanProperty TRIGGERED = BlockStateProperties.TRIGGERED;
 
@@ -101,7 +101,7 @@ public class KineticChargingBusBlock extends AbstractKineticImpactActionBlock {
         if (level.isClientSide()) {
             if (Screen.hasControlDown()) {
                 PatchedDataComponentMap componentMap = (PatchedDataComponentMap) pickedStack.getComponents();
-                KineticWeaponryDataComponents.setKineticCharge(componentMap, pickedStack, state.getValue(STORED_KINETIC_CHARGES));
+                KWDataComponents.setKineticCharge(componentMap, pickedStack, state.getValue(STORED_KINETIC_CHARGES));
             }
         }
 

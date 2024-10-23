@@ -1,9 +1,9 @@
 package com.myriantics.kinetic_weaponry.block.customblocks;
 
 import com.myriantics.kinetic_weaponry.Constants;
-import com.myriantics.kinetic_weaponry.misc.KineticWeaponryBlockStateProperties;
+import com.myriantics.kinetic_weaponry.misc.KWBlockStateProperties;
 import com.myriantics.kinetic_weaponry.item.blockitems.KineticRetentionModuleBlockItem;
-import com.myriantics.kinetic_weaponry.misc.KineticWeaponryDataComponents;
+import com.myriantics.kinetic_weaponry.misc.KWDataComponents;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -35,11 +35,11 @@ import org.jetbrains.annotations.Nullable;
 import java.util.List;
 
 public class KineticRetentionModuleBlock extends AbstractKineticImpactActionBlock {
-    public static final IntegerProperty STORED_KINETIC_RELOAD_CHARGES = KineticWeaponryBlockStateProperties.STORED_KINETIC_CHARGES_RETENTION_MODULE;
+    public static final IntegerProperty STORED_KINETIC_RELOAD_CHARGES = KWBlockStateProperties.STORED_KINETIC_CHARGES_RETENTION_MODULE;
     public static final DirectionProperty FACING = BlockStateProperties.FACING;
     public static final BooleanProperty LIT = BlockStateProperties.LIT;
     public static final BooleanProperty POWERED = BlockStateProperties.POWERED;
-    public static final BooleanProperty ARCADE_MODE = KineticWeaponryBlockStateProperties.ARCADE_MODE;
+    public static final BooleanProperty ARCADE_MODE = KWBlockStateProperties.ARCADE_MODE;
 
     public KineticRetentionModuleBlock(Properties properties) {
         super(properties);
@@ -136,7 +136,7 @@ public class KineticRetentionModuleBlock extends AbstractKineticImpactActionBloc
         for (ItemStack stack : items) {
             if (stack.getItem() instanceof KineticRetentionModuleBlockItem) {
                 PatchedDataComponentMap componentMap = (PatchedDataComponentMap) stack.getComponents();
-                KineticWeaponryDataComponents.setKineticCharge(componentMap, stack, state.getValue(STORED_KINETIC_RELOAD_CHARGES));
+                KWDataComponents.setKineticCharge(componentMap, stack, state.getValue(STORED_KINETIC_RELOAD_CHARGES));
             }
         }
         return items;
@@ -149,7 +149,7 @@ public class KineticRetentionModuleBlock extends AbstractKineticImpactActionBloc
         if (level.isClientSide()) {
             if (Screen.hasControlDown()) {
                 PatchedDataComponentMap componentMap = (PatchedDataComponentMap) pickedStack.getComponents();
-                KineticWeaponryDataComponents.setKineticCharge(componentMap, pickedStack, state.getValue(STORED_KINETIC_RELOAD_CHARGES));
+                KWDataComponents.setKineticCharge(componentMap, pickedStack, state.getValue(STORED_KINETIC_RELOAD_CHARGES));
             }
         }
         return pickedStack;

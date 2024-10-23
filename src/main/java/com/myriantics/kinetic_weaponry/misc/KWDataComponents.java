@@ -1,6 +1,6 @@
 package com.myriantics.kinetic_weaponry.misc;
 
-import com.myriantics.kinetic_weaponry.KineticWeaponryCommon;
+import com.myriantics.kinetic_weaponry.KWCommon;
 import com.myriantics.kinetic_weaponry.item.KineticChargeStoringItem;
 import com.myriantics.kinetic_weaponry.misc.data_components.ArcadeModeDataComponent;
 import com.myriantics.kinetic_weaponry.misc.data_components.KineticChargeDataComponent;
@@ -14,9 +14,9 @@ import net.neoforged.neoforge.registries.DeferredRegister;
 
 import java.util.Optional;
 
-public class KineticWeaponryDataComponents {
+public class KWDataComponents {
 
-    public static final DeferredRegister.DataComponents DATA_COMPONENTS = DeferredRegister.createDataComponents(Registries.DATA_COMPONENT_TYPE, KineticWeaponryCommon.MODID);
+    public static final DeferredRegister.DataComponents DATA_COMPONENTS = DeferredRegister.createDataComponents(Registries.DATA_COMPONENT_TYPE, KWCommon.MODID);
 
     public static final DeferredHolder<DataComponentType<?>, DataComponentType<KineticChargeDataComponent>> KINETIC_CHARGE = DATA_COMPONENTS.registerComponentType(
             "kinetic_charge",
@@ -34,7 +34,7 @@ public class KineticWeaponryDataComponents {
 
     public static void registerKineticWeaponryDataComponents(IEventBus eventBus) {
         DATA_COMPONENTS.register(eventBus);
-        KineticWeaponryCommon.LOGGER.info("Registering Kinetic Weaponry's Data Components!");
+        KWCommon.LOGGER.info("Registering Kinetic Weaponry's Data Components!");
     }
 
     public static ItemStack setArcadeMode(PatchedDataComponentMap componentMap, ItemStack stack, boolean arcadeMode) {
