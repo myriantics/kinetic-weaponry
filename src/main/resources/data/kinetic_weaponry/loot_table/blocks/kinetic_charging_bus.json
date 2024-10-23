@@ -1,0 +1,21 @@
+{
+  "type": "minecraft:block",
+  "pools": [
+    {
+      "bonus_rolls": 0.0,
+      "conditions": [
+        {
+          "condition": "minecraft:survives_explosion"
+        }
+      ],
+      "entries": [
+        {
+          "type": "minecraft:item",
+          "name": "kinetic_weaponry:kinetic_charging_bus"
+        }
+      ],
+      "rolls": 1.0
+    }
+  ],
+  "random_sequence": "kinetic_weaponry:blocks/kinetic_charging_bus"
+}

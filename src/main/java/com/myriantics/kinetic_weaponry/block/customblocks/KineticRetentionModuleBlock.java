@@ -1,10 +1,13 @@
 package com.myriantics.kinetic_weaponry.block.customblocks;
 
+import com.myriantics.kinetic_weaponry.Constants;
 import com.myriantics.kinetic_weaponry.misc.KineticWeaponryBlockStateProperties;
 import com.myriantics.kinetic_weaponry.item.blockitems.KineticRetentionModuleBlockItem;
+import com.myriantics.kinetic_weaponry.misc.KineticWeaponryDataComponents;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.core.component.PatchedDataComponentMap;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvents;
@@ -32,7 +35,7 @@ import org.jetbrains.annotations.Nullable;
 import java.util.List;
 
 public class KineticRetentionModuleBlock extends AbstractKineticImpactActionBlock {
-    public static final IntegerProperty KINETIC_RELOAD_CHARGES = KineticWeaponryBlockStateProperties.KINETIC_RELOAD_CHARGES;
+    public static final IntegerProperty STORED_KINETIC_RELOAD_CHARGES = KineticWeaponryBlockStateProperties.STORED_KINETIC_CHARGES_RETENTION_MODULE;
     public static final DirectionProperty FACING = BlockStateProperties.FACING;
     public static final BooleanProperty LIT = BlockStateProperties.LIT;
     public static final BooleanProperty POWERED = BlockStateProperties.POWERED;
@@ -42,7 +45,7 @@ public class KineticRetentionModuleBlock extends AbstractKineticImpactActionBloc
         super(properties);
 
         registerDefaultState(stateDefinition.any()
-                .setValue(KINETIC_RELOAD_CHARGES, 0)
+                .setValue(STORED_KINETIC_RELOAD_CHARGES, 0)
                 .setValue(FACING, Direction.UP)
                 .setValue(POWERED, false)
                 .setValue(ARCADE_MODE, false)
@@ -65,23 +68,12 @@ public class KineticRetentionModuleBlock extends AbstractKineticImpactActionBloc
         return shape;
     }
 
-    @Override
-    protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> builder) {
-        builder.add(KINETIC_RELOAD_CHARGES, FACING, LIT, POWERED, ARCADE_MODE);
-    }
-
-    @Nullable
-    @Override
-    public BlockState getStateForPlacement(BlockPlaceContext context) {
-        return this.defaultBlockState().setValue(FACING, context.getClickedFace().getOpposite());
-    }
-
-    private void updateCharge(ServerLevel serverLevel, BlockPos pos, int inboundChargeModifier) {
+    public void updateCharge(ServerLevel serverLevel, BlockPos pos, int inboundChargeModifier) {
         BlockState initialState = serverLevel.getBlockState(pos);
-        int initialCharge = initialState.getValue(KINETIC_RELOAD_CHARGES);
+        int initialCharge = initialState.getValue(STORED_KINETIC_RELOAD_CHARGES);
 
         // calculate new charge
-        int newCharge = Math.clamp(initialCharge + inboundChargeModifier, 0, 4);
+        int newCharge = Math.clamp(initialCharge + inboundChargeModifier, 0, Constants.KINETIC_RETENTION_MODULE_MAX_CHARGES);
 
         // validate arcade mode
         if (initialState.getValue(ARCADE_MODE)) {
@@ -91,7 +83,7 @@ public class KineticRetentionModuleBlock extends AbstractKineticImpactActionBloc
         // determine new update state
         BlockState appendedState = initialState
                 .setValue(LIT, newCharge > 0)
-                .setValue(KINETIC_RELOAD_CHARGES, newCharge);
+                .setValue(STORED_KINETIC_RELOAD_CHARGES, newCharge);
 
         // play sound if necessary
         if (appendedState.getValue(LIT) != initialState.getValue(LIT)) {
@@ -103,12 +95,24 @@ public class KineticRetentionModuleBlock extends AbstractKineticImpactActionBloc
     }
 
     @Override
+    protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> builder) {
+        builder.add(STORED_KINETIC_RELOAD_CHARGES, FACING, LIT, POWERED, ARCADE_MODE);
+    }
+
+    @Nullable
+    @Override
+    public BlockState getStateForPlacement(BlockPlaceContext context) {
+        return super.getStateForPlacement(context).setValue(FACING, context.getClickedFace().getOpposite());
+    }
+
+
+    @Override
     public void onImpact(ServerLevel serverLevel, BlockPos pos, ServerPlayer player, float impactDamage) {
         int inboundChargeModifier = 0;
 
         // scale charge gained based on impact damage
         if (impactDamage > 0) {
-            inboundChargeModifier = (int) impactDamage / 10;
+            inboundChargeModifier = (int) impactDamage / Constants.KINETIC_RETENTION_MODULE_IMPACT_CHARGE_DIVISOR;
         }
 
         // commit charge update
@@ -123,7 +127,7 @@ public class KineticRetentionModuleBlock extends AbstractKineticImpactActionBloc
         BlockState state = serverLevel.getBlockState(pos);
         return !state.getValue(ARCADE_MODE)
                 && !state.getValue(POWERED)
-                && state.getValue(KINETIC_RELOAD_CHARGES) != 4;
+                && state.getValue(STORED_KINETIC_RELOAD_CHARGES) != Constants.KINETIC_RETENTION_MODULE_MAX_CHARGES;
     }
 
     @Override
@@ -131,7 +135,8 @@ public class KineticRetentionModuleBlock extends AbstractKineticImpactActionBloc
         List<ItemStack> items = super.getDrops(state, params);
         for (ItemStack stack : items) {
             if (stack.getItem() instanceof KineticRetentionModuleBlockItem) {
-                KineticRetentionModuleBlockItem.setCharge(stack, state.getValue(KINETIC_RELOAD_CHARGES), state.getValue(ARCADE_MODE));
+                PatchedDataComponentMap componentMap = (PatchedDataComponentMap) stack.getComponents();
+                KineticWeaponryDataComponents.setKineticCharge(componentMap, stack, state.getValue(STORED_KINETIC_RELOAD_CHARGES));
             }
         }
         return items;
@@ -143,7 +148,8 @@ public class KineticRetentionModuleBlock extends AbstractKineticImpactActionBloc
         ItemStack pickedStack = new ItemStack(this);
         if (level.isClientSide()) {
             if (Screen.hasControlDown()) {
-                KineticRetentionModuleBlockItem.setCharge(pickedStack, state.getValue(KINETIC_RELOAD_CHARGES), state.getValue(ARCADE_MODE));
+                PatchedDataComponentMap componentMap = (PatchedDataComponentMap) pickedStack.getComponents();
+                KineticWeaponryDataComponents.setKineticCharge(componentMap, pickedStack, state.getValue(STORED_KINETIC_RELOAD_CHARGES));
             }
         }
         return pickedStack;
@@ -176,7 +182,7 @@ public class KineticRetentionModuleBlock extends AbstractKineticImpactActionBloc
 
     @Override
     protected int getAnalogOutputSignal(BlockState state, Level level, BlockPos pos) {
-        return (int) (15.0 / 4 * level.getBlockState(pos).getValue(KINETIC_RELOAD_CHARGES));
+        return (int) (15.0 / 4 * level.getBlockState(pos).getValue(STORED_KINETIC_RELOAD_CHARGES));
     }
 
     public static PushReaction getCorrectedPistonPushReaction(PushReaction originalPushReaction, BlockState targetBlockState, Direction pistonPushDirection) {

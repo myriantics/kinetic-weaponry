@@ -40,22 +40,4 @@ public abstract class AbstractKineticImpactActionBlock extends Block {
         return true;
     };
 
-    private void runEnchants(ServerLevel serverLevel, ServerPlayer serverPlayer, BlockPos pos)  {
-        for (LivingEntity livingentity2 : serverLevel
-                .getEntitiesOfClass(LivingEntity.class, serverPlayer.getBoundingBox().inflate(1.0, 0.25, 1.0))) {
-            double entityReachSq = Mth.square((serverPlayer.entityInteractionRange())); // Use entity reach instead of constant 9.0. Vanilla uses bottom center-to-center checks here, so don't update this to use canReach, since it uses closest-corner checks.
-            if (livingentity2 != serverPlayer
-                    && serverPlayer.isAlliedTo(livingentity2)
-                    && (!(livingentity2 instanceof ArmorStand) || !((ArmorStand)livingentity2).isMarker())
-                    && serverPlayer.distanceToSqr(livingentity2) < entityReachSq) {
-                livingentity2.knockback(
-                        0.4F,
-                        (double)Mth.sin(serverPlayer.getYRot() * (float) (Math.PI / 180.0)),
-                        (double)(-Mth.cos(serverPlayer.getYRot() * (float) (Math.PI / 180.0)))
-                );
-                EnchantmentHelper.doPostAttackEffects(serverLevel, livingentity2, serverPlayer.damageSources().playerAttack(serverPlayer));
-
-            }
-        }
-    }
 }

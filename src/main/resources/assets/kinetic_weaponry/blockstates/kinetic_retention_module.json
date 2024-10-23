@@ -1,462 +1,462 @@
 {
   "variants": {
-    "facing=north,kinetic_reload_charges=0,powered=false,lit=false": {
+    "facing=north,stored_kinetic_charges_retention_module=0,powered=false,lit=false": {
       "model": "kinetic_weaponry:block/kinetic_retention_module/kinetic_retention_module_unlit_unpowered_charged_zero"
     },
-    "facing=north,kinetic_reload_charges=0,powered=true,lit=false": {
+    "facing=north,stored_kinetic_charges_retention_module=0,powered=true,lit=false": {
       "model": "kinetic_weaponry:block/kinetic_retention_module/kinetic_retention_module_unlit_powered_charged_zero"
     },
-    "facing=north,kinetic_reload_charges=0,powered=false,lit=true": {
+    "facing=north,stored_kinetic_charges_retention_module=0,powered=false,lit=true": {
       "model": "kinetic_weaponry:block/kinetic_retention_module/kinetic_retention_module_lit_unpowered_charged_zero"
     },
-    "facing=north,kinetic_reload_charges=0,powered=true,lit=true": {
+    "facing=north,stored_kinetic_charges_retention_module=0,powered=true,lit=true": {
       "model": "kinetic_weaponry:block/kinetic_retention_module/kinetic_retention_module_lit_powered_charged_zero"
     },
-    "facing=north,kinetic_reload_charges=1,powered=false,lit=false": {
+    "facing=north,stored_kinetic_charges_retention_module=1,powered=false,lit=false": {
       "model": "kinetic_weaponry:block/kinetic_retention_module/kinetic_retention_module_unlit_unpowered_charged_one"
     },
-    "facing=north,kinetic_reload_charges=1,powered=true,lit=false": {
+    "facing=north,stored_kinetic_charges_retention_module=1,powered=true,lit=false": {
       "model": "kinetic_weaponry:block/kinetic_retention_module/kinetic_retention_module_unlit_powered_charged_one"
     },
-    "facing=north,kinetic_reload_charges=1,powered=false,lit=true": {
+    "facing=north,stored_kinetic_charges_retention_module=1,powered=false,lit=true": {
       "model": "kinetic_weaponry:block/kinetic_retention_module/kinetic_retention_module_lit_unpowered_charged_one"
     },
-    "facing=north,kinetic_reload_charges=1,powered=true,lit=true": {
+    "facing=north,stored_kinetic_charges_retention_module=1,powered=true,lit=true": {
       "model": "kinetic_weaponry:block/kinetic_retention_module/kinetic_retention_module_lit_powered_charged_one"
     },
-    "facing=north,kinetic_reload_charges=2,powered=false,lit=false": {
+    "facing=north,stored_kinetic_charges_retention_module=2,powered=false,lit=false": {
       "model": "kinetic_weaponry:block/kinetic_retention_module/kinetic_retention_module_unlit_unpowered_charged_two"
     },
-    "facing=north,kinetic_reload_charges=2,powered=true,lit=false": {
+    "facing=north,stored_kinetic_charges_retention_module=2,powered=true,lit=false": {
       "model": "kinetic_weaponry:block/kinetic_retention_module/kinetic_retention_module_unlit_powered_charged_two"
     },
-    "facing=north,kinetic_reload_charges=2,powered=false,lit=true": {
+    "facing=north,stored_kinetic_charges_retention_module=2,powered=false,lit=true": {
       "model": "kinetic_weaponry:block/kinetic_retention_module/kinetic_retention_module_lit_unpowered_charged_two"
     },
-    "facing=north,kinetic_reload_charges=2,powered=true,lit=true": {
+    "facing=north,stored_kinetic_charges_retention_module=2,powered=true,lit=true": {
       "model": "kinetic_weaponry:block/kinetic_retention_module/kinetic_retention_module_lit_powered_charged_two"
     },
-    "facing=north,kinetic_reload_charges=3,powered=false,lit=false": {
+    "facing=north,stored_kinetic_charges_retention_module=3,powered=false,lit=false": {
       "model": "kinetic_weaponry:block/kinetic_retention_module/kinetic_retention_module_unlit_unpowered_charged_three"
     },
-    "facing=north,kinetic_reload_charges=3,powered=true,lit=false": {
+    "facing=north,stored_kinetic_charges_retention_module=3,powered=true,lit=false": {
       "model": "kinetic_weaponry:block/kinetic_retention_module/kinetic_retention_module_unlit_powered_charged_three"
     },
-    "facing=north,kinetic_reload_charges=3,powered=false,lit=true": {
+    "facing=north,stored_kinetic_charges_retention_module=3,powered=false,lit=true": {
       "model": "kinetic_weaponry:block/kinetic_retention_module/kinetic_retention_module_lit_unpowered_charged_three"
     },
-    "facing=north,kinetic_reload_charges=3,powered=true,lit=true": {
+    "facing=north,stored_kinetic_charges_retention_module=3,powered=true,lit=true": {
       "model": "kinetic_weaponry:block/kinetic_retention_module/kinetic_retention_module_lit_powered_charged_three"
     },
-    "facing=north,kinetic_reload_charges=4,powered=false,lit=false": {
+    "facing=north,stored_kinetic_charges_retention_module=4,powered=false,lit=false": {
       "model": "kinetic_weaponry:block/kinetic_retention_module/kinetic_retention_module_unlit_unpowered_charged_four"
     },
-    "facing=north,kinetic_reload_charges=4,powered=true,lit=false": {
+    "facing=north,stored_kinetic_charges_retention_module=4,powered=true,lit=false": {
       "model": "kinetic_weaponry:block/kinetic_retention_module/kinetic_retention_module_unlit_powered_charged_four"
     },
-    "facing=north,kinetic_reload_charges=4,powered=false,lit=true": {
+    "facing=north,stored_kinetic_charges_retention_module=4,powered=false,lit=true": {
       "model": "kinetic_weaponry:block/kinetic_retention_module/kinetic_retention_module_lit_unpowered_charged_four"
     },
-    "facing=north,kinetic_reload_charges=4,powered=true,lit=true": {
+    "facing=north,stored_kinetic_charges_retention_module=4,powered=true,lit=true": {
       "model": "kinetic_weaponry:block/kinetic_retention_module/kinetic_retention_module_lit_powered_charged_four"
     },
-    "facing=east,kinetic_reload_charges=0,powered=false,lit=false": {
+    "facing=east,stored_kinetic_charges_retention_module=0,powered=false,lit=false": {
       "model": "kinetic_weaponry:block/kinetic_retention_module/kinetic_retention_module_unlit_unpowered_charged_zero",
       "y": 90
     },
-    "facing=east,kinetic_reload_charges=0,powered=true,lit=false": {
+    "facing=east,stored_kinetic_charges_retention_module=0,powered=true,lit=false": {
       "model": "kinetic_weaponry:block/kinetic_retention_module/kinetic_retention_module_unlit_powered_charged_zero",
       "y": 90
     },
-    "facing=east,kinetic_reload_charges=0,powered=false,lit=true": {
+    "facing=east,stored_kinetic_charges_retention_module=0,powered=false,lit=true": {
       "model": "kinetic_weaponry:block/kinetic_retention_module/kinetic_retention_module_lit_unpowered_charged_zero",
       "y": 90
     },
-    "facing=east,kinetic_reload_charges=0,powered=true,lit=true": {
+    "facing=east,stored_kinetic_charges_retention_module=0,powered=true,lit=true": {
       "model": "kinetic_weaponry:block/kinetic_retention_module/kinetic_retention_module_lit_powered_charged_zero",
       "y": 90
     },
-    "facing=east,kinetic_reload_charges=1,powered=false,lit=false": {
+    "facing=east,stored_kinetic_charges_retention_module=1,powered=false,lit=false": {
       "model": "kinetic_weaponry:block/kinetic_retention_module/kinetic_retention_module_unlit_unpowered_charged_one",
       "y": 90
     },
-    "facing=east,kinetic_reload_charges=1,powered=true,lit=false": {
+    "facing=east,stored_kinetic_charges_retention_module=1,powered=true,lit=false": {
       "model": "kinetic_weaponry:block/kinetic_retention_module/kinetic_retention_module_unlit_powered_charged_one",
       "y": 90
     },
-    "facing=east,kinetic_reload_charges=1,powered=false,lit=true": {
+    "facing=east,stored_kinetic_charges_retention_module=1,powered=false,lit=true": {
       "model": "kinetic_weaponry:block/kinetic_retention_module/kinetic_retention_module_lit_unpowered_charged_one",
       "y": 90
     },
-    "facing=east,kinetic_reload_charges=1,powered=true,lit=true": {
+    "facing=east,stored_kinetic_charges_retention_module=1,powered=true,lit=true": {
       "model": "kinetic_weaponry:block/kinetic_retention_module/kinetic_retention_module_lit_powered_charged_one",
       "y": 90
     },
-    "facing=east,kinetic_reload_charges=2,powered=false,lit=false": {
+    "facing=east,stored_kinetic_charges_retention_module=2,powered=false,lit=false": {
       "model": "kinetic_weaponry:block/kinetic_retention_module/kinetic_retention_module_unlit_unpowered_charged_two",
       "y": 90
     },
-    "facing=east,kinetic_reload_charges=2,powered=true,lit=false": {
+    "facing=east,stored_kinetic_charges_retention_module=2,powered=true,lit=false": {
       "model": "kinetic_weaponry:block/kinetic_retention_module/kinetic_retention_module_unlit_powered_charged_two",
       "y": 90
     },
-    "facing=east,kinetic_reload_charges=2,powered=false,lit=true": {
+    "facing=east,stored_kinetic_charges_retention_module=2,powered=false,lit=true": {
       "model": "kinetic_weaponry:block/kinetic_retention_module/kinetic_retention_module_lit_unpowered_charged_two",
       "y": 90
     },
-    "facing=east,kinetic_reload_charges=2,powered=true,lit=true": {
+    "facing=east,stored_kinetic_charges_retention_module=2,powered=true,lit=true": {
       "model": "kinetic_weaponry:block/kinetic_retention_module/kinetic_retention_module_lit_powered_charged_two",
       "y": 90
     },
-    "facing=east,kinetic_reload_charges=3,powered=false,lit=false": {
+    "facing=east,stored_kinetic_charges_retention_module=3,powered=false,lit=false": {
       "model": "kinetic_weaponry:block/kinetic_retention_module/kinetic_retention_module_unlit_unpowered_charged_three",
       "y": 90
     },
-    "facing=east,kinetic_reload_charges=3,powered=true,lit=false": {
+    "facing=east,stored_kinetic_charges_retention_module=3,powered=true,lit=false": {
       "model": "kinetic_weaponry:block/kinetic_retention_module/kinetic_retention_module_unlit_powered_charged_three",
       "y": 90
     },
-    "facing=east,kinetic_reload_charges=3,powered=false,lit=true": {
+    "facing=east,stored_kinetic_charges_retention_module=3,powered=false,lit=true": {
       "model": "kinetic_weaponry:block/kinetic_retention_module/kinetic_retention_module_lit_unpowered_charged_three",
       "y": 90
     },
-    "facing=east,kinetic_reload_charges=3,powered=true,lit=true": {
+    "facing=east,stored_kinetic_charges_retention_module=3,powered=true,lit=true": {
       "model": "kinetic_weaponry:block/kinetic_retention_module/kinetic_retention_module_lit_powered_charged_three",
       "y": 90
     },
-    "facing=east,kinetic_reload_charges=4,powered=false,lit=false": {
+    "facing=east,stored_kinetic_charges_retention_module=4,powered=false,lit=false": {
       "model": "kinetic_weaponry:block/kinetic_retention_module/kinetic_retention_module_unlit_unpowered_charged_four",
       "y": 90
     },
-    "facing=east,kinetic_reload_charges=4,powered=true,lit=false": {
+    "facing=east,stored_kinetic_charges_retention_module=4,powered=true,lit=false": {
       "model": "kinetic_weaponry:block/kinetic_retention_module/kinetic_retention_module_unlit_powered_charged_four",
       "y": 90
     },
-    "facing=east,kinetic_reload_charges=4,powered=false,lit=true": {
+    "facing=east,stored_kinetic_charges_retention_module=4,powered=false,lit=true": {
       "model": "kinetic_weaponry:block/kinetic_retention_module/kinetic_retention_module_lit_unpowered_charged_four",
       "y": 90
     },
-    "facing=east,kinetic_reload_charges=4,powered=true,lit=true": {
+    "facing=east,stored_kinetic_charges_retention_module=4,powered=true,lit=true": {
       "model": "kinetic_weaponry:block/kinetic_retention_module/kinetic_retention_module_lit_powered_charged_four",
       "y": 90
     },
-    "facing=south,kinetic_reload_charges=0,powered=false,lit=false": {
+    "facing=south,stored_kinetic_charges_retention_module=0,powered=false,lit=false": {
       "model": "kinetic_weaponry:block/kinetic_retention_module/kinetic_retention_module_unlit_unpowered_charged_zero",
       "y": 180
     },
-    "facing=south,kinetic_reload_charges=0,powered=true,lit=false": {
+    "facing=south,stored_kinetic_charges_retention_module=0,powered=true,lit=false": {
       "model": "kinetic_weaponry:block/kinetic_retention_module/kinetic_retention_module_unlit_powered_charged_zero",
       "y": 180
     },
-    "facing=south,kinetic_reload_charges=0,powered=false,lit=true": {
+    "facing=south,stored_kinetic_charges_retention_module=0,powered=false,lit=true": {
       "model": "kinetic_weaponry:block/kinetic_retention_module/kinetic_retention_module_lit_unpowered_charged_zero",
       "y": 180
     },
-    "facing=south,kinetic_reload_charges=0,powered=true,lit=true": {
+    "facing=south,stored_kinetic_charges_retention_module=0,powered=true,lit=true": {
       "model": "kinetic_weaponry:block/kinetic_retention_module/kinetic_retention_module_lit_powered_charged_zero",
       "y": 180
     },
-    "facing=south,kinetic_reload_charges=1,powered=false,lit=false": {
+    "facing=south,stored_kinetic_charges_retention_module=1,powered=false,lit=false": {
       "model": "kinetic_weaponry:block/kinetic_retention_module/kinetic_retention_module_unlit_unpowered_charged_one",
       "y": 180
     },
-    "facing=south,kinetic_reload_charges=1,powered=true,lit=false": {
+    "facing=south,stored_kinetic_charges_retention_module=1,powered=true,lit=false": {
       "model": "kinetic_weaponry:block/kinetic_retention_module/kinetic_retention_module_unlit_powered_charged_one",
       "y": 180
     },
-    "facing=south,kinetic_reload_charges=1,powered=false,lit=true": {
+    "facing=south,stored_kinetic_charges_retention_module=1,powered=false,lit=true": {
       "model": "kinetic_weaponry:block/kinetic_retention_module/kinetic_retention_module_lit_unpowered_charged_one",
       "y": 180
     },
-    "facing=south,kinetic_reload_charges=1,powered=true,lit=true": {
+    "facing=south,stored_kinetic_charges_retention_module=1,powered=true,lit=true": {
       "model": "kinetic_weaponry:block/kinetic_retention_module/kinetic_retention_module_lit_powered_charged_one",
       "y": 180
     },
-    "facing=south,kinetic_reload_charges=2,powered=false,lit=false": {
+    "facing=south,stored_kinetic_charges_retention_module=2,powered=false,lit=false": {
       "model": "kinetic_weaponry:block/kinetic_retention_module/kinetic_retention_module_unlit_unpowered_charged_two",
       "y": 180
     },
-    "facing=south,kinetic_reload_charges=2,powered=true,lit=false": {
+    "facing=south,stored_kinetic_charges_retention_module=2,powered=true,lit=false": {
       "model": "kinetic_weaponry:block/kinetic_retention_module/kinetic_retention_module_unlit_powered_charged_two",
       "y": 180
     },
-    "facing=south,kinetic_reload_charges=2,powered=false,lit=true": {
+    "facing=south,stored_kinetic_charges_retention_module=2,powered=false,lit=true": {
       "model": "kinetic_weaponry:block/kinetic_retention_module/kinetic_retention_module_lit_unpowered_charged_two",
       "y": 180
     },
-    "facing=south,kinetic_reload_charges=2,powered=true,lit=true": {
+    "facing=south,stored_kinetic_charges_retention_module=2,powered=true,lit=true": {
       "model": "kinetic_weaponry:block/kinetic_retention_module/kinetic_retention_module_lit_powered_charged_two",
       "y": 180
     },
-    "facing=south,kinetic_reload_charges=3,powered=false,lit=false": {
+    "facing=south,stored_kinetic_charges_retention_module=3,powered=false,lit=false": {
       "model": "kinetic_weaponry:block/kinetic_retention_module/kinetic_retention_module_unlit_unpowered_charged_three",
       "y": 180
     },
-    "facing=south,kinetic_reload_charges=3,powered=true,lit=false": {
+    "facing=south,stored_kinetic_charges_retention_module=3,powered=true,lit=false": {
       "model": "kinetic_weaponry:block/kinetic_retention_module/kinetic_retention_module_unlit_powered_charged_three",
       "y": 180
     },
-    "facing=south,kinetic_reload_charges=3,powered=false,lit=true": {
+    "facing=south,stored_kinetic_charges_retention_module=3,powered=false,lit=true": {
       "model": "kinetic_weaponry:block/kinetic_retention_module/kinetic_retention_module_lit_unpowered_charged_three",
       "y": 180
     },
-    "facing=south,kinetic_reload_charges=3,powered=true,lit=true": {
+    "facing=south,stored_kinetic_charges_retention_module=3,powered=true,lit=true": {
       "model": "kinetic_weaponry:block/kinetic_retention_module/kinetic_retention_module_lit_powered_charged_three",
       "y": 180
     },
-    "facing=south,kinetic_reload_charges=4,powered=false,lit=false": {
+    "facing=south,stored_kinetic_charges_retention_module=4,powered=false,lit=false": {
       "model": "kinetic_weaponry:block/kinetic_retention_module/kinetic_retention_module_unlit_unpowered_charged_four",
       "y": 180
     },
-    "facing=south,kinetic_reload_charges=4,powered=true,lit=false": {
+    "facing=south,stored_kinetic_charges_retention_module=4,powered=true,lit=false": {
       "model": "kinetic_weaponry:block/kinetic_retention_module/kinetic_retention_module_unlit_powered_charged_four",
       "y": 180
     },
-    "facing=south,kinetic_reload_charges=4,powered=false,lit=true": {
+    "facing=south,stored_kinetic_charges_retention_module=4,powered=false,lit=true": {
       "model": "kinetic_weaponry:block/kinetic_retention_module/kinetic_retention_module_lit_unpowered_charged_four",
       "y": 180
     },
-    "facing=south,kinetic_reload_charges=4,powered=true,lit=true": {
+    "facing=south,stored_kinetic_charges_retention_module=4,powered=true,lit=true": {
       "model": "kinetic_weaponry:block/kinetic_retention_module/kinetic_retention_module_lit_powered_charged_four",
       "y": 180
     },
-    "facing=west,kinetic_reload_charges=0,powered=false,lit=false": {
+    "facing=west,stored_kinetic_charges_retention_module=0,powered=false,lit=false": {
       "model": "kinetic_weaponry:block/kinetic_retention_module/kinetic_retention_module_unlit_unpowered_charged_zero",
       "y": -90
     },
-    "facing=west,kinetic_reload_charges=0,powered=true,lit=false": {
+    "facing=west,stored_kinetic_charges_retention_module=0,powered=true,lit=false": {
       "model": "kinetic_weaponry:block/kinetic_retention_module/kinetic_retention_module_unlit_powered_charged_zero",
       "y": -90
     },
-    "facing=west,kinetic_reload_charges=0,powered=false,lit=true": {
+    "facing=west,stored_kinetic_charges_retention_module=0,powered=false,lit=true": {
       "model": "kinetic_weaponry:block/kinetic_retention_module/kinetic_retention_module_lit_unpowered_charged_zero",
       "y": -90
     },
-    "facing=west,kinetic_reload_charges=0,powered=true,lit=true": {
+    "facing=west,stored_kinetic_charges_retention_module=0,powered=true,lit=true": {
       "model": "kinetic_weaponry:block/kinetic_retention_module/kinetic_retention_module_lit_powered_charged_zero",
       "y": -90
     },
-    "facing=west,kinetic_reload_charges=1,powered=false,lit=false": {
+    "facing=west,stored_kinetic_charges_retention_module=1,powered=false,lit=false": {
       "model": "kinetic_weaponry:block/kinetic_retention_module/kinetic_retention_module_unlit_unpowered_charged_one",
       "y": -90
     },
-    "facing=west,kinetic_reload_charges=1,powered=true,lit=false": {
+    "facing=west,stored_kinetic_charges_retention_module=1,powered=true,lit=false": {
       "model": "kinetic_weaponry:block/kinetic_retention_module/kinetic_retention_module_unlit_powered_charged_one",
       "y": -90
     },
-    "facing=west,kinetic_reload_charges=1,powered=false,lit=true": {
+    "facing=west,stored_kinetic_charges_retention_module=1,powered=false,lit=true": {
       "model": "kinetic_weaponry:block/kinetic_retention_module/kinetic_retention_module_lit_unpowered_charged_one",
       "y": -90
     },
-    "facing=west,kinetic_reload_charges=1,powered=true,lit=true": {
+    "facing=west,stored_kinetic_charges_retention_module=1,powered=true,lit=true": {
       "model": "kinetic_weaponry:block/kinetic_retention_module/kinetic_retention_module_lit_powered_charged_one",
       "y": -90
     },
-    "facing=west,kinetic_reload_charges=2,powered=false,lit=false": {
+    "facing=west,stored_kinetic_charges_retention_module=2,powered=false,lit=false": {
       "model": "kinetic_weaponry:block/kinetic_retention_module/kinetic_retention_module_unlit_unpowered_charged_two",
       "y": -90
     },
-    "facing=west,kinetic_reload_charges=2,powered=true,lit=false": {
+    "facing=west,stored_kinetic_charges_retention_module=2,powered=true,lit=false": {
       "model": "kinetic_weaponry:block/kinetic_retention_module/kinetic_retention_module_unlit_powered_charged_two",
       "y": -90
     },
-    "facing=west,kinetic_reload_charges=2,powered=false,lit=true": {
+    "facing=west,stored_kinetic_charges_retention_module=2,powered=false,lit=true": {
       "model": "kinetic_weaponry:block/kinetic_retention_module/kinetic_retention_module_lit_unpowered_charged_two",
       "y": -90
     },
-    "facing=west,kinetic_reload_charges=2,powered=true,lit=true": {
+    "facing=west,stored_kinetic_charges_retention_module=2,powered=true,lit=true": {
       "model": "kinetic_weaponry:block/kinetic_retention_module/kinetic_retention_module_lit_powered_charged_two",
       "y": -90
     },
-    "facing=west,kinetic_reload_charges=3,powered=false,lit=false": {
+    "facing=west,stored_kinetic_charges_retention_module=3,powered=false,lit=false": {
       "model": "kinetic_weaponry:block/kinetic_retention_module/kinetic_retention_module_unlit_unpowered_charged_three",
       "y": -90
     },
-    "facing=west,kinetic_reload_charges=3,powered=true,lit=false": {
+    "facing=west,stored_kinetic_charges_retention_module=3,powered=true,lit=false": {
       "model": "kinetic_weaponry:block/kinetic_retention_module/kinetic_retention_module_unlit_powered_charged_three",
       "y": -90
     },
-    "facing=west,kinetic_reload_charges=3,powered=false,lit=true": {
+    "facing=west,stored_kinetic_charges_retention_module=3,powered=false,lit=true": {
       "model": "kinetic_weaponry:block/kinetic_retention_module/kinetic_retention_module_lit_unpowered_charged_three",
       "y": -90
     },
-    "facing=west,kinetic_reload_charges=3,powered=true,lit=true": {
+    "facing=west,stored_kinetic_charges_retention_module=3,powered=true,lit=true": {
       "model": "kinetic_weaponry:block/kinetic_retention_module/kinetic_retention_module_lit_powered_charged_three",
       "y": -90
     },
-    "facing=west,kinetic_reload_charges=4,powered=false,lit=false": {
+    "facing=west,stored_kinetic_charges_retention_module=4,powered=false,lit=false": {
       "model": "kinetic_weaponry:block/kinetic_retention_module/kinetic_retention_module_unlit_unpowered_charged_four",
       "y": -90
     },
-    "facing=west,kinetic_reload_charges=4,powered=true,lit=false": {
+    "facing=west,stored_kinetic_charges_retention_module=4,powered=true,lit=false": {
       "model": "kinetic_weaponry:block/kinetic_retention_module/kinetic_retention_module_unlit_powered_charged_four",
       "y": -90
     },
-    "facing=west,kinetic_reload_charges=4,powered=false,lit=true": {
+    "facing=west,stored_kinetic_charges_retention_module=4,powered=false,lit=true": {
       "model": "kinetic_weaponry:block/kinetic_retention_module/kinetic_retention_module_lit_unpowered_charged_four",
       "y": -90
     },
-    "facing=west,kinetic_reload_charges=4,powered=true,lit=true": {
+    "facing=west,stored_kinetic_charges_retention_module=4,powered=true,lit=true": {
       "model": "kinetic_weaponry:block/kinetic_retention_module/kinetic_retention_module_lit_powered_charged_four",
       "y": -90
     },
-    "facing=up,kinetic_reload_charges=0,powered=false,lit=false": {
+    "facing=up,stored_kinetic_charges_retention_module=0,powered=false,lit=false": {
       "model": "kinetic_weaponry:block/kinetic_retention_module/kinetic_retention_module_unlit_unpowered_charged_zero",
       "x": -90
     },
-    "facing=up,kinetic_reload_charges=0,powered=true,lit=false": {
+    "facing=up,stored_kinetic_charges_retention_module=0,powered=true,lit=false": {
       "model": "kinetic_weaponry:block/kinetic_retention_module/kinetic_retention_module_unlit_powered_charged_zero",
       "x": -90
     },
-    "facing=up,kinetic_reload_charges=0,powered=false,lit=true": {
+    "facing=up,stored_kinetic_charges_retention_module=0,powered=false,lit=true": {
       "model": "kinetic_weaponry:block/kinetic_retention_module/kinetic_retention_module_lit_unpowered_charged_zero",
       "x": -90
     },
-    "facing=up,kinetic_reload_charges=0,powered=true,lit=true": {
+    "facing=up,stored_kinetic_charges_retention_module=0,powered=true,lit=true": {
       "model": "kinetic_weaponry:block/kinetic_retention_module/kinetic_retention_module_lit_powered_charged_zero",
       "x": -90
     },
-    "facing=up,kinetic_reload_charges=1,powered=false,lit=false": {
+    "facing=up,stored_kinetic_charges_retention_module=1,powered=false,lit=false": {
       "model": "kinetic_weaponry:block/kinetic_retention_module/kinetic_retention_module_unlit_unpowered_charged_one",
       "x": -90
     },
-    "facing=up,kinetic_reload_charges=1,powered=true,lit=false": {
+    "facing=up,stored_kinetic_charges_retention_module=1,powered=true,lit=false": {
       "model": "kinetic_weaponry:block/kinetic_retention_module/kinetic_retention_module_unlit_powered_charged_one",
       "x": -90
     },
-    "facing=up,kinetic_reload_charges=1,powered=false,lit=true": {
+    "facing=up,stored_kinetic_charges_retention_module=1,powered=false,lit=true": {
       "model": "kinetic_weaponry:block/kinetic_retention_module/kinetic_retention_module_lit_unpowered_charged_one",
       "x": -90
     },
-    "facing=up,kinetic_reload_charges=1,powered=true,lit=true": {
+    "facing=up,stored_kinetic_charges_retention_module=1,powered=true,lit=true": {
       "model": "kinetic_weaponry:block/kinetic_retention_module/kinetic_retention_module_lit_powered_charged_one",
       "x": -90
     },
-    "facing=up,kinetic_reload_charges=2,powered=false,lit=false": {
+    "facing=up,stored_kinetic_charges_retention_module=2,powered=false,lit=false": {
       "model": "kinetic_weaponry:block/kinetic_retention_module/kinetic_retention_module_unlit_unpowered_charged_two",
       "x": -90
     },
-    "facing=up,kinetic_reload_charges=2,powered=true,lit=false": {
+    "facing=up,stored_kinetic_charges_retention_module=2,powered=true,lit=false": {
       "model": "kinetic_weaponry:block/kinetic_retention_module/kinetic_retention_module_unlit_powered_charged_two",
       "x": -90
     },
-    "facing=up,kinetic_reload_charges=2,powered=false,lit=true": {
+    "facing=up,stored_kinetic_charges_retention_module=2,powered=false,lit=true": {
       "model": "kinetic_weaponry:block/kinetic_retention_module/kinetic_retention_module_lit_unpowered_charged_two",
       "x": -90
     },
-    "facing=up,kinetic_reload_charges=2,powered=true,lit=true": {
+    "facing=up,stored_kinetic_charges_retention_module=2,powered=true,lit=true": {
       "model": "kinetic_weaponry:block/kinetic_retention_module/kinetic_retention_module_lit_powered_charged_two",
       "x": -90
     },
-    "facing=up,kinetic_reload_charges=3,powered=false,lit=false": {
+    "facing=up,stored_kinetic_charges_retention_module=3,powered=false,lit=false": {
       "model": "kinetic_weaponry:block/kinetic_retention_module/kinetic_retention_module_unlit_unpowered_charged_three",
       "x": -90
     },
-    "facing=up,kinetic_reload_charges=3,powered=true,lit=false": {
+    "facing=up,stored_kinetic_charges_retention_module=3,powered=true,lit=false": {
       "model": "kinetic_weaponry:block/kinetic_retention_module/kinetic_retention_module_unlit_powered_charged_three",
       "x": -90
     },
-    "facing=up,kinetic_reload_charges=3,powered=false,lit=true": {
+    "facing=up,stored_kinetic_charges_retention_module=3,powered=false,lit=true": {
       "model": "kinetic_weaponry:block/kinetic_retention_module/kinetic_retention_module_lit_unpowered_charged_three",
       "x": -90
     },
-    "facing=up,kinetic_reload_charges=3,powered=true,lit=true": {
+    "facing=up,stored_kinetic_charges_retention_module=3,powered=true,lit=true": {
       "model": "kinetic_weaponry:block/kinetic_retention_module/kinetic_retention_module_lit_powered_charged_three",
       "x": -90
     },
-    "facing=up,kinetic_reload_charges=4,powered=false,lit=false": {
+    "facing=up,stored_kinetic_charges_retention_module=4,powered=false,lit=false": {
       "model": "kinetic_weaponry:block/kinetic_retention_module/kinetic_retention_module_unlit_unpowered_charged_four",
       "x": -90
     },
-    "facing=up,kinetic_reload_charges=4,powered=true,lit=false": {
+    "facing=up,stored_kinetic_charges_retention_module=4,powered=true,lit=false": {
       "model": "kinetic_weaponry:block/kinetic_retention_module/kinetic_retention_module_unlit_powered_charged_four",
       "x": -90
     },
-    "facing=up,kinetic_reload_charges=4,powered=false,lit=true": {
+    "facing=up,stored_kinetic_charges_retention_module=4,powered=false,lit=true": {
       "model": "kinetic_weaponry:block/kinetic_retention_module/kinetic_retention_module_lit_unpowered_charged_four",
       "x": -90
     },
-    "facing=up,kinetic_reload_charges=4,powered=true,lit=true": {
+    "facing=up,stored_kinetic_charges_retention_module=4,powered=true,lit=true": {
       "model": "kinetic_weaponry:block/kinetic_retention_module/kinetic_retention_module_lit_powered_charged_four",
       "x": -90
     },
-    "facing=down,kinetic_reload_charges=0,powered=false,lit=false": {
+    "facing=down,stored_kinetic_charges_retention_module=0,powered=false,lit=false": {
       "model": "kinetic_weaponry:block/kinetic_retention_module/kinetic_retention_module_unlit_unpowered_charged_zero",
       "x": 90
     },
-    "facing=down,kinetic_reload_charges=0,powered=true,lit=false": {
+    "facing=down,stored_kinetic_charges_retention_module=0,powered=true,lit=false": {
       "model": "kinetic_weaponry:block/kinetic_retention_module/kinetic_retention_module_unlit_powered_charged_zero",
       "x": 90
     },
-    "facing=down,kinetic_reload_charges=0,powered=false,lit=true": {
+    "facing=down,stored_kinetic_charges_retention_module=0,powered=false,lit=true": {
       "model": "kinetic_weaponry:block/kinetic_retention_module/kinetic_retention_module_lit_unpowered_charged_zero",
       "x": 90
     },
-    "facing=down,kinetic_reload_charges=0,powered=true,lit=true": {
+    "facing=down,stored_kinetic_charges_retention_module=0,powered=true,lit=true": {
       "model": "kinetic_weaponry:block/kinetic_retention_module/kinetic_retention_module_lit_powered_charged_zero",
       "x": 90
     },
-    "facing=down,kinetic_reload_charges=1,powered=false,lit=false": {
+    "facing=down,stored_kinetic_charges_retention_module=1,powered=false,lit=false": {
       "model": "kinetic_weaponry:block/kinetic_retention_module/kinetic_retention_module_unlit_unpowered_charged_one",
       "x": 90
     },
-    "facing=down,kinetic_reload_charges=1,powered=true,lit=false": {
+    "facing=down,stored_kinetic_charges_retention_module=1,powered=true,lit=false": {
       "model": "kinetic_weaponry:block/kinetic_retention_module/kinetic_retention_module_unlit_powered_charged_one",
       "x": 90
     },
-    "facing=down,kinetic_reload_charges=1,powered=false,lit=true": {
+    "facing=down,stored_kinetic_charges_retention_module=1,powered=false,lit=true": {
       "model": "kinetic_weaponry:block/kinetic_retention_module/kinetic_retention_module_lit_unpowered_charged_one",
       "x": 90
     },
-    "facing=down,kinetic_reload_charges=1,powered=true,lit=true": {
+    "facing=down,stored_kinetic_charges_retention_module=1,powered=true,lit=true": {
       "model": "kinetic_weaponry:block/kinetic_retention_module/kinetic_retention_module_lit_powered_charged_one",
       "x": 90
     },
-    "facing=down,kinetic_reload_charges=2,powered=false,lit=false": {
+    "facing=down,stored_kinetic_charges_retention_module=2,powered=false,lit=false": {
       "model": "kinetic_weaponry:block/kinetic_retention_module/kinetic_retention_module_unlit_unpowered_charged_two",
       "x": 90
     },
-    "facing=down,kinetic_reload_charges=2,powered=true,lit=false": {
+    "facing=down,stored_kinetic_charges_retention_module=2,powered=true,lit=false": {
       "model": "kinetic_weaponry:block/kinetic_retention_module/kinetic_retention_module_unlit_powered_charged_two",
       "x": 90
     },
-    "facing=down,kinetic_reload_charges=2,powered=false,lit=true": {
+    "facing=down,stored_kinetic_charges_retention_module=2,powered=false,lit=true": {
       "model": "kinetic_weaponry:block/kinetic_retention_module/kinetic_retention_module_lit_unpowered_charged_two",
       "x": 90
     },
-    "facing=down,kinetic_reload_charges=2,powered=true,lit=true": {
+    "facing=down,stored_kinetic_charges_retention_module=2,powered=true,lit=true": {
       "model": "kinetic_weaponry:block/kinetic_retention_module/kinetic_retention_module_lit_powered_charged_two",
       "x": 90
     },
-    "facing=down,kinetic_reload_charges=3,powered=false,lit=false": {
+    "facing=down,stored_kinetic_charges_retention_module=3,powered=false,lit=false": {
       "model": "kinetic_weaponry:block/kinetic_retention_module/kinetic_retention_module_unlit_unpowered_charged_three",
       "x": 90
     },
-    "facing=down,kinetic_reload_charges=3,powered=true,lit=false": {
+    "facing=down,stored_kinetic_charges_retention_module=3,powered=true,lit=false": {
       "model": "kinetic_weaponry:block/kinetic_retention_module/kinetic_retention_module_unlit_powered_charged_three",
       "x": 90
     },
-    "facing=down,kinetic_reload_charges=3,powered=false,lit=true": {
+    "facing=down,stored_kinetic_charges_retention_module=3,powered=false,lit=true": {
       "model": "kinetic_weaponry:block/kinetic_retention_module/kinetic_retention_module_lit_unpowered_charged_three",
       "x": 90
     },
-    "facing=down,kinetic_reload_charges=3,powered=true,lit=true": {
+    "facing=down,stored_kinetic_charges_retention_module=3,powered=true,lit=true": {
       "model": "kinetic_weaponry:block/kinetic_retention_module/kinetic_retention_module_lit_powered_charged_three",
       "x": 90
     },
-    "facing=down,kinetic_reload_charges=4,powered=false,lit=false": {
+    "facing=down,stored_kinetic_charges_retention_module=4,powered=false,lit=false": {
       "model": "kinetic_weaponry:block/kinetic_retention_module/kinetic_retention_module_unlit_unpowered_charged_four",
       "x": 90
     },
-    "facing=down,kinetic_reload_charges=4,powered=true,lit=false": {
+    "facing=down,stored_kinetic_charges_retention_module=4,powered=true,lit=false": {
       "model": "kinetic_weaponry:block/kinetic_retention_module/kinetic_retention_module_unlit_powered_charged_four",
       "x": 90
     },
-    "facing=down,kinetic_reload_charges=4,powered=false,lit=true": {
+    "facing=down,stored_kinetic_charges_retention_module=4,powered=false,lit=true": {
       "model": "kinetic_weaponry:block/kinetic_retention_module/kinetic_retention_module_lit_unpowered_charged_four",
       "x": 90
     },
-    "facing=down,kinetic_reload_charges=4,powered=true,lit=true": {
+    "facing=down,stored_kinetic_charges_retention_module=4,powered=true,lit=true": {
       "model": "kinetic_weaponry:block/kinetic_retention_module/kinetic_retention_module_lit_powered_charged_four",
       "x": 90
     }
