@@ -1,8 +1,9 @@
 package com.myriantics.kinetic_weaponry.block.customblocks;
 
-import com.myriantics.kinetic_weaponry.Constants;
+import com.myriantics.kinetic_weaponry.KWConstants;
 import com.myriantics.kinetic_weaponry.misc.KWBlockStateProperties;
 import com.myriantics.kinetic_weaponry.misc.KWDataComponents;
+import com.myriantics.kinetic_weaponry.misc.data_components.KineticChargeDataComponent;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -60,7 +61,7 @@ public class KineticChargingBusBlock extends AbstractKineticImpactActionBlock {
         // calculate new charge
         int newCharge = Math.clamp(
                 initialCharge + inboundChargeModifier,
-                0, Constants.KINETIC_CHARGING_BUS_MAX_CHARGES);
+                0, KWConstants.KINETIC_CHARGING_BUS_MAX_CHARGES);
 
         // determine new update state
         BlockState appendedState = initialState
@@ -76,7 +77,7 @@ public class KineticChargingBusBlock extends AbstractKineticImpactActionBlock {
 
         // scale charge gained based on impact damage
         if (impactDamage > 0) {
-            inboundChargeModifier = (int) impactDamage / Constants.KINETIC_CHARGING_BUS_IMPACT_CHARGE_DIVISOR;
+            inboundChargeModifier = (int) impactDamage / KWConstants.KINETIC_CHARGING_BUS_IMPACT_CHARGE_DIVISOR;
         }
 
         // commit charge update
@@ -91,7 +92,7 @@ public class KineticChargingBusBlock extends AbstractKineticImpactActionBlock {
         BlockState state = serverLevel.getBlockState(pos);
 
         // if its not full, then the impact was valid
-        return state.getValue(STORED_KINETIC_CHARGES) != Constants.KINETIC_CHARGING_BUS_MAX_CHARGES;
+        return state.getValue(STORED_KINETIC_CHARGES) != KWConstants.KINETIC_CHARGING_BUS_MAX_CHARGES;
     }
 
     @Override
@@ -101,7 +102,7 @@ public class KineticChargingBusBlock extends AbstractKineticImpactActionBlock {
         if (level.isClientSide()) {
             if (Screen.hasControlDown()) {
                 PatchedDataComponentMap componentMap = (PatchedDataComponentMap) pickedStack.getComponents();
-                KWDataComponents.setKineticCharge(componentMap, pickedStack, state.getValue(STORED_KINETIC_CHARGES));
+                KineticChargeDataComponent.setCharge(componentMap, pickedStack, state.getValue(STORED_KINETIC_CHARGES));
             }
         }
 
@@ -143,6 +144,6 @@ public class KineticChargingBusBlock extends AbstractKineticImpactActionBlock {
     }
 
     public int getOutboundCharge(BlockState state) {
-        return Math.min(state.getValue(STORED_KINETIC_CHARGES), Constants.KINETIC_RETENTION_MODULE_MAX_CHARGES);
+        return Math.min(state.getValue(STORED_KINETIC_CHARGES), KWConstants.KINETIC_RETENTION_MODULE_MAX_CHARGES);
     }
 }

@@ -1,9 +1,9 @@
 package com.myriantics.kinetic_weaponry.block.customblocks;
 
-import com.myriantics.kinetic_weaponry.Constants;
+import com.myriantics.kinetic_weaponry.KWConstants;
 import com.myriantics.kinetic_weaponry.misc.KWBlockStateProperties;
 import com.myriantics.kinetic_weaponry.item.blockitems.KineticRetentionModuleBlockItem;
-import com.myriantics.kinetic_weaponry.misc.KWDataComponents;
+import com.myriantics.kinetic_weaponry.misc.data_components.KineticChargeDataComponent;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -73,7 +73,7 @@ public class KineticRetentionModuleBlock extends AbstractKineticImpactActionBloc
         int initialCharge = initialState.getValue(STORED_KINETIC_RELOAD_CHARGES);
 
         // calculate new charge
-        int newCharge = Math.clamp(initialCharge + inboundChargeModifier, 0, Constants.KINETIC_RETENTION_MODULE_MAX_CHARGES);
+        int newCharge = Math.clamp(initialCharge + inboundChargeModifier, 0, KWConstants.KINETIC_RETENTION_MODULE_MAX_CHARGES);
 
         // validate arcade mode
         if (initialState.getValue(ARCADE_MODE)) {
@@ -112,7 +112,7 @@ public class KineticRetentionModuleBlock extends AbstractKineticImpactActionBloc
 
         // scale charge gained based on impact damage
         if (impactDamage > 0) {
-            inboundChargeModifier = (int) impactDamage / Constants.KINETIC_RETENTION_MODULE_IMPACT_CHARGE_DIVISOR;
+            inboundChargeModifier = (int) impactDamage / KWConstants.KINETIC_RETENTION_MODULE_IMPACT_CHARGE_DIVISOR;
         }
 
         // commit charge update
@@ -127,7 +127,7 @@ public class KineticRetentionModuleBlock extends AbstractKineticImpactActionBloc
         BlockState state = serverLevel.getBlockState(pos);
         return !state.getValue(ARCADE_MODE)
                 && !state.getValue(POWERED)
-                && state.getValue(STORED_KINETIC_RELOAD_CHARGES) != Constants.KINETIC_RETENTION_MODULE_MAX_CHARGES;
+                && state.getValue(STORED_KINETIC_RELOAD_CHARGES) != KWConstants.KINETIC_RETENTION_MODULE_MAX_CHARGES;
     }
 
     @Override
@@ -136,7 +136,7 @@ public class KineticRetentionModuleBlock extends AbstractKineticImpactActionBloc
         for (ItemStack stack : items) {
             if (stack.getItem() instanceof KineticRetentionModuleBlockItem) {
                 PatchedDataComponentMap componentMap = (PatchedDataComponentMap) stack.getComponents();
-                KWDataComponents.setKineticCharge(componentMap, stack, state.getValue(STORED_KINETIC_RELOAD_CHARGES));
+                KineticChargeDataComponent.setCharge(componentMap, stack, state.getValue(STORED_KINETIC_RELOAD_CHARGES));
             }
         }
         return items;
@@ -149,7 +149,7 @@ public class KineticRetentionModuleBlock extends AbstractKineticImpactActionBloc
         if (level.isClientSide()) {
             if (Screen.hasControlDown()) {
                 PatchedDataComponentMap componentMap = (PatchedDataComponentMap) pickedStack.getComponents();
-                KWDataComponents.setKineticCharge(componentMap, pickedStack, state.getValue(STORED_KINETIC_RELOAD_CHARGES));
+                KineticChargeDataComponent.setCharge(componentMap, pickedStack, state.getValue(STORED_KINETIC_RELOAD_CHARGES));
             }
         }
         return pickedStack;

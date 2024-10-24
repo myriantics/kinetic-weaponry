@@ -1,6 +1,7 @@
 package com.myriantics.kinetic_weaponry;
 
 import com.myriantics.kinetic_weaponry.item.KWItems;
+import com.myriantics.kinetic_weaponry.item.equipment.KineticShortbowItem;
 import com.myriantics.kinetic_weaponry.misc.KWDataComponents;
 import com.myriantics.kinetic_weaponry.block.KWBlocks;
 import com.myriantics.kinetic_weaponry.entity.KWEntities;
@@ -74,6 +75,7 @@ public class KWCommon
         // Do not add this line if there are no @SubscribeEvent-annotated functions in this class, like onServerStarting() below.
         NeoForge.EVENT_BUS.register(this);
         NeoForge.EVENT_BUS.addListener(KWEvents::onAttackBlock);
+        NeoForge.EVENT_BUS.addListener(KineticShortbowItem::onPlayerLeftClick);
 
         // Register the item to a creative tab
         modEventBus.addListener(this::addCreative);

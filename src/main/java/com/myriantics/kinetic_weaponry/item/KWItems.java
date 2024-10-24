@@ -2,6 +2,7 @@ package com.myriantics.kinetic_weaponry.item;
 
 import com.myriantics.kinetic_weaponry.KWCommon;
 import com.myriantics.kinetic_weaponry.item.blockitems.KineticChargingBusBlockItem;
+import com.myriantics.kinetic_weaponry.item.equipment.KineticShortbowItem;
 import com.myriantics.kinetic_weaponry.misc.KWDataComponents;
 import com.myriantics.kinetic_weaponry.misc.data_components.ArcadeModeDataComponent;
 import com.myriantics.kinetic_weaponry.misc.data_components.KineticChargeDataComponent;
@@ -40,6 +41,14 @@ public class KWItems {
                     () -> new KineticChargingBusBlockItem(KWBlocks.KINETIC_CHARGING_BUS.get(), new Item.Properties()
                             .component(KWDataComponents.KINETIC_CHARGE, new KineticChargeDataComponent(0))
                             .rarity(Rarity.EPIC)
+                    )
+            );
+
+    public static final DeferredItem<KineticShortbowItem> KINETIC_SHORTBOW =
+            ITEMS.register("kinetic_shortbow",
+                    () -> new KineticShortbowItem(new Item.Properties()
+                            .component(KWDataComponents.KINETIC_CHARGE, new KineticChargeDataComponent(0))
+                            .component(KWDataComponents.ARCADE_MODE, new ArcadeModeDataComponent(false))
                     )
             );
 

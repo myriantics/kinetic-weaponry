@@ -1,6 +1,6 @@
 package com.myriantics.kinetic_weaponry.item.blockitems;
 
-import com.myriantics.kinetic_weaponry.Constants;
+import com.myriantics.kinetic_weaponry.KWConstants;
 import com.myriantics.kinetic_weaponry.entity.KineticRetentionModuleEntity;
 import com.myriantics.kinetic_weaponry.entity.KWEntities;
 import com.myriantics.kinetic_weaponry.item.KWItems;
@@ -113,6 +113,6 @@ public class KineticRetentionModuleBlockItem extends BlockItem implements Equipa
 
     @Override
     public int getMaxKineticCharge() {
-        return Constants.KINETIC_RETENTION_MODULE_MAX_CHARGES;
+        return KWConstants.KINETIC_RETENTION_MODULE_MAX_CHARGES;
     }
 }

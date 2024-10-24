@@ -36,21 +36,4 @@ public class KWDataComponents {
         DATA_COMPONENTS.register(eventBus);
         KWCommon.LOGGER.info("Registering Kinetic Weaponry's Data Components!");
     }
-
-    public static ItemStack setArcadeMode(PatchedDataComponentMap componentMap, ItemStack stack, boolean arcadeMode) {
-        componentMap.set(ARCADE_MODE.get(), new ArcadeModeDataComponent(arcadeMode));
-        return stack;
-    }
-
-    public static ItemStack setKineticCharge(PatchedDataComponentMap componentMap, ItemStack stack, int charge) {
-        Optional<ArcadeModeDataComponent> arcadeMode = Optional.ofNullable(componentMap.get(ARCADE_MODE.get()));
-
-        // bump charge to max if arcade mode is on
-        if (arcadeMode.isPresent() && arcadeMode.get().enabled() && stack.getItem() instanceof KineticChargeStoringItem chargedItem) {
-            charge = chargedItem.getMaxKineticCharge();
-        }
-
-        componentMap.set(KINETIC_CHARGE.get(), new KineticChargeDataComponent(charge));
-        return stack;
-    }
 }
