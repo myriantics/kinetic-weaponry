@@ -5,8 +5,9 @@ import com.myriantics.kinetic_weaponry.item.equipment.KineticShortbowItem;
 import com.myriantics.kinetic_weaponry.misc.KWDataComponents;
 import com.myriantics.kinetic_weaponry.block.KWBlocks;
 import com.myriantics.kinetic_weaponry.entity.KWEntities;
-import com.myriantics.kinetic_weaponry.events.KWEvents;
+import com.myriantics.kinetic_weaponry.events.KWEventHandler;
 import com.myriantics.kinetic_weaponry.misc.KineticRetentionModuleDispenserBehavior;
+import com.myriantics.kinetic_weaponry.networking.KWPackets;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.block.DispenserBlock;
 import org.slf4j.Logger;
@@ -63,9 +64,8 @@ public class KWCommon
         KWItems.registerKineticWeaponryItems(modEventBus);
         KWEntities.registerKineticWeaponryEntities(modEventBus);
 
-
         // Register the commonSetup method for modloading
-        modEventBus.addListener(this::commonSetup);
+        modEventBus.addListener(this::commonSetup);;
 
         // Register the Deferred Register to the mod event bus so tabs get registered
         CREATIVE_MODE_TABS.register(modEventBus);
@@ -74,8 +74,9 @@ public class KWCommon
         // Note that this is necessary if and only if we want *this* class (ExampleMod) to respond directly to events.
         // Do not add this line if there are no @SubscribeEvent-annotated functions in this class, like onServerStarting() below.
         NeoForge.EVENT_BUS.register(this);
-        NeoForge.EVENT_BUS.addListener(KWEvents::onAttackBlock);
+        NeoForge.EVENT_BUS.addListener(KWEventHandler::onAttackBlock);
         NeoForge.EVENT_BUS.addListener(KineticShortbowItem::onPlayerLeftClick);
+        modEventBus.addListener(KWPackets::registerPayloads);
 
         // Register the item to a creative tab
         modEventBus.addListener(this::addCreative);

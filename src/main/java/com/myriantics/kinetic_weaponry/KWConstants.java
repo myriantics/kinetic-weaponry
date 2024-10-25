@@ -8,7 +8,7 @@ public class KWConstants {
     public static final int KINETIC_CHARGING_BUS_IMPACT_CHARGE_DIVISOR = 8;
 
     public static final int KINETIC_SHORTBOW_MAX_CHARGES = 128;
-    public static final float KINETIC_SHORTBOW_OUTPUT_VELOCITY = 12.0f;
+    public static final float KINETIC_SHORTBOW_OUTPUT_VELOCITY = 6.0f;
 
     public static final int KINETIC_HOIST_MAX_CHARGES = 256;
 

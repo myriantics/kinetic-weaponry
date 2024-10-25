@@ -11,7 +11,7 @@ import net.minecraft.world.level.Level;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.neoforge.event.entity.player.PlayerInteractEvent;
 
-public class KWEvents {
+public class KWEventHandler {
     @SubscribeEvent
     public static void onAttackBlock(PlayerInteractEvent.LeftClickBlock event) {
         Level level = event.getLevel();
