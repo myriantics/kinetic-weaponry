@@ -5,6 +5,7 @@ import net.myriantics.kinetic_weaponry.item.blockitems.KineticChargingBusBlockIt
 import net.myriantics.kinetic_weaponry.item.equipment.KineticShortbowItem;
 import net.myriantics.kinetic_weaponry.misc.KWDataComponents;
 import net.myriantics.kinetic_weaponry.misc.data_components.ArcadeModeDataComponent;
+import net.myriantics.kinetic_weaponry.misc.data_components.AttackUseTrackerDataComponent;
 import net.myriantics.kinetic_weaponry.misc.data_components.KineticChargeDataComponent;
 import net.myriantics.kinetic_weaponry.block.KWBlocks;
 import net.myriantics.kinetic_weaponry.item.blockitems.KineticRetentionModuleBlockItem;
@@ -49,6 +50,7 @@ public class KWItems {
                     () -> new KineticShortbowItem(new Item.Properties()
                             .component(KWDataComponents.KINETIC_CHARGE, new KineticChargeDataComponent(0))
                             .component(KWDataComponents.ARCADE_MODE, new ArcadeModeDataComponent(false))
+                            .component(KWDataComponents.ATTACK_USE_TRACKER, new AttackUseTrackerDataComponent(false))
                     )
             );
 

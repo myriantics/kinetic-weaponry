@@ -30,7 +30,8 @@ public record ArcadeModeDataComponent(boolean enabled) {
 
     }
 
-    public static ItemStack setArcadeMode(PatchedDataComponentMap componentMap, ItemStack stack, boolean arcadeMode) {
+    public static ItemStack setArcadeMode(ItemStack stack, boolean arcadeMode) {
+        PatchedDataComponentMap componentMap = (PatchedDataComponentMap) stack.getComponents();
         componentMap.set(KWDataComponents.ARCADE_MODE.get(), new ArcadeModeDataComponent(arcadeMode));
         return stack;
     }

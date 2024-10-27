@@ -2,6 +2,8 @@ package net.myriantics.kinetic_weaponry.misc;
 
 import net.myriantics.kinetic_weaponry.KWCommon;
 import net.myriantics.kinetic_weaponry.misc.data_components.ArcadeModeDataComponent;
+import net.myriantics.kinetic_weaponry.misc.data_components.AttackUseStartTimeDataComponent;
+import net.myriantics.kinetic_weaponry.misc.data_components.AttackUseTrackerDataComponent;
 import net.myriantics.kinetic_weaponry.misc.data_components.KineticChargeDataComponent;
 import net.minecraft.core.component.DataComponentType;
 import net.minecraft.core.registries.Registries;
@@ -25,6 +27,18 @@ public class KWDataComponents {
             booleanBuilder -> booleanBuilder
                     .persistent(ArcadeModeDataComponent.CODEC)
                     .networkSynchronized(ArcadeModeDataComponent.STREAM_CODEC)
+    );
+
+    public static final DeferredHolder<DataComponentType<?>, DataComponentType<AttackUseTrackerDataComponent>> ATTACK_USE_TRACKER = DATA_COMPONENTS.registerComponentType(
+            "attack_use_tracker",
+            booleanBuilder -> booleanBuilder
+                    .networkSynchronized(AttackUseTrackerDataComponent.STREAM_CODEC)
+    );
+
+    public static final DeferredHolder<DataComponentType<?>, DataComponentType<AttackUseStartTimeDataComponent>> ATTACK_USE_START_TIME = DATA_COMPONENTS.registerComponentType(
+            "attack_use_start_time",
+            integerBuilder -> integerBuilder
+                    .networkSynchronized(AttackUseStartTimeDataComponent.STREAM_CODEC)
     );
 
     public static void registerKineticWeaponryDataComponents(IEventBus eventBus) {

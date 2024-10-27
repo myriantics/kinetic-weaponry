@@ -1,7 +1,7 @@
 package net.myriantics.kinetic_weaponry.networking;
 
 import net.myriantics.kinetic_weaponry.KWCommon;
-import net.myriantics.kinetic_weaponry.networking.packets.PlayerLeftClickWhileUsingPacket;
+import net.myriantics.kinetic_weaponry.networking.packets.PlayerAttackKeyUpdateWhileUsingPacket;
 import net.minecraft.resources.ResourceLocation;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.neoforge.network.event.RegisterPayloadHandlersEvent;
@@ -15,9 +15,9 @@ public class KWPackets {
         PayloadRegistrar registrar = event.registrar("1");
 
         registrar.playToServer(
-                PlayerLeftClickWhileUsingPacket.TYPE,
-                PlayerLeftClickWhileUsingPacket.STREAM_CODEC,
-                PlayerLeftClickWhileUsingPacket::handle
+                PlayerAttackKeyUpdateWhileUsingPacket.TYPE,
+                PlayerAttackKeyUpdateWhileUsingPacket.STREAM_CODEC,
+                PlayerAttackKeyUpdateWhileUsingPacket::handle
         );
     }
 }

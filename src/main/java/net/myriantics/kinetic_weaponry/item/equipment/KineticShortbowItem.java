@@ -1,11 +1,14 @@
 package net.myriantics.kinetic_weaponry.item.equipment;
 
+import net.minecraft.server.level.ServerPlayer;
 import net.myriantics.kinetic_weaponry.KWCommon;
 import net.myriantics.kinetic_weaponry.KWConstants;
-import net.myriantics.kinetic_weaponry.events.PlayerLeftClickWhileUsingEvent;
+import net.myriantics.kinetic_weaponry.events.PlayerAttackKeyUpdateWhileUsingEvent;
 import net.myriantics.kinetic_weaponry.item.KWItems;
 import net.myriantics.kinetic_weaponry.item.KineticChargeStoringItem;
 import net.myriantics.kinetic_weaponry.misc.data_components.ArcadeModeDataComponent;
+import net.myriantics.kinetic_weaponry.misc.data_components.AttackUseStartTimeDataComponent;
+import net.myriantics.kinetic_weaponry.misc.data_components.AttackUseTrackerDataComponent;
 import net.myriantics.kinetic_weaponry.misc.data_components.KineticChargeDataComponent;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.InteractionHand;
@@ -25,7 +28,7 @@ import java.util.function.Predicate;
 
 public class KineticShortbowItem extends ProjectileWeaponItem implements KineticChargeStoringItem {
 
-    public static final int STARTUP_TIME_TICKS = 5;
+    public static final int STARTUP_TIME_TICKS = 6;
     public static final int DEFAULT_RANGE = 20;
 
     public KineticShortbowItem(Properties properties) {
@@ -60,34 +63,33 @@ public class KineticShortbowItem extends ProjectileWeaponItem implements Kinetic
     }
 
     @SubscribeEvent
-    public static void onPlayerLeftClick(PlayerLeftClickWhileUsingEvent event) {
-        if (event.getEntity() instanceof Player player) {
+    public static void onPlayerLeftClickUpdate(PlayerAttackKeyUpdateWhileUsingEvent event) {
+        if (event.getEntity() instanceof ServerPlayer player && player.getUseItem().getItem() instanceof KineticShortbowItem) {
+            ItemStack usedStack = player.getUseItem();
+            boolean wasPressed = event.wasPressed();
+            AttackUseTrackerDataComponent.setAttackUse(usedStack, wasPressed);
+            AttackUseStartTimeDataComponent.setStartTimeTicks(usedStack, wasPressed ? player.getTicksUsingItem() : -1);
+            KWCommon.LOGGER.info("Was Pressed?" + (wasPressed ? "pressed" : "depressed"));
             KWCommon.LOGGER.info("Left Click Event!" + (player.level().isClientSide ? "client" : "server"));
-            KineticShortbowItem KINETIC_SHORTBOW = KWItems.KINETIC_SHORTBOW.get();
-            ItemStack shortbowStack = player.getItemInHand(event.getHand);
-            ItemStack projectile = player.getProjectile(shortbowStack);
-            Item shortbow = shortbowStack.getItem();
-            Level level = player.level();
-
-            int kineticCharge = KineticChargeDataComponent.getCharge(shortbowStack);
-            boolean arcadeMode = ArcadeModeDataComponent.getArcadeMode(shortbowStack);
-
-            int usageTime = shortbow.getUseDuration(shortbowStack, player)
-                    - player.getUseItemRemainingTicks();
-
-            if (usageTime > STARTUP_TIME_TICKS) {
-                List<ItemStack> projectiles = draw(shortbowStack, projectile, player);
-                if (level instanceof ServerLevel serverLevel && !projectiles.isEmpty()) {
-                    KINETIC_SHORTBOW.shoot(serverLevel, player, event.getHand, shortbowStack, projectiles, KWConstants.KINETIC_SHORTBOW_OUTPUT_VELOCITY, 0.2f, true, null);
-                }
+            // this is so that it doesnt fire an initial shot when you're trying to do a burst fire
+            if (!wasPressed) {
+                shoot(player);
             }
         }
     }
 
     @Override
     public void inventoryTick(ItemStack stack, Level level, Entity entity, int slotId, boolean isSelected) {
-        if (entity instanceof Player player && player.getTicksUsingItem() > 0) {
-            KWCommon.LOGGER.info("use ticks: " + player.getTicksUsingItem());
+        if (entity instanceof ServerPlayer player) {
+            int usageTicks = player.getTicksUsingItem();
+            int attackUseStartTicks = AttackUseStartTimeDataComponent.getStartTimeTicks(stack);
+            if (isAttackUseActive(stack)
+                    // shot speed rate limiter
+                    && usageTicks % 4 != 0
+                    // so you can do individual shots if you want
+                    && usageTicks - attackUseStartTicks > STARTUP_TIME_TICKS) {
+                shoot(player);
+            }
         }
     }
 
@@ -110,5 +112,31 @@ public class KineticShortbowItem extends ProjectileWeaponItem implements Kinetic
     @Override
     public int getMaxKineticCharge() {
         return KWConstants.KINETIC_SHORTBOW_MAX_CHARGES;
+    }
+
+    private static boolean isAttackUseActive(ItemStack stack) {
+        return AttackUseTrackerDataComponent.getAttackUse(stack);
+    }
+
+    private static void shoot(ServerPlayer player) {
+        KineticShortbowItem KINETIC_SHORTBOW = KWItems.KINETIC_SHORTBOW.get();
+        InteractionHand hand = player.getUsedItemHand();
+        ServerLevel level = (ServerLevel) player.level();
+        ItemStack shortbowStack = player.getItemInHand(hand);
+        ItemStack projectile = player.getProjectile(shortbowStack);
+        Item shortbow = shortbowStack.getItem();
+
+        int kineticCharge = KineticChargeDataComponent.getCharge(shortbowStack);
+        boolean arcadeMode = ArcadeModeDataComponent.getArcadeMode(shortbowStack);
+
+        int usageTime = shortbow.getUseDuration(shortbowStack, player)
+                - player.getUseItemRemainingTicks();
+
+        if (usageTime > STARTUP_TIME_TICKS) {
+            List<ItemStack> projectiles = draw(shortbowStack, projectile, player);
+            if (!projectiles.isEmpty()) {
+                KINETIC_SHORTBOW.shoot(level, player, hand, shortbowStack, projectiles, KWConstants.KINETIC_SHORTBOW_OUTPUT_VELOCITY, 1.0f, true, null);
+            }
+        }
     }
 }
