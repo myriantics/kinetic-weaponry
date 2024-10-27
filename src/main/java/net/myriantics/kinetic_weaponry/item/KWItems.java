@@ -50,6 +50,7 @@ public class KWItems {
                             .component(KWDataComponents.KINETIC_CHARGE, new KineticChargeDataComponent(0))
                             .component(KWDataComponents.ARCADE_MODE, new ArcadeModeDataComponent(false))
                             .component(KWDataComponents.ATTACK_USE_TRACKER, new AttackUseTrackerDataComponent(false))
+                            .rarity(Rarity.EPIC)
                     )
             );
 

@@ -2,7 +2,8 @@
   "itemGroup.examplemod": "Example Mod Tab",
   "block.kinetic_weaponry.kinetic_detonator": "Kinetic Detonator",
   "block.kinetic_weaponry.kinetic_retention_module": "Kinetic Retention Module",
-  "block.kinetic_weaponry.kinetic_charging_bus": "Kinetic Retention Module",
+  "block.kinetic_weaponry.kinetic_charging_bus": "Kinetic Charging Bus",
+  "item.kinetic_weaponry.kinetic_shortbow": "Kinetic Shortbow",
   "tooltip.kinetic_weaponry.kinetic_charge": "Kinetic Charge: ",
   "tooltip.kinetic_weaponry.arcade_mode": "Arcade Mode Enabled"
 }
