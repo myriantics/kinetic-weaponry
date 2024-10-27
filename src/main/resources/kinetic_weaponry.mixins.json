@@ -4,14 +4,14 @@
   "package": "com.myriantics.kinetic_weaponry.mixin",
   "compatibilityLevel": "JAVA_21",
   "mixins": [
-    "FallingBlockEntityMixin",
-    "PistonBaseBlockMixin",
-    "PistonStructureResolverMixin"
+    "net.myriantics.kinetic_weaponry.mixin.FallingBlockEntityMixin",
+    "net.myriantics.kinetic_weaponry.mixin.PistonBaseBlockMixin",
+    "net.myriantics.kinetic_weaponry.mixin.PistonStructureResolverMixin"
   ],
   "injectors": {
     "defaultRequire": 1
   },
   "client": [
-    "MinecraftHandleKeybindsMixin"
+    "net.myriantics.kinetic_weaponry.mixin.MinecraftHandleKeybindsMixin"
   ]
 }
