@@ -1,5 +1,9 @@
 package net.myriantics.kinetic_weaponry.item.blockitems;
 
+import net.minecraft.core.Holder;
+import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.sounds.SoundEvent;
+import net.myriantics.kinetic_weaponry.KWCommon;
 import net.myriantics.kinetic_weaponry.KWConstants;
 import net.myriantics.kinetic_weaponry.entity.KineticRetentionModuleEntity;
 import net.myriantics.kinetic_weaponry.entity.KWEntities;
@@ -36,12 +40,6 @@ public class KineticRetentionModuleBlockItem extends BlockItem implements Equipa
         super(block, properties);
     }
 
-    @Nullable
-    @Override
-    protected BlockState getPlacementState(BlockPlaceContext context) {
-        return getPlacementState(context.getItemInHand()).setValue(BlockStateProperties.FACING, context.getClickedFace().getOpposite());
-    }
-
     @Override
     public void appendHoverText(ItemStack stack, TooltipContext context, List<Component> tooltipComponents, TooltipFlag tooltipFlag) {
         Optional<KineticChargeDataComponent> chargeComponent = Optional.ofNullable(stack.getComponents().get(KWDataComponents.KINETIC_CHARGE.get()));
@@ -58,42 +56,36 @@ public class KineticRetentionModuleBlockItem extends BlockItem implements Equipa
         super.appendHoverText(stack, context, tooltipComponents, tooltipFlag);
     }
 
-    public static BlockState getPlacementState(ItemStack moduleStack) {
-        BlockState defaultState = KWBlocks.KINETIC_RETENTION_MODULE.get().defaultBlockState();
-
-        if (moduleStack.getItem() instanceof KineticRetentionModuleBlockItem) {
-            Optional<KineticChargeDataComponent> chargeComponent = Optional.ofNullable(moduleStack.get(KWDataComponents.KINETIC_CHARGE));
-            Optional<ArcadeModeDataComponent> arcadeModeComponent = Optional.ofNullable(moduleStack.get(KWDataComponents.ARCADE_MODE));
-
-            int charge = chargeComponent.map(KineticChargeDataComponent::charge).orElse(0);
-            boolean arcadeMode = arcadeModeComponent.map(ArcadeModeDataComponent::enabled).orElse(false);
-
-            return defaultState
-                    .setValue(KWBlockStateProperties.STORED_KINETIC_CHARGES_RETENTION_MODULE, charge)
-                    .setValue(KWBlockStateProperties.ARCADE_MODE, arcadeMode)
-                    .setValue(BlockStateProperties.LIT, charge > 0);
-        }
-        return defaultState;
-    }
 
     @Override
     public @NotNull EquipmentSlot getEquipmentSlot() {
-        return EquipmentSlot.BODY;
+        return EquipmentSlot.CHEST;
+    }
+
+    // WHY
+    // FUCKING HECK
+    // HOURS DEBUGGING ONLY FOR IT TO BE 2 NEARLY IDENTICAL OVERRIDES
+    // GAH
+    @Override
+    public @Nullable EquipmentSlot getEquipmentSlot(ItemStack stack) {
+        return getEquipmentSlot();
     }
 
     @Override
     public InteractionResultHolder<ItemStack> use(Level level, Player player, InteractionHand usedHand) {
-        return this.swapWithEquipmentSlot(this, level, player, usedHand);
+        InteractionResultHolder<ItemStack> result = this.swapWithEquipmentSlot(this, level, player, usedHand);
+        KWCommon.LOGGER.info("tried to equip" + result.getResult().toString() + player.getItemInHand(usedHand).getItem().getEquipmentSlot(player.getItemInHand(usedHand)).toString());
+        return result;
     }
 
-    @Override
+    /* @Override
     public void inventoryTick(ItemStack stack, Level level, Entity entity, int slotId, boolean isSelected) {
         if (!level.isClientSide) {
-            if(stack.is(KWItems.KINETIC_RETENTION_MODULE_BLOCK_ITEM.get())
-                    /* add entity whitelist tag here */
+            if(entity instanceof ServerPlayer player && stack.is(KWItems.KINETIC_RETENTION_MODULE_BLOCK_ITEM.get())
+                    // add entity whitelist tag here
                     && ((LivingEntity)entity).getEquipmentSlotForItem(stack).equals(EquipmentSlot.BODY)
                     && !entity.isSpectator()) {
-                summonRetentionModuleEntity(level, entity);
+                summonRetentionModuleEntity(level, player);
             }
         }
         super.inventoryTick(stack, level, entity, slotId, isSelected);
@@ -109,7 +101,7 @@ public class KineticRetentionModuleBlockItem extends BlockItem implements Equipa
             retentionModuleEntity.moveTo(entityPos.x, entityPos.y, entityPos.z, entity.getYRot(), entity.getXRot());
             level.addFreshEntity(retentionModuleEntity);
         }
-    }
+    } */
 
     @Override
     public int getMaxKineticCharge() {

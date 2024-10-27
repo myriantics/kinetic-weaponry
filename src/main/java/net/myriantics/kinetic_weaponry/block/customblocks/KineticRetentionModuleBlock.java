@@ -1,8 +1,13 @@
 package net.myriantics.kinetic_weaponry.block.customblocks;
 
+import net.minecraft.world.level.material.FluidState;
+import net.minecraft.world.level.material.Fluids;
 import net.myriantics.kinetic_weaponry.KWConstants;
 import net.myriantics.kinetic_weaponry.block.KWBlockStateProperties;
+import net.myriantics.kinetic_weaponry.block.KWBlocks;
+import net.myriantics.kinetic_weaponry.item.KWDataComponents;
 import net.myriantics.kinetic_weaponry.item.blockitems.KineticRetentionModuleBlockItem;
+import net.myriantics.kinetic_weaponry.item.data_components.ArcadeModeDataComponent;
 import net.myriantics.kinetic_weaponry.item.data_components.KineticChargeDataComponent;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.core.BlockPos;
@@ -30,16 +35,19 @@ import net.minecraft.world.level.storage.loot.LootParams;
 import net.minecraft.world.phys.HitResult;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.VoxelShape;
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
+import java.util.Optional;
 
-public class KineticRetentionModuleBlock extends AbstractKineticImpactActionBlock {
+public class KineticRetentionModuleBlock extends AbstractKineticImpactActionBlock implements SimpleWaterloggedBlock {
     public static final IntegerProperty STORED_KINETIC_RELOAD_CHARGES = KWBlockStateProperties.STORED_KINETIC_CHARGES_RETENTION_MODULE;
     public static final DirectionProperty FACING = BlockStateProperties.FACING;
     public static final BooleanProperty LIT = BlockStateProperties.LIT;
     public static final BooleanProperty POWERED = BlockStateProperties.POWERED;
     public static final BooleanProperty ARCADE_MODE = KWBlockStateProperties.ARCADE_MODE;
+    public static final BooleanProperty WATERLOGGED = BlockStateProperties.WATERLOGGED;
 
     public KineticRetentionModuleBlock(Properties properties) {
         super(properties);
@@ -49,6 +57,7 @@ public class KineticRetentionModuleBlock extends AbstractKineticImpactActionBloc
                 .setValue(FACING, Direction.UP)
                 .setValue(POWERED, false)
                 .setValue(ARCADE_MODE, false)
+                .setValue(WATERLOGGED, false)
                 .setValue(LIT, true));
     }
 
@@ -95,16 +104,42 @@ public class KineticRetentionModuleBlock extends AbstractKineticImpactActionBloc
     }
 
     @Override
+    protected @NotNull FluidState getFluidState(BlockState state) {
+        return state.getValue(WATERLOGGED) ? Fluids.WATER.getSource(false) : super.getFluidState(state);
+    }
+
+    @Override
     protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> builder) {
-        builder.add(STORED_KINETIC_RELOAD_CHARGES, FACING, LIT, POWERED, ARCADE_MODE);
+        builder.add(STORED_KINETIC_RELOAD_CHARGES, FACING, LIT, POWERED, ARCADE_MODE, WATERLOGGED);
     }
 
     @Nullable
     @Override
     public BlockState getStateForPlacement(BlockPlaceContext context) {
-        return super.getStateForPlacement(context).setValue(FACING, context.getClickedFace().getOpposite());
+        ItemStack moduleStack = context.getItemInHand();
+
+        BlockState state = getPlacementState(moduleStack);
+
+        return state.setValue(FACING, context.getClickedFace().getOpposite());
     }
 
+    public static BlockState getPlacementState(ItemStack moduleStack) {
+        BlockState defaultState = KWBlocks.KINETIC_RETENTION_MODULE.get().defaultBlockState();
+
+        if (moduleStack.getItem() instanceof KineticRetentionModuleBlockItem) {
+            Optional<KineticChargeDataComponent> chargeComponent = Optional.ofNullable(moduleStack.get(KWDataComponents.KINETIC_CHARGE));
+            Optional<ArcadeModeDataComponent> arcadeModeComponent = Optional.ofNullable(moduleStack.get(KWDataComponents.ARCADE_MODE));
+
+            int charge = chargeComponent.map(KineticChargeDataComponent::charge).orElse(0);
+            boolean arcadeMode = arcadeModeComponent.map(ArcadeModeDataComponent::enabled).orElse(false);
+
+            return defaultState
+                    .setValue(KWBlockStateProperties.STORED_KINETIC_CHARGES_RETENTION_MODULE, charge)
+                    .setValue(KWBlockStateProperties.ARCADE_MODE, arcadeMode)
+                    .setValue(BlockStateProperties.LIT, charge > 0);
+        }
+        return defaultState;
+    }
 
     @Override
     public void onImpact(ServerLevel serverLevel, BlockPos pos, ServerPlayer player, float impactDamage) {
