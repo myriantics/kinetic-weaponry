@@ -4,7 +4,6 @@ import net.myriantics.kinetic_weaponry.KWCommon;
 import net.myriantics.kinetic_weaponry.block.customblocks.KineticChargingBusBlock;
 import net.myriantics.kinetic_weaponry.block.customblocks.KineticDetonatorBlock;
 import net.myriantics.kinetic_weaponry.block.customblocks.KineticRetentionModuleBlock;
-import net.myriantics.kinetic_weaponry.misc.KWBlockStateProperties;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;

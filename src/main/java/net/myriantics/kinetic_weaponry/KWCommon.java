@@ -2,7 +2,7 @@ package net.myriantics.kinetic_weaponry;
 
 import net.myriantics.kinetic_weaponry.item.KWItems;
 import net.myriantics.kinetic_weaponry.item.equipment.KineticShortbowItem;
-import net.myriantics.kinetic_weaponry.misc.KWDataComponents;
+import net.myriantics.kinetic_weaponry.item.KWDataComponents;
 import net.myriantics.kinetic_weaponry.block.KWBlocks;
 import net.myriantics.kinetic_weaponry.entity.KWEntities;
 import net.myriantics.kinetic_weaponry.events.KWEventHandler;

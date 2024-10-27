@@ -1,4 +1,4 @@
-package net.myriantics.kinetic_weaponry.misc.data_components;
+package net.myriantics.kinetic_weaponry.item.data_components;
 
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
@@ -7,8 +7,7 @@ import net.minecraft.core.component.PatchedDataComponentMap;
 import net.minecraft.network.codec.ByteBufCodecs;
 import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.world.item.ItemStack;
-import net.myriantics.kinetic_weaponry.item.KineticChargeStoringItem;
-import net.myriantics.kinetic_weaponry.misc.KWDataComponents;
+import net.myriantics.kinetic_weaponry.item.KWDataComponents;
 
 import java.util.Optional;
 

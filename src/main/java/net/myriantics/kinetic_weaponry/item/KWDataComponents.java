@@ -1,10 +1,10 @@
-package net.myriantics.kinetic_weaponry.misc;
+package net.myriantics.kinetic_weaponry.item;
 
 import net.myriantics.kinetic_weaponry.KWCommon;
-import net.myriantics.kinetic_weaponry.misc.data_components.ArcadeModeDataComponent;
-import net.myriantics.kinetic_weaponry.misc.data_components.AttackUseStartTimeDataComponent;
-import net.myriantics.kinetic_weaponry.misc.data_components.AttackUseTrackerDataComponent;
-import net.myriantics.kinetic_weaponry.misc.data_components.KineticChargeDataComponent;
+import net.myriantics.kinetic_weaponry.item.data_components.ArcadeModeDataComponent;
+import net.myriantics.kinetic_weaponry.item.data_components.AttackUseStartTimeDataComponent;
+import net.myriantics.kinetic_weaponry.item.data_components.AttackUseTrackerDataComponent;
+import net.myriantics.kinetic_weaponry.item.data_components.KineticChargeDataComponent;
 import net.minecraft.core.component.DataComponentType;
 import net.minecraft.core.registries.Registries;
 import net.neoforged.bus.api.IEventBus;

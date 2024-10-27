@@ -1,4 +1,4 @@
-package net.myriantics.kinetic_weaponry.misc;
+package net.myriantics.kinetic_weaponry.block;
 
 import net.myriantics.kinetic_weaponry.KWConstants;
 import net.minecraft.world.level.block.state.properties.BooleanProperty;

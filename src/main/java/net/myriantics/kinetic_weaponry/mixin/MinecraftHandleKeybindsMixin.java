@@ -2,7 +2,7 @@ package net.myriantics.kinetic_weaponry.mixin;
 
 import com.llamalad7.mixinextras.injector.ModifyExpressionValue;
 import net.minecraft.client.Options;
-import net.myriantics.kinetic_weaponry.misc.data_components.AttackUseTrackerDataComponent;
+import net.myriantics.kinetic_weaponry.item.data_components.AttackUseTrackerDataComponent;
 import net.myriantics.kinetic_weaponry.networking.packets.PlayerAttackKeyUpdateWhileUsingPacket;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.player.LocalPlayer;

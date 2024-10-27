@@ -1,9 +1,9 @@
 package net.myriantics.kinetic_weaponry.block.customblocks;
 
 import net.myriantics.kinetic_weaponry.KWConstants;
-import net.myriantics.kinetic_weaponry.misc.KWBlockStateProperties;
+import net.myriantics.kinetic_weaponry.block.KWBlockStateProperties;
 import net.myriantics.kinetic_weaponry.item.blockitems.KineticRetentionModuleBlockItem;
-import net.myriantics.kinetic_weaponry.misc.data_components.KineticChargeDataComponent;
+import net.myriantics.kinetic_weaponry.item.data_components.KineticChargeDataComponent;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
