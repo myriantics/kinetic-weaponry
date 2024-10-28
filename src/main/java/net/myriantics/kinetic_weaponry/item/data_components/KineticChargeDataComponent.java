@@ -30,10 +30,11 @@ public record KineticChargeDataComponent(int charge) {
         return kineticChargeDataComponent.map(KineticChargeDataComponent::charge).orElse(0);
     }
 
-    public static void setCharge(PatchedDataComponentMap componentMap, ItemStack stack, int charge) {
+    public static void setCharge(ItemStack chargeStack, int charge) {
+        PatchedDataComponentMap componentMap = (PatchedDataComponentMap) chargeStack.getComponents();
 
         // bump charge to max if arcade mode is on
-        if (ArcadeModeDataComponent.getArcadeMode(stack) && stack.getItem() instanceof KineticChargeStoringItem chargedItem) {
+        if (ArcadeModeDataComponent.getArcadeMode(chargeStack) && chargeStack.getItem() instanceof KineticChargeStoringItem chargedItem) {
             charge = chargedItem.getMaxKineticCharge();
         }
 
@@ -42,11 +43,10 @@ public record KineticChargeDataComponent(int charge) {
 
     public static void incrementCharge(ItemStack chargeStack, int inboundCharge) {
         int initialCharge = getCharge(chargeStack);
-        PatchedDataComponentMap componentMap = (PatchedDataComponentMap) chargeStack.getComponents();
 
         if (chargeStack.getItem() instanceof KineticChargeStoringItem chargedItem) {
             int newCharge = Math.clamp(initialCharge + inboundCharge, 0, chargedItem.getMaxKineticCharge());
-            setCharge(componentMap, chargeStack, newCharge);
+            setCharge(chargeStack, newCharge);
         }
     }
 }

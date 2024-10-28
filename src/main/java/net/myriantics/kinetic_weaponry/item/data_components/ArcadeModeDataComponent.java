@@ -2,6 +2,7 @@ package net.myriantics.kinetic_weaponry.item.data_components;
 
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
+import net.minecraft.core.component.DataComponents;
 import net.myriantics.kinetic_weaponry.item.KWDataComponents;
 import io.netty.buffer.ByteBuf;
 import net.minecraft.core.component.PatchedDataComponentMap;
@@ -9,6 +10,7 @@ import net.minecraft.network.codec.ByteBufCodecs;
 import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.world.item.ItemStack;
 
+import javax.xml.crypto.Data;
 import java.util.Optional;
 
 public record ArcadeModeDataComponent(boolean enabled) {

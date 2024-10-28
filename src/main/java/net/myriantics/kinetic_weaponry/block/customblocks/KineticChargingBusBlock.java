@@ -100,8 +100,7 @@ public class KineticChargingBusBlock extends AbstractKineticImpactActionBlock {
 
         if (level.isClientSide()) {
             if (Screen.hasControlDown()) {
-                PatchedDataComponentMap componentMap = (PatchedDataComponentMap) pickedStack.getComponents();
-                KineticChargeDataComponent.setCharge(componentMap, pickedStack, state.getValue(STORED_KINETIC_CHARGES));
+                KineticChargeDataComponent.setCharge(pickedStack, state.getValue(STORED_KINETIC_CHARGES));
             }
         }
 

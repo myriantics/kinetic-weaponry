@@ -1,5 +1,6 @@
 package net.myriantics.kinetic_weaponry.item.equipment;
 
+import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerPlayer;
 import net.myriantics.kinetic_weaponry.KWCommon;
 import net.myriantics.kinetic_weaponry.KWConstants;
@@ -73,7 +74,7 @@ public class KineticShortbowItem extends ProjectileWeaponItem implements Kinetic
             KWCommon.LOGGER.info("Left Click Event!" + (player.level().isClientSide ? "client" : "server"));
             // this is so that it doesnt fire an initial shot when you're trying to do a burst fire
             if (!wasPressed) {
-                shoot(player);
+                fireProjectile(player);
             }
         }
     }
@@ -84,28 +85,35 @@ public class KineticShortbowItem extends ProjectileWeaponItem implements Kinetic
             int usageTicks = player.getTicksUsingItem();
             int attackUseStartTicks = AttackUseStartTimeDataComponent.getStartTimeTicks(stack);
             if (isAttackUseActive(stack)
-                    // shot speed rate limiter
-                    && usageTicks % 4 != 0
+                    // shot speed rate limiter - every x ticks
+                    && usageTicks % 3 == 0
                     // so you can do individual shots if you want
                     && usageTicks - attackUseStartTicks > STARTUP_TIME_TICKS) {
-                shoot(player);
+                fireProjectile(player);
             }
         }
     }
 
     @Override
     public InteractionResultHolder<ItemStack> use(Level level, Player player, InteractionHand usedHand) {
-        ItemStack itemStack = player.getItemInHand(usedHand);
-        boolean hasAmmo = !player.getProjectile(itemStack).isEmpty();
-        InteractionResultHolder<ItemStack> result = EventHooks.onArrowNock(itemStack, level, player, usedHand, hasAmmo);
-        if (result != null && itemStack.getItem().equals(this)) {
-            KWCommon.LOGGER.info("started using item");
+        ItemStack usedStack = player.getItemInHand(usedHand);
+
+        boolean isCharged = KineticChargeDataComponent.getCharge(usedStack) > 0;
+        if (!isCharged) {
+            return rechargeFromRetentionModule(player, usedStack)
+                    ? InteractionResultHolder.success(usedStack)
+                    : InteractionResultHolder.fail(usedStack);
+        }
+
+        boolean hasAmmo = !player.getProjectile(usedStack).isEmpty();
+        InteractionResultHolder<ItemStack> result = EventHooks.onArrowNock(usedStack, level, player, usedHand, hasAmmo);
+        if (result != null && usedStack.getItem().equals(this)) {
             return result;
         } else if (!player.hasInfiniteMaterials() && !hasAmmo) {
-            return InteractionResultHolder.fail(itemStack);
+            return InteractionResultHolder.fail(usedStack);
         } else {
             player.startUsingItem(usedHand);
-            return InteractionResultHolder.consume(itemStack);
+            return InteractionResultHolder.consume(usedStack);
         }
     }
 
@@ -118,7 +126,7 @@ public class KineticShortbowItem extends ProjectileWeaponItem implements Kinetic
         return AttackUseTrackerDataComponent.getAttackUse(stack);
     }
 
-    private static void shoot(ServerPlayer player) {
+    private static void fireProjectile(ServerPlayer player) {
         KineticShortbowItem KINETIC_SHORTBOW = KWItems.KINETIC_SHORTBOW.get();
         InteractionHand hand = player.getUsedItemHand();
         ServerLevel level = (ServerLevel) player.level();
@@ -132,11 +140,29 @@ public class KineticShortbowItem extends ProjectileWeaponItem implements Kinetic
         int usageTime = shortbow.getUseDuration(shortbowStack, player)
                 - player.getUseItemRemainingTicks();
 
+        if (kineticCharge <= 0) {
+            // if i dont have charge, stop doing thing >:C
+            interruptUsage(player, shortbowStack);
+        }
+
         if (usageTime > STARTUP_TIME_TICKS) {
             List<ItemStack> projectiles = draw(shortbowStack, projectile, player);
             if (!projectiles.isEmpty()) {
+                KineticChargeDataComponent.incrementCharge(shortbowStack, -1);
                 KINETIC_SHORTBOW.shoot(level, player, hand, shortbowStack, projectiles, KWConstants.KINETIC_SHORTBOW_OUTPUT_VELOCITY, 1.0f, true, null);
             }
         }
+    }
+
+    @Override
+    public void appendHoverText(ItemStack stack, TooltipContext context, List<Component> tooltipComponents, TooltipFlag tooltipFlag) {
+        applyKineticChargeItemHoverTextModifications(stack, tooltipComponents);
+        super.appendHoverText(stack, context, tooltipComponents, tooltipFlag);
+    }
+
+    private static void interruptUsage(ServerPlayer player, ItemStack usedStack) {
+        player.stopUsingItem();
+        AttackUseTrackerDataComponent.setAttackUse(usedStack, false);
+        AttackUseStartTimeDataComponent.setStartTimeTicks(usedStack, -1);
     }
 }

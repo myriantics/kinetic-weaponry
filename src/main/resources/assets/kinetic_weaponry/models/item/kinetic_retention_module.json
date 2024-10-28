@@ -3,25 +3,25 @@
   "overrides": [
     {
       "predicate": {
-        "custom_model_data": 1
+        "kinetic_weaponry:kinetic_charge": 1
       },
       "model": "kinetic_weaponry:block/kinetic_retention_module/kinetic_retention_module_lit_powered_charged_one"
     },
     {
       "predicate": {
-        "custom_model_data": 2
+        "kinetic_weaponry:kinetic_charge": 2
       },
       "model": "kinetic_weaponry:block/kinetic_retention_module/kinetic_retention_module_lit_powered_charged_two"
     },
     {
       "predicate": {
-        "custom_model_data": 3
+        "kinetic_weaponry:kinetic_charge": 3
       },
       "model": "kinetic_weaponry:block/kinetic_retention_module/kinetic_retention_module_lit_powered_charged_three"
     },
     {
       "predicate": {
-        "custom_model_data": 4
+        "kinetic_weaponry:kinetic_charge": 4
       },
       "model": "kinetic_weaponry:block/kinetic_retention_module/kinetic_retention_module_lit_powered_charged_four"
     }

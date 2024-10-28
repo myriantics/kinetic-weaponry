@@ -120,6 +120,9 @@ public class KineticRetentionModuleBlock extends AbstractKineticImpactActionBloc
 
         BlockState state = getPlacementState(moduleStack);
 
+        // waterlogged check :)
+        state = state.setValue(WATERLOGGED, context.getLevel().getBlockState(context.getClickedPos()).getFluidState().is(Fluids.WATER));
+
         return state.setValue(FACING, context.getClickedFace().getOpposite());
     }
 
@@ -170,8 +173,8 @@ public class KineticRetentionModuleBlock extends AbstractKineticImpactActionBloc
         List<ItemStack> items = super.getDrops(state, params);
         for (ItemStack stack : items) {
             if (stack.getItem() instanceof KineticRetentionModuleBlockItem) {
-                PatchedDataComponentMap componentMap = (PatchedDataComponentMap) stack.getComponents();
-                KineticChargeDataComponent.setCharge(componentMap, stack, state.getValue(STORED_KINETIC_RELOAD_CHARGES));
+                KineticChargeDataComponent.setCharge(stack, state.getValue(STORED_KINETIC_RELOAD_CHARGES));
+                ArcadeModeDataComponent.setArcadeMode(stack, state.getValue(ARCADE_MODE));
             }
         }
         return items;
@@ -183,8 +186,7 @@ public class KineticRetentionModuleBlock extends AbstractKineticImpactActionBloc
         ItemStack pickedStack = new ItemStack(this);
         if (level.isClientSide()) {
             if (Screen.hasControlDown()) {
-                PatchedDataComponentMap componentMap = (PatchedDataComponentMap) pickedStack.getComponents();
-                KineticChargeDataComponent.setCharge(componentMap, pickedStack, state.getValue(STORED_KINETIC_RELOAD_CHARGES));
+                KineticChargeDataComponent.setCharge(pickedStack, state.getValue(STORED_KINETIC_RELOAD_CHARGES));
             }
         }
         return pickedStack;

@@ -6,7 +6,9 @@ import net.myriantics.kinetic_weaponry.item.KWDataComponents;
 import net.myriantics.kinetic_weaponry.block.KWBlocks;
 import net.myriantics.kinetic_weaponry.entity.KWEntities;
 import net.myriantics.kinetic_weaponry.events.KWEventHandler;
+import net.myriantics.kinetic_weaponry.misc.KWItemModelPredicates;
 import net.myriantics.kinetic_weaponry.misc.KineticRetentionModuleDispenserBehavior;
+import net.myriantics.kinetic_weaponry.mixin.ItemPropertiesAccessor;
 import net.myriantics.kinetic_weaponry.networking.KWPackets;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.block.DispenserBlock;
@@ -128,6 +130,8 @@ public class KWCommon
         @SubscribeEvent
         public static void onClientSetup(FMLClientSetupEvent event)
         {
+            // surely :clueless:
+            KWItemModelPredicates.registerItemPredicates();
             // Some client setup code
             LOGGER.info("HELLO FROM CLIENT SETUP");
             LOGGER.info("MINECRAFT NAME >> {}", Minecraft.getInstance().getUser().getName());

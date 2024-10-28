@@ -5,6 +5,7 @@
   "compatibilityLevel": "JAVA_21",
   "mixins": [
     "FallingBlockEntityMixin",
+    "ItemStackHasFoilMixin",
     "PistonBaseBlockMixin",
     "PistonStructureResolverMixin"
   ],
@@ -12,6 +13,7 @@
     "defaultRequire": 1
   },
   "client": [
+    "ItemPropertiesAccessor",
     "MinecraftHandleKeybindsMixin"
   ]
 }

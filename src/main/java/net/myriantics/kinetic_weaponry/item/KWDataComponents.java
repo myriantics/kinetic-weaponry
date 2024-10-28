@@ -1,5 +1,6 @@
 package net.myriantics.kinetic_weaponry.item;
 
+import net.minecraft.core.component.DataComponents;
 import net.myriantics.kinetic_weaponry.KWCommon;
 import net.myriantics.kinetic_weaponry.item.data_components.ArcadeModeDataComponent;
 import net.myriantics.kinetic_weaponry.item.data_components.AttackUseStartTimeDataComponent;

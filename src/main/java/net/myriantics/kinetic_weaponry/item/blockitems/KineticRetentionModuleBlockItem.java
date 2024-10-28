@@ -42,17 +42,7 @@ public class KineticRetentionModuleBlockItem extends BlockItem implements Equipa
 
     @Override
     public void appendHoverText(ItemStack stack, TooltipContext context, List<Component> tooltipComponents, TooltipFlag tooltipFlag) {
-        Optional<KineticChargeDataComponent> chargeComponent = Optional.ofNullable(stack.getComponents().get(KWDataComponents.KINETIC_CHARGE.get()));
-        Optional<ArcadeModeDataComponent> arcadeModeComponent = Optional.ofNullable(stack.getComponents().get(KWDataComponents.ARCADE_MODE.get()));
-
-        int reloadCharges = chargeComponent.map(KineticChargeDataComponent::charge).orElse(0);
-        boolean arcadeMode = arcadeModeComponent.map(ArcadeModeDataComponent::enabled).orElse(false);
-
-        tooltipComponents.add(Component.translatable("tooltip.kinetic_weaponry.kinetic_charge")
-                .append("" + reloadCharges));
-        if (arcadeMode) {
-            tooltipComponents.add(Component.translatable("tooltip.kinetic_weaponry.arcade_mode"));
-        }
+        applyKineticChargeItemHoverTextModifications(stack, tooltipComponents);
         super.appendHoverText(stack, context, tooltipComponents, tooltipFlag);
     }
 
