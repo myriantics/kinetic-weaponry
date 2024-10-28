@@ -12,7 +12,7 @@ import net.neoforged.neoforge.registries.DeferredBlock;
 import net.neoforged.neoforge.registries.DeferredRegister;
 
 public class KWBlocks {
-    public static final DeferredRegister.Blocks BLOCKS = DeferredRegister.createBlocks(KWCommon.MODID);
+    public static final DeferredRegister.Blocks BLOCKS = DeferredRegister.createBlocks(KWCommon.MOD_ID);
 
     public static final DeferredBlock<KineticDetonatorBlock> KINETIC_DETONATOR =
             BLOCKS.registerBlock("kinetic_detonator", KineticDetonatorBlock::new, BlockBehaviour.Properties

@@ -1,6 +1,5 @@
 package net.myriantics.kinetic_weaponry.item;
 
-import net.minecraft.core.component.DataComponents;
 import net.myriantics.kinetic_weaponry.KWCommon;
 import net.myriantics.kinetic_weaponry.item.data_components.ArcadeModeDataComponent;
 import net.myriantics.kinetic_weaponry.item.data_components.AttackUseStartTimeDataComponent;
@@ -14,7 +13,7 @@ import net.neoforged.neoforge.registries.DeferredRegister;
 
 public class KWDataComponents {
 
-    public static final DeferredRegister.DataComponents DATA_COMPONENTS = DeferredRegister.createDataComponents(Registries.DATA_COMPONENT_TYPE, KWCommon.MODID);
+    public static final DeferredRegister.DataComponents DATA_COMPONENTS = DeferredRegister.createDataComponents(Registries.DATA_COMPONENT_TYPE, KWCommon.MOD_ID);
 
     public static final DeferredHolder<DataComponentType<?>, DataComponentType<KineticChargeDataComponent>> KINETIC_CHARGE = DATA_COMPONENTS.registerComponentType(
             "kinetic_charge",

@@ -109,7 +109,7 @@ public class KineticShortbowItem extends ProjectileWeaponItem implements Kinetic
         InteractionResultHolder<ItemStack> result = EventHooks.onArrowNock(usedStack, level, player, usedHand, hasAmmo);
         if (result != null && usedStack.getItem().equals(this)) {
             return result;
-        } else if (!player.hasInfiniteMaterials() && !hasAmmo) {
+        } else if (!player.hasInfiniteMaterials() && !hasAmmo && !ArcadeModeDataComponent.getArcadeMode(usedStack)) {
             return InteractionResultHolder.fail(usedStack);
         } else {
             player.startUsingItem(usedHand);

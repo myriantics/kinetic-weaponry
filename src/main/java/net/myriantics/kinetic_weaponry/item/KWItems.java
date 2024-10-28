@@ -16,7 +16,7 @@ import net.neoforged.neoforge.registries.DeferredItem;
 import net.neoforged.neoforge.registries.DeferredRegister;
 
 public class KWItems {
-    public static final DeferredRegister.Items ITEMS = DeferredRegister.createItems(KWCommon.MODID);
+    public static final DeferredRegister.Items ITEMS = DeferredRegister.createItems(KWCommon.MOD_ID);
 
     public static final DeferredItem<BlockItem> KINETIC_DETONATOR_BLOCK_ITEM =
             ITEMS.register("kinetic_detonator",
@@ -50,6 +50,7 @@ public class KWItems {
                             .component(KWDataComponents.KINETIC_CHARGE, new KineticChargeDataComponent(0))
                             .component(KWDataComponents.ARCADE_MODE, new ArcadeModeDataComponent(false))
                             .component(KWDataComponents.ATTACK_USE_TRACKER, new AttackUseTrackerDataComponent(false))
+                            .stacksTo(1)
                             .rarity(Rarity.EPIC)
                     )
             );

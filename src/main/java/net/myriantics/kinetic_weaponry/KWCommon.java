@@ -1,6 +1,11 @@
 package net.myriantics.kinetic_weaponry;
 
+import net.minecraft.core.component.DataComponentMap;
+import net.minecraft.core.component.DataComponentPatch;
+import net.minecraft.core.component.PatchedDataComponentMap;
+import net.minecraft.world.item.ItemStack;
 import net.myriantics.kinetic_weaponry.item.KWItems;
+import net.myriantics.kinetic_weaponry.item.data_components.ArcadeModeDataComponent;
 import net.myriantics.kinetic_weaponry.item.equipment.KineticShortbowItem;
 import net.myriantics.kinetic_weaponry.item.KWDataComponents;
 import net.myriantics.kinetic_weaponry.block.KWBlocks;
@@ -8,7 +13,6 @@ import net.myriantics.kinetic_weaponry.entity.KWEntities;
 import net.myriantics.kinetic_weaponry.events.KWEventHandler;
 import net.myriantics.kinetic_weaponry.misc.KWItemModelPredicates;
 import net.myriantics.kinetic_weaponry.misc.KineticRetentionModuleDispenserBehavior;
-import net.myriantics.kinetic_weaponry.mixin.ItemPropertiesAccessor;
 import net.myriantics.kinetic_weaponry.networking.KWPackets;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.block.DispenserBlock;
@@ -39,23 +43,25 @@ import net.neoforged.neoforge.registries.DeferredHolder;
 import net.neoforged.neoforge.registries.DeferredRegister;
 
 // The value here should match an entry in the META-INF/neoforge.mods.toml file
-@Mod(KWCommon.MODID)
+@Mod(KWCommon.MOD_ID)
 public class KWCommon
 {
-    public static final String MODID = "kinetic_weaponry";
+    public static final String MOD_ID = "kinetic_weaponry";
     public static final Logger LOGGER = LogUtils.getLogger();
 
-    // Create a Deferred Register to hold CreativeModeTabs which will all be registered under the "examplemod" namespace
-    public static final DeferredRegister<CreativeModeTab> CREATIVE_MODE_TABS = DeferredRegister.create(Registries.CREATIVE_MODE_TAB, MODID);
+    public static final DeferredRegister<CreativeModeTab> CREATIVE_MODE_TABS = DeferredRegister.create(Registries.CREATIVE_MODE_TAB, MOD_ID);
 
-    // Creates a creative tab with the id "examplemod:example_tab" for the example item, that is placed after the combat tab
-    public static final DeferredHolder<CreativeModeTab, CreativeModeTab> EXAMPLE_TAB = CREATIVE_MODE_TABS.register("example_tab", () -> CreativeModeTab.builder()
-            .title(Component.translatable("itemGroup.examplemod")) //The language key for the title of your CreativeModeTab
+    public static final DeferredHolder<CreativeModeTab, CreativeModeTab> KINETIC_WEAPONRY_TAB = CREATIVE_MODE_TABS.register("kinetic_weaponry", () -> CreativeModeTab.builder()
+            .title(Component.translatable("itemGroup." + MOD_ID)) //The language key for the title of your CreativeModeTab
             .withTabsBefore(CreativeModeTabs.COMBAT)
             .icon(() -> KWBlocks.KINETIC_RETENTION_MODULE.asItem().getDefaultInstance())
             .displayItems((parameters, output) -> {
-                output.accept(KWBlocks.KINETIC_RETENTION_MODULE.get());
+                output.accept(KWBlocks.KINETIC_CHARGING_BUS);
                 output.accept(KWBlocks.KINETIC_DETONATOR);
+                output.accept(KWBlocks.KINETIC_RETENTION_MODULE);
+                output.accept(new ItemStack(KWItems.KINETIC_RETENTION_MODULE_BLOCK_ITEM.getDelegate(),1, DataComponentPatch.builder().set(KWDataComponents.ARCADE_MODE.get(), new ArcadeModeDataComponent(true)).build()));
+                output.accept(KWItems.KINETIC_SHORTBOW);
+                output.accept(new ItemStack(KWItems.KINETIC_SHORTBOW.getDelegate(),1, DataComponentPatch.builder().set(KWDataComponents.ARCADE_MODE.get(), new ArcadeModeDataComponent(true)).build()));
             }).build());
 
 
@@ -89,7 +95,7 @@ public class KWCommon
 
 
     public static ResourceLocation locate(String id) {
-        return ResourceLocation.fromNamespaceAndPath(MODID, id);
+        return ResourceLocation.fromNamespaceAndPath(MOD_ID, id);
     }
 
     private void commonSetup(final FMLCommonSetupEvent event)
@@ -107,11 +113,11 @@ public class KWCommon
         Config.items.forEach((item) -> LOGGER.info("ITEM >> {}", item.toString()));
     }
 
-    // Add the example block item to the building blocks tab
     private void addCreative(BuildCreativeModeTabContentsEvent event)
     {
         if (event.getTabKey() == CreativeModeTabs.COMBAT) {
             event.accept(KWItems.KINETIC_DETONATOR_BLOCK_ITEM);
+            event.accept(KWItems.KINETIC_SHORTBOW);
         }
     }
 
@@ -124,7 +130,7 @@ public class KWCommon
     }
 
     // You can use EventBusSubscriber to automatically register all static methods in the class annotated with @SubscribeEvent
-    @EventBusSubscriber(modid = MODID, bus = EventBusSubscriber.Bus.MOD, value = Dist.CLIENT)
+    @EventBusSubscriber(modid = MOD_ID, bus = EventBusSubscriber.Bus.MOD, value = Dist.CLIENT)
     public static class ClientModEvents
     {
         @SubscribeEvent

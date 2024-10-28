@@ -9,7 +9,7 @@ import net.neoforged.neoforge.registries.DeferredHolder;
 import net.neoforged.neoforge.registries.DeferredRegister;
 
 public class KWEntities {
-    public static final DeferredRegister<EntityType<?>> ENTITIES = DeferredRegister.create(Registries.ENTITY_TYPE.registry(), KWCommon.MODID);
+    public static final DeferredRegister<EntityType<?>> ENTITIES = DeferredRegister.create(Registries.ENTITY_TYPE.registry(), KWCommon.MOD_ID);
 
     public static final DeferredHolder<EntityType<?>, EntityType<KineticRetentionModuleEntity>> KINETIC_RETENTION_MODULE_ENTITY
             = ENTITIES.register("kinetic_retention_module", () -> EntityType.Builder.of(KineticRetentionModuleEntity::new, MobCategory.MISC)
