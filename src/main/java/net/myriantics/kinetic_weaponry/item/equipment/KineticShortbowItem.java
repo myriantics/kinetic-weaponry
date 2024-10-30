@@ -60,7 +60,7 @@ public class KineticShortbowItem extends ProjectileWeaponItem implements Kinetic
 
     @Override
     public UseAnim getUseAnimation(ItemStack stack) {
-        return UseAnim.CROSSBOW;
+        return UseAnim.BOW;
     }
 
     @SubscribeEvent

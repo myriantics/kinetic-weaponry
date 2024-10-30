@@ -10,7 +10,7 @@ import org.spongepowered.asm.mixin.injection.At;
 public abstract class ItemStackHasFoilMixin {
 
     @ModifyReturnValue(method = "hasFoil", at = @At(value = "RETURN"))
-    public boolean chargeKineticBlocks(boolean original) {
+    public boolean arcadeModeOverride(boolean original) {
         // if something has arcade mode, then make it glowy :D
         ItemStack stack = ((ItemStack)(Object)this);
         return original || ArcadeModeDataComponent.getArcadeMode(stack);

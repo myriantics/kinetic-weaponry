@@ -3,6 +3,10 @@ package net.myriantics.kinetic_weaponry;
 import net.minecraft.core.component.DataComponentMap;
 import net.minecraft.core.component.DataComponentPatch;
 import net.minecraft.core.component.PatchedDataComponentMap;
+import net.minecraft.data.models.ItemModelGenerators;
+import net.minecraft.data.models.model.ModelLocationUtils;
+import net.minecraft.data.models.model.ModelTemplates;
+import net.minecraft.data.models.model.TextureMapping;
 import net.minecraft.world.item.ItemStack;
 import net.myriantics.kinetic_weaponry.item.KWItems;
 import net.myriantics.kinetic_weaponry.item.data_components.ArcadeModeDataComponent;
@@ -138,6 +142,9 @@ public class KWCommon
         {
             // surely :clueless:
             KWItemModelPredicates.registerItemPredicates();
+            /*ModelTemplates.THREE_LAYERED_ITEM.create(
+                    ModelLocationUtils.getModelLocation(KWItems.KINETIC_SHORTBOW.get()),
+                    TextureMapping.layered(layer0, layer1, layer2), this.output);*/
             // Some client setup code
             LOGGER.info("HELLO FROM CLIENT SETUP");
             LOGGER.info("MINECRAFT NAME >> {}", Minecraft.getInstance().getUser().getName());
