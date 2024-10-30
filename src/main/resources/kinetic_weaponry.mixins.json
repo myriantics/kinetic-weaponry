@@ -6,7 +6,6 @@
   "mixins": [
     "FallingBlockEntityMixin",
     "ItemStackHasFoilMixin",
-    "ModelProviderMixin",
     "PistonBaseBlockMixin",
     "PistonStructureResolverMixin"
   ],
@@ -15,6 +14,7 @@
   },
   "client": [
     "ItemPropertiesAccessor",
-    "MinecraftHandleKeybindsMixin"
+    "MinecraftHandleKeybindsMixin",
+    "PlayerAiStepMixin"
   ]
 }

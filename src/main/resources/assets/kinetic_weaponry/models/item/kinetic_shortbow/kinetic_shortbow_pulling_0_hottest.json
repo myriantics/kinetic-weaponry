@@ -1,7 +1,7 @@
 {
-    "parent": "kinetic_weaponry:item/kinetic_shortbow/kinetic_shortbow",
+    "parent": "kinetic_weaponry:item/kinetic_shortbow",
     "textures": {
-        "layer0": "kinetic_weaponry:items/kinetic_shortbow/kinetic_shortbow_heat_sink_hottest",
-        "layer1": "kinetic_weaponry:items/kinetic_shortbow/kinetic_shortbow_base_pulling_0"
+        "layer0": "kinetic_weaponry:item/kinetic_shortbow/kinetic_shortbow_heat_sink_hottest",
+        "layer1": "kinetic_weaponry:item/kinetic_shortbow/kinetic_shortbow_base_pulling_0"
     }
 }

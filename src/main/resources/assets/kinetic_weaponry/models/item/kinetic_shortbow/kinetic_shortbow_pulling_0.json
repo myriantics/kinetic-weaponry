@@ -1,6 +1,6 @@
 {
-    "parent": "kinetic_weaponry:item/kinetic_shortbow/kinetic_shortbow",
+    "parent": "kinetic_weaponry:item/kinetic_shortbow",
     "textures": {
-        "layer1": "kinetic_weaponry:items/kinetic_shortbow/kinetic_shortbow_base_pulling_0"
+        "layer1": "kinetic_weaponry:item/kinetic_shortbow/kinetic_shortbow_base_pulling_0"
     }
 }

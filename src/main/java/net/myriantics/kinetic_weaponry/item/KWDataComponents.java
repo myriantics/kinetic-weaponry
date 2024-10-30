@@ -1,10 +1,7 @@
 package net.myriantics.kinetic_weaponry.item;
 
 import net.myriantics.kinetic_weaponry.KWCommon;
-import net.myriantics.kinetic_weaponry.item.data_components.ArcadeModeDataComponent;
-import net.myriantics.kinetic_weaponry.item.data_components.AttackUseStartTimeDataComponent;
-import net.myriantics.kinetic_weaponry.item.data_components.AttackUseTrackerDataComponent;
-import net.myriantics.kinetic_weaponry.item.data_components.KineticChargeDataComponent;
+import net.myriantics.kinetic_weaponry.item.data_components.*;
 import net.minecraft.core.component.DataComponentType;
 import net.minecraft.core.registries.Registries;
 import net.neoforged.bus.api.IEventBus;
@@ -21,6 +18,7 @@ public class KWDataComponents {
                     .persistent(KineticChargeDataComponent.CODEC)
                     .networkSynchronized(KineticChargeDataComponent.STREAM_CODEC)
     );
+
 
     public static final DeferredHolder<DataComponentType<?>, DataComponentType<ArcadeModeDataComponent>> ARCADE_MODE = DATA_COMPONENTS.registerComponentType(
             "arcade_mode",
@@ -39,6 +37,13 @@ public class KWDataComponents {
             "attack_use_start_time",
             integerBuilder -> integerBuilder
                     .networkSynchronized(AttackUseStartTimeDataComponent.STREAM_CODEC)
+    );
+
+    public static final DeferredHolder<DataComponentType<?>, DataComponentType<HeatStatusDataComponent>> HEAT_STATUS = DATA_COMPONENTS.registerComponentType(
+            "heat_status",
+            integerBuilder -> integerBuilder
+                    .persistent(HeatStatusDataComponent.CODEC)
+                    .networkSynchronized(HeatStatusDataComponent.STREAM_CODEC)
     );
 
     public static void registerKineticWeaponryDataComponents(IEventBus eventBus) {

@@ -3,10 +3,9 @@ package net.myriantics.kinetic_weaponry.misc;
 import net.minecraft.client.renderer.item.ItemProperties;
 import net.minecraft.client.renderer.item.ItemPropertyFunction;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.item.Item;
-import net.minecraft.world.item.Items;
 import net.myriantics.kinetic_weaponry.KWCommon;
 import net.myriantics.kinetic_weaponry.item.KWItems;
+import net.myriantics.kinetic_weaponry.item.data_components.HeatStatusDataComponent;
 import net.myriantics.kinetic_weaponry.item.data_components.KineticChargeDataComponent;
 import net.myriantics.kinetic_weaponry.mixin.ItemPropertiesAccessor;
 
@@ -21,7 +20,7 @@ public class KWItemModelPredicates {
         });
 
         registerSomethingOrOther("heat_status", (itemStack, clientLevel, livingEntity, i) -> {
-            return 10f;
+            return (float) HeatStatusDataComponent.getHeatStatus(itemStack);
         });
 
         ItemProperties.register(KWItems.KINETIC_SHORTBOW.get(), ResourceLocation.withDefaultNamespace("pull"), (p_344163_, p_344164_, p_344165_, p_344166_) -> {
