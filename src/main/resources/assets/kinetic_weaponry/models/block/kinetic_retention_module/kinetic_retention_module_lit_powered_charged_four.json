@@ -1,6 +1,5 @@
 {
 	"credit": "Made with Blockbench",
-	"texture_size": [16, 16],
 	"textures": {
 		"1": "kinetic_weaponry:block/kinetic_retention_module/kinetic_retention_module_bottom_lit_powered",
 		"2": "kinetic_weaponry:block/kinetic_retention_module/kinetic_retention_module_side_charged_four",
@@ -46,7 +45,9 @@
 			"translation": [-2.12, 1, 0]
 		},
 		"head": {
-			"rotation": [0, -180, 0]
+			"rotation": [0, -180, 0],
+			"translation": [0, 0, 6.25],
+			"scale": [1.5, 1.5, 1.5]
 		}
 	}
 }

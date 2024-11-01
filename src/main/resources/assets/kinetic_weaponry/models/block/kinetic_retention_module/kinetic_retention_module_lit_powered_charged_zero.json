@@ -46,7 +46,9 @@
 			"translation": [-2.12, 1, 0]
 		},
 		"head": {
-			"rotation": [0, -180, 0]
+			"rotation": [0, -180, 0],
+			"translation": [0, 0, 6.25],
+			"scale": [1.5, 1.5, 1.5]
 		}
 	}
 }
