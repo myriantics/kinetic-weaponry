@@ -49,7 +49,7 @@ public class KineticRetentionModuleBlockItem extends BlockItem implements Equipa
 
     @Override
     public @NotNull EquipmentSlot getEquipmentSlot() {
-        return EquipmentSlot.CHEST;
+        return EquipmentSlot.HEAD;
     }
 
     // WHY
@@ -63,9 +63,7 @@ public class KineticRetentionModuleBlockItem extends BlockItem implements Equipa
 
     @Override
     public InteractionResultHolder<ItemStack> use(Level level, Player player, InteractionHand usedHand) {
-        InteractionResultHolder<ItemStack> result = this.swapWithEquipmentSlot(this, level, player, usedHand);
-        KWCommon.LOGGER.info("tried to equip" + result.getResult().toString() + player.getItemInHand(usedHand).getItem().getEquipmentSlot(player.getItemInHand(usedHand)).toString());
-        return result;
+        return this.swapWithEquipmentSlot(this, level, player, usedHand);
     }
 
     /* @Override

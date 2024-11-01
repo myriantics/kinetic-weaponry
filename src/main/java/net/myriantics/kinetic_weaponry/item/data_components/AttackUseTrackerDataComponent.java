@@ -11,7 +11,7 @@ import net.myriantics.kinetic_weaponry.item.KWDataComponents;
 
 import java.util.Optional;
 
-public record AttackUseTrackerDataComponent(boolean attackKeyDown) {
+public record AttackUseTrackerDataComponent(boolean attackKeyDown) implements ReEquipAnimationIgnored {
     public static final Codec<AttackUseTrackerDataComponent> CODEC = RecordCodecBuilder.create(instance ->
             instance.group(
                     Codec.BOOL.fieldOf("attack_use_tracker").forGetter(AttackUseTrackerDataComponent::attackKeyDown)

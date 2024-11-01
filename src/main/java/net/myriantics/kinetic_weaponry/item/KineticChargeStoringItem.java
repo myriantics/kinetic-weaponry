@@ -2,12 +2,14 @@ package net.myriantics.kinetic_weaponry.item;
 
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.myriantics.kinetic_weaponry.item.blockitems.KineticRetentionModuleBlockItem;
 import net.myriantics.kinetic_weaponry.item.data_components.ArcadeModeDataComponent;
 import net.myriantics.kinetic_weaponry.item.data_components.KineticChargeDataComponent;
+import net.myriantics.kinetic_weaponry.misc.KWSounds;
 
 import java.util.List;
 
@@ -46,6 +48,15 @@ public interface KineticChargeStoringItem {
                 if (player instanceof ServerPlayer) {
                     KineticChargeDataComponent.incrementCharge(retentionModuleStack, -1);
                     KineticChargeDataComponent.setCharge(usedItemStack, maxUsedItemCharge);
+                    player.level().playSound(
+                            null,
+                            player.getX(),
+                            player.getY(),
+                            player.getZ(),
+                            KWSounds.KINETIC_RECHARGE_CONSUME.get(),
+                            SoundSource.PLAYERS,
+                            1.0F,
+                            1.0F / (player.level().getRandom().nextFloat() * 0.4F + 1.2F) * 0.5F);
                 }
                 // yay you won
                 return true;

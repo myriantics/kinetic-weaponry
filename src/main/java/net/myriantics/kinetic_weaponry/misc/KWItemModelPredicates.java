@@ -5,7 +5,8 @@ import net.minecraft.client.renderer.item.ItemPropertyFunction;
 import net.minecraft.resources.ResourceLocation;
 import net.myriantics.kinetic_weaponry.KWCommon;
 import net.myriantics.kinetic_weaponry.item.KWItems;
-import net.myriantics.kinetic_weaponry.item.data_components.HeatStatusDataComponent;
+import net.myriantics.kinetic_weaponry.item.data_components.AttackUseTrackerDataComponent;
+import net.myriantics.kinetic_weaponry.item.data_components.HeatUnitDataComponent;
 import net.myriantics.kinetic_weaponry.item.data_components.KineticChargeDataComponent;
 import net.myriantics.kinetic_weaponry.mixin.ItemPropertiesAccessor;
 
@@ -19,20 +20,26 @@ public class KWItemModelPredicates {
             return (float) KineticChargeDataComponent.getCharge(itemStack);
         });
 
-        registerSomethingOrOther("heat_status", (itemStack, clientLevel, livingEntity, i) -> {
-            return (float) HeatStatusDataComponent.getHeatStatus(itemStack);
+        registerSomethingOrOther("heat_unit", (itemStack, clientLevel, livingEntity, i) -> {
+            return (float) HeatUnitDataComponent.getHeatUnits(itemStack);
         });
 
-        ItemProperties.register(KWItems.KINETIC_SHORTBOW.get(), ResourceLocation.withDefaultNamespace("pull"), (p_344163_, p_344164_, p_344165_, p_344166_) -> {
-            if (p_344165_ == null) {
+        ItemProperties.register(KWItems.KINETIC_SHORTBOW.get(), ResourceLocation.withDefaultNamespace("pull"), (usedStack, clientLevel, livingEntity, i) -> {
+            if (livingEntity == null) {
                 return 0.0F;
             } else {
-                return p_344165_.getUseItem() != p_344163_ ? 0.0F : (float)(p_344163_.getUseDuration(p_344165_) - p_344165_.getUseItemRemainingTicks()) / 20.0F;
+                // if used stack matches and is charged
+                return KineticChargeDataComponent.getCharge(usedStack) > 0
+                        && !livingEntity.getUseItem().equals(usedStack)
+                        ? 0.0F : (float)(usedStack.getUseDuration(livingEntity) - livingEntity.getUseItemRemainingTicks()) / 20.0F;
             }
         });
 
-        ItemProperties.register(KWItems.KINETIC_SHORTBOW.get(), ResourceLocation.withDefaultNamespace("pulling"), (p_174630_, p_174631_, p_174632_, p_174633_) -> {
-            return p_174632_ != null && p_174632_.isUsingItem() && p_174632_.getUseItem() == p_174630_ ? 1.0F : 0.0F;
+        ItemProperties.register(KWItems.KINETIC_SHORTBOW.get(), ResourceLocation.withDefaultNamespace("pulling"), (usedStack, clientLevel, livingEntity, i) -> {
+            return livingEntity != null
+                    && KineticChargeDataComponent.getCharge(usedStack) > 0
+                    && livingEntity.isUsingItem()
+                    && livingEntity.getUseItem().equals(usedStack) ? 1.0F : 0.0F;
         });
 
     }

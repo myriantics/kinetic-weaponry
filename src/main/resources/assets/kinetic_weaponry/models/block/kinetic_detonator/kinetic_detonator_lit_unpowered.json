@@ -1,4 +1,5 @@
 {
+	"ambientocclusion": false,
 	"credit": "Made with Blockbench",
 	"textures": {
 		"3": "kinetic_weaponry:block/kinetic_detonator/kinetic_detonator_bottom_lit_unpowered",

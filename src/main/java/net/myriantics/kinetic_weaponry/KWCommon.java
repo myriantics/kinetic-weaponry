@@ -1,12 +1,6 @@
 package net.myriantics.kinetic_weaponry;
 
-import net.minecraft.core.component.DataComponentMap;
 import net.minecraft.core.component.DataComponentPatch;
-import net.minecraft.core.component.PatchedDataComponentMap;
-import net.minecraft.data.models.ItemModelGenerators;
-import net.minecraft.data.models.model.ModelLocationUtils;
-import net.minecraft.data.models.model.ModelTemplates;
-import net.minecraft.data.models.model.TextureMapping;
 import net.minecraft.world.item.ItemStack;
 import net.myriantics.kinetic_weaponry.item.KWItems;
 import net.myriantics.kinetic_weaponry.item.data_components.ArcadeModeDataComponent;
@@ -16,6 +10,7 @@ import net.myriantics.kinetic_weaponry.block.KWBlocks;
 import net.myriantics.kinetic_weaponry.entity.KWEntities;
 import net.myriantics.kinetic_weaponry.events.KWEventHandler;
 import net.myriantics.kinetic_weaponry.misc.KWItemModelPredicates;
+import net.myriantics.kinetic_weaponry.misc.KWSounds;
 import net.myriantics.kinetic_weaponry.misc.KineticRetentionModuleDispenserBehavior;
 import net.myriantics.kinetic_weaponry.networking.KWPackets;
 import net.minecraft.resources.ResourceLocation;
@@ -75,6 +70,7 @@ public class KWCommon
         KWBlocks.registerKineticWeaponryBlocks(modEventBus);
         KWItems.registerKineticWeaponryItems(modEventBus);
         KWEntities.registerKineticWeaponryEntities(modEventBus);
+        KWSounds.registerKineticWeaponrySounds(modEventBus);
 
         // Register the commonSetup method for modloading
         modEventBus.addListener(this::commonSetup);;

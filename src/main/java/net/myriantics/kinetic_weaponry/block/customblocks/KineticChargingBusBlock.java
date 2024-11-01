@@ -1,5 +1,6 @@
 package net.myriantics.kinetic_weaponry.block.customblocks;
 
+import net.minecraft.sounds.SoundSource;
 import net.myriantics.kinetic_weaponry.KWConstants;
 import net.myriantics.kinetic_weaponry.block.KWBlockStateProperties;
 import net.myriantics.kinetic_weaponry.item.data_components.KineticChargeDataComponent;
@@ -23,6 +24,7 @@ import net.minecraft.world.level.block.state.properties.BooleanProperty;
 import net.minecraft.world.level.block.state.properties.DirectionProperty;
 import net.minecraft.world.level.block.state.properties.IntegerProperty;
 import net.minecraft.world.phys.HitResult;
+import net.myriantics.kinetic_weaponry.misc.KWSounds;
 import org.jetbrains.annotations.Nullable;
 
 
@@ -135,6 +137,14 @@ public class KineticChargingBusBlock extends AbstractKineticImpactActionBlock {
                 }
             }
         }
+
+        level.playSound(
+                null,
+                pos,
+                KWSounds.KINETIC_SHORTBOW_SHOOT.get(),
+                SoundSource.BLOCKS,
+                1.0F,
+                1.0F / (level.getRandom().nextFloat() * (0.25f * (float) getOutboundCharge(state)) + 1.2F) * 0.5F);
 
         // charges all connected retention modules evenly before removing charge
         // may remove, thought it was a fun thing idk

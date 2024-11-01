@@ -9,6 +9,7 @@ import net.minecraft.world.item.MaceItem;
 import net.minecraft.world.level.Explosion;
 import net.minecraft.world.level.Level;
 import net.neoforged.bus.api.SubscribeEvent;
+import net.neoforged.neoforge.client.ClientHooks;
 import net.neoforged.neoforge.event.entity.player.PlayerInteractEvent;
 
 public class KWEventHandler {

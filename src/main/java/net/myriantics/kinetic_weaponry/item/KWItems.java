@@ -1,9 +1,8 @@
 package net.myriantics.kinetic_weaponry.item;
 
-import net.minecraft.world.entity.player.Player;
 import net.myriantics.kinetic_weaponry.KWCommon;
 import net.myriantics.kinetic_weaponry.item.blockitems.KineticChargingBusBlockItem;
-import net.myriantics.kinetic_weaponry.item.data_components.HeatStatusDataComponent;
+import net.myriantics.kinetic_weaponry.item.data_components.HeatUnitDataComponent;
 import net.myriantics.kinetic_weaponry.item.equipment.KineticShortbowItem;
 import net.myriantics.kinetic_weaponry.item.data_components.ArcadeModeDataComponent;
 import net.myriantics.kinetic_weaponry.item.data_components.AttackUseTrackerDataComponent;
@@ -52,7 +51,7 @@ public class KWItems {
                             .component(KWDataComponents.KINETIC_CHARGE, new KineticChargeDataComponent(0))
                             .component(KWDataComponents.ARCADE_MODE, new ArcadeModeDataComponent(false))
                             .component(KWDataComponents.ATTACK_USE_TRACKER, new AttackUseTrackerDataComponent(false))
-                            .component(KWDataComponents.HEAT_STATUS, new HeatStatusDataComponent(0))
+                            .component(KWDataComponents.HEAT_UNIT, new HeatUnitDataComponent(0))
                             .stacksTo(1)
                             .rarity(Rarity.EPIC)
                     )

@@ -11,7 +11,7 @@ import net.myriantics.kinetic_weaponry.item.KWDataComponents;
 
 import java.util.Optional;
 
-public record AttackUseStartTimeDataComponent(int startTimeTicks) {
+public record AttackUseStartTimeDataComponent(int startTimeTicks) implements ReEquipAnimationIgnored {
     public static final Codec<AttackUseStartTimeDataComponent> CODEC = RecordCodecBuilder.create(instance ->
             instance.group(
                     Codec.INT.fieldOf("attack_use_start_time").forGetter(AttackUseStartTimeDataComponent::startTimeTicks)

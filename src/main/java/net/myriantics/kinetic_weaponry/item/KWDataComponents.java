@@ -1,5 +1,6 @@
 package net.myriantics.kinetic_weaponry.item;
 
+import net.minecraft.client.player.LocalPlayer;
 import net.myriantics.kinetic_weaponry.KWCommon;
 import net.myriantics.kinetic_weaponry.item.data_components.*;
 import net.minecraft.core.component.DataComponentType;
@@ -39,11 +40,11 @@ public class KWDataComponents {
                     .networkSynchronized(AttackUseStartTimeDataComponent.STREAM_CODEC)
     );
 
-    public static final DeferredHolder<DataComponentType<?>, DataComponentType<HeatStatusDataComponent>> HEAT_STATUS = DATA_COMPONENTS.registerComponentType(
-            "heat_status",
+    public static final DeferredHolder<DataComponentType<?>, DataComponentType<HeatUnitDataComponent>> HEAT_UNIT = DATA_COMPONENTS.registerComponentType(
+            "heat_unit",
             integerBuilder -> integerBuilder
-                    .persistent(HeatStatusDataComponent.CODEC)
-                    .networkSynchronized(HeatStatusDataComponent.STREAM_CODEC)
+                    .persistent(HeatUnitDataComponent.CODEC)
+                    .networkSynchronized(HeatUnitDataComponent.STREAM_CODEC)
     );
 
     public static void registerKineticWeaponryDataComponents(IEventBus eventBus) {

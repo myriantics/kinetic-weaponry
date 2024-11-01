@@ -30,6 +30,18 @@
   "overrides": [
     {
       "predicate": {
+        "kinetic_weaponry:heat_unit": 10
+      },
+      "model": "kinetic_weaponry:item/kinetic_shortbow/kinetic_shortbow_hot"
+    },
+    {
+      "predicate": {
+        "kinetic_weaponry:heat_unit": 20
+      },
+      "model": "kinetic_weaponry:item/kinetic_shortbow/kinetic_shortbow_hottest"
+    },
+    {
+      "predicate": {
         "pulling": 1
       },
       "model": "kinetic_weaponry:item/kinetic_shortbow/kinetic_shortbow_pulling_0"
@@ -44,7 +56,7 @@
     {
       "predicate": {
         "pulling": 1,
-        "kinetic_weaponry:heat_status": 10
+        "kinetic_weaponry:heat_unit": 10
       },
       "model": "kinetic_weaponry:item/kinetic_shortbow/kinetic_shortbow_pulling_0_hot"
     },
@@ -52,14 +64,14 @@
       "predicate": {
         "pulling": 1,
         "pull": 0.65,
-        "kinetic_weaponry:heat_status": 10
+        "kinetic_weaponry:heat_unit": 10
       },
       "model": "kinetic_weaponry:item/kinetic_shortbow/kinetic_shortbow_pulling_1_hot"
     },
     {
       "predicate": {
         "pulling": 1,
-        "kinetic_weaponry:heat_status": 20
+        "kinetic_weaponry:heat_unit": 20
       },
       "model": "kinetic_weaponry:item/kinetic_shortbow/kinetic_shortbow_pulling_0_hottest"
     },
@@ -67,7 +79,7 @@
       "predicate": {
         "pulling": 1,
         "pull": 0.65,
-        "kinetic_weaponry:heat_status": 20
+        "kinetic_weaponry:heat_unit": 20
       },
       "model": "kinetic_weaponry:item/kinetic_shortbow/kinetic_shortbow_pulling_1_hottest"
     }
