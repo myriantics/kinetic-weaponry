@@ -5,5 +5,10 @@
   "block.kinetic_weaponry.kinetic_charging_bus": "Kinetic Charging Bus",
   "item.kinetic_weaponry.kinetic_shortbow": "Kinetic Shortbow",
   "tooltip.kinetic_weaponry.kinetic_charge": "Kinetic Charge: ",
-  "tooltip.kinetic_weaponry.arcade_mode": "Arcade Mode Enabled"
+  "tooltip.kinetic_weaponry.arcade_mode": "Arcade Mode Enabled",
+  "subtitles.entity.kinetic_shortbow.shoot": "Kinetic Shortbow Fires",
+  "subtitles.item.kinetic_charge_item.kinetic_recharge": "Kinetic Item Recharged",
+  "subtitles.block.kinetic_charging_bus.discharge": "Kinetic Charging Bus Discharges",
+  "subtitles.item.kinetic_shortbow.overheat": "Kinetic Shortbow overheats",
+  "subtitles.item.kinetic_shortbow.cool_down": "Kinetic Shortbow cools down"
 }

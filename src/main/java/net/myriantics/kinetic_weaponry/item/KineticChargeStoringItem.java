@@ -37,13 +37,15 @@ public interface KineticChargeStoringItem {
             }
         }
 
+
         if (!retentionModuleStack.isEmpty() && usedItemStack.getItem() instanceof KineticChargeStoringItem) {
             int moduleCharge = KineticChargeDataComponent.getCharge(retentionModuleStack);
             int usedItemCharge = KineticChargeDataComponent.getCharge(usedItemStack);
             int maxUsedItemCharge = ((KineticChargeStoringItem) usedItemStack.getItem()).getMaxKineticCharge();
 
             // if the module has charge and the thing you're trying to charge isn't full, proceed.
-            if (moduleCharge > 0 && usedItemCharge < maxUsedItemCharge) {
+            // if it has arcade mode, go crazy dude
+            if (moduleCharge > 0 && usedItemCharge < maxUsedItemCharge || ArcadeModeDataComponent.getArcadeMode(retentionModuleStack)) {
                 // only update components on the server
                 if (player instanceof ServerPlayer) {
                     KineticChargeDataComponent.incrementCharge(retentionModuleStack, -1);

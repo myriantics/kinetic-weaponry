@@ -5,16 +5,11 @@ import net.minecraft.client.renderer.item.ItemPropertyFunction;
 import net.minecraft.resources.ResourceLocation;
 import net.myriantics.kinetic_weaponry.KWCommon;
 import net.myriantics.kinetic_weaponry.item.KWItems;
-import net.myriantics.kinetic_weaponry.item.data_components.AttackUseTrackerDataComponent;
 import net.myriantics.kinetic_weaponry.item.data_components.HeatUnitDataComponent;
 import net.myriantics.kinetic_weaponry.item.data_components.KineticChargeDataComponent;
-import net.myriantics.kinetic_weaponry.mixin.ItemPropertiesAccessor;
-
-import java.util.Map;
+import net.myriantics.kinetic_weaponry.item.equipment.KineticShortbowItem;
 
 public class KWItemModelPredicates {
-    private static final Map<ResourceLocation, ItemPropertyFunction> GENERIC_PROPERTIES = ItemPropertiesAccessor.getRegistry();
-
     public static void registerItemPredicates() {
         registerSomethingOrOther("kinetic_charge", (itemStack, clientLevel, livingEntity, i) -> {
             return (float) KineticChargeDataComponent.getCharge(itemStack);
@@ -31,7 +26,7 @@ public class KWItemModelPredicates {
                 // if used stack matches and is charged
                 return KineticChargeDataComponent.getCharge(usedStack) > 0
                         && !livingEntity.getUseItem().equals(usedStack)
-                        ? 0.0F : (float)(usedStack.getUseDuration(livingEntity) - livingEntity.getUseItemRemainingTicks()) / 20.0F;
+                        ? 0.0F : (float)(usedStack.getUseDuration(livingEntity) - livingEntity.getUseItemRemainingTicks()) / KineticShortbowItem.STARTUP_TIME_TICKS;
             }
         });
 
@@ -41,10 +36,9 @@ public class KWItemModelPredicates {
                     && livingEntity.isUsingItem()
                     && livingEntity.getUseItem().equals(usedStack) ? 1.0F : 0.0F;
         });
-
     }
 
     private static void registerSomethingOrOther(String id, ItemPropertyFunction fun) {
-        GENERIC_PROPERTIES.put(KWCommon.locate(id), fun);
+        ItemProperties.registerGeneric(KWCommon.locate(id), fun);
     }
 }

@@ -12,7 +12,7 @@ import net.minecraft.world.item.ItemStack;
 
 import java.util.Optional;
 
-public record KineticChargeDataComponent(int charge) implements ReEquipAnimationIgnored {
+public record KineticChargeDataComponent(int charge) {
     public static final Codec<KineticChargeDataComponent> CODEC = RecordCodecBuilder.create(instance ->
             instance.group(
                     Codec.INT.fieldOf("kinetic_charge").forGetter(KineticChargeDataComponent::charge)

@@ -41,9 +41,13 @@ import java.util.function.Predicate;
 
 public class KineticShortbowItem extends ProjectileWeaponItem implements KineticChargeStoringItem {
 
-    public static final int STARTUP_TIME_TICKS = 6;
+    public static final int STARTUP_TIME_TICKS = 3;
     public static final int DEFAULT_RANGE = 20;
     public static final int HEAT_UNIT_DISSIPATION_PER_SECOND = 4;
+    public static final int HEAT_UNIT_HOT_THRESHOLD = 10;
+    public static final int HEAT_UNIT_HOTTEST_THRESHOLD = 20;
+    public static final float OUTPUT_VELOCITY = 6.0f;
+    public static final int MAX_CHARGES = 128;
 
     public KineticShortbowItem(Properties properties) {
         super(properties);
@@ -114,10 +118,25 @@ public class KineticShortbowItem extends ProjectileWeaponItem implements Kinetic
                 }
             }
 
-            int heatUnits = HeatUnitDataComponent.getHeatUnits(stack);
+            int oldHeatUnits = HeatUnitDataComponent.getHeatUnits(stack);
 
-            if (entity.tickCount % 20 == 0 && heatUnits > 0) {
-                HeatUnitDataComponent.decrementHeatUnits(stack, HEAT_UNIT_DISSIPATION_PER_SECOND);
+            if (entity.tickCount % 20 == 0 && oldHeatUnits > 0) {
+                int newHeatUnits = HeatUnitDataComponent.decrementHeatUnits(stack, HEAT_UNIT_DISSIPATION_PER_SECOND);
+
+                // crappy audio code but it should work
+                if ((oldHeatUnits > HEAT_UNIT_HOT_THRESHOLD && newHeatUnits < HEAT_UNIT_HOT_THRESHOLD)
+                || oldHeatUnits > HEAT_UNIT_HOTTEST_THRESHOLD && newHeatUnits < HEAT_UNIT_HOTTEST_THRESHOLD) {
+                    level.playSound(
+                            null,
+                            player.getX(),
+                            player.getY(),
+                            player.getZ(),
+                            KWSounds.KINETIC_SHORTBOW_COOL_DOWN.get(),
+                            SoundSource.PLAYERS,
+                            1.0F,
+                            1.0F / (level.getRandom().nextFloat() * 0.4F + 2.4F) * 0.5F + (float) 0.05 * HeatUnitDataComponent.getHeatUnits(stack)
+                    );
+                }
             }
         }
     }
@@ -127,7 +146,7 @@ public class KineticShortbowItem extends ProjectileWeaponItem implements Kinetic
         ItemStack usedStack = player.getItemInHand(usedHand);
 
         boolean isCharged = KineticChargeDataComponent.getCharge(usedStack) > 0;
-        if (!isCharged) {
+        if (!isCharged && !player.isCreative()) {
             return rechargeFromRetentionModule(player, usedStack)
                     ? InteractionResultHolder.success(usedStack)
                     : InteractionResultHolder.fail(usedStack);
@@ -147,7 +166,7 @@ public class KineticShortbowItem extends ProjectileWeaponItem implements Kinetic
 
     @Override
     public int getMaxKineticCharge() {
-        return KWConstants.KINETIC_SHORTBOW_MAX_CHARGES;
+        return MAX_CHARGES;
     }
 
     private static boolean isAttackUseActive(ItemStack stack) {
@@ -175,11 +194,25 @@ public class KineticShortbowItem extends ProjectileWeaponItem implements Kinetic
         if (usageTime > STARTUP_TIME_TICKS) {
             List<ItemStack> projectiles = draw(shortbowStack, projectile, player);
             if (!projectiles.isEmpty()) {
-                // remove a kinetic charge
-                KineticChargeDataComponent.incrementCharge(shortbowStack, -1);
+                // remove a kinetic charge (but not in creative)
+                KineticChargeDataComponent.incrementCharge(shortbowStack, player.isCreative() ? 0 : -1);
                 // add a heat unit
-                HeatUnitDataComponent.incrementHeatUnits(shortbowStack, 1);
-                KINETIC_SHORTBOW.shoot(level, player, hand, shortbowStack, projectiles, KWConstants.KINETIC_SHORTBOW_OUTPUT_VELOCITY, 1.0f, true, null);
+                int heatUnits = HeatUnitDataComponent.incrementHeatUnits(shortbowStack, 1);
+
+                if (heatUnits == HEAT_UNIT_HOT_THRESHOLD || heatUnits == HEAT_UNIT_HOTTEST_THRESHOLD)  {
+                    level.playSound(
+                            null,
+                            player.getX(),
+                            player.getY(),
+                            player.getZ(),
+                            KWSounds.KINETIC_SHORTBOW_OVERHEAT.get(),
+                            SoundSource.PLAYERS,
+                            1.0F,
+                            1.0F / (level.getRandom().nextFloat() * 0.4F + 2.4F) * 0.5F + (float) 0.05 * HeatUnitDataComponent.getHeatUnits(shortbowStack)
+                    );
+                }
+
+                KINETIC_SHORTBOW.shoot(level, player, hand, shortbowStack, projectiles, OUTPUT_VELOCITY, heatUnits * 0.2f, true, null);
                 level.playSound(
                         null,
                         player.getX(),
