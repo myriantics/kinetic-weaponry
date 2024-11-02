@@ -245,7 +245,7 @@ public class KineticShortbowItem extends ProjectileWeaponItem implements Kinetic
 
         boolean original = super.shouldCauseReequipAnimation(oldStack, newStack, slotChanged);
 
-        // jank ass code that ignores reequip animation updates when its from the kinetic weaponry namespace
+        // jank ass code that ignores reequip animation updates if only specified ignored components change
         if (original && newStack.getItem() instanceof KineticShortbowItem) {
             for(TypedDataComponent<?> type : newStack.getComponents()) {
                 // if the component is marked as ignored, dont process it

@@ -1,0 +1,30 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "combat",
+  "key": {
+    "C": {
+      "tag": "minecraft:copper_block"
+    },
+    "R": {
+      "item": "minecraft:breeze_rod"
+    },
+    "H": {
+      "item": "minecraft:heavy_core"
+    },
+    "W": {
+      "item": "minecraft:wind_charge"
+    },
+    "B": {
+      "item": "minecraft:copper_bulb"
+    }
+  },
+  "pattern": [
+    "CHC",
+    "RWR",
+    "CBC"
+  ],
+  "result": {
+    "count": 1,
+    "id": "kinetic_weaponry:kinetic_charging_bus"
+  }
+}
