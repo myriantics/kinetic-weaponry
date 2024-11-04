@@ -10,5 +10,9 @@
   "subtitles.item.kinetic_charge_item.kinetic_recharge": "Kinetic Item Recharged",
   "subtitles.block.kinetic_charging_bus.discharge": "Kinetic Charging Bus Discharges",
   "subtitles.item.kinetic_shortbow.overheat": "Kinetic Shortbow overheats",
-  "subtitles.item.kinetic_shortbow.cool_down": "Kinetic Shortbow cools down"
+  "subtitles.item.kinetic_shortbow.cool_down": "Kinetic Shortbow cools down",
+  "advancements.adventure.wear_retention_module.description": "Xenomorph???",
+  "advancements.adventure.reload_kinetic_shortbow.description": "I have updated my audio equipment!",
+  "advancements.adventure.kinetic_detonator_activation.description": "Yes, Rico. Ka-boom.",
+  "advancements.adventure.obtain_kinetic_charging_bus.description": "The USB Hub"
 }

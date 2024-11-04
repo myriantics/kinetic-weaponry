@@ -54,7 +54,7 @@ public class KineticDetonatorBlock extends AbstractKineticImpactActionBlock impl
                 // so the explosion actually goes through the block
                 serverLevel.setBlockAndUpdate(pos, Blocks.AIR.defaultBlockState());
                 // kaboom? yes rico, kaboom.
-                serverLevel.explode(player, pos.getCenter().x, pos.getCenter().y, pos.getCenter().z, impactDamage,
+                serverLevel.explode(player, pos.getCenter().x, pos.getCenter().y, pos.getCenter().z, impactDamage, false,
                         Level.ExplosionInteraction.BLOCK);
             }
 

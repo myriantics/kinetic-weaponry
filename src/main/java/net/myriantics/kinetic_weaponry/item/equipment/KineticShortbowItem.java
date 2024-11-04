@@ -46,7 +46,7 @@ public class KineticShortbowItem extends ProjectileWeaponItem implements Kinetic
     public static final int HEAT_UNIT_DISSIPATION_PER_SECOND = 4;
     public static final int HEAT_UNIT_HOT_THRESHOLD = 10;
     public static final int HEAT_UNIT_HOTTEST_THRESHOLD = 20;
-    public static final float OUTPUT_VELOCITY = 6.0f;
+    public static final float OUTPUT_VELOCITY = 5.0f;
     public static final int MAX_CHARGES = 128;
 
     public KineticShortbowItem(Properties properties) {
@@ -212,7 +212,7 @@ public class KineticShortbowItem extends ProjectileWeaponItem implements Kinetic
                     );
                 }
 
-                KINETIC_SHORTBOW.shoot(level, player, hand, shortbowStack, projectiles, OUTPUT_VELOCITY, heatUnits * 0.2f, true, null);
+                KINETIC_SHORTBOW.shoot(level, player, hand, shortbowStack, projectiles, OUTPUT_VELOCITY, heatUnits * 0.2f, false, null);
                 level.playSound(
                         null,
                         player.getX(),
