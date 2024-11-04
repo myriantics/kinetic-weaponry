@@ -1,5 +1,6 @@
 {
 	"credit": "Made with Blockbench",
+	"ambientocclusion": false,
 	"texture_size": [16, 16],
 	"textures": {
 		"1": "kinetic_weaponry:block/kinetic_retention_module/kinetic_retention_module_bottom_unlit_unpowered",

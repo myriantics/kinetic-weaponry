@@ -139,13 +139,15 @@ public class KineticChargingBusBlock extends AbstractKineticImpactActionBlock {
             }
         }
 
-        level.playSound(
-                null,
-                pos,
-                KWSounds.KINETIC_SHORTBOW_SHOOT.get(),
-                SoundSource.BLOCKS,
-                1.0F,
-                1.0F / (level.getRandom().nextFloat() * (0.25f * (float) getOutboundCharge(state)) + 1.2F) * 0.5F);
+        if (getOutboundCharge(state) > 0) {
+            level.playSound(
+                    null,
+                    pos,
+                    KWSounds.KINETIC_CHARGING_BUS_DISCHARGE.get(),
+                    SoundSource.BLOCKS,
+                    (0.25f * (float) getOutboundCharge(state)),
+                    1.0F / (level.getRandom().nextFloat() * 1.2F) * 0.5F);
+        }
 
         // charges all connected retention modules evenly before removing charge
         // may remove, thought it was a fun thing idk
