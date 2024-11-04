@@ -128,18 +128,23 @@ public class KineticChargingBusBlock extends AbstractKineticImpactActionBlock {
     }
 
     public void chargeDockedRetentionModules(BlockState state, ServerLevel level, BlockPos pos) {
+        boolean discharged = false;
+
+        // charges all connected retention modules evenly before removing charge
         for (Direction side : Direction.values()) {
             // dont bother checking sides that can't have modules docked
             if (side.getAxis() != state.getValue(FACING).getAxis()) {
                 BlockPos modulePos = pos.relative(side, 1);
                 BlockState moduleState = level.getBlockState(modulePos);
                 if (moduleState.getBlock() instanceof KineticRetentionModuleBlock retentionModule) {
-                    retentionModule.updateCharge(level, modulePos, getOutboundCharge(state));
+                    discharged = retentionModule.updateCharge(level, modulePos, getOutboundCharge(state)) || discharged;
                 }
             }
         }
 
-        if (getOutboundCharge(state) > 0) {
+
+        // may remove, thought it was a fun thing idk
+        if (discharged) {
             level.playSound(
                     null,
                     pos,
@@ -147,11 +152,16 @@ public class KineticChargingBusBlock extends AbstractKineticImpactActionBlock {
                     SoundSource.BLOCKS,
                     (0.25f * (float) getOutboundCharge(state)),
                     1.0F / (level.getRandom().nextFloat() * 1.2F) * 0.5F);
+            updateCharge(level, pos, -getOutboundCharge(state));
+        } else {
+            level.playSound(
+                    null,
+                    pos,
+                    KWSounds.KINETIC_CHARGING_BUS_FAIL.get(),
+                    SoundSource.BLOCKS,
+                    1.0F,
+                    1.0F / (level.getRandom().nextFloat() * 1.2F) * 0.5F);
         }
-
-        // charges all connected retention modules evenly before removing charge
-        // may remove, thought it was a fun thing idk
-        updateCharge(level, pos, -getOutboundCharge(state));
     }
 
     public int getOutboundCharge(BlockState state) {

@@ -13,15 +13,12 @@
     },
     "W": {
       "item": "minecraft:wind_charge"
-    },
-    "L": {
-      "item": "minecraft:redstone_lamp"
     }
   },
   "pattern": [
     "CHC",
     "RWR",
-    "CLC"
+    "CCC"
   ],
   "result": {
     "count": 1,

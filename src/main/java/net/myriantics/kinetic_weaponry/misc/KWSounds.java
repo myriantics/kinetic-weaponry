@@ -28,6 +28,11 @@ public class KWSounds {
             () -> SoundEvent.createVariableRangeEvent(ResourceLocation.withDefaultNamespace("block.respawn_anchor.charge"))
     );
 
+    public static final DeferredHolder<SoundEvent, SoundEvent> KINETIC_CHARGING_BUS_FAIL = SOUND_EVENTS.register(
+            "block.kinetic_charging_bus.fail",
+            () -> SoundEvent.createVariableRangeEvent(ResourceLocation.withDefaultNamespace("block.dispenser.fail"))
+    );
+
     public static final DeferredHolder<SoundEvent, SoundEvent> KINETIC_SHORTBOW_OVERHEAT = SOUND_EVENTS.register(
             "item.kinetic_shortbow.overheat",
             () -> SoundEvent.createVariableRangeEvent(ResourceLocation.withDefaultNamespace("item.firecharge.use"))

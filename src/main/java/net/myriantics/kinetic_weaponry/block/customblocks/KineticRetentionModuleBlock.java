@@ -77,12 +77,17 @@ public class KineticRetentionModuleBlock extends AbstractKineticImpactActionBloc
         return shape;
     }
 
-    public void updateCharge(ServerLevel serverLevel, BlockPos pos, int inboundChargeModifier) {
+    public boolean updateCharge(ServerLevel serverLevel, BlockPos pos, int inboundChargeModifier) {
+        boolean chargeAccepted = false;
+
         BlockState initialState = serverLevel.getBlockState(pos);
         int initialCharge = initialState.getValue(STORED_KINETIC_RELOAD_CHARGES);
 
         // calculate new charge
         int newCharge = Math.clamp(initialCharge + inboundChargeModifier, 0, KWConstants.KINETIC_RETENTION_MODULE_MAX_CHARGES);
+
+        // if you updated the charge, say that you did
+        chargeAccepted = newCharge > initialCharge;
 
         // validate arcade mode
         if (initialState.getValue(ARCADE_MODE)) {
@@ -101,6 +106,8 @@ public class KineticRetentionModuleBlock extends AbstractKineticImpactActionBloc
 
         // commit changes
         serverLevel.setBlockAndUpdate(pos, appendedState);
+
+        return chargeAccepted;
     }
 
     @Override

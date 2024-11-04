@@ -11,8 +11,8 @@
     "H": {
       "item": "minecraft:heavy_core"
     },
-    "L": {
-      "item": "minecraft:redstone_lamp"
+    "I": {
+      "item": "minecraft:copper_ingot"
     },
     "B": {
       "item": "minecraft:copper_bulb"
@@ -20,7 +20,7 @@
   },
   "pattern": [
     "CHC",
-    "LRL",
+    "IRI",
     "CBC"
   ],
   "result": {

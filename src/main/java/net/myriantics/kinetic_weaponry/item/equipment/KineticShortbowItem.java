@@ -156,7 +156,7 @@ public class KineticShortbowItem extends ProjectileWeaponItem implements Kinetic
         InteractionResultHolder<ItemStack> result = EventHooks.onArrowNock(usedStack, level, player, usedHand, hasAmmo);
         if (result != null && usedStack.getItem().equals(this)) {
             return result;
-        } else if (!player.hasInfiniteMaterials() && !hasAmmo && !ArcadeModeDataComponent.getArcadeMode(usedStack)) {
+        } else if (!player.hasInfiniteMaterials() && !hasAmmo) {
             return InteractionResultHolder.fail(usedStack);
         } else {
             player.startUsingItem(usedHand);
@@ -186,7 +186,7 @@ public class KineticShortbowItem extends ProjectileWeaponItem implements Kinetic
         int usageTime = shortbow.getUseDuration(shortbowStack, player)
                 - player.getUseItemRemainingTicks();
 
-        if (kineticCharge <= 0 && !player.isCreative() || !player.isAlive()) {
+        if (kineticCharge <= 0 && !player.isCreative() && !ArcadeModeDataComponent.getArcadeMode(shortbowStack) || !player.isAlive()) {
             // if i dont have charge, stop doing thing >:C
             interruptUsage(player, shortbowStack);
         }
