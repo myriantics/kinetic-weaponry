@@ -3,7 +3,7 @@
   "category": "combat",
   "key": {
     "C": {
-      "tag": "minecraft:copper_grate"
+      "item": "minecraft:copper_grate"
     },
     "B": {
       "item": "minecraft:breeze_rod"

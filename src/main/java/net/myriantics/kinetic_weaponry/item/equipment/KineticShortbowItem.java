@@ -186,7 +186,7 @@ public class KineticShortbowItem extends ProjectileWeaponItem implements Kinetic
         int usageTime = shortbow.getUseDuration(shortbowStack, player)
                 - player.getUseItemRemainingTicks();
 
-        if (kineticCharge <= 0) {
+        if (kineticCharge <= 0 && !player.isCreative() || !player.isAlive()) {
             // if i dont have charge, stop doing thing >:C
             interruptUsage(player, shortbowStack);
         }
@@ -223,6 +223,8 @@ public class KineticShortbowItem extends ProjectileWeaponItem implements Kinetic
                         1.0F,
                         1.0F / (level.getRandom().nextFloat() * 0.4F + 2.4F) * 0.5F + (float) 0.05 * HeatUnitDataComponent.getHeatUnits(shortbowStack)
                 );
+            } else if (!player.isCreative()) {
+                interruptUsage(player, shortbowStack);
             }
         }
     }

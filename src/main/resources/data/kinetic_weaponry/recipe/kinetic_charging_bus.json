@@ -3,7 +3,7 @@
   "category": "combat",
   "key": {
     "C": {
-      "tag": "minecraft:copper_block"
+      "item": "minecraft:copper_block"
     },
     "R": {
       "item": "minecraft:breeze_rod"
@@ -14,14 +14,14 @@
     "W": {
       "item": "minecraft:wind_charge"
     },
-    "B": {
-      "item": "minecraft:copper_bulb"
+    "L": {
+      "item": "minecraft:redstone_lamp"
     }
   },
   "pattern": [
     "CHC",
     "RWR",
-    "CBC"
+    "CLC"
   ],
   "result": {
     "count": 1,

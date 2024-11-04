@@ -1,6 +1,7 @@
 package net.myriantics.kinetic_weaponry.block.customblocks;
 
 import net.minecraft.sounds.SoundSource;
+import net.minecraft.world.level.block.Blocks;
 import net.myriantics.kinetic_weaponry.KWConstants;
 import net.myriantics.kinetic_weaponry.block.KWBlockStateProperties;
 import net.myriantics.kinetic_weaponry.item.data_components.KineticChargeDataComponent;

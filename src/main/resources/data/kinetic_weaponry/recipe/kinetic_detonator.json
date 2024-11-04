@@ -3,7 +3,7 @@
   "category": "combat",
   "key": {
     "C": {
-      "tag": "minecraft:copper_block"
+      "item": "minecraft:copper_block"
     },
     "R": {
       "item": "minecraft:breeze_rod"

@@ -24,7 +24,7 @@ public class KWItemModelPredicates {
                 return 0.0F;
             } else {
                 // if used stack matches and is charged
-                return KineticChargeDataComponent.getCharge(usedStack) > 0
+                return (KineticChargeDataComponent.getCharge(usedStack) > 0 || livingEntity.hasInfiniteMaterials())
                         && !livingEntity.getUseItem().equals(usedStack)
                         ? 0.0F : (float)(usedStack.getUseDuration(livingEntity) - livingEntity.getUseItemRemainingTicks()) / KineticShortbowItem.STARTUP_TIME_TICKS;
             }
@@ -32,7 +32,7 @@ public class KWItemModelPredicates {
 
         ItemProperties.register(KWItems.KINETIC_SHORTBOW.get(), ResourceLocation.withDefaultNamespace("pulling"), (usedStack, clientLevel, livingEntity, i) -> {
             return livingEntity != null
-                    && KineticChargeDataComponent.getCharge(usedStack) > 0
+                    && (KineticChargeDataComponent.getCharge(usedStack) > 0 || livingEntity.hasInfiniteMaterials())
                     && livingEntity.isUsingItem()
                     && livingEntity.getUseItem().equals(usedStack) ? 1.0F : 0.0F;
         });
