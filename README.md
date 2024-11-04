@@ -1,5 +1,8 @@
 
-Installation information
+i cba to write a description rn its late
+enjoy this lovely neoforge setup tutorial
+you should do modding its cool
+yep
 =======
 
 This template repository can be directly cloned to get you started with a new
