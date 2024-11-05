@@ -3,7 +3,7 @@ package net.myriantics.kinetic_weaponry.item.data_components;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import io.netty.buffer.ByteBuf;
-import net.minecraft.core.component.PatchedDataComponentMap;
+import net.minecraft.core.component.DataComponentPatch;
 import net.minecraft.network.codec.ByteBufCodecs;
 import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.world.item.ItemStack;
@@ -29,9 +29,10 @@ public record AttackUseTrackerDataComponent(boolean attackKeyDown) implements Re
         return arcadeModeDataComponent.map(AttackUseTrackerDataComponent::attackKeyDown).orElse(false);
     }
 
-    public static ItemStack setAttackUse(ItemStack usedStack, boolean attackUseActive) {
-        PatchedDataComponentMap componentMap = (PatchedDataComponentMap) usedStack.getComponents();
-        componentMap.set(KWDataComponents.ATTACK_USE_TRACKER.get(), new AttackUseTrackerDataComponent(attackUseActive));
-        return usedStack;
+    public static void setAttackUse(ItemStack usedStack, boolean attackUseActive) {
+        usedStack.applyComponents(DataComponentPatch.builder()
+                .set(KWDataComponents.ATTACK_USE_TRACKER.get(), new AttackUseTrackerDataComponent(attackUseActive))
+                .build()
+        );
     }
 }

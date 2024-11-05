@@ -3,6 +3,7 @@ package net.myriantics.kinetic_weaponry.item.data_components;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import io.netty.buffer.ByteBuf;
+import net.minecraft.core.component.DataComponentPatch;
 import net.minecraft.core.component.PatchedDataComponentMap;
 import net.minecraft.network.codec.ByteBufCodecs;
 import net.minecraft.network.codec.StreamCodec;
@@ -30,7 +31,9 @@ public record AttackUseStartTimeDataComponent(int startTimeTicks) implements ReE
     }
 
     public static void setStartTimeTicks(ItemStack usedStack, int startTimeTicks) {
-        PatchedDataComponentMap componentMap = (PatchedDataComponentMap) usedStack.getComponents();
-        componentMap.set(KWDataComponents.ATTACK_USE_START_TIME.get(), new AttackUseStartTimeDataComponent(startTimeTicks));
+        usedStack.applyComponents(DataComponentPatch.builder()
+                .set(KWDataComponents.ATTACK_USE_START_TIME.get(), new AttackUseStartTimeDataComponent(startTimeTicks))
+                .build()
+        );
     }
 }

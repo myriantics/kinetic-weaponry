@@ -2,6 +2,7 @@ package net.myriantics.kinetic_weaponry.item.data_components;
 
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
+import net.minecraft.core.component.DataComponentPatch;
 import net.myriantics.kinetic_weaponry.item.KineticChargeStoringItem;
 import net.myriantics.kinetic_weaponry.item.KWDataComponents;
 import io.netty.buffer.ByteBuf;
@@ -31,14 +32,16 @@ public record KineticChargeDataComponent(int charge) {
     }
 
     public static void setCharge(ItemStack chargeStack, int charge) {
-        PatchedDataComponentMap componentMap = (PatchedDataComponentMap) chargeStack.getComponents();
 
         // bump charge to max if arcade mode is on
         if (ArcadeModeDataComponent.getArcadeMode(chargeStack) && chargeStack.getItem() instanceof KineticChargeStoringItem chargedItem) {
             charge = chargedItem.getMaxKineticCharge();
         }
 
-        componentMap.set(KWDataComponents.KINETIC_CHARGE.get(), new KineticChargeDataComponent(charge));
+        chargeStack.applyComponents(DataComponentPatch.builder()
+                .set(KWDataComponents.KINETIC_CHARGE.get(), new KineticChargeDataComponent(charge))
+                .build()
+        );
     }
 
     public static void incrementCharge(ItemStack chargeStack, int inboundCharge) {

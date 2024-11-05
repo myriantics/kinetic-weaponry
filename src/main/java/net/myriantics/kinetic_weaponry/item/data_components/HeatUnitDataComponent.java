@@ -3,6 +3,7 @@ package net.myriantics.kinetic_weaponry.item.data_components;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import io.netty.buffer.ByteBuf;
+import net.minecraft.core.component.DataComponentPatch;
 import net.minecraft.core.component.PatchedDataComponentMap;
 import net.minecraft.network.codec.ByteBufCodecs;
 import net.minecraft.network.codec.StreamCodec;
@@ -32,10 +33,11 @@ public record HeatUnitDataComponent(int heat) implements ReEquipAnimationIgnored
         return kineticChargeDataComponent.map(HeatUnitDataComponent::heat).orElse(0);
     }
 
-    public static void setHeatUnits(ItemStack chargeStack, int charge) {
-        PatchedDataComponentMap componentMap = (PatchedDataComponentMap) chargeStack.getComponents();
-
-        componentMap.set(KWDataComponents.HEAT_UNIT.get(), new HeatUnitDataComponent(charge));
+    public static void setHeatUnits(ItemStack chargeStack, int heat) {
+        chargeStack.applyComponents(DataComponentPatch.builder()
+                .set(KWDataComponents.HEAT_UNIT.get(), new HeatUnitDataComponent(heat))
+                .build()
+        );
     }
 
     public static int incrementHeatUnits(ItemStack chargeStack, int inboundHeatDecrement) {
