@@ -19,13 +19,10 @@ import org.slf4j.Logger;
 
 import com.mojang.logging.LogUtils;
 
-import net.minecraft.client.Minecraft;
-import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.CreativeModeTabs;
-import net.minecraft.world.level.block.Blocks;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.bus.api.SubscribeEvent;
@@ -52,7 +49,6 @@ public class KWCommon
 
     public static final DeferredHolder<CreativeModeTab, CreativeModeTab> KINETIC_WEAPONRY_TAB = CREATIVE_MODE_TABS.register("kinetic_weaponry", () -> CreativeModeTab.builder()
             .title(Component.translatable("itemGroup." + MOD_ID)) //The language key for the title of your CreativeModeTab
-            .withTabsBefore(CreativeModeTabs.COMBAT)
             .icon(() -> KWBlocks.KINETIC_RETENTION_MODULE.asItem().getDefaultInstance())
             .displayItems((parameters, output) -> {
                 output.accept(KWBlocks.KINETIC_CHARGING_BUS);
@@ -72,25 +68,20 @@ public class KWCommon
         KWEntities.registerKineticWeaponryEntities(modEventBus);
         KWSounds.registerKineticWeaponrySounds(modEventBus);
 
-        // Register the commonSetup method for modloading
         modEventBus.addListener(this::commonSetup);;
 
-        // Register the Deferred Register to the mod event bus so tabs get registered
         CREATIVE_MODE_TABS.register(modEventBus);
 
-        // Register ourselves for server and other game events we are interested in.
-        // Note that this is necessary if and only if we want *this* class (ExampleMod) to respond directly to events.
-        // Do not add this line if there are no @SubscribeEvent-annotated functions in this class, like onServerStarting() below.
         NeoForge.EVENT_BUS.register(this);
         NeoForge.EVENT_BUS.addListener(KWEventHandler::onAttackBlock);
         NeoForge.EVENT_BUS.addListener(KineticShortbowItem::onPlayerLeftClickUpdate);
         modEventBus.addListener(KWPackets::registerPayloads);
 
-        // Register the item to a creative tab
         modEventBus.addListener(this::addCreative);
 
         // Register our mod's ModConfigSpec so that FML can create and load the config file for us
-        modContainer.registerConfig(ModConfig.Type.COMMON, Config.SPEC);
+        modContainer.registerConfig(ModConfig.Type.COMMON, KWConfig.SPEC);
+        LOGGER.info("Kinetic Weaponry has started!");
     }
 
 
@@ -101,16 +92,9 @@ public class KWCommon
     private void commonSetup(final FMLCommonSetupEvent event)
     {
         // Some common setup code
-        LOGGER.info("HELLO FROM COMMON SETUP");
+        LOGGER.info("Starting Kinetic Weaponry!");
 
         DispenserBlock.registerBehavior(KWItems.KINETIC_RETENTION_MODULE_BLOCK_ITEM.asItem(), new KineticRetentionModuleDispenserBehavior());
-
-        if (Config.logDirtBlock)
-            LOGGER.info("DIRT BLOCK >> {}", BuiltInRegistries.BLOCK.getKey(Blocks.DIRT));
-
-        LOGGER.info(Config.magicNumberIntroduction + Config.magicNumber);
-
-        Config.items.forEach((item) -> LOGGER.info("ITEM >> {}", item.toString()));
     }
 
     private void addCreative(BuildCreativeModeTabContentsEvent event)
@@ -121,29 +105,22 @@ public class KWCommon
         }
     }
 
-    // You can use SubscribeEvent and let the Event Bus discover methods to call
     @SubscribeEvent
     public void onServerStarting(ServerStartingEvent event)
     {
         // Do something when the server starts
-        LOGGER.info("HELLO from server starting");
+        LOGGER.info("Kinetic Weaponry - Started Serverside!");
     }
 
-    // You can use EventBusSubscriber to automatically register all static methods in the class annotated with @SubscribeEvent
     @EventBusSubscriber(modid = MOD_ID, bus = EventBusSubscriber.Bus.MOD, value = Dist.CLIENT)
     public static class ClientModEvents
     {
         @SubscribeEvent
         public static void onClientSetup(FMLClientSetupEvent event)
         {
-            // surely :clueless:
+            // gaming in the most epic of ways
             KWItemModelPredicates.registerItemPredicates();
-            /*ModelTemplates.THREE_LAYERED_ITEM.create(
-                    ModelLocationUtils.getModelLocation(KWItems.KINETIC_SHORTBOW.get()),
-                    TextureMapping.layered(layer0, layer1, layer2), this.output);*/
-            // Some client setup code
-            LOGGER.info("HELLO FROM CLIENT SETUP");
-            LOGGER.info("MINECRAFT NAME >> {}", Minecraft.getInstance().getUser().getName());
+            LOGGER.info("Kinetic Weaponry - Started Clientside!");
         }
     }
 }

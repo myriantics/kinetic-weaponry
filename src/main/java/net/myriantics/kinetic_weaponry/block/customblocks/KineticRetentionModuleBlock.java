@@ -2,7 +2,7 @@ package net.myriantics.kinetic_weaponry.block.customblocks;
 
 import net.minecraft.world.level.material.FluidState;
 import net.minecraft.world.level.material.Fluids;
-import net.myriantics.kinetic_weaponry.KWConstants;
+import net.myriantics.kinetic_weaponry.KWConfig;
 import net.myriantics.kinetic_weaponry.block.KWBlockStateProperties;
 import net.myriantics.kinetic_weaponry.block.KWBlocks;
 import net.myriantics.kinetic_weaponry.item.KWDataComponents;
@@ -12,7 +12,6 @@ import net.myriantics.kinetic_weaponry.item.data_components.KineticChargeDataCom
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
-import net.minecraft.core.component.PatchedDataComponentMap;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvents;
@@ -49,6 +48,8 @@ public class KineticRetentionModuleBlock extends AbstractKineticImpactActionBloc
     public static final BooleanProperty ARCADE_MODE = KWBlockStateProperties.ARCADE_MODE;
     public static final BooleanProperty WATERLOGGED = BlockStateProperties.WATERLOGGED;
 
+    public static final int KINETIC_RETENTION_MODULE_MAX_CHARGES = 4;
+
     public KineticRetentionModuleBlock(Properties properties) {
         super(properties);
 
@@ -84,7 +85,7 @@ public class KineticRetentionModuleBlock extends AbstractKineticImpactActionBloc
         int initialCharge = initialState.getValue(STORED_KINETIC_RELOAD_CHARGES);
 
         // calculate new charge
-        int newCharge = Math.clamp(initialCharge + inboundChargeModifier, 0, KWConstants.KINETIC_RETENTION_MODULE_MAX_CHARGES);
+        int newCharge = Math.clamp(initialCharge + inboundChargeModifier, 0, KINETIC_RETENTION_MODULE_MAX_CHARGES);
 
         // if you updated the charge, say that you did
         chargeAccepted = newCharge > initialCharge;
@@ -157,7 +158,7 @@ public class KineticRetentionModuleBlock extends AbstractKineticImpactActionBloc
 
         // scale charge gained based on impact damage
         if (impactDamage > 0) {
-            inboundChargeModifier = (int) impactDamage / KWConstants.KINETIC_RETENTION_MODULE_IMPACT_CHARGE_DIVISOR;
+            inboundChargeModifier = (int) impactDamage / KWConfig.kineticRetentionModuleImpactChargeDivisor;
         }
 
         // commit charge update
@@ -172,7 +173,7 @@ public class KineticRetentionModuleBlock extends AbstractKineticImpactActionBloc
         BlockState state = serverLevel.getBlockState(pos);
         return !state.getValue(ARCADE_MODE)
                 && !state.getValue(POWERED)
-                && state.getValue(STORED_KINETIC_RELOAD_CHARGES) != KWConstants.KINETIC_RETENTION_MODULE_MAX_CHARGES;
+                && state.getValue(STORED_KINETIC_RELOAD_CHARGES) != KINETIC_RETENTION_MODULE_MAX_CHARGES;
     }
 
     @Override

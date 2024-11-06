@@ -1,17 +1,10 @@
 package net.myriantics.kinetic_weaponry.item.equipment;
 
-import net.minecraft.core.component.DataComponentMap;
-import net.minecraft.core.component.DataComponentType;
-import net.minecraft.core.component.PatchedDataComponentMap;
 import net.minecraft.core.component.TypedDataComponent;
 import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.ComponentUtils;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
-import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
-import net.myriantics.kinetic_weaponry.KWCommon;
-import net.myriantics.kinetic_weaponry.KWConstants;
+import net.myriantics.kinetic_weaponry.KWConfig;
 import net.myriantics.kinetic_weaponry.events.PlayerAttackKeyUpdateWhileUsingEvent;
 import net.myriantics.kinetic_weaponry.item.KWItems;
 import net.myriantics.kinetic_weaponry.item.KineticChargeStoringItem;
@@ -29,25 +22,19 @@ import net.myriantics.kinetic_weaponry.misc.KWSounds;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.api.distmarker.OnlyIn;
 import net.neoforged.bus.api.SubscribeEvent;
-import net.neoforged.neoforge.common.util.DataComponentUtil;
 import net.neoforged.neoforge.event.EventHooks;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 import java.util.Optional;
 import java.util.function.Predicate;
 
 public class KineticShortbowItem extends ProjectileWeaponItem implements KineticChargeStoringItem {
 
     public static final int STARTUP_TIME_TICKS = 3;
-    public static final int DEFAULT_RANGE = 20;
     public static final int HEAT_UNIT_DISSIPATION_PER_SECOND = 4;
     public static final int HEAT_UNIT_HOT_THRESHOLD = 10;
     public static final int HEAT_UNIT_HOTTEST_THRESHOLD = 20;
-    public static final float OUTPUT_VELOCITY = 5.0f;
-    public static final int MAX_CHARGES = 128;
 
     public KineticShortbowItem(Properties properties) {
         super(properties);
@@ -60,7 +47,7 @@ public class KineticShortbowItem extends ProjectileWeaponItem implements Kinetic
 
     @Override
     public int getDefaultProjectileRange() {
-        return DEFAULT_RANGE;
+        return KWConfig.kineticShortbowRange;
     }
 
     @Override
@@ -166,7 +153,7 @@ public class KineticShortbowItem extends ProjectileWeaponItem implements Kinetic
 
     @Override
     public int getMaxKineticCharge() {
-        return MAX_CHARGES;
+        return KWConfig.kineticShortbowMaxCharges;
     }
 
     private static boolean isAttackUseActive(ItemStack stack) {
@@ -212,7 +199,7 @@ public class KineticShortbowItem extends ProjectileWeaponItem implements Kinetic
                     );
                 }
 
-                KINETIC_SHORTBOW.shoot(level, player, hand, shortbowStack, projectiles, OUTPUT_VELOCITY, heatUnits * 0.2f, false, null);
+                KINETIC_SHORTBOW.shoot(level, player, hand, shortbowStack, projectiles, KWConfig.kineticShortbowOutputVelocity, heatUnits * 0.2f, false, null);
                 level.playSound(
                         null,
                         player.getX(),

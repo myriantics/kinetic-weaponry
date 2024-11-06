@@ -16,14 +16,17 @@ import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.level.block.state.properties.BooleanProperty;
 import net.minecraft.world.level.block.state.properties.DirectionProperty;
+import net.myriantics.kinetic_weaponry.KWConfig;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-public class KineticDetonatorBlock extends AbstractKineticImpactActionBlock implements Equipable {
-
+public class KineticDetonatorBlock extends AbstractKineticImpactActionBlock {
     public static final DirectionProperty FACING = BlockStateProperties.FACING;
     public static final BooleanProperty POWERED = BlockStateProperties.POWERED;
     public static final BooleanProperty LIT = BlockStateProperties.LIT;
+
+    // set in KWConfig
+    public static float EXPLOSION_POWER_MULTIPLIER;
 
     public KineticDetonatorBlock(Properties properties) {
         super(properties);
@@ -53,8 +56,10 @@ public class KineticDetonatorBlock extends AbstractKineticImpactActionBlock impl
             if (!state.getValue(LIT)) {
                 // so the explosion actually goes through the block
                 serverLevel.setBlockAndUpdate(pos, Blocks.AIR.defaultBlockState());
+                // low effort special effects go brrt
+                serverLevel.addDestroyBlockEffect(pos, state);
                 // kaboom? yes rico, kaboom. (i nerfed it by half because it really did get a bit stupid with density 5)
-                serverLevel.explode(player, pos.getCenter().x, pos.getCenter().y, pos.getCenter().z, impactDamage * 0.65f, false,
+                serverLevel.explode(player, pos.getCenter().x, pos.getCenter().y, pos.getCenter().z, impactDamage * KWConfig.kineticDetonatorExplosionPowerMultiplier, false,
                         Level.ExplosionInteraction.BLOCK);
             }
 
@@ -103,10 +108,5 @@ public class KineticDetonatorBlock extends AbstractKineticImpactActionBlock impl
     @Override
     protected int getAnalogOutputSignal(BlockState state, Level level, BlockPos pos) {
         return level.getBlockState(pos).getValue(LIT) ? 15 : 0;
-    }
-
-    @Override
-    public @NotNull EquipmentSlot getEquipmentSlot() {
-        return EquipmentSlot.BODY;
     }
 }

@@ -1,38 +1,19 @@
 package net.myriantics.kinetic_weaponry.item.blockitems;
 
-import net.minecraft.core.Holder;
-import net.minecraft.server.level.ServerPlayer;
-import net.minecraft.sounds.SoundEvent;
-import net.myriantics.kinetic_weaponry.KWCommon;
-import net.myriantics.kinetic_weaponry.KWConstants;
-import net.myriantics.kinetic_weaponry.entity.KineticRetentionModuleEntity;
-import net.myriantics.kinetic_weaponry.entity.KWEntities;
-import net.myriantics.kinetic_weaponry.item.KWItems;
+import net.myriantics.kinetic_weaponry.block.customblocks.KineticRetentionModuleBlock;
 import net.myriantics.kinetic_weaponry.item.KineticChargeStoringItem;
-import net.myriantics.kinetic_weaponry.block.KWBlockStateProperties;
-import net.myriantics.kinetic_weaponry.item.KWDataComponents;
-import net.myriantics.kinetic_weaponry.block.KWBlocks;
-import net.myriantics.kinetic_weaponry.item.data_components.ArcadeModeDataComponent;
-import net.myriantics.kinetic_weaponry.item.data_components.KineticChargeDataComponent;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResultHolder;
-import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EquipmentSlot;
-import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.*;
-import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
-import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.level.block.state.properties.BlockStateProperties;
-import net.minecraft.world.phys.Vec3;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
-import java.util.Optional;
 
 public class KineticRetentionModuleBlockItem extends BlockItem implements Equipable, KineticChargeStoringItem {
 
@@ -93,6 +74,6 @@ public class KineticRetentionModuleBlockItem extends BlockItem implements Equipa
 
     @Override
     public int getMaxKineticCharge() {
-        return KWConstants.KINETIC_RETENTION_MODULE_MAX_CHARGES;
+        return KineticRetentionModuleBlock.KINETIC_RETENTION_MODULE_MAX_CHARGES;
     }
 }

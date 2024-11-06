@@ -1,14 +1,12 @@
 package net.myriantics.kinetic_weaponry.block.customblocks;
 
 import net.minecraft.sounds.SoundSource;
-import net.minecraft.world.level.block.Blocks;
-import net.myriantics.kinetic_weaponry.KWConstants;
+import net.myriantics.kinetic_weaponry.KWConfig;
 import net.myriantics.kinetic_weaponry.block.KWBlockStateProperties;
 import net.myriantics.kinetic_weaponry.item.data_components.KineticChargeDataComponent;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
-import net.minecraft.core.component.PatchedDataComponentMap;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.util.RandomSource;
@@ -34,6 +32,8 @@ public class KineticChargingBusBlock extends AbstractKineticImpactActionBlock {
     public static final IntegerProperty STORED_KINETIC_CHARGES = KWBlockStateProperties.STORED_KINETIC_CHARGES_CHARGING_BUS;
     public static final DirectionProperty FACING = BlockStateProperties.FACING;
     public static final BooleanProperty TRIGGERED = BlockStateProperties.TRIGGERED;
+
+    public static final int KINETIC_CHARGING_BUS_MAX_CHARGES = 8;
 
     public KineticChargingBusBlock(Properties properties) {
         super(properties);
@@ -63,7 +63,7 @@ public class KineticChargingBusBlock extends AbstractKineticImpactActionBlock {
         // calculate new charge
         int newCharge = Math.clamp(
                 initialCharge + inboundChargeModifier,
-                0, KWConstants.KINETIC_CHARGING_BUS_MAX_CHARGES);
+                0, KINETIC_CHARGING_BUS_MAX_CHARGES);
 
         // determine new update state
         BlockState appendedState = initialState
@@ -79,7 +79,7 @@ public class KineticChargingBusBlock extends AbstractKineticImpactActionBlock {
 
         // scale charge gained based on impact damage
         if (impactDamage > 0) {
-            inboundChargeModifier = (int) impactDamage / KWConstants.KINETIC_CHARGING_BUS_IMPACT_CHARGE_DIVISOR;
+            inboundChargeModifier = (int) impactDamage / KWConfig.kineticChargingBusImpactChargeDivisor;
         }
 
         // commit charge update
@@ -94,7 +94,7 @@ public class KineticChargingBusBlock extends AbstractKineticImpactActionBlock {
         BlockState state = serverLevel.getBlockState(pos);
 
         // if its not full, then the impact was valid
-        return state.getValue(STORED_KINETIC_CHARGES) != KWConstants.KINETIC_CHARGING_BUS_MAX_CHARGES;
+        return state.getValue(STORED_KINETIC_CHARGES) != KINETIC_CHARGING_BUS_MAX_CHARGES;
     }
 
     @Override
@@ -165,6 +165,6 @@ public class KineticChargingBusBlock extends AbstractKineticImpactActionBlock {
     }
 
     public int getOutboundCharge(BlockState state) {
-        return Math.min(state.getValue(STORED_KINETIC_CHARGES), KWConstants.KINETIC_RETENTION_MODULE_MAX_CHARGES);
+        return Math.min(state.getValue(STORED_KINETIC_CHARGES), KineticRetentionModuleBlock.KINETIC_RETENTION_MODULE_MAX_CHARGES);
     }
 }
