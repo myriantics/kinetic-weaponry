@@ -227,7 +227,7 @@ public class KineticRetentionModuleBlock extends AbstractKineticImpactActionBloc
 
     @Override
     protected int getAnalogOutputSignal(BlockState state, Level level, BlockPos pos) {
-        return (int) (15.0 / 4 * level.getBlockState(pos).getValue(STORED_KINETIC_RELOAD_CHARGES));
+        return (int) (15.0 / KINETIC_RETENTION_MODULE_MAX_CHARGES * level.getBlockState(pos).getValue(STORED_KINETIC_RELOAD_CHARGES));
     }
 
     public static PushReaction getCorrectedPistonPushReaction(PushReaction originalPushReaction, BlockState targetBlockState, Direction pistonPushDirection) {

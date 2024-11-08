@@ -41,11 +41,11 @@ public class KWConfig
 
     private static final ModConfigSpec.IntValue KINETIC_CHARGING_BUS_IMPACT_CHARGE_DIVISOR = BUILDER
             .comment("What should the Kinetic Charging Bus divide incoming damage by to get inbound charge?")
-            .defineInRange("kineticShortbowRange", 10, 0, Integer.MAX_VALUE);
+            .defineInRange("kineticChargingBusImpactChargeDivisor", 10, 0, Integer.MAX_VALUE);
 
     private static final ModConfigSpec.IntValue KINETIC_RETENTION_MODULE_IMPACT_CHARGE_DIVISOR = BUILDER
             .comment("What should the Kinetic Charging Bus divide incoming damage by to get inbound charge?")
-            .defineInRange("kineticShortbowRange", 8, 0, Integer.MAX_VALUE);
+            .defineInRange("kineticRetentionModuleImpactChargeDivisor", 8, 0, Integer.MAX_VALUE);
 
     static final ModConfigSpec SPEC = BUILDER.build();
 

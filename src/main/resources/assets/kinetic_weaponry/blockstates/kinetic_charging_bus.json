@@ -29,39 +29,39 @@
     },
     "facing=down,stored_kinetic_charges_charging_bus=0": {
       "model": "kinetic_weaponry:block/kinetic_charging_bus/kinetic_charging_bus_charged_0",
-      "y": 180
+      "x": 180
     },
     "facing=down,stored_kinetic_charges_charging_bus=1": {
       "model": "kinetic_weaponry:block/kinetic_charging_bus/kinetic_charging_bus_charged_1",
-      "y": 180
+      "x": 180
     },
     "facing=down,stored_kinetic_charges_charging_bus=2": {
       "model": "kinetic_weaponry:block/kinetic_charging_bus/kinetic_charging_bus_charged_2",
-      "y": 180
+      "x": 180
     },
     "facing=down,stored_kinetic_charges_charging_bus=3": {
       "model": "kinetic_weaponry:block/kinetic_charging_bus/kinetic_charging_bus_charged_3",
-      "y": 180
+      "x": 180
     },
     "facing=down,stored_kinetic_charges_charging_bus=4": {
       "model": "kinetic_weaponry:block/kinetic_charging_bus/kinetic_charging_bus_charged_4",
-      "y": 180
+      "x": 180
     },
     "facing=down,stored_kinetic_charges_charging_bus=5": {
       "model": "kinetic_weaponry:block/kinetic_charging_bus/kinetic_charging_bus_charged_5",
-      "y": 180
+      "x": 180
     },
     "facing=down,stored_kinetic_charges_charging_bus=6": {
       "model": "kinetic_weaponry:block/kinetic_charging_bus/kinetic_charging_bus_charged_6",
-      "y": 180
+      "x": 180
     },
     "facing=down,stored_kinetic_charges_charging_bus=7": {
       "model": "kinetic_weaponry:block/kinetic_charging_bus/kinetic_charging_bus_charged_7",
-      "y": 180
+      "x": 180
     },
     "facing=down,stored_kinetic_charges_charging_bus=8": {
       "model": "kinetic_weaponry:block/kinetic_charging_bus/kinetic_charging_bus_charged_8",
-      "y": 180
+      "x": 180
     },
     "facing=north,stored_kinetic_charges_charging_bus=0": {
       "model": "kinetic_weaponry:block/kinetic_charging_bus/kinetic_charging_bus_charged_0",

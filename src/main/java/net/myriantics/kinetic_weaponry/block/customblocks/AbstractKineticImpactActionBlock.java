@@ -23,7 +23,7 @@ public abstract class AbstractKineticImpactActionBlock extends Block {
     }
 
     public void onImpact(ServerLevel serverLevel, BlockPos pos, @Nullable ServerPlayer player, float impactDamage) {
-        if (player != null && player.getMainHandItem().getItem() instanceof MaceItem) {
+        if (player != null && player.getMainHandItem().getItem() instanceof MaceItem && impactDamage > 0) {
             ItemStack maceStack = player.getMainHandItem();
 
             player.setSpawnExtraParticlesOnFall(true);

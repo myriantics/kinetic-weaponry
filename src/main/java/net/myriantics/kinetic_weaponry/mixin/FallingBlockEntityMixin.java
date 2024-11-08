@@ -23,6 +23,7 @@ public abstract class FallingBlockEntityMixin {
         BlockPos entityPos = ((FallingBlockEntity)(Object)this).blockPosition();
         Level level = ((FallingBlockEntity)(Object)this).level();
 
+        // if the block the entity is in isnt a kinetic impact block, check the one below.
         BlockPos impactedBlockPos = level.getBlockState(entityPos).getBlock() instanceof AbstractKineticImpactActionBlock ? entityPos : entityPos.below();
 
         BlockState impactedState = level.getBlockState(impactedBlockPos);

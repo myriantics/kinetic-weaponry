@@ -143,7 +143,6 @@ public class KineticChargingBusBlock extends AbstractKineticImpactActionBlock {
         }
 
 
-        // may remove, thought it was a fun thing idk
         if (discharged) {
             level.playSound(
                     null,
@@ -166,5 +165,15 @@ public class KineticChargingBusBlock extends AbstractKineticImpactActionBlock {
 
     public int getOutboundCharge(BlockState state) {
         return Math.min(state.getValue(STORED_KINETIC_CHARGES), KineticRetentionModuleBlock.KINETIC_RETENTION_MODULE_MAX_CHARGES);
+    }
+
+    @Override
+    protected boolean hasAnalogOutputSignal(BlockState state) {
+        return true;
+    }
+
+    @Override
+    protected int getAnalogOutputSignal(BlockState state, Level level, BlockPos pos) {
+        return (int) (15.0 / KINETIC_CHARGING_BUS_MAX_CHARGES * level.getBlockState(pos).getValue(STORED_KINETIC_CHARGES));
     }
 }
