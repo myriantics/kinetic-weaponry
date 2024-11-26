@@ -31,7 +31,7 @@ import java.util.function.Predicate;
 
 public class KineticShortbowItem extends ProjectileWeaponItem implements KineticChargeStoringItem {
 
-    public static final int STARTUP_TIME_TICKS = 3;
+    public static final int STARTUP_TIME_TICKS = 6;
     public static final int HEAT_UNIT_DISSIPATION_PER_SECOND = 4;
     public static final int HEAT_UNIT_HOT_THRESHOLD = 10;
     public static final int HEAT_UNIT_HOTTEST_THRESHOLD = 20;
