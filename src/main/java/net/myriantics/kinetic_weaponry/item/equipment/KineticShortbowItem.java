@@ -1,12 +1,10 @@
 package net.myriantics.kinetic_weaponry.item.equipment;
 
-import net.fabricmc.fabric.api.event.Event;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
 import net.minecraft.core.component.TypedDataComponent;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundSource;
-import net.myriantics.kinetic_weaponry.KWConfig;
 import net.myriantics.kinetic_weaponry.registry.item.KWItems;
 import net.myriantics.kinetic_weaponry.item.KineticChargeStoringItem;
 import net.myriantics.kinetic_weaponry.item.data_components.*;
@@ -28,6 +26,10 @@ import java.util.function.Predicate;
 
 public class KineticShortbowItem extends ProjectileWeaponItem implements KineticChargeStoringItem {
 
+    public static final int MAX_CHARGES = 128;
+    public static final float OUTPUT_VELOCITY = 5.0f;
+    public static final int RANGE = 20;
+
     public static final int STARTUP_TIME_TICKS = 6;
     public static final int HEAT_UNIT_DISSIPATION_PER_SECOND = 4;
     public static final int HEAT_UNIT_HOT_THRESHOLD = 10;
@@ -44,7 +46,7 @@ public class KineticShortbowItem extends ProjectileWeaponItem implements Kinetic
 
     @Override
     public int getDefaultProjectileRange() {
-        return KWConfig.kineticShortbowRange;
+        return RANGE;
     }
 
     @Override
@@ -146,7 +148,7 @@ public class KineticShortbowItem extends ProjectileWeaponItem implements Kinetic
 
     @Override
     public int getMaxKineticCharge() {
-        return KWConfig.kineticShortbowMaxCharges;
+        return MAX_CHARGES;
     }
 
     private static boolean isAttackUseActive(ItemStack stack) {
@@ -191,7 +193,7 @@ public class KineticShortbowItem extends ProjectileWeaponItem implements Kinetic
                     );
                 }
 
-                ((KineticShortbowItem)KWItems.KINETIC_SHORTBOW).shoot(level, player, hand, shortbowStack, projectiles, KWConfig.kineticShortbowOutputVelocity, heatUnits * 0.2f, false, null);
+                ((KineticShortbowItem)KWItems.KINETIC_SHORTBOW).shoot(level, player, hand, shortbowStack, projectiles, OUTPUT_VELOCITY, heatUnits * 0.2f, false, null);
                 level.playSound(
                         null,
                         player.getX(),

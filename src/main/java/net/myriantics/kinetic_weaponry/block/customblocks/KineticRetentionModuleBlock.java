@@ -2,26 +2,22 @@ package net.myriantics.kinetic_weaponry.block.customblocks;
 
 import net.minecraft.world.level.material.FluidState;
 import net.minecraft.world.level.material.Fluids;
-import net.myriantics.kinetic_weaponry.KWConfig;
 import net.myriantics.kinetic_weaponry.registry.block.KWBlockStateProperties;
 import net.myriantics.kinetic_weaponry.registry.block.KWBlocks;
 import net.myriantics.kinetic_weaponry.registry.item.KWDataComponents;
 import net.myriantics.kinetic_weaponry.item.blockitems.KineticRetentionModuleBlockItem;
 import net.myriantics.kinetic_weaponry.item.data_components.ArcadeModeDataComponent;
 import net.myriantics.kinetic_weaponry.item.data_components.KineticChargeDataComponent;
-import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
-import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.level.LevelReader;
 import net.minecraft.world.level.block.*;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
@@ -31,7 +27,6 @@ import net.minecraft.world.level.block.state.properties.DirectionProperty;
 import net.minecraft.world.level.block.state.properties.IntegerProperty;
 import net.minecraft.world.level.material.PushReaction;
 import net.minecraft.world.level.storage.loot.LootParams;
-import net.minecraft.world.phys.HitResult;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.VoxelShape;
 import org.jetbrains.annotations.NotNull;
@@ -49,6 +44,7 @@ public class KineticRetentionModuleBlock extends AbstractKineticImpactActionBloc
     public static final BooleanProperty WATERLOGGED = BlockStateProperties.WATERLOGGED;
 
     public static final int KINETIC_RETENTION_MODULE_MAX_CHARGES = 4;
+    public static final int IMPACT_CHARGE_DIVISOR = 8;
 
     public KineticRetentionModuleBlock(Properties properties) {
         super(properties);
@@ -135,7 +131,7 @@ public class KineticRetentionModuleBlock extends AbstractKineticImpactActionBloc
     }
 
     public static BlockState getPlacementState(ItemStack moduleStack) {
-        BlockState defaultState = KWBlocks.KINETIC_RETENTION_MODULE.get().defaultBlockState();
+        BlockState defaultState = KWBlocks.KINETIC_RETENTION_MODULE.defaultBlockState();
 
         if (moduleStack.getItem() instanceof KineticRetentionModuleBlockItem) {
             Optional<KineticChargeDataComponent> chargeComponent = Optional.ofNullable(moduleStack.get(KWDataComponents.KINETIC_CHARGE));
@@ -158,7 +154,7 @@ public class KineticRetentionModuleBlock extends AbstractKineticImpactActionBloc
 
         // scale charge gained based on impact damage
         if (impactDamage > 0) {
-            inboundChargeModifier = (int) impactDamage / KWConfig.kineticRetentionModuleImpactChargeDivisor;
+            inboundChargeModifier = (int) impactDamage / IMPACT_CHARGE_DIVISOR;
         }
 
         // commit charge update
@@ -186,18 +182,6 @@ public class KineticRetentionModuleBlock extends AbstractKineticImpactActionBloc
             }
         }
         return items;
-    }
-
-    // so you can pick block it while in creative :D
-    @Override
-    public ItemStack getCloneItemStack(BlockState state, HitResult target, LevelReader level, BlockPos pos, Player player) {
-        ItemStack pickedStack = new ItemStack(this);
-        if (level.isClientSide()) {
-            if (Screen.hasControlDown()) {
-                KineticChargeDataComponent.setCharge(pickedStack, state.getValue(STORED_KINETIC_RELOAD_CHARGES));
-            }
-        }
-        return pickedStack;
     }
 
     protected void onPlace(BlockState state, Level level, BlockPos pos, BlockState oldState, boolean movedByPiston) {

@@ -1,20 +1,14 @@
 package net.myriantics.kinetic_weaponry.block.customblocks;
 
 import net.minecraft.sounds.SoundSource;
-import net.myriantics.kinetic_weaponry.KWConfig;
 import net.myriantics.kinetic_weaponry.registry.block.KWBlockStateProperties;
-import net.myriantics.kinetic_weaponry.item.data_components.KineticChargeDataComponent;
-import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.util.RandomSource;
-import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.level.LevelReader;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
@@ -22,7 +16,6 @@ import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.level.block.state.properties.BooleanProperty;
 import net.minecraft.world.level.block.state.properties.DirectionProperty;
 import net.minecraft.world.level.block.state.properties.IntegerProperty;
-import net.minecraft.world.phys.HitResult;
 import net.myriantics.kinetic_weaponry.registry.misc.KWSounds;
 import org.jetbrains.annotations.Nullable;
 
@@ -34,6 +27,7 @@ public class KineticChargingBusBlock extends AbstractKineticImpactActionBlock {
     public static final BooleanProperty TRIGGERED = BlockStateProperties.TRIGGERED;
 
     public static final int KINETIC_CHARGING_BUS_MAX_CHARGES = 8;
+    public static int IMPACT_CHARGE_DIVISOR = 10;
 
     public KineticChargingBusBlock(Properties properties) {
         super(properties);
@@ -79,7 +73,7 @@ public class KineticChargingBusBlock extends AbstractKineticImpactActionBlock {
 
         // scale charge gained based on impact damage
         if (impactDamage > 0) {
-            inboundChargeModifier = (int) impactDamage / KWConfig.kineticChargingBusImpactChargeDivisor;
+            inboundChargeModifier = (int) impactDamage / IMPACT_CHARGE_DIVISOR;
         }
 
         // commit charge update
@@ -95,19 +89,6 @@ public class KineticChargingBusBlock extends AbstractKineticImpactActionBlock {
 
         // if its not full, then the impact was valid
         return state.getValue(STORED_KINETIC_CHARGES) != KINETIC_CHARGING_BUS_MAX_CHARGES;
-    }
-
-    @Override
-    public ItemStack getCloneItemStack(BlockState state, HitResult target, LevelReader level, BlockPos pos, Player player) {
-        ItemStack pickedStack = super.getCloneItemStack(state, target, level, pos, player);
-
-        if (level.isClientSide()) {
-            if (Screen.hasControlDown()) {
-                KineticChargeDataComponent.setCharge(pickedStack, state.getValue(STORED_KINETIC_CHARGES));
-            }
-        }
-
-        return pickedStack;
     }
 
     @Override
@@ -147,7 +128,7 @@ public class KineticChargingBusBlock extends AbstractKineticImpactActionBlock {
             level.playSound(
                     null,
                     pos,
-                    KWSounds.KINETIC_CHARGING_BUS_DISCHARGE.get(),
+                    KWSounds.KINETIC_CHARGING_BUS_DISCHARGE,
                     SoundSource.BLOCKS,
                     (0.25f * (float) getOutboundCharge(state)),
                     1.0F / (level.getRandom().nextFloat() * 1.2F) * 0.5F);
@@ -156,7 +137,7 @@ public class KineticChargingBusBlock extends AbstractKineticImpactActionBlock {
             level.playSound(
                     null,
                     pos,
-                    KWSounds.KINETIC_CHARGING_BUS_FAIL.get(),
+                    KWSounds.KINETIC_CHARGING_BUS_FAIL,
                     SoundSource.BLOCKS,
                     1.0F,
                     1.0F / (level.getRandom().nextFloat() * 1.2F) * 0.5F);

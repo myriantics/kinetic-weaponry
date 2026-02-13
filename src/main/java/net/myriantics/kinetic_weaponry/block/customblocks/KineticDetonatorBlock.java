@@ -6,8 +6,6 @@ import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
-import net.minecraft.world.entity.EquipmentSlot;
-import net.minecraft.world.item.Equipable;
 import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.*;
@@ -16,17 +14,16 @@ import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.level.block.state.properties.BooleanProperty;
 import net.minecraft.world.level.block.state.properties.DirectionProperty;
-import net.myriantics.kinetic_weaponry.KWConfig;
-import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 public class KineticDetonatorBlock extends AbstractKineticImpactActionBlock {
+
     public static final DirectionProperty FACING = BlockStateProperties.FACING;
     public static final BooleanProperty POWERED = BlockStateProperties.POWERED;
     public static final BooleanProperty LIT = BlockStateProperties.LIT;
 
     // set in KWConfig
-    public static float EXPLOSION_POWER_MULTIPLIER;
+    public static float EXPLOSION_POWER_MULTIPLIER = 0.65f;
 
     public KineticDetonatorBlock(Properties properties) {
         super(properties);
@@ -59,7 +56,7 @@ public class KineticDetonatorBlock extends AbstractKineticImpactActionBlock {
                 // low effort special effects go brrt
                 serverLevel.addDestroyBlockEffect(pos, state);
                 // kaboom? yes rico, kaboom. (i nerfed it by half because it really did get a bit stupid with density 5)
-                serverLevel.explode(player, pos.getCenter().x, pos.getCenter().y, pos.getCenter().z, impactDamage * KWConfig.kineticDetonatorExplosionPowerMultiplier, false,
+                serverLevel.explode(player, pos.getCenter().x, pos.getCenter().y, pos.getCenter().z, impactDamage * EXPLOSION_POWER_MULTIPLIER, false,
                         Level.ExplosionInteraction.BLOCK);
             }
 

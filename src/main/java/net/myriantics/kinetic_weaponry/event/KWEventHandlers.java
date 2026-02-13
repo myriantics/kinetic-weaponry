@@ -11,9 +11,6 @@ import net.minecraft.world.item.Items;
 import net.minecraft.world.item.MaceItem;
 import net.minecraft.world.level.Explosion;
 import net.minecraft.world.level.Level;
-import net.neoforged.bus.api.SubscribeEvent;
-import net.neoforged.neoforge.client.ClientHooks;
-import net.neoforged.neoforge.event.entity.player.PlayerInteractEvent;
 import org.jetbrains.annotations.Nullable;
 
 public class KWEventHandlers {
@@ -29,7 +26,9 @@ public class KWEventHandlers {
                 float impactDamage = Items.MACE.getAttackDamageBonus(player, 0, Explosion.getDefaultDamageSource(serverLevel, player));
 
                 bonkedBlock.onImpact(serverLevel, pos, (ServerPlayer) player, impactDamage);
+                return false;
             }
         }
+        return true;
     }
 }
