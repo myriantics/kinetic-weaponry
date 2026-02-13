@@ -33,15 +33,6 @@ public class KineticRetentionModuleBlockItem extends BlockItem implements Equipa
         return EquipmentSlot.HEAD;
     }
 
-    // WHY
-    // FUCKING HECK
-    // HOURS DEBUGGING ONLY FOR IT TO BE 2 NEARLY IDENTICAL OVERRIDES
-    // GAH
-    @Override
-    public @Nullable EquipmentSlot getEquipmentSlot(ItemStack stack) {
-        return getEquipmentSlot();
-    }
-
     @Override
     public InteractionResultHolder<ItemStack> use(Level level, Player player, InteractionHand usedHand) {
         return this.swapWithEquipmentSlot(this, level, player, usedHand);

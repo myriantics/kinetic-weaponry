@@ -1,5 +1,6 @@
 package net.myriantics.kinetic_weaponry.item.equipment;
 
+import net.fabricmc.fabric.api.event.Event;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
 import net.minecraft.core.component.TypedDataComponent;
 import net.minecraft.network.chat.Component;
@@ -135,10 +136,7 @@ public class KineticShortbowItem extends ProjectileWeaponItem implements Kinetic
         }
 
         boolean hasAmmo = !player.getProjectile(usedStack).isEmpty();
-        InteractionResultHolder<ItemStack> result = EventHooks.onArrowNock(usedStack, level, player, usedHand, hasAmmo);
-        if (result != null && usedStack.getItem().equals(this)) {
-            return result;
-        } else if (!player.hasInfiniteMaterials() && !hasAmmo) {
+        if (!player.hasInfiniteMaterials() && !hasAmmo) {
             return InteractionResultHolder.fail(usedStack);
         } else {
             player.startUsingItem(usedHand);
@@ -156,7 +154,6 @@ public class KineticShortbowItem extends ProjectileWeaponItem implements Kinetic
     }
 
     private static void fireProjectile(ServerPlayer player) {
-        KineticShortbowItem KINETIC_SHORTBOW = KWItems.KINETIC_SHORTBOW.get();
         InteractionHand hand = player.getUsedItemHand();
         ServerLevel level = (ServerLevel) player.level();
         ItemStack shortbowStack = player.getItemInHand(hand);
@@ -187,20 +184,20 @@ public class KineticShortbowItem extends ProjectileWeaponItem implements Kinetic
                             player.getX(),
                             player.getY(),
                             player.getZ(),
-                            KWSounds.KINETIC_SHORTBOW_OVERHEAT.get(),
+                            KWSounds.KINETIC_SHORTBOW_OVERHEAT,
                             SoundSource.PLAYERS,
                             1.0F,
                             1.0F / (level.getRandom().nextFloat() * 0.4F + 2.4F) * 0.5F + (float) 0.05 * HeatUnitDataComponent.getHeatUnits(shortbowStack)
                     );
                 }
 
-                KINETIC_SHORTBOW.shoot(level, player, hand, shortbowStack, projectiles, KWConfig.kineticShortbowOutputVelocity, heatUnits * 0.2f, false, null);
+                ((KineticShortbowItem)KWItems.KINETIC_SHORTBOW).shoot(level, player, hand, shortbowStack, projectiles, KWConfig.kineticShortbowOutputVelocity, heatUnits * 0.2f, false, null);
                 level.playSound(
                         null,
                         player.getX(),
                         player.getY(),
                         player.getZ(),
-                        KWSounds.KINETIC_SHORTBOW_SHOOT.get(),
+                        KWSounds.KINETIC_SHORTBOW_SHOOT,
                         SoundSource.PLAYERS,
                         1.0F,
                         1.0F / (level.getRandom().nextFloat() * 0.4F + 2.4F) * 0.5F + (float) 0.05 * HeatUnitDataComponent.getHeatUnits(shortbowStack)
@@ -223,11 +220,9 @@ public class KineticShortbowItem extends ProjectileWeaponItem implements Kinetic
         AttackUseStartTimeDataComponent.setStartTimeTicks(usedStack, -1);
     }
 
-    @OnlyIn(Dist.CLIENT)
     @Override
-    public boolean shouldCauseReequipAnimation(ItemStack oldStack, ItemStack newStack, boolean slotChanged) {
-
-        boolean original = super.shouldCauseReequipAnimation(oldStack, newStack, slotChanged);
+    public boolean allowComponentsUpdateAnimation(Player player, InteractionHand hand, ItemStack oldStack, ItemStack newStack) {
+        boolean original = super.allowComponentsUpdateAnimation(player, hand, oldStack, newStack);
 
         // jank ass code that ignores reequip animation updates if only specified ignored components change
         if (original && newStack.getItem() instanceof KineticShortbowItem) {
