@@ -1,11 +1,11 @@
 package net.myriantics.kinetic_weaponry.item.equipment;
 
+import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
 import net.minecraft.core.component.TypedDataComponent;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundSource;
 import net.myriantics.kinetic_weaponry.KWConfig;
-import net.myriantics.kinetic_weaponry.events.PlayerAttackKeyUpdateWhileUsingEvent;
 import net.myriantics.kinetic_weaponry.registry.item.KWItems;
 import net.myriantics.kinetic_weaponry.item.KineticChargeStoringItem;
 import net.myriantics.kinetic_weaponry.item.data_components.*;
@@ -18,11 +18,7 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.entity.projectile.Projectile;
 import net.minecraft.world.item.*;
 import net.minecraft.world.level.Level;
-import net.myriantics.kinetic_weaponry.misc.KWSounds;
-import net.neoforged.api.distmarker.Dist;
-import net.neoforged.api.distmarker.OnlyIn;
-import net.neoforged.bus.api.SubscribeEvent;
-import net.neoforged.neoforge.event.EventHooks;
+import net.myriantics.kinetic_weaponry.registry.misc.KWSounds;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
@@ -65,21 +61,20 @@ public class KineticShortbowItem extends ProjectileWeaponItem implements Kinetic
         return UseAnim.BOW;
     }
 
-    @SubscribeEvent
-    public static void onPlayerLeftClickUpdate(PlayerAttackKeyUpdateWhileUsingEvent event) {
-        if (event.getEntity() instanceof ServerPlayer player && player.getUseItem().getItem() instanceof KineticShortbowItem) {
-            ItemStack usedStack = player.getUseItem();
-            boolean wasPressed = event.wasPressed();
+    public static void onPlayerLeftClickUpdate(ServerPlayNetworking.Context context, boolean wasPressed) {
+        ServerPlayer serverPlayer = context.player();
+        if (serverPlayer.getUseItem().getItem() instanceof KineticShortbowItem) {
+            ItemStack usedStack = serverPlayer.getUseItem();
 
             if (AttackUseTrackerDataComponent.getAttackUse(usedStack) && !wasPressed) {
                 AttackUseTrackerDataComponent.setAttackUse(usedStack, false);
             }
 
-            AttackUseStartTimeDataComponent.setStartTimeTicks(usedStack, wasPressed ? player.getTicksUsingItem() : -1);
+            AttackUseStartTimeDataComponent.setStartTimeTicks(usedStack, wasPressed ? serverPlayer.getTicksUsingItem() : -1);
 
             // this is so that it doesnt fire an initial shot when you're trying to do a burst fire
             if (!wasPressed) {
-                fireProjectile(player);
+                fireProjectile(serverPlayer);
             }
         }
     }
@@ -118,7 +113,7 @@ public class KineticShortbowItem extends ProjectileWeaponItem implements Kinetic
                             player.getX(),
                             player.getY(),
                             player.getZ(),
-                            KWSounds.KINETIC_SHORTBOW_COOL_DOWN.get(),
+                            KWSounds.KINETIC_SHORTBOW_COOL_DOWN,
                             SoundSource.PLAYERS,
                             1.0F,
                             1.0F / (level.getRandom().nextFloat() * 0.4F + 2.4F) * 0.5F + (float) 0.05 * HeatUnitDataComponent.getHeatUnits(stack)

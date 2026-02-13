@@ -1,4 +1,4 @@
-package net.myriantics.kinetic_weaponry.events;
+package net.myriantics.kinetic_weaponry.event;
 
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.player.Player;

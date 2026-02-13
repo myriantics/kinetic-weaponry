@@ -1,7 +1,10 @@
 package net.myriantics.kinetic_weaponry.networking.packets;
 
-import net.myriantics.kinetic_weaponry.events.PlayerAttackKeyUpdateWhileUsingEvent;
-import net.myriantics.kinetic_weaponry.networking.KWPackets;
+import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
+import net.minecraft.server.level.ServerPlayer;
+import net.myriantics.kinetic_weaponry.event.PlayerAttackKeyUpdateWhileUsingEvent;
+import net.myriantics.kinetic_weaponry.item.equipment.KineticShortbowItem;
+import net.myriantics.kinetic_weaponry.registry.misc.KWPackets;
 import io.netty.buffer.ByteBuf;
 import net.minecraft.network.codec.ByteBufCodecs;
 import net.minecraft.network.codec.StreamCodec;
@@ -26,10 +29,9 @@ public record PlayerAttackKeyUpdateWhileUsingPacket(boolean wasPressed) implemen
         return TYPE;
     }
 
-    public void handle(IPayloadContext context) {
-        context.enqueueWork(() -> {
-            Player player = context.player();
-            NeoForge.EVENT_BUS.post(new PlayerAttackKeyUpdateWhileUsingEvent(player, wasPressed));
+    public void handle(ServerPlayNetworking.Context context) {
+        context.server().execute(() -> {
+            KineticShortbowItem.onPlayerLeftClickUpdate(context, wasPressed);
         });
     }
 }

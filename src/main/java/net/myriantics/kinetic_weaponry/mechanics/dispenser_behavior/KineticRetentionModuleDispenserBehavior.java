@@ -1,4 +1,4 @@
-package net.myriantics.kinetic_weaponry.misc;
+package net.myriantics.kinetic_weaponry.mechanics.dispenser_behavior;
 
 import net.minecraft.world.item.ArmorItem;
 import net.minecraft.world.level.block.LiquidBlockContainer;

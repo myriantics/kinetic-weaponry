@@ -23,7 +23,7 @@ import net.minecraft.world.level.block.state.properties.BooleanProperty;
 import net.minecraft.world.level.block.state.properties.DirectionProperty;
 import net.minecraft.world.level.block.state.properties.IntegerProperty;
 import net.minecraft.world.phys.HitResult;
-import net.myriantics.kinetic_weaponry.misc.KWSounds;
+import net.myriantics.kinetic_weaponry.registry.misc.KWSounds;
 import org.jetbrains.annotations.Nullable;
 
 

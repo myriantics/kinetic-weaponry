@@ -3,20 +3,19 @@ package net.myriantics.kinetic_weaponry;
 import net.fabricmc.api.ModInitializer;
 import net.minecraft.core.component.DataComponentPatch;
 import net.minecraft.world.item.ItemStack;
+import net.myriantics.kinetic_weaponry.registry.behavior.KWDispenserBehaviors;
 import net.myriantics.kinetic_weaponry.registry.item.KWItemGroups;
 import net.myriantics.kinetic_weaponry.registry.item.KWItems;
 import net.myriantics.kinetic_weaponry.item.data_components.ArcadeModeDataComponent;
 import net.myriantics.kinetic_weaponry.item.equipment.KineticShortbowItem;
 import net.myriantics.kinetic_weaponry.registry.item.KWDataComponents;
 import net.myriantics.kinetic_weaponry.registry.block.KWBlocks;
-import net.myriantics.kinetic_weaponry.entity.KWEntities;
-import net.myriantics.kinetic_weaponry.events.KWEventHandler;
+import net.myriantics.kinetic_weaponry.registry.entity.KWEntityTypes;
+import net.myriantics.kinetic_weaponry.event.KWEventHandlers;
 import net.myriantics.kinetic_weaponry.misc.KWItemModelPredicates;
-import net.myriantics.kinetic_weaponry.misc.KWSounds;
-import net.myriantics.kinetic_weaponry.misc.KineticRetentionModuleDispenserBehavior;
-import net.myriantics.kinetic_weaponry.networking.KWPackets;
+import net.myriantics.kinetic_weaponry.registry.misc.KWSounds;
+import net.myriantics.kinetic_weaponry.registry.misc.KWPackets;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.level.block.DispenserBlock;
 import org.slf4j.Logger;
 
 import com.mojang.logging.LogUtils;
@@ -65,26 +64,19 @@ public class KWCommon implements ModInitializer {
     public void onInitialize() {
         LOGGER.info("Starting Kinetic Weaponry!");
 
-        KWEntities.registerKineticWeaponryEntities();
-        KWSounds.registerKineticWeaponrySounds();
+        KWEntityTypes.init();
+        KWSounds.init();
 
         KWItems.init();
         KWDataComponents.init();
         KWItemGroups.init();
 
         KWBlocks.init();
+        KWDispenserBehaviors.init();
 
-        DispenserBlock.registerBehavior(KWItems.KINETIC_RETENTION_MODULE_BLOCK_ITEM, new KineticRetentionModuleDispenserBehavior());
+        KWPackets.init();
+        KWPackets.initC2SRecievers();
 
-        NeoForge.EVENT_BUS.register(this);
-        NeoForge.EVENT_BUS.addListener(KWEventHandler::onAttackBlock);
-        NeoForge.EVENT_BUS.addListener(KineticShortbowItem::onPlayerLeftClickUpdate);
-        modEventBus.addListener(KWPackets::registerPayloads);
-
-        modEventBus.addListener(this::addCreative);
-
-        // Register our mod's ModConfigSpec so that FML can create and load the config file for us
-        modContainer.registerConfig(ModConfig.Type.COMMON, KWConfig.SPEC);
         LOGGER.info("Kinetic Weaponry has started!");
     }
 

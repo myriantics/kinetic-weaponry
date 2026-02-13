@@ -1,4 +1,4 @@
-package net.myriantics.kinetic_weaponry.client.render;
+package net.myriantics.kinetic_weaponry.render;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import net.minecraft.client.model.EntityModel;
