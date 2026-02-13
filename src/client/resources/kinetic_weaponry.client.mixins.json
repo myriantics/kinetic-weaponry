@@ -3,13 +3,10 @@
   "minVersion": "0.8.3",
   "package": "net.myriantics.kinetic_weaponry.mixin",
   "compatibilityLevel": "JAVA_21",
-  "mixins": [
-    "FallingBlockEntityMixin",
-    "ItemStackHasFoilMixin",
-    "PistonBaseBlockMixin",
-    "PistonStructureResolverMixin"
-  ],
   "injectors": {
     "defaultRequire": 1
-  }
+  },
+  "client": [
+    "MinecraftHandleKeybindsMixin"
+  ]
 }

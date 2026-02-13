@@ -1,5 +1,6 @@
 package net.myriantics.kinetic_weaponry;
 
+import net.fabricmc.api.ModInitializer;
 import net.minecraft.core.component.DataComponentPatch;
 import net.minecraft.world.item.ItemStack;
 import net.myriantics.kinetic_weaponry.item.KWItems;
@@ -38,10 +39,7 @@ import net.neoforged.neoforge.event.server.ServerStartingEvent;
 import net.neoforged.neoforge.registries.DeferredHolder;
 import net.neoforged.neoforge.registries.DeferredRegister;
 
-// The value here should match an entry in the META-INF/neoforge.mods.toml file
-@Mod(KWCommon.MOD_ID)
-public class KWCommon
-{
+public class KWCommon implements ModInitializer {
     public static final String MOD_ID = "kinetic_weaponry";
     public static final Logger LOGGER = LogUtils.getLogger();
 
@@ -59,18 +57,22 @@ public class KWCommon
                 output.accept(new ItemStack(KWItems.KINETIC_SHORTBOW.getDelegate(),1, DataComponentPatch.builder().set(KWDataComponents.ARCADE_MODE.get(), new ArcadeModeDataComponent(true)).build()));
             }).build());
 
+    public static ResourceLocation locate(String id) {
+        return ResourceLocation.fromNamespaceAndPath(MOD_ID, id);
+    }
 
-    public KWCommon(IEventBus modEventBus, ModContainer modContainer)
-    {
-        KWDataComponents.registerKineticWeaponryDataComponents(modEventBus);
-        KWBlocks.registerKineticWeaponryBlocks(modEventBus);
-        KWItems.registerKineticWeaponryItems(modEventBus);
-        KWEntities.registerKineticWeaponryEntities(modEventBus);
-        KWSounds.registerKineticWeaponrySounds(modEventBus);
+    @Override
+    public void onInitialize() {
+        LOGGER.info("Starting Kinetic Weaponry!");
 
-        modEventBus.addListener(this::commonSetup);;
+        DispenserBlock.registerBehavior(KWItems.KINETIC_RETENTION_MODULE_BLOCK_ITEM, new KineticRetentionModuleDispenserBehavior());
+        KWDataComponents.registerKineticWeaponryDataComponents();
+        KWBlocks.registerKineticWeaponryBlocks();
+        KWItems.registerKineticWeaponryItems();
+        KWEntities.registerKineticWeaponryEntities();
+        KWSounds.registerKineticWeaponrySounds();
 
-        CREATIVE_MODE_TABS.register(modEventBus);
+        CREATIVE_MODE_TABS.register();
 
         NeoForge.EVENT_BUS.register(this);
         NeoForge.EVENT_BUS.addListener(KWEventHandler::onAttackBlock);
@@ -82,34 +84,6 @@ public class KWCommon
         // Register our mod's ModConfigSpec so that FML can create and load the config file for us
         modContainer.registerConfig(ModConfig.Type.COMMON, KWConfig.SPEC);
         LOGGER.info("Kinetic Weaponry has started!");
-    }
-
-
-    public static ResourceLocation locate(String id) {
-        return ResourceLocation.fromNamespaceAndPath(MOD_ID, id);
-    }
-
-    private void commonSetup(final FMLCommonSetupEvent event)
-    {
-        // Some common setup code
-        LOGGER.info("Starting Kinetic Weaponry!");
-
-        DispenserBlock.registerBehavior(KWItems.KINETIC_RETENTION_MODULE_BLOCK_ITEM.asItem(), new KineticRetentionModuleDispenserBehavior());
-    }
-
-    private void addCreative(BuildCreativeModeTabContentsEvent event)
-    {
-        if (event.getTabKey() == CreativeModeTabs.COMBAT) {
-            event.accept(KWItems.KINETIC_DETONATOR_BLOCK_ITEM);
-            event.accept(KWItems.KINETIC_SHORTBOW);
-        }
-    }
-
-    @SubscribeEvent
-    public void onServerStarting(ServerStartingEvent event)
-    {
-        // Do something when the server starts
-        LOGGER.info("Kinetic Weaponry - Started Serverside!");
     }
 
     @EventBusSubscriber(modid = MOD_ID, bus = EventBusSubscriber.Bus.MOD, value = Dist.CLIENT)
