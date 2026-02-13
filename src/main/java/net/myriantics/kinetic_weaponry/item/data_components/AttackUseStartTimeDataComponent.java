@@ -24,14 +24,14 @@ public record AttackUseStartTimeDataComponent(int startTimeTicks) implements ReE
     );
 
     public static int getStartTimeTicks(ItemStack usedStack) {
-        Optional<AttackUseStartTimeDataComponent> kineticChargeDataComponent = Optional.ofNullable(usedStack.getComponents().get(KWDataComponents.ATTACK_USE_START_TIME.get()));
+        Optional<AttackUseStartTimeDataComponent> kineticChargeDataComponent = Optional.ofNullable(usedStack.getComponents().get(KWDataComponents.ATTACK_USE_START_TIME));
 
         return kineticChargeDataComponent.map(AttackUseStartTimeDataComponent::startTimeTicks).orElse(-1);
     }
 
     public static void setStartTimeTicks(ItemStack usedStack, int startTimeTicks) {
         usedStack.applyComponents(DataComponentPatch.builder()
-                .set(KWDataComponents.ATTACK_USE_START_TIME.get(), new AttackUseStartTimeDataComponent(startTimeTicks))
+                .set(KWDataComponents.ATTACK_USE_START_TIME, new AttackUseStartTimeDataComponent(startTimeTicks))
                 .build()
         );
     }

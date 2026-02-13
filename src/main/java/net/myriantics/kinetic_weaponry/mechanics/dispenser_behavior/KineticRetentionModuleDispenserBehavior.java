@@ -25,7 +25,6 @@ public class KineticRetentionModuleDispenserBehavior extends OptionalDispenseIte
         BlockPos targetPos = blockSource.pos().relative(dispenserDirection, 1);
         BlockState targetBlockState = level.getBlockState(targetPos);
         BlockState proposedBlockState = KineticRetentionModuleBlock.getPlacementState(item);
-        LiquidBlockContainer container = KWBlocks.KINETIC_RETENTION_MODULE.get();
 
 
         this.setSuccess(false);

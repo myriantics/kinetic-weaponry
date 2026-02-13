@@ -27,14 +27,14 @@ public record HeatUnitDataComponent(int heat) implements ReEquipAnimationIgnored
     );
 
     public static int getHeatUnits(ItemStack chargedStack) {
-        Optional<HeatUnitDataComponent> kineticChargeDataComponent = Optional.ofNullable(chargedStack.getComponents().get(KWDataComponents.HEAT_UNIT.get()));
+        Optional<HeatUnitDataComponent> kineticChargeDataComponent = Optional.ofNullable(chargedStack.getComponents().get(KWDataComponents.HEAT_UNIT));
 
         return kineticChargeDataComponent.map(HeatUnitDataComponent::heat).orElse(0);
     }
 
     public static void setHeatUnits(ItemStack chargeStack, int heat) {
         chargeStack.applyComponents(DataComponentPatch.builder()
-                .set(KWDataComponents.HEAT_UNIT.get(), new HeatUnitDataComponent(heat))
+                .set(KWDataComponents.HEAT_UNIT, new HeatUnitDataComponent(heat))
                 .build()
         );
     }

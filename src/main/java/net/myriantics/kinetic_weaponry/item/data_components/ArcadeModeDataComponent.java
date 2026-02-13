@@ -24,7 +24,7 @@ public record ArcadeModeDataComponent(boolean enabled) {
     );
 
     public static boolean getArcadeMode(ItemStack arcadeStack) {
-        Optional<ArcadeModeDataComponent> arcadeModeDataComponent = Optional.ofNullable(arcadeStack.getComponents().get(KWDataComponents.ARCADE_MODE.get()));
+        Optional<ArcadeModeDataComponent> arcadeModeDataComponent = Optional.ofNullable(arcadeStack.getComponents().get(KWDataComponents.ARCADE_MODE));
 
         return arcadeModeDataComponent.map(ArcadeModeDataComponent::enabled).orElse(false);
 
@@ -32,7 +32,7 @@ public record ArcadeModeDataComponent(boolean enabled) {
 
     public static void setArcadeMode(ItemStack stack, boolean arcadeMode) {
         stack.applyComponents(DataComponentPatch.builder()
-                .set(KWDataComponents.ARCADE_MODE.get(), new ArcadeModeDataComponent(arcadeMode))
+                .set(KWDataComponents.ARCADE_MODE, new ArcadeModeDataComponent(arcadeMode))
                 .build()
         );
     }

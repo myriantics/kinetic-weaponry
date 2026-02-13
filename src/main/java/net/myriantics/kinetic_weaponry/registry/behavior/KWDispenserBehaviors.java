@@ -15,6 +15,7 @@ public class KWDispenserBehaviors {
 
     private static DispenseItemBehavior register(Item item, DispenseItemBehavior behavior) {
         DispenserBlock.registerBehavior(item, behavior);
+        return behavior;
     }
 
     public static void init() {

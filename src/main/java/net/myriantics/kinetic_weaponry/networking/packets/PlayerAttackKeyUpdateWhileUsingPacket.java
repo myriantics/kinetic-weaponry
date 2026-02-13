@@ -8,8 +8,6 @@ import net.minecraft.network.codec.ByteBufCodecs;
 import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
 import net.minecraft.resources.ResourceLocation;
-import net.neoforged.neoforge.common.NeoForge;
-import net.neoforged.neoforge.network.handling.IPayloadContext;
 
 
 public record PlayerAttackKeyUpdateWhileUsingPacket(boolean wasPressed) implements CustomPacketPayload {

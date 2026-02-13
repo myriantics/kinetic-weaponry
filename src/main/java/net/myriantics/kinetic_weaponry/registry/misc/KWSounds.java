@@ -5,9 +5,6 @@ import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
 import net.myriantics.kinetic_weaponry.KWCommon;
-import net.neoforged.bus.api.IEventBus;
-import net.neoforged.neoforge.registries.DeferredHolder;
-import net.neoforged.neoforge.registries.DeferredRegister;
 
 public class KWSounds {
     public static final SoundEvent KINETIC_SHORTBOW_SHOOT = register(

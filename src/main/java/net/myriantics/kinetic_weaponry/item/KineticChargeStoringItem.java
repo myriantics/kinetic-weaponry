@@ -32,7 +32,7 @@ public interface KineticChargeStoringItem {
         ItemStack retentionModuleStack = ItemStack.EMPTY;
         for (EquipmentSlot checkedSlot : EquipmentSlot.values()) {
             ItemStack potentialStack = player.getItemBySlot(checkedSlot);
-            if (potentialStack.is(KWItems.KINETIC_RETENTION_MODULE_BLOCK_ITEM.get())) {
+            if (potentialStack.is(KWItems.KINETIC_RETENTION_MODULE_BLOCK_ITEM)) {
                 retentionModuleStack = potentialStack;
             }
         }
@@ -55,7 +55,7 @@ public interface KineticChargeStoringItem {
                             player.getX(),
                             player.getY(),
                             player.getZ(),
-                            KWSounds.KINETIC_RECHARGE_CONSUME.get(),
+                            KWSounds.KINETIC_RECHARGE_CONSUME,
                             SoundSource.PLAYERS,
                             1.0F,
                             1.0F / (player.level().getRandom().nextFloat() * 0.4F + 1.2F) * 0.5F);

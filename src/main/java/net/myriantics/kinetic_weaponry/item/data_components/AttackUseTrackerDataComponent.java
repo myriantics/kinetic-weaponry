@@ -24,14 +24,14 @@ public record AttackUseTrackerDataComponent(boolean attackKeyDown) implements Re
     );
 
     public static boolean getAttackUse(ItemStack usedStack) {
-        Optional<AttackUseTrackerDataComponent> arcadeModeDataComponent = Optional.ofNullable(usedStack.getComponents().get(KWDataComponents.ATTACK_USE_TRACKER.get()));
+        Optional<AttackUseTrackerDataComponent> arcadeModeDataComponent = Optional.ofNullable(usedStack.getComponents().get(KWDataComponents.ATTACK_USE_TRACKER));
 
         return arcadeModeDataComponent.map(AttackUseTrackerDataComponent::attackKeyDown).orElse(false);
     }
 
     public static void setAttackUse(ItemStack usedStack, boolean attackUseActive) {
         usedStack.applyComponents(DataComponentPatch.builder()
-                .set(KWDataComponents.ATTACK_USE_TRACKER.get(), new AttackUseTrackerDataComponent(attackUseActive))
+                .set(KWDataComponents.ATTACK_USE_TRACKER, new AttackUseTrackerDataComponent(attackUseActive))
                 .build()
         );
     }
