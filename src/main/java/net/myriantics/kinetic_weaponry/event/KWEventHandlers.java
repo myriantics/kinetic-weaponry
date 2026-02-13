@@ -1,5 +1,8 @@
 package net.myriantics.kinetic_weaponry.event;
 
+import net.minecraft.core.Direction;
+import net.minecraft.world.InteractionHand;
+import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
@@ -15,20 +18,20 @@ import org.jetbrains.annotations.Nullable;
 
 public class KWEventHandlers {
 
-    public static boolean onAttackBlock(Level level, Player player, BlockPos pos, BlockState blockState, @Nullable BlockEntity blockEntity) {
+    public static InteractionResult onAttackBlock(Player player, Level level, InteractionHand interactionHand, BlockPos blockPos, Direction direction) {
         if (level instanceof ServerLevel serverLevel) {
-            if (level.getBlockState(pos).getBlock() instanceof AbstractKineticImpactActionBlock bonkedBlock
+            if (level.getBlockState(blockPos).getBlock() instanceof AbstractKineticImpactActionBlock bonkedBlock
                     // is block ready for impact
-                    && bonkedBlock.isImpactValid(serverLevel, pos)
+                    && bonkedBlock.isImpactValid(serverLevel, blockPos)
                     // check if holding mace
                     && player.getMainHandItem().getItem() instanceof MaceItem) {
 
                 float impactDamage = Items.MACE.getAttackDamageBonus(player, 0, Explosion.getDefaultDamageSource(serverLevel, player));
 
-                bonkedBlock.onImpact(serverLevel, pos, (ServerPlayer) player, impactDamage);
-                return false;
+                bonkedBlock.onImpact(serverLevel, blockPos, (ServerPlayer) player, impactDamage);
+                return InteractionResult.CONSUME;
             }
         }
-        return true;
+        return InteractionResult.PASS;
     }
 }

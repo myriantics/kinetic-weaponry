@@ -10,6 +10,7 @@ import net.myriantics.kinetic_weaponry.item.data_components.ArcadeModeDataCompon
 import net.myriantics.kinetic_weaponry.registry.item.KWDataComponents;
 import net.myriantics.kinetic_weaponry.registry.block.KWBlocks;
 import net.myriantics.kinetic_weaponry.registry.entity.KWEntityTypes;
+import net.myriantics.kinetic_weaponry.registry.misc.KWEvents;
 import net.myriantics.kinetic_weaponry.registry.misc.KWSounds;
 import net.myriantics.kinetic_weaponry.registry.misc.KWPackets;
 import net.minecraft.resources.ResourceLocation;
@@ -42,6 +43,8 @@ public class KWCommon implements ModInitializer {
 
         KWPackets.init();
         KWPackets.initC2SRecievers();
+
+        KWEvents.init();
 
         LOGGER.info("Kinetic Weaponry has started!");
     }
