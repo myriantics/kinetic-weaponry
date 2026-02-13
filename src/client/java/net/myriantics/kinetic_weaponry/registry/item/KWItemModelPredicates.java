@@ -1,5 +1,6 @@
-package net.myriantics.kinetic_weaponry.misc;
+package net.myriantics.kinetic_weaponry.registry.item;
 
+import net.minecraft.client.renderer.item.ClampedItemPropertyFunction;
 import net.minecraft.client.renderer.item.ItemProperties;
 import net.minecraft.client.renderer.item.ItemPropertyFunction;
 import net.minecraft.resources.ResourceLocation;
@@ -10,7 +11,7 @@ import net.myriantics.kinetic_weaponry.item.data_components.KineticChargeDataCom
 import net.myriantics.kinetic_weaponry.item.equipment.KineticShortbowItem;
 
 public class KWItemModelPredicates {
-    public static void registerItemPredicates() {
+    public static void init() {
         registerSomethingOrOther("kinetic_charge", (itemStack, clientLevel, livingEntity, i) -> {
             return (float) KineticChargeDataComponent.getCharge(itemStack);
         });
@@ -19,7 +20,7 @@ public class KWItemModelPredicates {
             return (float) HeatUnitDataComponent.getHeatUnits(itemStack);
         });
 
-        ItemProperties.register(KWItems.KINETIC_SHORTBOW.get(), ResourceLocation.withDefaultNamespace("pull"), (usedStack, clientLevel, livingEntity, i) -> {
+        ItemProperties.register(KWItems.KINETIC_SHORTBOW, ResourceLocation.withDefaultNamespace("pull"), (usedStack, clientLevel, livingEntity, i) -> {
             if (livingEntity == null) {
                 return 0.0F;
             } else {
@@ -30,7 +31,7 @@ public class KWItemModelPredicates {
             }
         });
 
-        ItemProperties.register(KWItems.KINETIC_SHORTBOW.get(), ResourceLocation.withDefaultNamespace("pulling"), (usedStack, clientLevel, livingEntity, i) -> {
+        ItemProperties.register(KWItems.KINETIC_SHORTBOW, ResourceLocation.withDefaultNamespace("pulling"), (usedStack, clientLevel, livingEntity, i) -> {
             return livingEntity != null
                     && (KineticChargeDataComponent.getCharge(usedStack) > 0 || livingEntity.hasInfiniteMaterials())
                     && livingEntity.isUsingItem()
@@ -38,7 +39,7 @@ public class KWItemModelPredicates {
         });
     }
 
-    private static void registerSomethingOrOther(String id, ItemPropertyFunction fun) {
+    private static void registerSomethingOrOther(String id, ClampedItemPropertyFunction fun) {
         ItemProperties.registerGeneric(KWCommon.locate(id), fun);
     }
 }
