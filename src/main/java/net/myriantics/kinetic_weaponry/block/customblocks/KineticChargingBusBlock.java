@@ -2,7 +2,7 @@ package net.myriantics.kinetic_weaponry.block.customblocks;
 
 import net.minecraft.sounds.SoundSource;
 import net.myriantics.kinetic_weaponry.KWConfig;
-import net.myriantics.kinetic_weaponry.block.KWBlockStateProperties;
+import net.myriantics.kinetic_weaponry.registry.block.KWBlockStateProperties;
 import net.myriantics.kinetic_weaponry.item.data_components.KineticChargeDataComponent;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.core.BlockPos;

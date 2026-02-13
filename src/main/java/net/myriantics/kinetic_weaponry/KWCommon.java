@@ -3,11 +3,12 @@ package net.myriantics.kinetic_weaponry;
 import net.fabricmc.api.ModInitializer;
 import net.minecraft.core.component.DataComponentPatch;
 import net.minecraft.world.item.ItemStack;
-import net.myriantics.kinetic_weaponry.item.KWItems;
+import net.myriantics.kinetic_weaponry.registry.item.KWItemGroups;
+import net.myriantics.kinetic_weaponry.registry.item.KWItems;
 import net.myriantics.kinetic_weaponry.item.data_components.ArcadeModeDataComponent;
 import net.myriantics.kinetic_weaponry.item.equipment.KineticShortbowItem;
-import net.myriantics.kinetic_weaponry.item.KWDataComponents;
-import net.myriantics.kinetic_weaponry.block.KWBlocks;
+import net.myriantics.kinetic_weaponry.registry.item.KWDataComponents;
+import net.myriantics.kinetic_weaponry.registry.block.KWBlocks;
 import net.myriantics.kinetic_weaponry.entity.KWEntities;
 import net.myriantics.kinetic_weaponry.events.KWEventHandler;
 import net.myriantics.kinetic_weaponry.misc.KWItemModelPredicates;
@@ -23,7 +24,6 @@ import com.mojang.logging.LogUtils;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.CreativeModeTab;
-import net.minecraft.world.item.CreativeModeTabs;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.bus.api.SubscribeEvent;
@@ -65,14 +65,16 @@ public class KWCommon implements ModInitializer {
     public void onInitialize() {
         LOGGER.info("Starting Kinetic Weaponry!");
 
-        DispenserBlock.registerBehavior(KWItems.KINETIC_RETENTION_MODULE_BLOCK_ITEM, new KineticRetentionModuleDispenserBehavior());
-        KWDataComponents.registerKineticWeaponryDataComponents();
-        KWBlocks.registerKineticWeaponryBlocks();
-        KWItems.registerKineticWeaponryItems();
         KWEntities.registerKineticWeaponryEntities();
         KWSounds.registerKineticWeaponrySounds();
 
-        CREATIVE_MODE_TABS.register();
+        KWItems.init();
+        KWDataComponents.init();
+        KWItemGroups.init();
+
+        KWBlocks.init();
+
+        DispenserBlock.registerBehavior(KWItems.KINETIC_RETENTION_MODULE_BLOCK_ITEM, new KineticRetentionModuleDispenserBehavior());
 
         NeoForge.EVENT_BUS.register(this);
         NeoForge.EVENT_BUS.addListener(KWEventHandler::onAttackBlock);

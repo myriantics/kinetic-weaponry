@@ -7,7 +7,7 @@ import net.minecraft.core.component.DataComponentPatch;
 import net.minecraft.network.codec.ByteBufCodecs;
 import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.world.item.ItemStack;
-import net.myriantics.kinetic_weaponry.item.KWDataComponents;
+import net.myriantics.kinetic_weaponry.registry.item.KWDataComponents;
 
 import java.util.Optional;
 

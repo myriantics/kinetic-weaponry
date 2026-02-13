@@ -1,16 +1,10 @@
 package net.myriantics.kinetic_weaponry.misc;
 
-import net.minecraft.core.dispenser.DispenseItemBehavior;
 import net.minecraft.world.item.ArmorItem;
-import net.minecraft.world.level.block.Block;
-import net.minecraft.world.level.block.DispenserBlock;
 import net.minecraft.world.level.block.LiquidBlockContainer;
-import net.minecraft.world.level.material.Fluid;
 import net.minecraft.world.level.material.Fluids;
-import net.myriantics.kinetic_weaponry.KWCommon;
-import net.myriantics.kinetic_weaponry.block.KWBlocks;
+import net.myriantics.kinetic_weaponry.registry.block.KWBlocks;
 import net.myriantics.kinetic_weaponry.block.customblocks.KineticRetentionModuleBlock;
-import net.myriantics.kinetic_weaponry.item.blockitems.KineticRetentionModuleBlockItem;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.dispenser.BlockSource;

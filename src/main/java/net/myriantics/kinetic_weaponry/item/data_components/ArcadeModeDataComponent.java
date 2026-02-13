@@ -3,7 +3,7 @@ package net.myriantics.kinetic_weaponry.item.data_components;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.minecraft.core.component.DataComponentPatch;
-import net.myriantics.kinetic_weaponry.item.KWDataComponents;
+import net.myriantics.kinetic_weaponry.registry.item.KWDataComponents;
 import io.netty.buffer.ByteBuf;
 import net.minecraft.network.codec.ByteBufCodecs;
 import net.minecraft.network.codec.StreamCodec;

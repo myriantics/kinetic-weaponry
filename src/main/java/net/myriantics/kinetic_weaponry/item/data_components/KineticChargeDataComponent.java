@@ -4,9 +4,8 @@ import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.minecraft.core.component.DataComponentPatch;
 import net.myriantics.kinetic_weaponry.item.KineticChargeStoringItem;
-import net.myriantics.kinetic_weaponry.item.KWDataComponents;
+import net.myriantics.kinetic_weaponry.registry.item.KWDataComponents;
 import io.netty.buffer.ByteBuf;
-import net.minecraft.core.component.PatchedDataComponentMap;
 import net.minecraft.network.codec.ByteBufCodecs;
 import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.world.item.ItemStack;
@@ -26,7 +25,7 @@ public record KineticChargeDataComponent(int charge) {
     );
 
     public static int getCharge(ItemStack chargedStack) {
-        Optional<KineticChargeDataComponent> kineticChargeDataComponent = Optional.ofNullable(chargedStack.getComponents().get(KWDataComponents.KINETIC_CHARGE.get()));
+        Optional<KineticChargeDataComponent> kineticChargeDataComponent = Optional.ofNullable(chargedStack.getComponents().get(KWDataComponents.KINETIC_CHARGE));
 
         return kineticChargeDataComponent.map(KineticChargeDataComponent::charge).orElse(0);
     }
@@ -39,7 +38,7 @@ public record KineticChargeDataComponent(int charge) {
         }
 
         chargeStack.applyComponents(DataComponentPatch.builder()
-                .set(KWDataComponents.KINETIC_CHARGE.get(), new KineticChargeDataComponent(charge))
+                .set(KWDataComponents.KINETIC_CHARGE, new KineticChargeDataComponent(charge))
                 .build()
         );
     }
