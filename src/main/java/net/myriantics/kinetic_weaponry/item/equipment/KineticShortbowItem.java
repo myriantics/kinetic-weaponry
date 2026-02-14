@@ -192,12 +192,6 @@ public class KineticShortbowItem extends ProjectileWeaponItem implements Kinetic
         }
     }
 
-    @Override
-    public void appendHoverText(ItemStack stack, TooltipContext context, List<Component> tooltipComponents, TooltipFlag tooltipFlag) {
-        applyKineticChargeItemHoverTextModifications(stack, tooltipComponents);
-        super.appendHoverText(stack, context, tooltipComponents, tooltipFlag);
-    }
-
     private static void interruptUsage(ServerPlayer player, ItemStack usedStack) {
         player.stopUsingItem();
         AttackUseTrackerDataComponent.setAttackUse(usedStack, false);

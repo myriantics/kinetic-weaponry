@@ -10,7 +10,6 @@ public class KWEvents {
     public static void init() {
         KWCommon.LOGGER.info("Registered Kinetic Weaponry's Event Listeners!");
 
-
         AttackBlockCallback.EVENT.register(KWEventHandlers::onAttackBlock);
     }
 }

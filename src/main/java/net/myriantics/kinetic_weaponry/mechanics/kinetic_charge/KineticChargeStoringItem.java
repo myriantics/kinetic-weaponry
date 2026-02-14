@@ -41,14 +41,6 @@ public interface KineticChargeStoringItem {
         return acceptedCharge;
     }
 
-    default void applyKineticChargeItemHoverTextModifications(ItemStack stack, List<Component> tooltipComponents) {
-        if (stack.has(KWDataComponents.INFINITE_KINETIC_CHARGE)) {
-            tooltipComponents.add(Component.translatable("tooltip.kinetic_weaponry.kinetic_charge.infinite"));
-        } else {
-            tooltipComponents.add(Component.translatable("tooltip.kinetic_weaponry.kinetic_charge", this.getCharge(stack), this.getMaxCharge(stack)));
-        }
-    }
-
     default boolean rechargeFromRetentionModule(Player player, ItemStack usedItemStack) {
         ItemStack retentionModuleStack = ItemStack.EMPTY;
         KineticChargeStoringItem retentionModuleStorage = null;

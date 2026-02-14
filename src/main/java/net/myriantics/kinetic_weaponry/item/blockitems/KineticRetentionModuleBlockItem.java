@@ -27,13 +27,6 @@ public class KineticRetentionModuleBlockItem extends BlockItem implements Equipa
     }
 
     @Override
-    public void appendHoverText(ItemStack stack, TooltipContext context, List<Component> tooltipComponents, TooltipFlag tooltipFlag) {
-        applyKineticChargeItemHoverTextModifications(stack, tooltipComponents);
-        super.appendHoverText(stack, context, tooltipComponents, tooltipFlag);
-    }
-
-
-    @Override
     public @NotNull EquipmentSlot getEquipmentSlot() {
         return equipmentSlot;
     }
