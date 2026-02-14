@@ -2,15 +2,12 @@ package net.myriantics.kinetic_weaponry.registry.item;
 
 import net.fabricmc.fabric.api.itemgroup.v1.FabricItemGroup;
 import net.minecraft.core.Registry;
-import net.minecraft.core.component.DataComponentPatch;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.ItemStack;
 import net.myriantics.kinetic_weaponry.KWCommon;
-import net.myriantics.kinetic_weaponry.item.data_components.ArcadeModeDataComponent;
-import net.myriantics.kinetic_weaponry.registry.block.KWBlocks;
 
 import java.util.function.Consumer;
 import java.util.function.Supplier;

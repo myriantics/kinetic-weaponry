@@ -6,21 +6,33 @@ import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
-import net.myriantics.kinetic_weaponry.item.data_components.KineticChargeDataComponent;
+import net.myriantics.kinetic_weaponry.registry.item.KWDataComponents;
 import net.myriantics.kinetic_weaponry.registry.misc.KWSounds;
 
 import java.util.List;
 
 public interface KineticChargeStoringItem {
 
-    int getMaxKineticCharge();
+    default int getMaxCharge(ItemStack stack) {
+        return stack.getOrDefault(KWDataComponents.MAX_KINETIC_CHARGE, 0);
+    }
 
-    int getCharge(ItemStack stack);
+    default int getCharge(ItemStack stack) {
+        if (stack.has(KWDataComponents.INFINITE_KINETIC_CHARGE)) {
+            return Integer.MAX_VALUE;
+        } else {
+            return stack.getOrDefault(KWDataComponents.KINETIC_CHARGE, 0);
+        }
+    }
 
-    void setCharge(ItemStack stack, int charge);
+    default void setCharge(ItemStack stack, int charge) {
+        if (charge >= 0 && !stack.has(KWDataComponents.INFINITE_KINETIC_CHARGE)) {
+            stack.set(KWDataComponents.KINETIC_CHARGE, Math.max(charge, this.getMaxCharge(stack)));
+        }
+    }
 
     default int addCharge(ItemStack stack, int charge) {
-        int maxCharge = this.getMaxKineticCharge();
+        int maxCharge = this.getMaxCharge(stack);
         int initialCharge = this.getCharge(stack);
 
         if (initialCharge >= maxCharge) {
@@ -34,10 +46,11 @@ public interface KineticChargeStoringItem {
     }
 
     default void applyKineticChargeItemHoverTextModifications(ItemStack stack, List<Component> tooltipComponents) {
-        int kineticCharge = KineticChargeDataComponent.getCharge(stack);
-
-        tooltipComponents.add(Component.translatable("tooltip.kinetic_weaponry.kinetic_charge")
-                .append("" + kineticCharge));
+        if (stack.has(KWDataComponents.INFINITE_KINETIC_CHARGE)) {
+            tooltipComponents.add(Component.translatable("tooltip.kinetic_weaponry.kinetic_charge.infinite"));
+        } else {
+            tooltipComponents.add(Component.translatable("tooltip.kinetic_weaponry.kinetic_charge", this.getCharge(stack), this.getMaxCharge(stack)));
+        }
     }
 
     default boolean rechargeFromRetentionModule(Player player, ItemStack usedItemStack) {

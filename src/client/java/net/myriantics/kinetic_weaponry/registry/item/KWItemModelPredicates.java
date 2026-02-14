@@ -2,19 +2,19 @@ package net.myriantics.kinetic_weaponry.registry.item;
 
 import net.minecraft.client.renderer.item.ClampedItemPropertyFunction;
 import net.minecraft.client.renderer.item.ItemProperties;
-import net.minecraft.client.renderer.item.ItemPropertyFunction;
 import net.minecraft.resources.ResourceLocation;
 import net.myriantics.kinetic_weaponry.KWCommon;
-import net.myriantics.kinetic_weaponry.registry.item.KWItems;
+import net.myriantics.kinetic_weaponry.mechanics.kinetic_charge.KineticChargeStoringItem;
 import net.myriantics.kinetic_weaponry.item.data_components.HeatUnitDataComponent;
-import net.myriantics.kinetic_weaponry.item.data_components.KineticChargeDataComponent;
 import net.myriantics.kinetic_weaponry.item.equipment.KineticShortbowItem;
 
 public class KWItemModelPredicates {
     public static void init() {
-        registerSomethingOrOther("kinetic_charge", (itemStack, clientLevel, livingEntity, i) -> {
-            return (float) KineticChargeDataComponent.getCharge(itemStack);
-        });
+        registerSomethingOrOther("kinetic_charge", (itemStack, clientLevel, livingEntity, i) ->
+            itemStack.getItem() instanceof KineticChargeStoringItem storage
+                    ? (float) storage.getCharge(itemStack) / storage.getMaxCharge(itemStack)
+                    : 0
+        );
 
         registerSomethingOrOther("heat_unit", (itemStack, clientLevel, livingEntity, i) -> {
             return (float) HeatUnitDataComponent.getHeatUnits(itemStack);
@@ -25,7 +25,7 @@ public class KWItemModelPredicates {
                 return 0.0F;
             } else {
                 // if used stack matches and is charged
-                return (KineticChargeDataComponent.getCharge(usedStack) > 0 || livingEntity.hasInfiniteMaterials())
+                return KineticShortbowItem.canFire(livingEntity, usedStack)
                         && !livingEntity.getUseItem().equals(usedStack)
                         ? 0.0F : (float)(usedStack.getUseDuration(livingEntity) - livingEntity.getUseItemRemainingTicks()) / KineticShortbowItem.STARTUP_TIME_TICKS;
             }
@@ -33,7 +33,7 @@ public class KWItemModelPredicates {
 
         ItemProperties.register(KWItems.KINETIC_SHORTBOW, ResourceLocation.withDefaultNamespace("pulling"), (usedStack, clientLevel, livingEntity, i) -> {
             return livingEntity != null
-                    && (KineticChargeDataComponent.getCharge(usedStack) > 0 || livingEntity.hasInfiniteMaterials())
+                    && KineticShortbowItem.canFire(livingEntity, usedStack)
                     && livingEntity.isUsingItem()
                     && livingEntity.getUseItem().equals(usedStack) ? 1.0F : 0.0F;
         });

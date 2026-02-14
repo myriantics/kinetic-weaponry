@@ -1,12 +1,9 @@
 package net.myriantics.kinetic_weaponry;
 
 import net.fabricmc.api.ModInitializer;
-import net.minecraft.core.component.DataComponentPatch;
-import net.minecraft.world.item.ItemStack;
 import net.myriantics.kinetic_weaponry.registry.behavior.KWDispenserBehaviors;
 import net.myriantics.kinetic_weaponry.registry.item.KWItemGroups;
 import net.myriantics.kinetic_weaponry.registry.item.KWItems;
-import net.myriantics.kinetic_weaponry.item.data_components.ArcadeModeDataComponent;
 import net.myriantics.kinetic_weaponry.registry.item.KWDataComponents;
 import net.myriantics.kinetic_weaponry.registry.block.KWBlocks;
 import net.myriantics.kinetic_weaponry.registry.entity.KWEntityTypes;

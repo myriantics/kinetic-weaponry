@@ -27,7 +27,6 @@ import java.util.function.Predicate;
 
 public class KineticShortbowItem extends ProjectileWeaponItem implements KineticChargeStoringItem {
 
-    public static final int MAX_CHARGES = 128;
     public static final float OUTPUT_VELOCITY = 5.0f;
     public static final int RANGE = 20;
 
@@ -131,7 +130,7 @@ public class KineticShortbowItem extends ProjectileWeaponItem implements Kinetic
     public InteractionResultHolder<ItemStack> use(Level level, Player player, InteractionHand usedHand) {
         ItemStack usedStack = player.getItemInHand(usedHand);
 
-        boolean isCharged = KineticChargeDataComponent.getCharge(usedStack) > 0;
+        boolean isCharged = this.getCharge(usedStack) > 0;
         if (!isCharged && !player.isCreative()) {
             return rechargeFromRetentionModule(player, usedStack)
                     ? InteractionResultHolder.success(usedStack)
@@ -147,21 +146,6 @@ public class KineticShortbowItem extends ProjectileWeaponItem implements Kinetic
         }
     }
 
-    @Override
-    public int getMaxKineticCharge() {
-        return MAX_CHARGES;
-    }
-
-    @Override
-    public int getCharge(ItemStack stack) {
-        return stack.getOrDefault(KWDataComponents.KINETIC_CHARGE, KineticChargeDataComponent.EMPTY).charge();
-    }
-
-    @Override
-    public void setCharge(ItemStack stack, int charge) {
-        stack.set(KWDataComponents.KINETIC_CHARGE, new KineticChargeDataComponent(charge));
-    }
-
     private static boolean isAttackUseActive(ItemStack stack) {
         return AttackUseTrackerDataComponent.getAttackUse(stack);
     }
@@ -173,12 +157,12 @@ public class KineticShortbowItem extends ProjectileWeaponItem implements Kinetic
         ItemStack projectile = player.getProjectile(shortbowStack);
         Item shortbow = shortbowStack.getItem();
 
-        int kineticCharge = KineticChargeDataComponent.getCharge(shortbowStack);
+        int kineticCharge = ((KineticShortbowItem) KWItems.KINETIC_SHORTBOW).getCharge(shortbowStack);
 
         int usageTime = shortbow.getUseDuration(shortbowStack, player)
                 - player.getUseItemRemainingTicks();
 
-        if (kineticCharge <= 0 && !player.isCreative() && !ArcadeModeDataComponent.getArcadeMode(shortbowStack) || !player.isAlive()) {
+        if (kineticCharge <= 0 && !player.isCreative() || !player.isAlive()) {
             // if i dont have charge, stop doing thing >:C
             interruptUsage(player, shortbowStack);
         }
@@ -187,7 +171,9 @@ public class KineticShortbowItem extends ProjectileWeaponItem implements Kinetic
             List<ItemStack> projectiles = draw(shortbowStack, projectile, player);
             if (!projectiles.isEmpty()) {
                 // remove a kinetic charge (but not in creative)
-                KineticChargeDataComponent.incrementCharge(shortbowStack, player.isCreative() ? 0 : -1);
+                if (!player.isCreative()) {
+                    ((KineticShortbowItem) KWItems.KINETIC_SHORTBOW).addCharge(shortbowStack, -1);
+                }
                 // add a heat unit
                 int heatUnits = HeatUnitDataComponent.incrementHeatUnits(shortbowStack, 1);
 
@@ -255,5 +241,9 @@ public class KineticShortbowItem extends ProjectileWeaponItem implements Kinetic
         }
 
         return original;
+    }
+
+    public static boolean canFire(LivingEntity livingEntity, ItemStack usedStack) {
+        return (livingEntity.hasInfiniteMaterials() || (usedStack.getItem() instanceof KineticChargeStoringItem storage && storage.getCharge(usedStack) > 0));
     }
 }

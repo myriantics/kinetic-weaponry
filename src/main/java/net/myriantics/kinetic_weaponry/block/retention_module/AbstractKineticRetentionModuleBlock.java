@@ -7,7 +7,6 @@ import net.myriantics.kinetic_weaponry.registry.block.KWBlockStateProperties;
 import net.myriantics.kinetic_weaponry.registry.block.KWBlocks;
 import net.myriantics.kinetic_weaponry.registry.item.KWDataComponents;
 import net.myriantics.kinetic_weaponry.item.blockitems.KineticRetentionModuleBlockItem;
-import net.myriantics.kinetic_weaponry.item.data_components.KineticChargeDataComponent;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.server.level.ServerLevel;
@@ -29,7 +28,6 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
-import java.util.Optional;
 
 public abstract class AbstractKineticRetentionModuleBlock extends AbstractKineticImpactActionBlock implements SimpleWaterloggedBlock {
     public static final DirectionProperty FACING = BlockStateProperties.FACING;
@@ -111,11 +109,10 @@ public abstract class AbstractKineticRetentionModuleBlock extends AbstractKineti
         BlockState defaultState = KWBlocks.KINETIC_RETENTION_MODULE.defaultBlockState();
 
         if (moduleStack.getItem() instanceof KineticRetentionModuleBlockItem) {
-            Optional<KineticChargeDataComponent> chargeComponent = Optional.ofNullable(moduleStack.get(KWDataComponents.KINETIC_CHARGE));
-
-            int charge = chargeComponent.map(KineticChargeDataComponent::charge).orElse(0);
-
-            return defaultState.setValue(KWBlockStateProperties.STANDARD_KINETIC_RETENTION_MODULE_KINETIC_CHARGE, charge);
+            return defaultState.setValue(
+                    KWBlockStateProperties.STANDARD_KINETIC_RETENTION_MODULE_KINETIC_CHARGE,
+                    moduleStack.getOrDefault(KWDataComponents.KINETIC_CHARGE, 0)
+            );
         }
         return defaultState;
     }
@@ -146,8 +143,8 @@ public abstract class AbstractKineticRetentionModuleBlock extends AbstractKineti
     protected List<ItemStack> getDrops(BlockState state, LootParams.Builder params) {
         List<ItemStack> items = super.getDrops(state, params);
         for (ItemStack stack : items) {
-            if (stack.getItem() instanceof KineticRetentionModuleBlockItem) {
-                KineticChargeDataComponent.setCharge(stack, this.getCharge(state));
+            if (stack.getItem() instanceof KineticRetentionModuleBlockItem item) {
+                item.setCharge(stack, this.getCharge(state));
             }
         }
         return items;

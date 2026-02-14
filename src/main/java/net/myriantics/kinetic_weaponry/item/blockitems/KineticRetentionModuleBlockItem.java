@@ -10,8 +10,6 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.*;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
-import net.myriantics.kinetic_weaponry.item.data_components.KineticChargeDataComponent;
-import net.myriantics.kinetic_weaponry.registry.item.KWDataComponents;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
@@ -71,17 +69,7 @@ public class KineticRetentionModuleBlockItem extends BlockItem implements Equipa
     } */
 
     @Override
-    public int getMaxKineticCharge() {
+    public int getMaxCharge(ItemStack stack) {
         return ((AbstractKineticRetentionModuleBlock) this.getBlock()).getMaxCharge();
-    }
-
-    @Override
-    public int getCharge(ItemStack stack) {
-        return stack.getOrDefault(KWDataComponents.KINETIC_CHARGE, KineticChargeDataComponent.EMPTY).charge();
-    }
-
-    @Override
-    public void setCharge(ItemStack stack, int charge) {
-        stack.set(KWDataComponents.KINETIC_CHARGE, new KineticChargeDataComponent(charge));
     }
 }

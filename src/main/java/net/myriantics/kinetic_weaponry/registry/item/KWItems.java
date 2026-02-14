@@ -2,13 +2,12 @@ package net.myriantics.kinetic_weaponry.registry.item;
 
 import net.minecraft.core.Registry;
 import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.util.Unit;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.myriantics.kinetic_weaponry.KWCommon;
 import net.myriantics.kinetic_weaponry.item.data_components.HeatUnitDataComponent;
 import net.myriantics.kinetic_weaponry.item.equipment.KineticShortbowItem;
-import net.myriantics.kinetic_weaponry.item.data_components.ArcadeModeDataComponent;
 import net.myriantics.kinetic_weaponry.item.data_components.AttackUseTrackerDataComponent;
-import net.myriantics.kinetic_weaponry.item.data_components.KineticChargeDataComponent;
 import net.myriantics.kinetic_weaponry.registry.block.KWBlocks;
 import net.myriantics.kinetic_weaponry.item.blockitems.KineticRetentionModuleBlockItem;
 import net.minecraft.core.component.DataComponents;
@@ -29,7 +28,7 @@ public class KWItems {
             "kinetic_retention_module",
             properties -> new KineticRetentionModuleBlockItem(KWBlocks.KINETIC_RETENTION_MODULE, EquipmentSlot.CHEST, properties),
             new Item.Properties()
-                    .component(KWDataComponents.KINETIC_CHARGE, new KineticChargeDataComponent(0))
+                    .component(KWDataComponents.KINETIC_CHARGE, 0)
                     .stacksTo(1)
                     .rarity(Rarity.EPIC)
     );
@@ -39,7 +38,7 @@ public class KWItems {
             properties -> new KineticRetentionModuleBlockItem(KWBlocks.CREATIVE_KINETIC_RETENTION_MODULE, EquipmentSlot.CHEST, properties),
             new Item.Properties()
                     .component(DataComponents.ENCHANTMENT_GLINT_OVERRIDE, true)
-                    .component(KWDataComponents.KINETIC_CHARGE, new KineticChargeDataComponent(Integer.MAX_VALUE))
+                    .component(KWDataComponents.INFINITE_KINETIC_CHARGE, Unit.INSTANCE)
                     .stacksTo(1)
                     .rarity(Rarity.EPIC)
     );
@@ -48,7 +47,7 @@ public class KWItems {
             "lesser_kinetic_retention_module",
             properties -> new KineticRetentionModuleBlockItem(KWBlocks.LESSER_KINETIC_RETENTION_MODULE, EquipmentSlot.HEAD, properties),
             new Item.Properties()
-                    .component(KWDataComponents.KINETIC_CHARGE, new KineticChargeDataComponent(0))
+                    .component(KWDataComponents.KINETIC_CHARGE, 0)
                     .stacksTo(1)
                     .rarity(Rarity.EPIC)
     );
@@ -58,7 +57,7 @@ public class KWItems {
             properties -> new KineticRetentionModuleBlockItem(KWBlocks.CREATIVE_LESSER_KINETIC_RETENTION_MODULE, EquipmentSlot.HEAD, properties),
             new Item.Properties()
                     .component(DataComponents.ENCHANTMENT_GLINT_OVERRIDE, true)
-                    .component(KWDataComponents.KINETIC_CHARGE, new KineticChargeDataComponent(Integer.MAX_VALUE))
+                    .component(KWDataComponents.INFINITE_KINETIC_CHARGE, Unit.INSTANCE)
                     .stacksTo(1)
                     .rarity(Rarity.EPIC)
     );
@@ -82,8 +81,8 @@ public class KWItems {
             "kinetic_shortbow",
             KineticShortbowItem::new,
             new Item.Properties()
-                    .component(KWDataComponents.KINETIC_CHARGE, new KineticChargeDataComponent(0))
-                    .component(KWDataComponents.ARCADE_MODE, new ArcadeModeDataComponent(false))
+                    .component(KWDataComponents.KINETIC_CHARGE, 0)
+                    .component(KWDataComponents.MAX_KINETIC_CHARGE, 128)
                     .component(KWDataComponents.ATTACK_USE_TRACKER, new AttackUseTrackerDataComponent(false))
                     .component(KWDataComponents.HEAT_UNIT, new HeatUnitDataComponent(0))
                     .stacksTo(1)
