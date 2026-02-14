@@ -1,6 +1,5 @@
 package net.myriantics.kinetic_weaponry.mechanics.kinetic_charge;
 
-import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.entity.EquipmentSlot;
@@ -8,8 +7,6 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.myriantics.kinetic_weaponry.registry.item.KWDataComponents;
 import net.myriantics.kinetic_weaponry.registry.misc.KWSounds;
-
-import java.util.List;
 
 public interface KineticChargeStoringItem {
 
@@ -26,19 +23,19 @@ public interface KineticChargeStoringItem {
     }
 
     default void setCharge(ItemStack stack, int charge) {
-        if (charge >= 0 && !stack.has(KWDataComponents.INFINITE_KINETIC_CHARGE)) {
-            stack.set(KWDataComponents.KINETIC_CHARGE, Math.max(charge, this.getMaxCharge(stack)));
+        if (!stack.has(KWDataComponents.INFINITE_KINETIC_CHARGE)) {
+            stack.set(KWDataComponents.KINETIC_CHARGE, charge);
         }
     }
 
-    default int addCharge(ItemStack stack, int charge) {
+    default boolean addCharge(ItemStack stack, int charge) {
         int maxCharge = this.getMaxCharge(stack);
         int initialCharge = this.getCharge(stack);
 
-        int acceptedCharge = Math.clamp(charge, 0, maxCharge - initialCharge);
+        int newCharge = Math.clamp((long) initialCharge + (long) charge, 0, maxCharge);
 
-        this.setCharge(stack, initialCharge + charge);
-        return acceptedCharge;
+        this.setCharge(stack, newCharge);
+        return newCharge != initialCharge;
     }
 
     default boolean rechargeFromRetentionModule(Player player, ItemStack usedItemStack) {
@@ -56,15 +53,15 @@ public interface KineticChargeStoringItem {
 
         if (!retentionModuleStack.isEmpty()) {
 
-            int addedCharge;
+            boolean chargeSuccessfullyAdded;
             if (retentionModuleStack.has(KWDataComponents.INFINITE_KINETIC_CHARGE)) {
-                addedCharge = this.getMaxCharge(usedItemStack) - this.getCharge(usedItemStack);
-                this.setCharge(usedItemStack, this.getMaxCharge(retentionModuleStack));
+                chargeSuccessfullyAdded = true;
+                this.setCharge(usedItemStack, this.getMaxCharge(usedItemStack));
             } else {
-                addedCharge = this.addCharge(usedItemStack, retentionModuleStorage.getCharge(retentionModuleStack));
+                chargeSuccessfullyAdded = this.addCharge(usedItemStack, retentionModuleStorage.getCharge(retentionModuleStack));
             }
 
-            if (addedCharge > 0) {
+            if (chargeSuccessfullyAdded) {
                 // only update components on the server
                 if (player instanceof ServerPlayer) {
                     if (!retentionModuleStack.has(KWDataComponents.INFINITE_KINETIC_CHARGE)) {

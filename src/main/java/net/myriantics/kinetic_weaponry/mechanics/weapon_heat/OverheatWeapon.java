@@ -30,14 +30,14 @@ public interface OverheatWeapon {
         return stack.getOrDefault(KWDataComponents.HEAT_UNIT_DISSIPATION_RATE, DEFAULT_HEAT_UNIT_DISSIPATION_RATE);
     }
 
-    default int addHeatUnits(ItemStack stack, int heatUnits) {
+    default boolean addHeatUnits(ItemStack stack, int heatUnits) {
         int maxHeat = this.getMaxHeatUnits(stack);
         int initialHeat = this.getHeatUnits(stack);
 
-        int acceptedHeat = Math.clamp(heatUnits, 0, maxHeat - initialHeat);
+        int newHeat = Math.clamp((long) heatUnits + (long) initialHeat, 0, maxHeat);
 
-        this.setHeatUnits(stack, acceptedHeat + initialHeat);
-        return acceptedHeat;
+        this.setHeatUnits(stack, newHeat);
+        return newHeat != initialHeat;
     }
 
     default List<Integer> getHeatSoundThresholds(ItemStack stack) {
@@ -51,11 +51,11 @@ public interface OverheatWeapon {
             int oldHeatUnits = this.getHeatUnits(stack);
 
             if (entity.tickCount % 20 == 0 && oldHeatUnits > 0) {
-                this.addHeatUnits(stack, this.getHeatDissipationRate(stack));
+                this.addHeatUnits(stack, -this.getHeatDissipationRate(stack));
                 int newHeatUnits = this.getHeatUnits(stack);
 
                 for (int threshold : this.getHeatSoundThresholds(stack)) {
-                    if (oldHeatUnits > threshold && newHeatUnits < threshold) {
+                    if (oldHeatUnits > threshold && newHeatUnits <= threshold) {
                         level.playSound(
                                 null,
                                 player.getX(),
