@@ -5,8 +5,8 @@ import net.minecraft.client.renderer.item.ItemProperties;
 import net.minecraft.resources.ResourceLocation;
 import net.myriantics.kinetic_weaponry.KWCommon;
 import net.myriantics.kinetic_weaponry.mechanics.kinetic_charge.KineticChargeStoringItem;
-import net.myriantics.kinetic_weaponry.item.data_components.HeatUnitDataComponent;
 import net.myriantics.kinetic_weaponry.item.equipment.KineticShortbowItem;
+import net.myriantics.kinetic_weaponry.mechanics.weapon_heat.OverheatWeapon;
 
 public class KWItemModelPredicates {
     public static void init() {
@@ -16,9 +16,11 @@ public class KWItemModelPredicates {
                     : 0
         );
 
-        registerSomethingOrOther("heat_unit", (itemStack, clientLevel, livingEntity, i) -> {
-            return (float) HeatUnitDataComponent.getHeatUnits(itemStack);
-        });
+        registerSomethingOrOther("heat_unit", (itemStack, clientLevel, livingEntity, i) ->
+                itemStack.getItem() instanceof OverheatWeapon weapon
+                        ? weapon.getHeatUnits(itemStack)
+                        : 0f
+        );
 
         ItemProperties.register(KWItems.KINETIC_SHORTBOW, ResourceLocation.withDefaultNamespace("pull"), (usedStack, clientLevel, livingEntity, i) -> {
             if (livingEntity == null) {

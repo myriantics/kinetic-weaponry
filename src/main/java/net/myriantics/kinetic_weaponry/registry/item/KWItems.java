@@ -5,14 +5,15 @@ import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.util.Unit;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.myriantics.kinetic_weaponry.KWCommon;
-import net.myriantics.kinetic_weaponry.item.data_components.HeatUnitDataComponent;
 import net.myriantics.kinetic_weaponry.item.equipment.KineticShortbowItem;
 import net.myriantics.kinetic_weaponry.item.data_components.AttackUseTrackerDataComponent;
+import net.myriantics.kinetic_weaponry.mechanics.weapon_heat.OverheatWeapon;
 import net.myriantics.kinetic_weaponry.registry.block.KWBlocks;
 import net.myriantics.kinetic_weaponry.item.blockitems.KineticRetentionModuleBlockItem;
 import net.minecraft.core.component.DataComponents;
 import net.minecraft.world.item.*;
 
+import java.util.List;
 import java.util.function.Function;
 
 public class KWItems {
@@ -84,7 +85,9 @@ public class KWItems {
                     .component(KWDataComponents.KINETIC_CHARGE, 0)
                     .component(KWDataComponents.MAX_KINETIC_CHARGE, 128)
                     .component(KWDataComponents.ATTACK_USE_TRACKER, new AttackUseTrackerDataComponent(false))
-                    .component(KWDataComponents.HEAT_UNIT, new HeatUnitDataComponent(0))
+                    .component(KWDataComponents.MAX_HEAT_UNITS, 100)
+                    .component(KWDataComponents.HEAT_UNIT_DISSIPATION_RATE, OverheatWeapon.DEFAULT_HEAT_UNIT_DISSIPATION_RATE)
+                    .component(KWDataComponents.HEAT_SOUND_THRESHOLDS, List.of(KineticShortbowItem.HEAT_UNIT_HOT_THRESHOLD, KineticShortbowItem.HEAT_UNIT_HOTTEST_THRESHOLD))
                     .stacksTo(1)
                     .rarity(Rarity.EPIC)
     );

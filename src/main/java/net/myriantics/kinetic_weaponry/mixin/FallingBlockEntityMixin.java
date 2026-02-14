@@ -1,6 +1,9 @@
 package net.myriantics.kinetic_weaponry.mixin;
 
+import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
 import com.llamalad7.mixinextras.sugar.Local;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.EntityType;
 import net.myriantics.kinetic_weaponry.block.AbstractKineticImpactActionBlock;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -11,17 +14,23 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import org.spongepowered.asm.mixin.Mixin;
+import org.spongepowered.asm.mixin.Overwrite;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
+import org.spongepowered.asm.mixin.injection.Redirect;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 @Mixin(FallingBlockEntity.class)
-public abstract class FallingBlockEntityMixin {
+public abstract class FallingBlockEntityMixin extends Entity {
+
+    public FallingBlockEntityMixin(EntityType<?> entityType, Level level) {
+        super(entityType, level);
+    }
 
     @Inject(method = "causeFallDamage", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/level/Level;getEntities(Lnet/minecraft/world/entity/Entity;Lnet/minecraft/world/phys/AABB;Ljava/util/function/Predicate;)Ljava/util/List;"))
     public void chargeKineticBlocks(float fallDistance, float multiplier, DamageSource source, CallbackInfoReturnable<Boolean> cir, @Local(ordinal = 2) float damageBonus) {
-        BlockPos entityPos = ((FallingBlockEntity)(Object)this).blockPosition();
-        Level level = ((FallingBlockEntity)(Object)this).level();
+        BlockPos entityPos = this.blockPosition();
+        Level level = this.level();
 
         // if the block the entity is in isnt a kinetic impact block, check the one below.
         BlockPos impactedBlockPos = level.getBlockState(entityPos).getBlock() instanceof AbstractKineticImpactActionBlock ? entityPos : entityPos.below();

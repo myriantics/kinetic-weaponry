@@ -35,10 +35,6 @@ public interface KineticChargeStoringItem {
         int maxCharge = this.getMaxCharge(stack);
         int initialCharge = this.getCharge(stack);
 
-        if (initialCharge >= maxCharge) {
-            return 0;
-        }
-
         int acceptedCharge = Math.clamp(charge, 0, maxCharge - initialCharge);
 
         this.setCharge(stack, initialCharge + charge);
@@ -68,12 +64,20 @@ public interface KineticChargeStoringItem {
 
         if (!retentionModuleStack.isEmpty()) {
 
-            int remainder = this.addCharge(usedItemStack, retentionModuleStorage.getCharge(retentionModuleStack));
+            int addedCharge;
+            if (retentionModuleStack.has(KWDataComponents.INFINITE_KINETIC_CHARGE)) {
+                addedCharge = this.getMaxCharge(usedItemStack) - this.getCharge(usedItemStack);
+                this.setCharge(usedItemStack, this.getMaxCharge(retentionModuleStack));
+            } else {
+                addedCharge = this.addCharge(usedItemStack, retentionModuleStorage.getCharge(retentionModuleStack));
+            }
 
-            if (remainder > 0) {
+            if (addedCharge > 0) {
                 // only update components on the server
                 if (player instanceof ServerPlayer) {
-                    retentionModuleStorage.addCharge(retentionModuleStack, -1);
+                    if (!retentionModuleStack.has(KWDataComponents.INFINITE_KINETIC_CHARGE)) {
+                        retentionModuleStorage.addCharge(retentionModuleStack, -1);
+                    }
                     player.level().playSound(
                             null,
                             player.getX(),
