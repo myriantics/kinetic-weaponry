@@ -17,29 +17,28 @@ public interface KineticChargeStoringItem {
 
     int getMaxKineticCharge();
 
+    int getCharge(ItemStack stack);
+
     default void applyKineticChargeItemHoverTextModifications(ItemStack stack, List<Component> tooltipComponents) {
         int kineticCharge = KineticChargeDataComponent.getCharge(stack);
-        boolean arcadeMode = ArcadeModeDataComponent.getArcadeMode(stack);
 
         tooltipComponents.add(Component.translatable("tooltip.kinetic_weaponry.kinetic_charge")
                 .append("" + kineticCharge));
-        if (arcadeMode) {
-            tooltipComponents.add(Component.translatable("tooltip.kinetic_weaponry.arcade_mode"));
-        }
     }
 
     default boolean rechargeFromRetentionModule(Player player, ItemStack usedItemStack) {
         ItemStack retentionModuleStack = ItemStack.EMPTY;
         for (EquipmentSlot checkedSlot : EquipmentSlot.values()) {
             ItemStack potentialStack = player.getItemBySlot(checkedSlot);
-            if (potentialStack.is(KWItems.KINETIC_RETENTION_MODULE_BLOCK_ITEM)) {
+            if (potentialStack.getItem() instanceof KineticChargeStoringItem storage && storage.getCharge(potentialStack) > 0) {
                 retentionModuleStack = potentialStack;
+                break;
             }
         }
 
 
         if (!retentionModuleStack.isEmpty() && usedItemStack.getItem() instanceof KineticChargeStoringItem) {
-            int moduleCharge = KineticChargeDataComponent.getCharge(retentionModuleStack);
+            int moduleCharge = ((KineticChargeStoringItem) usedItemStack.getItem()).getCharge(retentionModuleStack);
             int usedItemCharge = KineticChargeDataComponent.getCharge(usedItemStack);
             int maxUsedItemCharge = ((KineticChargeStoringItem) usedItemStack.getItem()).getMaxKineticCharge();
 

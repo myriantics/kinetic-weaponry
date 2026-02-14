@@ -7,10 +7,14 @@ import net.myriantics.kinetic_weaponry.KWCommon;
 import net.myriantics.kinetic_weaponry.block.charging_bus.CreativeKineticChargingBusBlock;
 import net.myriantics.kinetic_weaponry.block.charging_bus.KineticChargingBusBlock;
 import net.myriantics.kinetic_weaponry.block.detonator.KineticDetonatorBlock;
-import net.myriantics.kinetic_weaponry.block.retention_module.KineticRetentionModuleBlock;
+import net.myriantics.kinetic_weaponry.block.retention_module.AbstractKineticRetentionModuleBlock;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
+import net.myriantics.kinetic_weaponry.block.retention_module.lesser.CreativeLesserKineticRetentionModuleBlock;
+import net.myriantics.kinetic_weaponry.block.retention_module.lesser.LesserKineticRetentionModuleBlock;
+import net.myriantics.kinetic_weaponry.block.retention_module.standard.CreativeStandardKineticRetentionModuleBlock;
+import net.myriantics.kinetic_weaponry.block.retention_module.standard.StandardKineticRetentionModuleBlock;
 
 import java.util.function.Function;
 
@@ -27,12 +31,30 @@ public class KWBlocks {
 
     public static final Block KINETIC_RETENTION_MODULE = register(
             "kinetic_retention_module",
-            KineticRetentionModuleBlock::new,
+            StandardKineticRetentionModuleBlock::new,
             BlockBehaviour.Properties
                     .ofFullCopy(Blocks.COPPER_BLOCK)
-                    .lightLevel((state) -> state.getValue(BlockStateProperties.LIT) ? 15 : 0)
+                    .lightLevel((state) -> ((AbstractKineticRetentionModuleBlock) state.getBlock()).getCharge(state) > 0 ? 15 : 0)
                     .explosionResistance(300.0f)
                     .forceSolidOn()
+    );
+
+    public static final Block CREATIVE_KINETIC_RETENTION_MODULE = register(
+            "creative_kinetic_retention_module",
+            CreativeStandardKineticRetentionModuleBlock::new,
+            BlockBehaviour.Properties.ofFullCopy(KINETIC_RETENTION_MODULE)
+    );
+
+    public static final Block LESSER_KINETIC_RETENTION_MODULE = register(
+            "lesser_kinetic_retention_module",
+            LesserKineticRetentionModuleBlock::new,
+            BlockBehaviour.Properties.ofFullCopy(KINETIC_RETENTION_MODULE)
+    );
+
+    public static final Block CREATIVE_LESSER_KINETIC_RETENTION_MODULE = register(
+            "creative_lesser_kinetic_retention_module",
+            CreativeLesserKineticRetentionModuleBlock::new,
+            BlockBehaviour.Properties.ofFullCopy(LESSER_KINETIC_RETENTION_MODULE)
     );
 
     public static final Block KINETIC_CHARGING_BUS = register(
@@ -40,7 +62,7 @@ public class KWBlocks {
             KineticChargingBusBlock::new,
             BlockBehaviour.Properties
                     .ofFullCopy(Blocks.COPPER_BLOCK)
-                    .lightLevel((state) -> (int) (15.0 / 4) * (state.getValue(KWBlockStateProperties.STORED_KINETIC_CHARGES_CHARGING_BUS) / 2))
+                    .lightLevel((state) -> (int) (15.0 / 4) * (state.getValue(KWBlockStateProperties.KINETIC_CHARGING_BUS_KINETIC_CHARGE) / 2))
                     .explosionResistance(300.0f)
     );
 

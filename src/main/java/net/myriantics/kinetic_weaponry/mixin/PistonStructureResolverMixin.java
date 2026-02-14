@@ -1,7 +1,7 @@
 package net.myriantics.kinetic_weaponry.mixin;
 
 import com.llamalad7.mixinextras.injector.ModifyExpressionValue;
-import net.myriantics.kinetic_weaponry.block.retention_module.KineticRetentionModuleBlock;
+import net.myriantics.kinetic_weaponry.block.retention_module.AbstractKineticRetentionModuleBlock;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.world.level.Level;
@@ -19,8 +19,8 @@ public abstract class PistonStructureResolverMixin {
     @ModifyExpressionValue(method = "resolve", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/level/block/state/BlockState;getPistonPushReaction()Lnet/minecraft/world/level/material/PushReaction;"))
     public PushReaction checkForRetentionModuleA(PushReaction original) {
         BlockState targetState = level.getBlockState(pistonPos.relative(pistonDirection, 1));
-        if (targetState.getBlock() instanceof KineticRetentionModuleBlock) {
-            return KineticRetentionModuleBlock.getCorrectedPistonPushReaction(original, targetState, pistonDirection);
+        if (targetState.getBlock() instanceof AbstractKineticRetentionModuleBlock) {
+            return AbstractKineticRetentionModuleBlock.getCorrectedPistonPushReaction(original, targetState, pistonDirection);
         }
         return original;
     }
@@ -28,8 +28,8 @@ public abstract class PistonStructureResolverMixin {
     @ModifyExpressionValue(method = "addBlockLine", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/level/block/state/BlockState;getPistonPushReaction()Lnet/minecraft/world/level/material/PushReaction;"))
     public PushReaction checkForRetentionModuleB(PushReaction original) {
         BlockState targetState = level.getBlockState(pistonPos.relative(pistonDirection, 1));
-        if (targetState.getBlock() instanceof KineticRetentionModuleBlock) {
-            return KineticRetentionModuleBlock.getCorrectedPistonPushReaction(original, targetState, pistonDirection);
+        if (targetState.getBlock() instanceof AbstractKineticRetentionModuleBlock) {
+            return AbstractKineticRetentionModuleBlock.getCorrectedPistonPushReaction(original, targetState, pistonDirection);
         }
         return original;
     }

@@ -19,6 +19,8 @@ public record KineticChargeDataComponent(int charge) {
             ).apply(instance, KineticChargeDataComponent::new)
     );
 
+    public static final KineticChargeDataComponent EMPTY = new KineticChargeDataComponent(0);
+
     public static final StreamCodec<ByteBuf, KineticChargeDataComponent> STREAM_CODEC = StreamCodec.composite(
             ByteBufCodecs.INT, KineticChargeDataComponent::charge,
             KineticChargeDataComponent::new

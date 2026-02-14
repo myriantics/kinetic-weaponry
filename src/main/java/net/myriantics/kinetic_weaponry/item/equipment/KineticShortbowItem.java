@@ -5,6 +5,7 @@ import net.minecraft.core.component.TypedDataComponent;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundSource;
+import net.myriantics.kinetic_weaponry.registry.item.KWDataComponents;
 import net.myriantics.kinetic_weaponry.registry.item.KWItems;
 import net.myriantics.kinetic_weaponry.item.KineticChargeStoringItem;
 import net.myriantics.kinetic_weaponry.item.data_components.*;
@@ -149,6 +150,11 @@ public class KineticShortbowItem extends ProjectileWeaponItem implements Kinetic
     @Override
     public int getMaxKineticCharge() {
         return MAX_CHARGES;
+    }
+
+    @Override
+    public int getCharge(ItemStack stack) {
+        return stack.getOrDefault(KWDataComponents.KINETIC_CHARGE, KineticChargeDataComponent.EMPTY).charge();
     }
 
     private static boolean isAttackUseActive(ItemStack stack) {

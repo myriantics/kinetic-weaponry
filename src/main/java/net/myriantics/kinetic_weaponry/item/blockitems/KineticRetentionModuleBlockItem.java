@@ -1,6 +1,6 @@
 package net.myriantics.kinetic_weaponry.item.blockitems;
 
-import net.myriantics.kinetic_weaponry.block.retention_module.KineticRetentionModuleBlock;
+import net.myriantics.kinetic_weaponry.block.retention_module.AbstractKineticRetentionModuleBlock;
 import net.myriantics.kinetic_weaponry.item.KineticChargeStoringItem;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.InteractionHand;
@@ -10,14 +10,22 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.*;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
+import net.myriantics.kinetic_weaponry.item.data_components.KineticChargeDataComponent;
+import net.myriantics.kinetic_weaponry.registry.item.KWDataComponents;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
 
 public class KineticRetentionModuleBlockItem extends BlockItem implements Equipable, KineticChargeStoringItem {
 
-    public KineticRetentionModuleBlockItem(Block block, Properties properties) {
+    private final EquipmentSlot equipmentSlot;
+
+    public KineticRetentionModuleBlockItem(Block block, EquipmentSlot equipmentSlot, Properties properties) {
         super(block, properties);
+        this.equipmentSlot = equipmentSlot;
+        if (!(block instanceof AbstractKineticRetentionModuleBlock)) {
+            throw new AssertionError("Non-Kinetic Retention Module Block passed into Kinetic Retention Module BlockItem! Errant block: " + block);
+        }
     }
 
     @Override
@@ -29,7 +37,7 @@ public class KineticRetentionModuleBlockItem extends BlockItem implements Equipa
 
     @Override
     public @NotNull EquipmentSlot getEquipmentSlot() {
-        return EquipmentSlot.HEAD;
+        return equipmentSlot;
     }
 
     @Override
@@ -64,6 +72,11 @@ public class KineticRetentionModuleBlockItem extends BlockItem implements Equipa
 
     @Override
     public int getMaxKineticCharge() {
-        return KineticRetentionModuleBlock.KINETIC_RETENTION_MODULE_MAX_CHARGES;
+        return ((AbstractKineticRetentionModuleBlock) this.getBlock()).getMaxCharge();
+    }
+
+    @Override
+    public int getCharge(ItemStack stack) {
+        return stack.getOrDefault(KWDataComponents.KINETIC_CHARGE, KineticChargeDataComponent.EMPTY).charge();
     }
 }

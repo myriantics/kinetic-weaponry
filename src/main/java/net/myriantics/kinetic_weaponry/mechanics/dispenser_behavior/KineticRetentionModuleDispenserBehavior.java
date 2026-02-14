@@ -2,7 +2,7 @@ package net.myriantics.kinetic_weaponry.mechanics.dispenser_behavior;
 
 import net.minecraft.world.item.ArmorItem;
 import net.minecraft.world.level.material.Fluids;
-import net.myriantics.kinetic_weaponry.block.retention_module.KineticRetentionModuleBlock;
+import net.myriantics.kinetic_weaponry.block.retention_module.AbstractKineticRetentionModuleBlock;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.dispenser.BlockSource;
@@ -22,7 +22,7 @@ public class KineticRetentionModuleDispenserBehavior extends OptionalDispenseIte
         Direction dispenserDirection = blockSource.state().getValue(BlockStateProperties.FACING);
         BlockPos targetPos = blockSource.pos().relative(dispenserDirection, 1);
         BlockState targetBlockState = level.getBlockState(targetPos);
-        BlockState proposedBlockState = KineticRetentionModuleBlock.getPlacementState(item);
+        BlockState proposedBlockState = AbstractKineticRetentionModuleBlock.getPlacementState(item);
 
 
         this.setSuccess(false);

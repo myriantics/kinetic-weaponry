@@ -9,7 +9,7 @@ import net.myriantics.kinetic_weaponry.registry.item.KWItems;
 
 public class KWDispenserBehaviors {
     public static DispenseItemBehavior KINETIC_RETENTION_MODULE = register(
-            KWItems.KINETIC_RETENTION_MODULE_BLOCK_ITEM,
+            KWItems.KINETIC_RETENTION_MODULE,
             new KineticRetentionModuleDispenserBehavior()
     );
 

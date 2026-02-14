@@ -14,7 +14,7 @@ import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.level.block.state.properties.BooleanProperty;
 import net.minecraft.world.level.block.state.properties.DirectionProperty;
 import net.myriantics.kinetic_weaponry.block.AbstractKineticImpactActionBlock;
-import net.myriantics.kinetic_weaponry.block.retention_module.KineticRetentionModuleBlock;
+import net.myriantics.kinetic_weaponry.block.retention_module.AbstractKineticRetentionModuleBlock;
 import net.myriantics.kinetic_weaponry.registry.misc.KWSounds;
 import org.jetbrains.annotations.Nullable;
 
@@ -57,7 +57,7 @@ public abstract class AbstractKineticChargingBusBlock extends AbstractKineticImp
             if (side.getAxis() != state.getValue(FACING).getAxis()) {
                 BlockPos modulePos = pos.relative(side, 1);
                 BlockState moduleState = level.getBlockState(modulePos);
-                if (moduleState.getBlock() instanceof KineticRetentionModuleBlock retentionModule) {
+                if (moduleState.getBlock() instanceof AbstractKineticRetentionModuleBlock retentionModule) {
                     discharged = retentionModule.updateCharge(level, modulePos, getOutboundCharge(state)) || discharged;
                 }
             }

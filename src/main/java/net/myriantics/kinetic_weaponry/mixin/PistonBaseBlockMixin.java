@@ -2,7 +2,7 @@ package net.myriantics.kinetic_weaponry.mixin;
 
 import com.llamalad7.mixinextras.injector.ModifyExpressionValue;
 import com.llamalad7.mixinextras.sugar.Local;
-import net.myriantics.kinetic_weaponry.block.retention_module.KineticRetentionModuleBlock;
+import net.myriantics.kinetic_weaponry.block.retention_module.AbstractKineticRetentionModuleBlock;
 import net.minecraft.core.Direction;
 import net.minecraft.world.level.block.piston.PistonBaseBlock;
 import net.minecraft.world.level.block.state.BlockState;
@@ -19,8 +19,8 @@ public abstract class PistonBaseBlockMixin {
             PushReaction original,
             @Local(argsOnly = true) BlockState blockState,
             @Local(ordinal = 1, argsOnly = true) Direction pistonPushDirection) {
-        if (blockState.getBlock() instanceof KineticRetentionModuleBlock) {
-            return KineticRetentionModuleBlock.getCorrectedPistonPushReaction(original, blockState, pistonPushDirection);
+        if (blockState.getBlock() instanceof AbstractKineticRetentionModuleBlock) {
+            return AbstractKineticRetentionModuleBlock.getCorrectedPistonPushReaction(original, blockState, pistonPushDirection);
         }
         return original;
     }

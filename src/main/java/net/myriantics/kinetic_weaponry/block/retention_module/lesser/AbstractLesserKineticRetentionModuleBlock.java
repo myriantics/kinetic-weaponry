@@ -1,0 +1,37 @@
+package net.myriantics.kinetic_weaponry.block.retention_module.lesser;
+
+import net.minecraft.core.BlockPos;
+import net.minecraft.world.level.BlockGetter;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.block.state.properties.DirectionProperty;
+import net.minecraft.world.phys.shapes.CollisionContext;
+import net.minecraft.world.phys.shapes.VoxelShape;
+import net.myriantics.kinetic_weaponry.block.retention_module.AbstractKineticRetentionModuleBlock;
+
+public abstract class AbstractLesserKineticRetentionModuleBlock extends AbstractKineticRetentionModuleBlock {
+    public static final DirectionProperty FACING = AbstractKineticRetentionModuleBlock.FACING;
+
+    private static final VoxelShape UP = Block.box(5.0, 6.0, 5.0, 11.0, 16.0, 11.0);
+    private static final VoxelShape DOWN = Block.box(5.0, 0.0, 5.0, 11.0, 10.0, 11.0);
+    private static final VoxelShape NORTH = Block.box(5.0, 5.0, 0.0, 11.0, 11.0, 10.0);
+    private static final VoxelShape EAST = Block.box(6.0, 5.0, 5.0, 16.0, 11.0, 11.0);
+    private static final VoxelShape SOUTH = Block.box(5.0, 5.0, 6.0, 11.0, 11.0, 16.0);
+    private static final VoxelShape WEST = Block.box(0.0, 5.0, 5.0, 10.0, 11.0, 11.0);
+
+    public AbstractLesserKineticRetentionModuleBlock(Properties properties) {
+        super(properties);
+    }
+
+    @Override
+    protected VoxelShape getShape(BlockState state, BlockGetter level, BlockPos pos, CollisionContext context) {
+        return switch (state.getValue(FACING)) {
+            case DOWN -> UP;
+            case UP -> DOWN;
+            case NORTH -> NORTH;
+            case SOUTH -> EAST;
+            case WEST -> SOUTH;
+            case EAST -> WEST;
+        };
+    }
+}

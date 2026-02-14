@@ -18,22 +18,20 @@ import java.util.function.Supplier;
 public class KWItemGroups {
     public static final CreativeModeTab KINETIC_WEAPONRY = register(
             "kinetic_weaponry",
-            () -> new ItemStack(KWItems.KINETIC_DETONATOR_BLOCK_ITEM),
+            () -> new ItemStack(KWItems.KINETIC_DETONATOR),
             builder -> {
                 builder.displayItems((parameters, output) -> {
                     output.accept(KWItems.KINETIC_CHARGING_BUS);
                     output.accept(KWItems.CREATIVE_KINETIC_CHARGING_BUS);
-                    output.accept(KWBlocks.KINETIC_DETONATOR);
+                    output.accept(KWItems.KINETIC_DETONATOR);
 
-                    output.accept(KWBlocks.KINETIC_RETENTION_MODULE);
-                    ItemStack arcadeModule = new ItemStack(KWItems.KINETIC_RETENTION_MODULE_BLOCK_ITEM);
-                    arcadeModule.applyComponents(DataComponentPatch.builder().set(KWDataComponents.ARCADE_MODE, new ArcadeModeDataComponent(true)).build());
-                    output.accept(arcadeModule);
+                    // retention modules
+                    output.accept(KWItems.KINETIC_RETENTION_MODULE);
+                    output.accept(KWItems.CREATIVE_KINETIC_RETENTION_MODULE);
+                    output.accept(KWItems.LESSER_KINETIC_RETENTION_MODULE);
+                    output.accept(KWItems.CREATIVE_LESSER_KINETIC_RETENTION_MODULE);
 
                     output.accept(KWItems.KINETIC_SHORTBOW);
-                    ItemStack arcadeShortbow = new ItemStack(KWItems.KINETIC_SHORTBOW);
-                    arcadeShortbow.applyComponents(DataComponentPatch.builder().set(KWDataComponents.ARCADE_MODE, new ArcadeModeDataComponent(true)).build());
-                    output.accept(arcadeShortbow);
                 });
             }
     );

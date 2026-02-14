@@ -1,13 +1,11 @@
 package net.myriantics.kinetic_weaponry.block.charging_bus;
 
-import net.myriantics.kinetic_weaponry.block.retention_module.KineticRetentionModuleBlock;
+import net.myriantics.kinetic_weaponry.block.retention_module.AbstractKineticRetentionModuleBlock;
 import net.myriantics.kinetic_weaponry.registry.block.KWBlockStateProperties;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
-import net.minecraft.util.RandomSource;
-import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
@@ -17,14 +15,12 @@ import net.minecraft.world.level.block.state.properties.DirectionProperty;
 import net.minecraft.world.level.block.state.properties.IntegerProperty;
 import org.jetbrains.annotations.Nullable;
 
-
-
 public class KineticChargingBusBlock extends AbstractKineticChargingBusBlock {
-    public static final IntegerProperty STORED_KINETIC_CHARGES = KWBlockStateProperties.STORED_KINETIC_CHARGES_CHARGING_BUS;
+    public static final IntegerProperty STORED_KINETIC_CHARGES = KWBlockStateProperties.KINETIC_CHARGING_BUS_KINETIC_CHARGE;
     public static final BooleanProperty TRIGGERED = AbstractKineticChargingBusBlock.TRIGGERED;
     public static final DirectionProperty FACING = AbstractKineticChargingBusBlock.FACING;
 
-    public static final int KINETIC_CHARGING_BUS_MAX_CHARGES = 8;
+    public static final int MAX_CHARGES = 8;
     public static int IMPACT_CHARGE_DIVISOR = 10;
 
     public KineticChargingBusBlock(Properties properties) {
@@ -51,7 +47,7 @@ public class KineticChargingBusBlock extends AbstractKineticChargingBusBlock {
         // calculate new charge
         int newCharge = Math.clamp(
                 initialCharge + inboundChargeModifier,
-                0, KINETIC_CHARGING_BUS_MAX_CHARGES);
+                0, MAX_CHARGES);
 
         // determine new update state
         BlockState appendedState = initialState
@@ -82,11 +78,13 @@ public class KineticChargingBusBlock extends AbstractKineticChargingBusBlock {
         BlockState state = serverLevel.getBlockState(pos);
 
         // if its not full, then the impact was valid
-        return state.getValue(STORED_KINETIC_CHARGES) != KINETIC_CHARGING_BUS_MAX_CHARGES;
+        return state.getValue(STORED_KINETIC_CHARGES) != MAX_CHARGES;
     }
 
     public int getOutboundCharge(BlockState state) {
-        return Math.min(state.getValue(STORED_KINETIC_CHARGES), KineticRetentionModuleBlock.KINETIC_RETENTION_MODULE_MAX_CHARGES);
+        return state.getBlock() instanceof AbstractKineticRetentionModuleBlock retentionModule
+                ? Math.min(state.getValue(STORED_KINETIC_CHARGES), retentionModule.getMaxCharge())
+                : 0;
     }
 
     @Override
@@ -96,6 +94,6 @@ public class KineticChargingBusBlock extends AbstractKineticChargingBusBlock {
 
     @Override
     protected int getAnalogOutputSignal(BlockState state, Level level, BlockPos pos) {
-        return (int) (15.0 / KINETIC_CHARGING_BUS_MAX_CHARGES * level.getBlockState(pos).getValue(STORED_KINETIC_CHARGES));
+        return (int) (15.0 / MAX_CHARGES * level.getBlockState(pos).getValue(STORED_KINETIC_CHARGES));
     }
 }
