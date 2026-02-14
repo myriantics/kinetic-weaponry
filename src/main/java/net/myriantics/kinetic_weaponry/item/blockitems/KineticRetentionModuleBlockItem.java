@@ -1,7 +1,7 @@
 package net.myriantics.kinetic_weaponry.item.blockitems;
 
 import net.myriantics.kinetic_weaponry.block.retention_module.AbstractKineticRetentionModuleBlock;
-import net.myriantics.kinetic_weaponry.item.KineticChargeStoringItem;
+import net.myriantics.kinetic_weaponry.mechanics.kinetic_charge.KineticChargeStoringItem;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResultHolder;
@@ -78,5 +78,10 @@ public class KineticRetentionModuleBlockItem extends BlockItem implements Equipa
     @Override
     public int getCharge(ItemStack stack) {
         return stack.getOrDefault(KWDataComponents.KINETIC_CHARGE, KineticChargeDataComponent.EMPTY).charge();
+    }
+
+    @Override
+    public void setCharge(ItemStack stack, int charge) {
+        stack.set(KWDataComponents.KINETIC_CHARGE, new KineticChargeDataComponent(charge));
     }
 }

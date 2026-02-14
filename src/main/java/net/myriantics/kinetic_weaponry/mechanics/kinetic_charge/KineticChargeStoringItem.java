@@ -1,4 +1,4 @@
-package net.myriantics.kinetic_weaponry.item;
+package net.myriantics.kinetic_weaponry.mechanics.kinetic_charge;
 
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerPlayer;
@@ -6,10 +6,8 @@ import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
-import net.myriantics.kinetic_weaponry.item.data_components.ArcadeModeDataComponent;
 import net.myriantics.kinetic_weaponry.item.data_components.KineticChargeDataComponent;
 import net.myriantics.kinetic_weaponry.registry.misc.KWSounds;
-import net.myriantics.kinetic_weaponry.registry.item.KWItems;
 
 import java.util.List;
 
@@ -18,6 +16,22 @@ public interface KineticChargeStoringItem {
     int getMaxKineticCharge();
 
     int getCharge(ItemStack stack);
+
+    void setCharge(ItemStack stack, int charge);
+
+    default int addCharge(ItemStack stack, int charge) {
+        int maxCharge = this.getMaxKineticCharge();
+        int initialCharge = this.getCharge(stack);
+
+        if (initialCharge >= maxCharge) {
+            return 0;
+        }
+
+        int acceptedCharge = Math.clamp(charge, 0, maxCharge - initialCharge);
+
+        this.setCharge(stack, initialCharge + charge);
+        return acceptedCharge;
+    }
 
     default void applyKineticChargeItemHoverTextModifications(ItemStack stack, List<Component> tooltipComponents) {
         int kineticCharge = KineticChargeDataComponent.getCharge(stack);
@@ -28,27 +42,25 @@ public interface KineticChargeStoringItem {
 
     default boolean rechargeFromRetentionModule(Player player, ItemStack usedItemStack) {
         ItemStack retentionModuleStack = ItemStack.EMPTY;
+        KineticChargeStoringItem retentionModuleStorage = null;
         for (EquipmentSlot checkedSlot : EquipmentSlot.values()) {
             ItemStack potentialStack = player.getItemBySlot(checkedSlot);
-            if (potentialStack.getItem() instanceof KineticChargeStoringItem storage && storage.getCharge(potentialStack) > 0) {
+            if (potentialStack.getItem() instanceof KineticChargeStoringItem temp && temp.getCharge(potentialStack) > 0) {
                 retentionModuleStack = potentialStack;
+                retentionModuleStorage = temp;
                 break;
             }
         }
 
 
-        if (!retentionModuleStack.isEmpty() && usedItemStack.getItem() instanceof KineticChargeStoringItem) {
-            int moduleCharge = ((KineticChargeStoringItem) usedItemStack.getItem()).getCharge(retentionModuleStack);
-            int usedItemCharge = KineticChargeDataComponent.getCharge(usedItemStack);
-            int maxUsedItemCharge = ((KineticChargeStoringItem) usedItemStack.getItem()).getMaxKineticCharge();
+        if (!retentionModuleStack.isEmpty()) {
 
-            // if the module has charge and the thing you're trying to charge isn't full, proceed.
-            // if it has arcade mode, go crazy dude
-            if (moduleCharge > 0 && usedItemCharge < maxUsedItemCharge || ArcadeModeDataComponent.getArcadeMode(retentionModuleStack)) {
+            int remainder = this.addCharge(usedItemStack, retentionModuleStorage.getCharge(retentionModuleStack));
+
+            if (remainder > 0) {
                 // only update components on the server
                 if (player instanceof ServerPlayer) {
-                    KineticChargeDataComponent.incrementCharge(retentionModuleStack, -1);
-                    KineticChargeDataComponent.setCharge(usedItemStack, maxUsedItemCharge);
+                    retentionModuleStorage.addCharge(retentionModuleStack, -1);
                     player.level().playSound(
                             null,
                             player.getX(),
@@ -62,7 +74,6 @@ public interface KineticChargeStoringItem {
                 // yay you won
                 return true;
             }
-
         }
 
         // sadge it failed

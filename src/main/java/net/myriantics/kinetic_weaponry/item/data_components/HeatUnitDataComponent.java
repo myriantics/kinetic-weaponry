@@ -8,7 +8,7 @@ import net.minecraft.network.codec.ByteBufCodecs;
 import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.world.item.ItemStack;
 import net.myriantics.kinetic_weaponry.registry.item.KWDataComponents;
-import net.myriantics.kinetic_weaponry.item.KineticChargeStoringItem;
+import net.myriantics.kinetic_weaponry.mechanics.kinetic_charge.KineticChargeStoringItem;
 
 import java.util.Optional;
 

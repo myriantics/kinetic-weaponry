@@ -7,7 +7,7 @@ import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundSource;
 import net.myriantics.kinetic_weaponry.registry.item.KWDataComponents;
 import net.myriantics.kinetic_weaponry.registry.item.KWItems;
-import net.myriantics.kinetic_weaponry.item.KineticChargeStoringItem;
+import net.myriantics.kinetic_weaponry.mechanics.kinetic_charge.KineticChargeStoringItem;
 import net.myriantics.kinetic_weaponry.item.data_components.*;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.InteractionHand;
@@ -155,6 +155,11 @@ public class KineticShortbowItem extends ProjectileWeaponItem implements Kinetic
     @Override
     public int getCharge(ItemStack stack) {
         return stack.getOrDefault(KWDataComponents.KINETIC_CHARGE, KineticChargeDataComponent.EMPTY).charge();
+    }
+
+    @Override
+    public void setCharge(ItemStack stack, int charge) {
+        stack.set(KWDataComponents.KINETIC_CHARGE, new KineticChargeDataComponent(charge));
     }
 
     private static boolean isAttackUseActive(ItemStack stack) {
