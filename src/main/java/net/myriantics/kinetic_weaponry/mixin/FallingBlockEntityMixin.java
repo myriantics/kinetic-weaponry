@@ -1,7 +1,7 @@
 package net.myriantics.kinetic_weaponry.mixin;
 
 import com.llamalad7.mixinextras.sugar.Local;
-import net.myriantics.kinetic_weaponry.block.customblocks.AbstractKineticImpactActionBlock;
+import net.myriantics.kinetic_weaponry.block.AbstractKineticImpactActionBlock;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.server.level.ServerLevel;

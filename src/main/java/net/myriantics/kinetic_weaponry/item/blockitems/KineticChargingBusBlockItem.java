@@ -1,6 +1,6 @@
 package net.myriantics.kinetic_weaponry.item.blockitems;
 
-import net.myriantics.kinetic_weaponry.block.customblocks.KineticChargingBusBlock;
+import net.myriantics.kinetic_weaponry.block.charging_bus.KineticChargingBusBlock;
 import net.myriantics.kinetic_weaponry.item.KineticChargeStoringItem;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.level.block.Block;

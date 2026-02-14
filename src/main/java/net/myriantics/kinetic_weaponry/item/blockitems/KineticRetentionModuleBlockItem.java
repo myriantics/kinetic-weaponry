@@ -1,6 +1,6 @@
 package net.myriantics.kinetic_weaponry.item.blockitems;
 
-import net.myriantics.kinetic_weaponry.block.customblocks.KineticRetentionModuleBlock;
+import net.myriantics.kinetic_weaponry.block.retention_module.KineticRetentionModuleBlock;
 import net.myriantics.kinetic_weaponry.item.KineticChargeStoringItem;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.InteractionHand;
@@ -11,7 +11,6 @@ import net.minecraft.world.item.*;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
 

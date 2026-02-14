@@ -37,11 +37,19 @@ public class KWItems {
                     .rarity(Rarity.EPIC)
     );
 
-    public static final Item KINETIC_CHARGING_BUS_BLOCK_ITEM = register(
+    public static final Item KINETIC_CHARGING_BUS = register(
             "kinetic_charging_bus",
             (properties -> new KineticChargingBusBlockItem(KWBlocks.KINETIC_CHARGING_BUS, properties)),
             new Item.Properties()
                     .component(KWDataComponents.KINETIC_CHARGE, new KineticChargeDataComponent(0))
+                    .rarity(Rarity.EPIC)
+    );
+
+    public static final Item CREATIVE_KINETIC_CHARGING_BUS = register(
+            "creative_kinetic_charging_bus",
+            (properties -> new KineticChargingBusBlockItem(KWBlocks.KINETIC_CHARGING_BUS, properties)),
+            new Item.Properties()
+                    .component(DataComponents.ENCHANTMENT_GLINT_OVERRIDE, true)
                     .rarity(Rarity.EPIC)
     );
 

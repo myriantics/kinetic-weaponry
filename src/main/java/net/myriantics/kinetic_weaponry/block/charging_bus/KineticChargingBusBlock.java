@@ -1,6 +1,6 @@
-package net.myriantics.kinetic_weaponry.block.customblocks;
+package net.myriantics.kinetic_weaponry.block.charging_bus;
 
-import net.minecraft.sounds.SoundSource;
+import net.myriantics.kinetic_weaponry.block.retention_module.KineticRetentionModuleBlock;
 import net.myriantics.kinetic_weaponry.registry.block.KWBlockStateProperties;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -12,19 +12,17 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
-import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.level.block.state.properties.BooleanProperty;
 import net.minecraft.world.level.block.state.properties.DirectionProperty;
 import net.minecraft.world.level.block.state.properties.IntegerProperty;
-import net.myriantics.kinetic_weaponry.registry.misc.KWSounds;
 import org.jetbrains.annotations.Nullable;
 
 
 
-public class KineticChargingBusBlock extends AbstractKineticImpactActionBlock {
+public class KineticChargingBusBlock extends AbstractKineticChargingBusBlock {
     public static final IntegerProperty STORED_KINETIC_CHARGES = KWBlockStateProperties.STORED_KINETIC_CHARGES_CHARGING_BUS;
-    public static final DirectionProperty FACING = BlockStateProperties.FACING;
-    public static final BooleanProperty TRIGGERED = BlockStateProperties.TRIGGERED;
+    public static final BooleanProperty TRIGGERED = AbstractKineticChargingBusBlock.TRIGGERED;
+    public static final DirectionProperty FACING = AbstractKineticChargingBusBlock.FACING;
 
     public static final int KINETIC_CHARGING_BUS_MAX_CHARGES = 8;
     public static int IMPACT_CHARGE_DIVISOR = 10;
@@ -41,17 +39,13 @@ public class KineticChargingBusBlock extends AbstractKineticImpactActionBlock {
 
     @Override
     protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> builder) {
-        builder.add(STORED_KINETIC_CHARGES, FACING, TRIGGERED);
+        builder.add(STORED_KINETIC_CHARGES);
+        super.createBlockStateDefinition(builder);
     }
 
-    @Nullable
     @Override
-    public BlockState getStateForPlacement(BlockPlaceContext context) {
-        return super.getStateForPlacement(context).setValue(FACING, context.getClickedFace());
-    }
-
-    private void updateCharge(ServerLevel serverLevel, BlockPos pos, int inboundChargeModifier) {
-        BlockState initialState = serverLevel.getBlockState(pos);
+    protected void updateCharge(ServerLevel level, BlockPos pos, int inboundChargeModifier) {
+        BlockState initialState = level.getBlockState(pos);
         int initialCharge = initialState.getValue(STORED_KINETIC_CHARGES);
 
         // calculate new charge
@@ -64,7 +58,7 @@ public class KineticChargingBusBlock extends AbstractKineticImpactActionBlock {
                 .setValue(STORED_KINETIC_CHARGES, newCharge);
 
         // commit changes
-        serverLevel.setBlockAndUpdate(pos, appendedState);
+        level.setBlockAndUpdate(pos, appendedState);
     }
 
     @Override
@@ -89,59 +83,6 @@ public class KineticChargingBusBlock extends AbstractKineticImpactActionBlock {
 
         // if its not full, then the impact was valid
         return state.getValue(STORED_KINETIC_CHARGES) != KINETIC_CHARGING_BUS_MAX_CHARGES;
-    }
-
-    @Override
-    protected void neighborChanged(BlockState state, Level level, BlockPos pos, Block neighborBlock, BlockPos neighborPos, boolean movedByPiston) {
-        boolean isPowered = level.hasNeighborSignal(pos);
-        boolean isTriggered = state.getValue(TRIGGERED);
-        if (isPowered && !isTriggered) {
-            level.scheduleTick(pos, this, 2);
-            level.setBlockAndUpdate(pos, state.setValue(TRIGGERED, true));
-        } else if (!isPowered && isTriggered) {
-            level.setBlockAndUpdate(pos, state.setValue(TRIGGERED, false));
-        }
-    }
-
-    @Override
-    protected void tick(BlockState state, ServerLevel level, BlockPos pos, RandomSource random) {
-        chargeDockedRetentionModules(state, level, pos);
-    }
-
-    public void chargeDockedRetentionModules(BlockState state, ServerLevel level, BlockPos pos) {
-        boolean discharged = false;
-
-        // charges all connected retention modules evenly before removing charge
-        for (Direction side : Direction.values()) {
-            // dont bother checking sides that can't have modules docked
-            if (side.getAxis() != state.getValue(FACING).getAxis()) {
-                BlockPos modulePos = pos.relative(side, 1);
-                BlockState moduleState = level.getBlockState(modulePos);
-                if (moduleState.getBlock() instanceof KineticRetentionModuleBlock retentionModule) {
-                    discharged = retentionModule.updateCharge(level, modulePos, getOutboundCharge(state)) || discharged;
-                }
-            }
-        }
-
-
-        if (discharged) {
-            level.playSound(
-                    null,
-                    pos,
-                    KWSounds.KINETIC_CHARGING_BUS_DISCHARGE,
-                    SoundSource.BLOCKS,
-                    (0.25f * (float) getOutboundCharge(state)),
-                    1.0F / (level.getRandom().nextFloat() * 1.2F) * 0.5F);
-            updateCharge(level, pos, -getOutboundCharge(state));
-        } else {
-            level.playSound(
-                    null,
-                    pos,
-                    KWSounds.KINETIC_CHARGING_BUS_FAIL,
-                    SoundSource.BLOCKS,
-                    1.0F,
-                    1.0F / (level.getRandom().nextFloat() * 1.2F) * 0.5F);
-        }
     }
 
     public int getOutboundCharge(BlockState state) {

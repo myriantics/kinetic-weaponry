@@ -4,9 +4,7 @@ import net.fabricmc.fabric.api.itemgroup.v1.FabricItemGroup;
 import net.minecraft.core.Registry;
 import net.minecraft.core.component.DataComponentPatch;
 import net.minecraft.core.registries.BuiltInRegistries;
-import net.minecraft.core.registries.Registries;
 import net.minecraft.network.chat.Component;
-import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.ItemStack;
@@ -23,7 +21,8 @@ public class KWItemGroups {
             () -> new ItemStack(KWItems.KINETIC_DETONATOR_BLOCK_ITEM),
             builder -> {
                 builder.displayItems((parameters, output) -> {
-                    output.accept(KWBlocks.KINETIC_CHARGING_BUS);
+                    output.accept(KWItems.KINETIC_CHARGING_BUS);
+                    output.accept(KWItems.CREATIVE_KINETIC_CHARGING_BUS);
                     output.accept(KWBlocks.KINETIC_DETONATOR);
 
                     output.accept(KWBlocks.KINETIC_RETENTION_MODULE);

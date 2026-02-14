@@ -1,7 +1,8 @@
-package net.myriantics.kinetic_weaponry.block.customblocks;
+package net.myriantics.kinetic_weaponry.block.retention_module;
 
 import net.minecraft.world.level.material.FluidState;
 import net.minecraft.world.level.material.Fluids;
+import net.myriantics.kinetic_weaponry.block.AbstractKineticImpactActionBlock;
 import net.myriantics.kinetic_weaponry.registry.block.KWBlockStateProperties;
 import net.myriantics.kinetic_weaponry.registry.block.KWBlocks;
 import net.myriantics.kinetic_weaponry.registry.item.KWDataComponents;
@@ -79,6 +80,10 @@ public class KineticRetentionModuleBlock extends AbstractKineticImpactActionBloc
 
         BlockState initialState = serverLevel.getBlockState(pos);
         int initialCharge = initialState.getValue(STORED_KINETIC_RELOAD_CHARGES);
+
+        if (initialCharge == KINETIC_RETENTION_MODULE_MAX_CHARGES) {
+            return false;
+        }
 
         // calculate new charge
         int newCharge = Math.clamp(initialCharge + inboundChargeModifier, 0, KINETIC_RETENTION_MODULE_MAX_CHARGES);

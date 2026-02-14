@@ -4,9 +4,10 @@ import net.minecraft.core.Registry;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.world.level.block.Block;
 import net.myriantics.kinetic_weaponry.KWCommon;
-import net.myriantics.kinetic_weaponry.block.customblocks.KineticChargingBusBlock;
-import net.myriantics.kinetic_weaponry.block.customblocks.KineticDetonatorBlock;
-import net.myriantics.kinetic_weaponry.block.customblocks.KineticRetentionModuleBlock;
+import net.myriantics.kinetic_weaponry.block.charging_bus.CreativeKineticChargingBusBlock;
+import net.myriantics.kinetic_weaponry.block.charging_bus.KineticChargingBusBlock;
+import net.myriantics.kinetic_weaponry.block.detonator.KineticDetonatorBlock;
+import net.myriantics.kinetic_weaponry.block.retention_module.KineticRetentionModuleBlock;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
@@ -41,6 +42,14 @@ public class KWBlocks {
                     .ofFullCopy(Blocks.COPPER_BLOCK)
                     .lightLevel((state) -> (int) (15.0 / 4) * (state.getValue(KWBlockStateProperties.STORED_KINETIC_CHARGES_CHARGING_BUS) / 2))
                     .explosionResistance(300.0f)
+    );
+
+    public static final Block CREATIVE_KINETIC_CHARGING_BUS = register(
+            "creative_kinetic_charging_bus",
+            CreativeKineticChargingBusBlock::new,
+            BlockBehaviour.Properties
+                    .ofFullCopy(KINETIC_CHARGING_BUS)
+                    .lightLevel((state) -> 15)
     );
 
     private static Block register(String name, Function<BlockBehaviour.Properties, Block> initializer, BlockBehaviour.Properties properties) {

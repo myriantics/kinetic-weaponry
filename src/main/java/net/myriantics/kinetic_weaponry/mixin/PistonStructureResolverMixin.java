@@ -1,7 +1,7 @@
 package net.myriantics.kinetic_weaponry.mixin;
 
 import com.llamalad7.mixinextras.injector.ModifyExpressionValue;
-import net.myriantics.kinetic_weaponry.block.customblocks.KineticRetentionModuleBlock;
+import net.myriantics.kinetic_weaponry.block.retention_module.KineticRetentionModuleBlock;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.world.level.Level;

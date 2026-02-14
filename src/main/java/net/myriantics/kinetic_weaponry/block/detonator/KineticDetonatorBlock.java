@@ -1,4 +1,4 @@
-package net.myriantics.kinetic_weaponry.block.customblocks;
+package net.myriantics.kinetic_weaponry.block.detonator;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -14,6 +14,7 @@ import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.level.block.state.properties.BooleanProperty;
 import net.minecraft.world.level.block.state.properties.DirectionProperty;
+import net.myriantics.kinetic_weaponry.block.AbstractKineticImpactActionBlock;
 import org.jetbrains.annotations.Nullable;
 
 public class KineticDetonatorBlock extends AbstractKineticImpactActionBlock {

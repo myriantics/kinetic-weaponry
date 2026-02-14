@@ -4,9 +4,7 @@ import net.minecraft.core.Direction;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.level.block.entity.BlockEntity;
-import net.minecraft.world.level.block.state.BlockState;
-import net.myriantics.kinetic_weaponry.block.customblocks.AbstractKineticImpactActionBlock;
+import net.myriantics.kinetic_weaponry.block.AbstractKineticImpactActionBlock;
 import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
@@ -14,7 +12,6 @@ import net.minecraft.world.item.Items;
 import net.minecraft.world.item.MaceItem;
 import net.minecraft.world.level.Explosion;
 import net.minecraft.world.level.Level;
-import org.jetbrains.annotations.Nullable;
 
 public class KWEventHandlers {
 
