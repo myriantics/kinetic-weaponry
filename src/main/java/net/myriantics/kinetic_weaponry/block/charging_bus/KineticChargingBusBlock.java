@@ -26,10 +26,8 @@ public class KineticChargingBusBlock extends AbstractKineticChargingBusBlock {
     public KineticChargingBusBlock(Properties properties) {
         super(properties);
 
-        registerDefaultState(stateDefinition.any()
+        registerDefaultState(defaultBlockState()
                 .setValue(STORED_KINETIC_CHARGES, 0)
-                .setValue(FACING, Direction.UP)
-                .setValue(TRIGGERED, false)
         );
     }
 

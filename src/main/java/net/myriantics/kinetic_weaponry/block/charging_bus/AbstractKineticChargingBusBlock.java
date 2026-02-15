@@ -24,6 +24,11 @@ public abstract class AbstractKineticChargingBusBlock extends AbstractKineticImp
 
     public AbstractKineticChargingBusBlock(Properties properties) {
         super(properties);
+
+        registerDefaultState(stateDefinition.any()
+                .setValue(FACING, Direction.UP)
+                .setValue(TRIGGERED, false)
+        );
     }
 
     @Override
