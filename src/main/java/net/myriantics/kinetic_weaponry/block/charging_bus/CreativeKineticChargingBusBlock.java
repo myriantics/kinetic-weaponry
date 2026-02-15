@@ -1,8 +1,10 @@
 package net.myriantics.kinetic_weaponry.block.charging_bus;
 
 import net.minecraft.core.BlockPos;
-import net.minecraft.server.level.ServerLevel;
+import net.minecraft.core.Direction;
+import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
+import net.myriantics.kinetic_weaponry.mechanics.kinetic_charge.KineticImpactType;
 
 public class CreativeKineticChargingBusBlock extends AbstractKineticChargingBusBlock {
     public CreativeKineticChargingBusBlock(Properties properties) {
@@ -10,16 +12,22 @@ public class CreativeKineticChargingBusBlock extends AbstractKineticChargingBusB
     }
 
     @Override
-    protected void updateCharge(ServerLevel level, BlockPos pos, int diff) {
-    }
-
-    @Override
-    public int getOutboundCharge(BlockState state) {
+    public int getCharge(BlockState state) {
         return Integer.MAX_VALUE;
     }
 
     @Override
-    public boolean isImpactValid(ServerLevel serverLevel, BlockPos pos) {
+    public int getMaxCharge() {
+        return 0;
+    }
+
+    @Override
+    public BlockState withCharge(BlockState state, int newCharge) {
+        return state;
+    }
+
+    @Override
+    public boolean acceptsInput(Level level, BlockPos pos, BlockState state, KineticImpactType impactType, Direction inputDir) {
         return false;
     }
 }

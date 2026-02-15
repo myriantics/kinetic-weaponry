@@ -25,7 +25,6 @@ public class KWBlocks {
             KineticDetonatorBlock::new,
             BlockBehaviour.Properties
                     .ofFullCopy(Blocks.COPPER_BLOCK)
-                    .lightLevel((state) -> state.getValue(BlockStateProperties.LIT) ? 15 : 0)
                     .explosionResistance(300.0f)
     );
 

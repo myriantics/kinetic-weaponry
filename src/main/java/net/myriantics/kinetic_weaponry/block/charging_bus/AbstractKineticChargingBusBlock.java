@@ -13,14 +13,16 @@ import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.level.block.state.properties.BooleanProperty;
 import net.minecraft.world.level.block.state.properties.DirectionProperty;
-import net.myriantics.kinetic_weaponry.block.AbstractKineticImpactActionBlock;
-import net.myriantics.kinetic_weaponry.block.retention_module.AbstractKineticRetentionModuleBlock;
+import net.myriantics.kinetic_weaponry.mechanics.kinetic_charge.KineticBlock;
+import net.myriantics.kinetic_weaponry.mechanics.kinetic_charge.KineticImpactType;
 import net.myriantics.kinetic_weaponry.registry.misc.KWSounds;
 import org.jetbrains.annotations.Nullable;
 
-public abstract class AbstractKineticChargingBusBlock extends AbstractKineticImpactActionBlock {
+public abstract class AbstractKineticChargingBusBlock extends Block implements KineticBlock {
     public static final BooleanProperty TRIGGERED = BlockStateProperties.TRIGGERED;
     public static final DirectionProperty FACING = BlockStateProperties.FACING;
+
+    public static int IMPACT_CHARGE_DIVISOR = 10;
 
     public AbstractKineticChargingBusBlock(Properties properties) {
         super(properties);
@@ -49,21 +51,28 @@ public abstract class AbstractKineticChargingBusBlock extends AbstractKineticImp
     }
 
     @Override
-    protected void tick(BlockState state, ServerLevel level, BlockPos pos, RandomSource random) {
-        chargeDockedRetentionModules(state, level, pos);
+    public float getImpactConversionEfficiency(BlockState state) {
+        return 1f / IMPACT_CHARGE_DIVISOR;
     }
 
-    public void chargeDockedRetentionModules(BlockState state, ServerLevel level, BlockPos pos) {
+    @Override
+    protected void tick(BlockState state, ServerLevel level, BlockPos pos, RandomSource random) {
+        chargeDockedKineticBlocks(state, level, pos);
+    }
+
+    public void chargeDockedKineticBlocks(BlockState state, ServerLevel level, BlockPos pos) {
         boolean discharged = false;
+        int initialCharge = this.getCharge(state);
 
         // charges all connected retention modules evenly before removing charge
         for (Direction side : Direction.values()) {
             // dont bother checking sides that can't have modules docked
             if (side.getAxis() != state.getValue(FACING).getAxis()) {
-                BlockPos modulePos = pos.relative(side, 1);
-                BlockState moduleState = level.getBlockState(modulePos);
-                if (moduleState.getBlock() instanceof AbstractKineticRetentionModuleBlock retentionModule) {
-                    discharged = retentionModule.updateCharge(level, modulePos, getOutboundCharge(state)) || discharged;
+                BlockPos targetPos = pos.relative(side, 1);
+                BlockState targetState = level.getBlockState(targetPos);
+                if (targetState.getBlock() instanceof KineticBlock kineticBlock && kineticBlock.acceptsInput(level, pos, targetState, KineticImpactType.KINETIC_CHARGE_TRANSFER, side)) {
+                    kineticBlock.addCharge(level, targetPos, targetState, initialCharge);
+                    discharged = true;
                 }
             }
         }
@@ -75,9 +84,11 @@ public abstract class AbstractKineticChargingBusBlock extends AbstractKineticImp
                     pos,
                     KWSounds.KINETIC_CHARGING_BUS_DISCHARGE,
                     SoundSource.BLOCKS,
-                    (0.25f * (float) getOutboundCharge(state)),
+                    0.25f * initialCharge,
                     1.0F / (level.getRandom().nextFloat() * 1.2F) * 0.5F);
-            updateCharge(level, pos, -getOutboundCharge(state));
+            if (!level.isClientSide()) {
+                level.setBlockAndUpdate(pos, this.withCharge(state, 0));
+            }
         } else {
             level.playSound(
                     null,
@@ -95,7 +106,8 @@ public abstract class AbstractKineticChargingBusBlock extends AbstractKineticImp
         return super.getStateForPlacement(context).setValue(FACING, context.getClickedFace());
     }
 
-    protected abstract void updateCharge(ServerLevel level, BlockPos pos, int diff);
-
-    public abstract int getOutboundCharge(BlockState state);
+    @Override
+    public boolean acceptsInput(Level level, BlockPos pos, BlockState state, KineticImpactType impactType, Direction inputDir) {
+        return impactType.equals(KineticImpactType.MACE) || inputDir.getOpposite().equals(state.getValue(FACING));
+    }
 }

@@ -34,4 +34,9 @@ public abstract class AbstractLesserKineticRetentionModuleBlock extends Abstract
             case EAST -> WEST;
         };
     }
+
+    @Override
+    public float getImpactConversionEfficiency(BlockState state) {
+        return 1f/16;
+    }
 }

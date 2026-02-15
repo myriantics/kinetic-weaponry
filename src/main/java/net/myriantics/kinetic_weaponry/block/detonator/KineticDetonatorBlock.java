@@ -3,41 +3,35 @@ package net.myriantics.kinetic_weaponry.block.detonator;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.server.level.ServerLevel;
-import net.minecraft.server.level.ServerPlayer;
-import net.minecraft.sounds.SoundEvents;
-import net.minecraft.sounds.SoundSource;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.*;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
-import net.minecraft.world.level.block.state.properties.BooleanProperty;
 import net.minecraft.world.level.block.state.properties.DirectionProperty;
-import net.myriantics.kinetic_weaponry.block.AbstractKineticImpactActionBlock;
+import net.myriantics.kinetic_weaponry.mechanics.kinetic_charge.KineticBlock;
+import net.myriantics.kinetic_weaponry.mechanics.kinetic_charge.KineticImpactType;
 import org.jetbrains.annotations.Nullable;
 
-public class KineticDetonatorBlock extends AbstractKineticImpactActionBlock {
+public class KineticDetonatorBlock extends Block implements KineticBlock {
 
     public static final DirectionProperty FACING = BlockStateProperties.FACING;
-    public static final BooleanProperty POWERED = BlockStateProperties.POWERED;
-    public static final BooleanProperty LIT = BlockStateProperties.LIT;
 
-    // set in KWConfig
     public static float EXPLOSION_POWER_MULTIPLIER = 0.65f;
 
     public KineticDetonatorBlock(Properties properties) {
         super(properties);
 
         registerDefaultState(stateDefinition.any()
-                        .setValue(FACING, Direction.UP)
-                        .setValue(POWERED, false)
-                        .setValue(LIT, false));
+                .setValue(FACING, Direction.UP)
+        );
     }
 
     @Override
     protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> builder) {
-        builder.add(FACING, POWERED, LIT);
+        builder.add(FACING);
     }
 
     @Nullable
@@ -47,64 +41,61 @@ public class KineticDetonatorBlock extends AbstractKineticImpactActionBlock {
     }
 
     @Override
-    public void onImpact(ServerLevel serverLevel, BlockPos pos, ServerPlayer player, float impactDamage) {
-        if (impactDamage > 0) {
-            BlockState state = serverLevel.getBlockState(pos);
-
-            if (!state.getValue(LIT)) {
-                // so the explosion actually goes through the block
-                serverLevel.setBlockAndUpdate(pos, Blocks.AIR.defaultBlockState());
-                // low effort special effects go brrt
-                serverLevel.addDestroyBlockEffect(pos, state);
-                // kaboom? yes rico, kaboom. (i nerfed it by half because it really did get a bit stupid with density 5)
-                serverLevel.explode(player, pos.getCenter().x, pos.getCenter().y, pos.getCenter().z, impactDamage * EXPLOSION_POWER_MULTIPLIER, false,
-                        Level.ExplosionInteraction.BLOCK);
-            }
-
-            super.onImpact(serverLevel, pos, player, impactDamage);
+    public void onImpact(Level level, BlockPos pos, BlockState state, @Nullable Player player, @Nullable Direction impactDir, KineticImpactType impactType, float impactDamage) {
+        if (this.acceptsInput(level, pos, state, impactType, impactDir)) {
+            this.detonate(level, pos, state, player, impactDamage * this.getImpactConversionEfficiency(state));
         }
     }
 
     @Override
-    public boolean isImpactValid(ServerLevel serverLevel, BlockPos pos) {
-        BlockState state = serverLevel.getBlockState(pos);
-        return !state.getValue(LIT);
+    public void handleOverload(Level level, BlockPos pos, BlockState state, int inboundCharge) {
+        this.detonate(level, pos, state, null, inboundCharge);
     }
 
-    protected void onPlace(BlockState state, Level level, BlockPos pos, BlockState oldState, boolean movedByPiston) {
-        if (oldState.getBlock() != state.getBlock() && level instanceof ServerLevel serverlevel) {
-            this.checkAndFlip(state, serverlevel, pos);
-        }
-    }
-
-    @Override
-    protected void neighborChanged(BlockState state, Level level, BlockPos pos, Block neighborBlock, BlockPos neighborPos, boolean movedByPiston) {
+    protected void detonate(Level level, BlockPos pos, BlockState state, @Nullable Player player, float inboundCharge) {
         if (level instanceof ServerLevel serverLevel) {
-            this.checkAndFlip(state, serverLevel, pos);
+            // so the explosion actually goes through the block
+            serverLevel.setBlockAndUpdate(pos, Blocks.AIR.defaultBlockState());
+            // low effort special effects go brrt
+            serverLevel.addDestroyBlockEffect(pos, state);
+            // kaboom? yes rico, kaboom. (i nerfed it by half because it really did get a bit stupid with density 5)
+            serverLevel.explode(
+                    player,
+                    pos.getCenter().x,
+                    pos.getCenter().y,
+                    pos.getCenter().z,
+                    inboundCharge * EXPLOSION_POWER_MULTIPLIER,
+                    false,
+                    Level.ExplosionInteraction.BLOCK
+            );
         }
     }
 
-    public void checkAndFlip(BlockState state, ServerLevel level, BlockPos pos) {
-        boolean flag = level.hasNeighborSignal(pos);
-        if (flag != state.getValue(POWERED)) {
-            BlockState blockstate = state;
-            if (!state.getValue(POWERED)) {
-                blockstate = state.cycle(LIT);
-                level.playSound(null, pos, blockstate.getValue(LIT) ? SoundEvents.COPPER_BULB_TURN_ON : SoundEvents.COPPER_BULB_TURN_OFF, SoundSource.BLOCKS);
-            }
-
-            level.setBlock(pos, blockstate.setValue(POWERED, flag), 3);
-        }
-
+    @Override
+    public float getImpactConversionEfficiency(BlockState state) {
+        return EXPLOSION_POWER_MULTIPLIER;
     }
 
     @Override
-    protected boolean hasAnalogOutputSignal(BlockState state) {
-        return true;
+    public int getCharge(BlockState state) {
+        return 0;
     }
 
     @Override
-    protected int getAnalogOutputSignal(BlockState state, Level level, BlockPos pos) {
-        return level.getBlockState(pos).getValue(LIT) ? 15 : 0;
+    public int getMaxCharge() {
+        return 0;
+    }
+
+    @Override
+    public BlockState withCharge(BlockState state, int newCharge) {
+        return state;
+    }
+
+    @Override
+    public boolean acceptsInput(Level level, BlockPos pos, BlockState state, KineticImpactType impactType, Direction inputDir) {
+        return switch (impactType) {
+            case MACE -> true;
+            case FALLING_BLOCK, KINETIC_CHARGE_TRANSFER -> inputDir.getOpposite().equals(state.getValue(FACING));
+        };
     }
 }

@@ -1,12 +1,15 @@
 package net.myriantics.kinetic_weaponry.block.retention_module.standard;
 
-import net.minecraft.core.BlockPos;
-import net.minecraft.world.level.Level;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.properties.IntegerProperty;
+import net.minecraft.world.level.storage.loot.LootParams;
+import net.myriantics.kinetic_weaponry.item.blockitems.KineticRetentionModuleBlockItem;
 import net.myriantics.kinetic_weaponry.registry.block.KWBlockStateProperties;
+
+import java.util.List;
 
 public class StandardKineticRetentionModuleBlock extends AbstractStandardKineticRetentionModuleBlock {
 
@@ -28,7 +31,7 @@ public class StandardKineticRetentionModuleBlock extends AbstractStandardKinetic
     }
 
     @Override
-    protected BlockState withCharge(BlockState state, int newCharge) {
+    public BlockState withCharge(BlockState state, int newCharge) {
         return state.setValue(KINETIC_CHARGE, newCharge);
     }
 
@@ -36,5 +39,16 @@ public class StandardKineticRetentionModuleBlock extends AbstractStandardKinetic
     protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> builder) {
         builder.add(KINETIC_CHARGE);
         super.createBlockStateDefinition(builder);
+    }
+
+    @Override
+    protected List<ItemStack> getDrops(BlockState state, LootParams.Builder params) {
+        List<ItemStack> items = super.getDrops(state, params);
+        for (ItemStack stack : items) {
+            if (stack.getItem() instanceof KineticRetentionModuleBlockItem item) {
+                item.setCharge(stack, state.getValue(KINETIC_CHARGE));
+            }
+        }
+        return items;
     }
 }

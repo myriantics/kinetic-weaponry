@@ -2,15 +2,14 @@ package net.myriantics.kinetic_weaponry.block.retention_module;
 
 import net.minecraft.world.level.material.FluidState;
 import net.minecraft.world.level.material.Fluids;
-import net.myriantics.kinetic_weaponry.block.AbstractKineticImpactActionBlock;
+import net.myriantics.kinetic_weaponry.mechanics.kinetic_charge.KineticBlock;
+import net.myriantics.kinetic_weaponry.mechanics.kinetic_charge.KineticImpactType;
 import net.myriantics.kinetic_weaponry.registry.block.KWBlockStateProperties;
 import net.myriantics.kinetic_weaponry.registry.block.KWBlocks;
-import net.myriantics.kinetic_weaponry.registry.item.KWDataComponents;
 import net.myriantics.kinetic_weaponry.item.blockitems.KineticRetentionModuleBlockItem;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.server.level.ServerLevel;
-import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.item.ItemStack;
@@ -23,13 +22,10 @@ import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.level.block.state.properties.BooleanProperty;
 import net.minecraft.world.level.block.state.properties.DirectionProperty;
 import net.minecraft.world.level.material.PushReaction;
-import net.minecraft.world.level.storage.loot.LootParams;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.List;
-
-public abstract class AbstractKineticRetentionModuleBlock extends AbstractKineticImpactActionBlock implements SimpleWaterloggedBlock {
+public abstract class AbstractKineticRetentionModuleBlock extends Block implements SimpleWaterloggedBlock, KineticBlock {
     public static final DirectionProperty FACING = BlockStateProperties.FACING;
     public static final BooleanProperty POWERED = BlockStateProperties.POWERED;
     public static final BooleanProperty WATERLOGGED = BlockStateProperties.WATERLOGGED;
@@ -45,41 +41,21 @@ public abstract class AbstractKineticRetentionModuleBlock extends AbstractKineti
                 .setValue(WATERLOGGED, false));
     }
 
-    public abstract int getCharge(BlockState state);
+    @Override
+    public int addCharge(Level level, BlockPos pos, BlockState state, int inboundCharge) {
+        int initialCharge = this.getCharge(state);
 
-    public abstract int getMaxCharge();
+        int superval = KineticBlock.super.addCharge(level, pos, state, inboundCharge);
 
-    protected abstract BlockState withCharge(BlockState state, int newCharge);
-
-    public boolean updateCharge(ServerLevel serverLevel, BlockPos pos, int inboundChargeModifier) {
-        boolean chargeAccepted;
-
-        BlockState initialState = serverLevel.getBlockState(pos);
-        int initialCharge = this.getCharge(initialState);
-
-        if (initialCharge >= getMaxCharge()) {
-            return false;
-        }
-
-        // calculate new charge
-        int newCharge = Math.clamp(initialCharge + inboundChargeModifier, 0, getMaxCharge());
-
-        // if you updated the charge, say that you did
-        chargeAccepted = newCharge > initialCharge;
-
-        // determine new update state
-        BlockState appendedState = this.withCharge(initialState, newCharge);
+        int newCharge = this.getCharge(state);
 
         // play sound if necessary
         // ooo XOR moment
         if (initialCharge == 0 ^ newCharge == 0) {
-            serverLevel.playSound(null, pos, initialCharge == 0 ? SoundEvents.COPPER_BULB_TURN_ON : SoundEvents.COPPER_BULB_TURN_OFF, SoundSource.BLOCKS);
+            level.playSound(null, pos, initialCharge == 0 ? SoundEvents.COPPER_BULB_TURN_ON : SoundEvents.COPPER_BULB_TURN_OFF, SoundSource.BLOCKS);
         }
 
-        // commit changes
-        serverLevel.setBlockAndUpdate(pos, appendedState);
-
-        return chargeAccepted;
+        return superval;
     }
 
     @Override
@@ -108,46 +84,18 @@ public abstract class AbstractKineticRetentionModuleBlock extends AbstractKineti
     public static BlockState getPlacementState(ItemStack moduleStack) {
         BlockState defaultState = KWBlocks.KINETIC_RETENTION_MODULE.defaultBlockState();
 
-        if (moduleStack.getItem() instanceof KineticRetentionModuleBlockItem) {
+        if (moduleStack.getItem() instanceof KineticRetentionModuleBlockItem item) {
             return defaultState.setValue(
                     KWBlockStateProperties.STANDARD_KINETIC_RETENTION_MODULE_KINETIC_CHARGE,
-                    moduleStack.getOrDefault(KWDataComponents.KINETIC_CHARGE, 0)
+                    item.getCharge(moduleStack)
             );
         }
         return defaultState;
     }
 
     @Override
-    public void onImpact(ServerLevel serverLevel, BlockPos pos, ServerPlayer player, float impactDamage) {
-        int inboundChargeModifier = 0;
-
-        // scale charge gained based on impact damage
-        if (impactDamage > 0) {
-            inboundChargeModifier = (int) impactDamage / IMPACT_CHARGE_DIVISOR;
-        }
-
-        // commit charge update
-        updateCharge(serverLevel, pos, inboundChargeModifier);
-
-        // do tasks common to all kinetic impact blocks
-        super.onImpact(serverLevel, pos, player, impactDamage);
-    }
-
-    @Override
-    public boolean isImpactValid(ServerLevel serverLevel, BlockPos pos) {
-        BlockState state = serverLevel.getBlockState(pos);
-        return !state.getValue(POWERED) && this.getCharge(state) != this.getMaxCharge();
-    }
-
-    @Override
-    protected List<ItemStack> getDrops(BlockState state, LootParams.Builder params) {
-        List<ItemStack> items = super.getDrops(state, params);
-        for (ItemStack stack : items) {
-            if (stack.getItem() instanceof KineticRetentionModuleBlockItem item) {
-                item.setCharge(stack, this.getCharge(state));
-            }
-        }
-        return items;
+    public boolean acceptsInput(Level level, BlockPos pos, BlockState state, KineticImpactType impactType, Direction inputDir) {
+        return inputDir.getOpposite().equals(state.getValue(FACING));
     }
 
     protected void onPlace(BlockState state, Level level, BlockPos pos, BlockState oldState, boolean movedByPiston) {

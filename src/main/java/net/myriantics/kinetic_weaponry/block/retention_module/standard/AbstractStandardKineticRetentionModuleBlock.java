@@ -33,4 +33,9 @@ public abstract class AbstractStandardKineticRetentionModuleBlock extends Abstra
             case Z -> Z;
         };
     }
+
+    @Override
+    public float getImpactConversionEfficiency(BlockState state) {
+        return 1f/8;
+    }
 }

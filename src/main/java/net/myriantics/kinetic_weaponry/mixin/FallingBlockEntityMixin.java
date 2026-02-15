@@ -1,23 +1,19 @@
 package net.myriantics.kinetic_weaponry.mixin;
 
-import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
 import com.llamalad7.mixinextras.sugar.Local;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
-import net.myriantics.kinetic_weaponry.block.AbstractKineticImpactActionBlock;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
-import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.item.FallingBlockEntity;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.level.block.state.properties.BlockStateProperties;
+import net.myriantics.kinetic_weaponry.mechanics.kinetic_charge.KineticBlock;
+import net.myriantics.kinetic_weaponry.mechanics.kinetic_charge.KineticImpactType;
 import org.spongepowered.asm.mixin.Mixin;
-import org.spongepowered.asm.mixin.Overwrite;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
-import org.spongepowered.asm.mixin.injection.Redirect;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 @Mixin(FallingBlockEntity.class)
@@ -33,18 +29,13 @@ public abstract class FallingBlockEntityMixin extends Entity {
         Level level = this.level();
 
         // if the block the entity is in isnt a kinetic impact block, check the one below.
-        BlockPos impactedBlockPos = level.getBlockState(entityPos).getBlock() instanceof AbstractKineticImpactActionBlock ? entityPos : entityPos.below();
+        BlockPos impactedBlockPos = level.getBlockState(entityPos).getBlock() instanceof KineticBlock ? entityPos : entityPos.below();
 
         BlockState impactedState = level.getBlockState(impactedBlockPos);
 
-        // check if block can do thing
-        if (level.getBlockState(impactedBlockPos).getBlock() instanceof AbstractKineticImpactActionBlock kineticBlock
-                && level instanceof ServerLevel serverLevel
-                // are conditions good for a kinetic impact
-                && kineticBlock.isImpactValid(serverLevel, impactedBlockPos)
-                // is the heavy core on the top of the block???
-                && impactedState.getValue(BlockStateProperties.FACING).equals(Direction.UP)) {
-            kineticBlock.onImpact(serverLevel, impactedBlockPos, null, damageBonus);
+        // if the landed-upon block is a kinetic block, trigger impact logic
+        if (impactedState.getBlock() instanceof KineticBlock kineticBlock) {
+            kineticBlock.onImpact(level, impactedBlockPos, impactedState, null, Direction.DOWN, KineticImpactType.FALLING_BLOCK, damageBonus);
         }
     }
 }
