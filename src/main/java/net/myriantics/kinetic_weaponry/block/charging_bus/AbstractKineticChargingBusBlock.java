@@ -51,7 +51,7 @@ public abstract class AbstractKineticChargingBusBlock extends Block implements K
     }
 
     @Override
-    public float getImpactConversionEfficiency(BlockState state) {
+    public float getImpactConversionEfficiency(BlockState state, @Nullable KineticImpactType impactType) {
         return 1f / IMPACT_CHARGE_DIVISOR;
     }
 
@@ -64,19 +64,20 @@ public abstract class AbstractKineticChargingBusBlock extends Block implements K
         boolean discharged = false;
         int initialCharge = this.getCharge(state);
 
-        // charges all connected retention modules evenly before removing charge
-        for (Direction side : Direction.values()) {
-            // dont bother checking sides that can't have modules docked
-            if (side.getAxis() != state.getValue(FACING).getAxis()) {
-                BlockPos targetPos = pos.relative(side, 1);
-                BlockState targetState = level.getBlockState(targetPos);
-                if (targetState.getBlock() instanceof KineticBlock kineticBlock && kineticBlock.acceptsInput(level, pos, targetState, KineticImpactType.KINETIC_CHARGE_TRANSFER, side)) {
-                    kineticBlock.addCharge(level, targetPos, targetState, initialCharge);
-                    discharged = true;
+        if (initialCharge > 0) {
+            // charges all connected retention modules evenly before removing charge
+            for (Direction side : Direction.values()) {
+                // dont bother checking sides that can't have modules docked
+                if (side.getAxis() != state.getValue(FACING).getAxis()) {
+                    BlockPos targetPos = pos.relative(side, 1);
+                    BlockState targetState = level.getBlockState(targetPos);
+                    if (targetState.getBlock() instanceof KineticBlock kineticBlock && kineticBlock.acceptsInput(level, pos, targetState, KineticImpactType.KINETIC_CHARGE_TRANSFER, side)) {
+                        kineticBlock.addCharge(level, targetPos, targetState, (int) (initialCharge * kineticBlock.getImpactConversionEfficiency(targetState, KineticImpactType.KINETIC_CHARGE_TRANSFER)));
+                        discharged = true;
+                    }
                 }
             }
         }
-
 
         if (discharged) {
             level.playSound(

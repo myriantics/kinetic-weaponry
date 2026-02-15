@@ -10,6 +10,8 @@ import net.minecraft.world.level.block.state.properties.DirectionProperty;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.VoxelShape;
 import net.myriantics.kinetic_weaponry.block.retention_module.AbstractKineticRetentionModuleBlock;
+import net.myriantics.kinetic_weaponry.mechanics.kinetic_charge.KineticImpactType;
+import org.jetbrains.annotations.Nullable;
 
 public abstract class AbstractStandardKineticRetentionModuleBlock extends AbstractKineticRetentionModuleBlock {
 
@@ -35,7 +37,7 @@ public abstract class AbstractStandardKineticRetentionModuleBlock extends Abstra
     }
 
     @Override
-    public float getImpactConversionEfficiency(BlockState state) {
+    public float getImpactConversionEfficiency(BlockState state, @Nullable KineticImpactType impactType) {
         return 1f/8;
     }
 }
