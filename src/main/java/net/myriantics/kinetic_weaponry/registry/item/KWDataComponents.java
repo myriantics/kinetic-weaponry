@@ -8,7 +8,6 @@ import net.minecraft.network.codec.ByteBufCodecs;
 import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.util.Unit;
 import net.myriantics.kinetic_weaponry.KWCommon;
-import net.myriantics.kinetic_weaponry.item.data_components.*;
 import net.minecraft.core.component.DataComponentType;
 
 import java.util.List;
@@ -35,18 +34,6 @@ public class KWDataComponents {
             unitBuilder -> unitBuilder
                     .persistent(Unit.CODEC)
                     .networkSynchronized(StreamCodec.unit(Unit.INSTANCE))
-    );
-
-    public static final DataComponentType<AttackUseTrackerDataComponent> ATTACK_USE_TRACKER = register(
-            "attack_use_tracker",
-            booleanBuilder -> booleanBuilder
-                    .networkSynchronized(AttackUseTrackerDataComponent.STREAM_CODEC)
-    );
-
-    public static final DataComponentType<AttackUseStartTimeDataComponent> ATTACK_USE_START_TIME = register(
-            "attack_use_start_time",
-            integerBuilder -> integerBuilder
-                    .networkSynchronized(AttackUseStartTimeDataComponent.STREAM_CODEC)
     );
 
     public static final DataComponentType<Integer> MAX_HEAT_UNITS = register(

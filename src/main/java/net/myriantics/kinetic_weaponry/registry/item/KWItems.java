@@ -6,7 +6,6 @@ import net.minecraft.util.Unit;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.myriantics.kinetic_weaponry.KWCommon;
 import net.myriantics.kinetic_weaponry.item.equipment.KineticShortbowItem;
-import net.myriantics.kinetic_weaponry.item.data_components.AttackUseTrackerDataComponent;
 import net.myriantics.kinetic_weaponry.mechanics.weapon_heat.OverheatWeapon;
 import net.myriantics.kinetic_weaponry.registry.block.KWBlocks;
 import net.myriantics.kinetic_weaponry.item.blockitems.KineticRetentionModuleBlockItem;
@@ -84,7 +83,6 @@ public class KWItems {
             new Item.Properties()
                     .component(KWDataComponents.KINETIC_CHARGE, 0)
                     .component(KWDataComponents.MAX_KINETIC_CHARGE, 128)
-                    .component(KWDataComponents.ATTACK_USE_TRACKER, new AttackUseTrackerDataComponent(false))
                     .component(KWDataComponents.MAX_HEAT_UNITS, 100)
                     .component(KWDataComponents.HEAT_UNIT_DISSIPATION_RATE, OverheatWeapon.DEFAULT_HEAT_UNIT_DISSIPATION_RATE)
                     .component(KWDataComponents.HEAT_SOUND_THRESHOLDS, List.of(KineticShortbowItem.HEAT_UNIT_HOT_THRESHOLD, KineticShortbowItem.HEAT_UNIT_HOTTEST_THRESHOLD))

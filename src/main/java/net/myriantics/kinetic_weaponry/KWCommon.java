@@ -7,6 +7,7 @@ import net.myriantics.kinetic_weaponry.registry.item.KWItems;
 import net.myriantics.kinetic_weaponry.registry.item.KWDataComponents;
 import net.myriantics.kinetic_weaponry.registry.block.KWBlocks;
 import net.myriantics.kinetic_weaponry.registry.entity.KWEntityTypes;
+import net.myriantics.kinetic_weaponry.registry.misc.KWAttachmentTypes;
 import net.myriantics.kinetic_weaponry.registry.misc.KWEvents;
 import net.myriantics.kinetic_weaponry.registry.misc.KWSounds;
 import net.myriantics.kinetic_weaponry.registry.misc.KWPackets;
@@ -37,6 +38,8 @@ public class KWCommon implements ModInitializer {
 
         KWBlocks.init();
         KWDispenserBehaviors.init();
+
+        KWAttachmentTypes.init();
 
         KWPackets.init();
         KWPackets.initC2SRecievers();

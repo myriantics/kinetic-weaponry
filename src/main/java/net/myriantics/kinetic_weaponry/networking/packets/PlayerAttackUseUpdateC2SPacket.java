@@ -1,7 +1,7 @@
 package net.myriantics.kinetic_weaponry.networking.packets;
 
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
-import net.myriantics.kinetic_weaponry.item.equipment.KineticShortbowItem;
+import net.myriantics.kinetic_weaponry.mechanics.attack_use.AttackUseItem;
 import net.myriantics.kinetic_weaponry.registry.misc.KWPackets;
 import io.netty.buffer.ByteBuf;
 import net.minecraft.network.codec.ByteBufCodecs;
@@ -10,14 +10,14 @@ import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
 import net.minecraft.resources.ResourceLocation;
 
 
-public record PlayerAttackKeyUpdateWhileUsingPacket(boolean wasPressed) implements CustomPacketPayload {
-    public static final StreamCodec<ByteBuf, PlayerAttackKeyUpdateWhileUsingPacket> STREAM_CODEC = StreamCodec.composite(
-            ByteBufCodecs.BOOL, PlayerAttackKeyUpdateWhileUsingPacket::wasPressed,
-            PlayerAttackKeyUpdateWhileUsingPacket::new
+public record PlayerAttackUseUpdateC2SPacket(boolean isPressed) implements CustomPacketPayload {
+    public static final StreamCodec<ByteBuf, PlayerAttackUseUpdateC2SPacket> STREAM_CODEC = StreamCodec.composite(
+            ByteBufCodecs.BOOL, PlayerAttackUseUpdateC2SPacket::isPressed,
+            PlayerAttackUseUpdateC2SPacket::new
     );
 
     public static final ResourceLocation ID = KWPackets.PLAYER_LEFT_CLICK_WHILE_USING_C2S;
-    public static final CustomPacketPayload.Type<PlayerAttackKeyUpdateWhileUsingPacket> TYPE = new CustomPacketPayload.Type<>(ID);
+    public static final CustomPacketPayload.Type<PlayerAttackUseUpdateC2SPacket> TYPE = new CustomPacketPayload.Type<>(ID);
 
     @Override
     public Type<? extends CustomPacketPayload> type() {
@@ -26,7 +26,9 @@ public record PlayerAttackKeyUpdateWhileUsingPacket(boolean wasPressed) implemen
 
     public void handle(ServerPlayNetworking.Context context) {
         context.server().execute(() -> {
-            KineticShortbowItem.onPlayerLeftClickUpdate(context, wasPressed);
+            if (context.player().getUseItem().getItem() instanceof AttackUseItem attackUseItem) {
+                attackUseItem.updateAttackUse(context.player(), isPressed);
+            }
         });
     }
 }

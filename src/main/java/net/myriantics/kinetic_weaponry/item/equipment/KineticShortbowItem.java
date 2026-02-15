@@ -1,14 +1,12 @@
 package net.myriantics.kinetic_weaponry.item.equipment;
 
-import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
 import net.minecraft.core.component.TypedDataComponent;
-import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundSource;
+import net.myriantics.kinetic_weaponry.KWCommon;
+import net.myriantics.kinetic_weaponry.mechanics.attack_use.AttackUseItem;
 import net.myriantics.kinetic_weaponry.mechanics.weapon_heat.OverheatWeapon;
-import net.myriantics.kinetic_weaponry.registry.item.KWItems;
 import net.myriantics.kinetic_weaponry.mechanics.kinetic_charge.KineticChargeStoringItem;
-import net.myriantics.kinetic_weaponry.item.data_components.*;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResultHolder;
@@ -18,6 +16,7 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.entity.projectile.Projectile;
 import net.minecraft.world.item.*;
 import net.minecraft.world.level.Level;
+import net.myriantics.kinetic_weaponry.registry.item.KWDataComponents;
 import net.myriantics.kinetic_weaponry.registry.misc.KWSounds;
 import org.jetbrains.annotations.Nullable;
 
@@ -25,7 +24,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.function.Predicate;
 
-public class KineticShortbowItem extends ProjectileWeaponItem implements KineticChargeStoringItem, OverheatWeapon {
+public class KineticShortbowItem extends ProjectileWeaponItem implements KineticChargeStoringItem, OverheatWeapon, AttackUseItem {
 
     public static final float OUTPUT_VELOCITY = 5.0f;
     public static final int RANGE = 20;
@@ -63,37 +62,26 @@ public class KineticShortbowItem extends ProjectileWeaponItem implements Kinetic
         return UseAnim.BOW;
     }
 
-    public static void onPlayerLeftClickUpdate(ServerPlayNetworking.Context context, boolean wasPressed) {
-        ServerPlayer serverPlayer = context.player();
-        if (serverPlayer.getUseItem().getItem() instanceof KineticShortbowItem) {
-            ItemStack usedStack = serverPlayer.getUseItem();
+    @Override
+    public boolean updateAttackUse(Player player, boolean isPressed) {
+        boolean updated = AttackUseItem.super.updateAttackUse(player, isPressed);
 
-            if (AttackUseTrackerDataComponent.getAttackUse(usedStack) && !wasPressed) {
-                AttackUseTrackerDataComponent.setAttackUse(usedStack, false);
-            }
-
-            AttackUseStartTimeDataComponent.setStartTimeTicks(usedStack, wasPressed ? serverPlayer.getTicksUsingItem() : -1);
-
-            // this is so that it doesnt fire an initial shot when you're trying to do a burst fire
-            if (!wasPressed) {
-                ((KineticShortbowItem) KWItems.KINETIC_SHORTBOW).fireProjectile(serverPlayer);
-            }
+        // this is so that it doesnt fire an initial shot when you're trying to do a burst fire
+        if (player instanceof ServerPlayer serverPlayer && isPressed && updated) {
+            this.fireProjectile(serverPlayer);
         }
+
+        return updated;
     }
 
     @Override
-    public void inventoryTick(ItemStack stack, Level level, Entity entity, int slotId, boolean isSelected) {
-        if (entity instanceof ServerPlayer player) {
+    public void onUseTick(Level level, LivingEntity livingEntity, ItemStack stack, int remainingUseDuration) {
+        if (livingEntity instanceof ServerPlayer player) {
             int usageTicks = player.getTicksUsingItem();
-            int attackUseStartTicks = AttackUseStartTimeDataComponent.getStartTimeTicks(stack);
+            int attackUseStartTicks = this.getAttackUseStartTimeTicks(player);
 
             if (player.getUseItem().equals(stack)) {
-                // if attack use is not marked as active, but it should be, activate it
-                if (!AttackUseTrackerDataComponent.getAttackUse(stack)) {
-                    AttackUseTrackerDataComponent.setAttackUse(stack, AttackUseStartTimeDataComponent.getStartTimeTicks(stack) != -1);
-                }
-
-                if (isAttackUseActive(stack)
+                if (this.isAttackUseActive(player)
                         // shot speed rate limiter - every x ticks
                         && usageTicks % 3 == 0
                         // so you can do individual shots if you want
@@ -103,6 +91,11 @@ public class KineticShortbowItem extends ProjectileWeaponItem implements Kinetic
             }
         }
 
+        super.onUseTick(level, livingEntity, stack, remainingUseDuration);
+    }
+
+    @Override
+    public void inventoryTick(ItemStack stack, Level level, Entity entity, int slotId, boolean isSelected) {
         this.tickHeat(entity, stack);
     }
 
@@ -124,10 +117,6 @@ public class KineticShortbowItem extends ProjectileWeaponItem implements Kinetic
             player.startUsingItem(usedHand);
             return InteractionResultHolder.consume(usedStack);
         }
-    }
-
-    private static boolean isAttackUseActive(ItemStack stack) {
-        return AttackUseTrackerDataComponent.getAttackUse(stack);
     }
 
     private void fireProjectile(ServerPlayer player) {
@@ -194,8 +183,6 @@ public class KineticShortbowItem extends ProjectileWeaponItem implements Kinetic
 
     private static void interruptUsage(ServerPlayer player, ItemStack usedStack) {
         player.stopUsingItem();
-        AttackUseTrackerDataComponent.setAttackUse(usedStack, false);
-        AttackUseStartTimeDataComponent.setStartTimeTicks(usedStack, -1);
     }
 
     @Override
@@ -204,9 +191,11 @@ public class KineticShortbowItem extends ProjectileWeaponItem implements Kinetic
 
         // jank ass code that ignores reequip animation updates if only specified ignored components change
         if (original && newStack.getItem() instanceof KineticShortbowItem) {
+
+
             for(TypedDataComponent<?> type : newStack.getComponents()) {
                 // if the component is marked as ignored, dont process it
-                if (!(type.value() instanceof ReEquipAnimationIgnored)) {
+                if (!type.equals(KWDataComponents.HEAT_UNIT)) {
                     Optional<?> oldValue = Optional.ofNullable(oldStack.get(type.type()));
                     // if old component doesnt have new one or its different, yeah play the animation
                     if (oldValue.isEmpty() || !oldValue.get().equals(newStack.get(type.type()))) {
