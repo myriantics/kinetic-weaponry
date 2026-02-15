@@ -3,7 +3,6 @@ package net.myriantics.kinetic_weaponry.item.equipment;
 import net.minecraft.core.component.TypedDataComponent;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundSource;
-import net.myriantics.kinetic_weaponry.KWCommon;
 import net.myriantics.kinetic_weaponry.mechanics.attack_use.AttackUseItem;
 import net.myriantics.kinetic_weaponry.mechanics.weapon_heat.OverheatWeapon;
 import net.myriantics.kinetic_weaponry.mechanics.kinetic_charge.KineticChargeStoringItem;
@@ -66,7 +65,9 @@ public class KineticShortbowItem extends ProjectileWeaponItem implements Kinetic
     public boolean updateAttackUse(Player player, boolean isPressed) {
         boolean updated = AttackUseItem.super.updateAttackUse(player, isPressed);
 
-        // this is so that it doesnt fire an initial shot when you're trying to do a burst fire
+        // allows you to fire a single shot when you first press attack
+        // there's a windup for the rapid "fuller auto" fire
+        // so this lets you do quick instant shots
         if (player instanceof ServerPlayer serverPlayer && isPressed && updated) {
             this.fireProjectile(serverPlayer);
         }
@@ -195,7 +196,7 @@ public class KineticShortbowItem extends ProjectileWeaponItem implements Kinetic
 
             for(TypedDataComponent<?> type : newStack.getComponents()) {
                 // if the component is marked as ignored, dont process it
-                if (!type.equals(KWDataComponents.HEAT_UNIT)) {
+                if (!type.equals(KWDataComponents.HEAT_UNITS)) {
                     Optional<?> oldValue = Optional.ofNullable(oldStack.get(type.type()));
                     // if old component doesnt have new one or its different, yeah play the animation
                     if (oldValue.isEmpty() || !oldValue.get().equals(newStack.get(type.type()))) {

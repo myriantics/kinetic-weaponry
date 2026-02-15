@@ -15,7 +15,7 @@ public interface OverheatWeapon {
    int DEFAULT_HEAT_UNIT_DISSIPATION_RATE = 4;
 
     default int getHeatUnits(ItemStack stack) {
-        return stack.getOrDefault(KWDataComponents.HEAT_UNIT, 0);
+        return stack.getOrDefault(KWDataComponents.HEAT_UNITS, 0);
     }
 
     default int getMaxHeatUnits(ItemStack stack) {
@@ -23,7 +23,7 @@ public interface OverheatWeapon {
     }
 
     default void setHeatUnits(ItemStack stack, int heatUnits) {
-        stack.set(KWDataComponents.HEAT_UNIT, heatUnits);
+        stack.set(KWDataComponents.HEAT_UNITS, heatUnits);
     }
 
     default int getHeatDissipationRate(ItemStack stack) {

@@ -43,8 +43,8 @@ public class KWDataComponents {
                     .networkSynchronized(ByteBufCodecs.INT)
     );
 
-    public static final DataComponentType<Integer> HEAT_UNIT = register(
-            "heat_unit",
+    public static final DataComponentType<Integer> HEAT_UNITS = register(
+            "heat_units",
             integerBuilder -> integerBuilder
                     .persistent(Codec.INT)
                     .networkSynchronized(ByteBufCodecs.INT)
