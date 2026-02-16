@@ -15,10 +15,18 @@ import net.myriantics.kinetic_weaponry.block.retention_module.lesser.CreativeLes
 import net.myriantics.kinetic_weaponry.block.retention_module.lesser.LesserKineticRetentionModuleBlock;
 import net.myriantics.kinetic_weaponry.block.retention_module.standard.CreativeStandardKineticRetentionModuleBlock;
 import net.myriantics.kinetic_weaponry.block.retention_module.standard.StandardKineticRetentionModuleBlock;
+import net.myriantics.kinetic_weaponry.block.trial_weave.TrialWeaveBlock;
 
 import java.util.function.Function;
 
 public class KWBlocks {
+
+    public static final Block TRIAL_WEAVE = register(
+            "trial_weave",
+            TrialWeaveBlock::new,
+            BlockBehaviour.Properties
+                    .ofFullCopy(Blocks.WHITE_WOOL)
+    );
 
     public static final Block KINETIC_DETONATOR = register(
             "kinetic_detonator",

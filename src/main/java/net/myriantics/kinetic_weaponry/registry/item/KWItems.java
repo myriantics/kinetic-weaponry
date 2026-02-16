@@ -17,6 +17,12 @@ import java.util.function.Function;
 
 public class KWItems {
 
+    public static final Item TRIAL_WEAVE = register(
+            "trial_weave",
+            properties -> new BlockItem(KWBlocks.TRIAL_WEAVE, properties),
+            new Item.Properties()
+    );
+
     public static final Item KINETIC_DETONATOR = register(
             "kinetic_detonator",
             properties -> new BlockItem(KWBlocks.KINETIC_DETONATOR, properties),

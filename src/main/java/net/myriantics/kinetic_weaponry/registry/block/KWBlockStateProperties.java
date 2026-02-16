@@ -1,5 +1,6 @@
 package net.myriantics.kinetic_weaponry.registry.block;
 
+import net.minecraft.world.level.block.state.properties.BooleanProperty;
 import net.minecraft.world.level.block.state.properties.IntegerProperty;
 import net.myriantics.kinetic_weaponry.block.charging_bus.KineticChargingBusBlock;
 import net.myriantics.kinetic_weaponry.block.retention_module.lesser.LesserKineticRetentionModuleBlock;

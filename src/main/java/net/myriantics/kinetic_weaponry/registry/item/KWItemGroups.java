@@ -28,6 +28,9 @@ public class KWItemGroups {
                     output.accept(KWItems.LESSER_KINETIC_RETENTION_MODULE);
                     output.accept(KWItems.CREATIVE_LESSER_KINETIC_RETENTION_MODULE);
 
+                    // trial twine & weave
+                    output.accept(KWItems.TRIAL_WEAVE);
+
                     output.accept(KWItems.KINETIC_SHORTBOW);
                 });
             }
