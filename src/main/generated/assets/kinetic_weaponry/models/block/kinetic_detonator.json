@@ -1,0 +1,8 @@
+{
+  "parent": "minecraft:block/cube_bottom_top",
+  "textures": {
+    "bottom": "kinetic_weaponry:block/kinetic_detonator_bottom",
+    "side": "kinetic_weaponry:block/kinetic_detonator_side",
+    "top": "kinetic_weaponry:block/kinetic_detonator_top"
+  }
+}
