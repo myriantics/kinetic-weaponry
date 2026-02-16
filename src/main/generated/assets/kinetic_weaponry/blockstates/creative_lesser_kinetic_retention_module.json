@@ -1,0 +1,29 @@
+{
+  "variants": {
+    "facing=down": {
+      "model": "kinetic_weaponry:block/creative_lesser_kinetic_retention_module/charge_0"
+    },
+    "facing=east": {
+      "model": "kinetic_weaponry:block/creative_lesser_kinetic_retention_module/charge_0",
+      "x": 90,
+      "y": 270
+    },
+    "facing=north": {
+      "model": "kinetic_weaponry:block/creative_lesser_kinetic_retention_module/charge_0",
+      "x": 270
+    },
+    "facing=south": {
+      "model": "kinetic_weaponry:block/creative_lesser_kinetic_retention_module/charge_0",
+      "x": 90
+    },
+    "facing=up": {
+      "model": "kinetic_weaponry:block/creative_lesser_kinetic_retention_module/charge_0",
+      "x": 180
+    },
+    "facing=west": {
+      "model": "kinetic_weaponry:block/creative_lesser_kinetic_retention_module/charge_0",
+      "x": 90,
+      "y": 90
+    }
+  }
+}

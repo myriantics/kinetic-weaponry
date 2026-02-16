@@ -1,0 +1,229 @@
+{
+  "variants": {
+    "facing=down,kinetic_charge=0": {
+      "model": "kinetic_weaponry:block/kinetic_retention_module/charge_0"
+    },
+    "facing=down,kinetic_charge=1": {
+      "model": "kinetic_weaponry:block/kinetic_retention_module/charge_1"
+    },
+    "facing=down,kinetic_charge=2": {
+      "model": "kinetic_weaponry:block/kinetic_retention_module/charge_2"
+    },
+    "facing=down,kinetic_charge=3": {
+      "model": "kinetic_weaponry:block/kinetic_retention_module/charge_3"
+    },
+    "facing=down,kinetic_charge=4": {
+      "model": "kinetic_weaponry:block/kinetic_retention_module/charge_4"
+    },
+    "facing=down,kinetic_charge=5": {
+      "model": "kinetic_weaponry:block/kinetic_retention_module/charge_5"
+    },
+    "facing=down,kinetic_charge=6": {
+      "model": "kinetic_weaponry:block/kinetic_retention_module/charge_6"
+    },
+    "facing=down,kinetic_charge=7": {
+      "model": "kinetic_weaponry:block/kinetic_retention_module/charge_7"
+    },
+    "facing=down,kinetic_charge=8": {
+      "model": "kinetic_weaponry:block/kinetic_retention_module/charge_8"
+    },
+    "facing=east,kinetic_charge=0": {
+      "model": "kinetic_weaponry:block/kinetic_retention_module/charge_0",
+      "x": 90,
+      "y": 270
+    },
+    "facing=east,kinetic_charge=1": {
+      "model": "kinetic_weaponry:block/kinetic_retention_module/charge_1",
+      "x": 90,
+      "y": 270
+    },
+    "facing=east,kinetic_charge=2": {
+      "model": "kinetic_weaponry:block/kinetic_retention_module/charge_2",
+      "x": 90,
+      "y": 270
+    },
+    "facing=east,kinetic_charge=3": {
+      "model": "kinetic_weaponry:block/kinetic_retention_module/charge_3",
+      "x": 90,
+      "y": 270
+    },
+    "facing=east,kinetic_charge=4": {
+      "model": "kinetic_weaponry:block/kinetic_retention_module/charge_4",
+      "x": 90,
+      "y": 270
+    },
+    "facing=east,kinetic_charge=5": {
+      "model": "kinetic_weaponry:block/kinetic_retention_module/charge_5",
+      "x": 90,
+      "y": 270
+    },
+    "facing=east,kinetic_charge=6": {
+      "model": "kinetic_weaponry:block/kinetic_retention_module/charge_6",
+      "x": 90,
+      "y": 270
+    },
+    "facing=east,kinetic_charge=7": {
+      "model": "kinetic_weaponry:block/kinetic_retention_module/charge_7",
+      "x": 90,
+      "y": 270
+    },
+    "facing=east,kinetic_charge=8": {
+      "model": "kinetic_weaponry:block/kinetic_retention_module/charge_8",
+      "x": 90,
+      "y": 270
+    },
+    "facing=north,kinetic_charge=0": {
+      "model": "kinetic_weaponry:block/kinetic_retention_module/charge_0",
+      "x": 270
+    },
+    "facing=north,kinetic_charge=1": {
+      "model": "kinetic_weaponry:block/kinetic_retention_module/charge_1",
+      "x": 270
+    },
+    "facing=north,kinetic_charge=2": {
+      "model": "kinetic_weaponry:block/kinetic_retention_module/charge_2",
+      "x": 270
+    },
+    "facing=north,kinetic_charge=3": {
+      "model": "kinetic_weaponry:block/kinetic_retention_module/charge_3",
+      "x": 270
+    },
+    "facing=north,kinetic_charge=4": {
+      "model": "kinetic_weaponry:block/kinetic_retention_module/charge_4",
+      "x": 270
+    },
+    "facing=north,kinetic_charge=5": {
+      "model": "kinetic_weaponry:block/kinetic_retention_module/charge_5",
+      "x": 270
+    },
+    "facing=north,kinetic_charge=6": {
+      "model": "kinetic_weaponry:block/kinetic_retention_module/charge_6",
+      "x": 270
+    },
+    "facing=north,kinetic_charge=7": {
+      "model": "kinetic_weaponry:block/kinetic_retention_module/charge_7",
+      "x": 270
+    },
+    "facing=north,kinetic_charge=8": {
+      "model": "kinetic_weaponry:block/kinetic_retention_module/charge_8",
+      "x": 270
+    },
+    "facing=south,kinetic_charge=0": {
+      "model": "kinetic_weaponry:block/kinetic_retention_module/charge_0",
+      "x": 90
+    },
+    "facing=south,kinetic_charge=1": {
+      "model": "kinetic_weaponry:block/kinetic_retention_module/charge_1",
+      "x": 90
+    },
+    "facing=south,kinetic_charge=2": {
+      "model": "kinetic_weaponry:block/kinetic_retention_module/charge_2",
+      "x": 90
+    },
+    "facing=south,kinetic_charge=3": {
+      "model": "kinetic_weaponry:block/kinetic_retention_module/charge_3",
+      "x": 90
+    },
+    "facing=south,kinetic_charge=4": {
+      "model": "kinetic_weaponry:block/kinetic_retention_module/charge_4",
+      "x": 90
+    },
+    "facing=south,kinetic_charge=5": {
+      "model": "kinetic_weaponry:block/kinetic_retention_module/charge_5",
+      "x": 90
+    },
+    "facing=south,kinetic_charge=6": {
+      "model": "kinetic_weaponry:block/kinetic_retention_module/charge_6",
+      "x": 90
+    },
+    "facing=south,kinetic_charge=7": {
+      "model": "kinetic_weaponry:block/kinetic_retention_module/charge_7",
+      "x": 90
+    },
+    "facing=south,kinetic_charge=8": {
+      "model": "kinetic_weaponry:block/kinetic_retention_module/charge_8",
+      "x": 90
+    },
+    "facing=up,kinetic_charge=0": {
+      "model": "kinetic_weaponry:block/kinetic_retention_module/charge_0",
+      "x": 180
+    },
+    "facing=up,kinetic_charge=1": {
+      "model": "kinetic_weaponry:block/kinetic_retention_module/charge_1",
+      "x": 180
+    },
+    "facing=up,kinetic_charge=2": {
+      "model": "kinetic_weaponry:block/kinetic_retention_module/charge_2",
+      "x": 180
+    },
+    "facing=up,kinetic_charge=3": {
+      "model": "kinetic_weaponry:block/kinetic_retention_module/charge_3",
+      "x": 180
+    },
+    "facing=up,kinetic_charge=4": {
+      "model": "kinetic_weaponry:block/kinetic_retention_module/charge_4",
+      "x": 180
+    },
+    "facing=up,kinetic_charge=5": {
+      "model": "kinetic_weaponry:block/kinetic_retention_module/charge_5",
+      "x": 180
+    },
+    "facing=up,kinetic_charge=6": {
+      "model": "kinetic_weaponry:block/kinetic_retention_module/charge_6",
+      "x": 180
+    },
+    "facing=up,kinetic_charge=7": {
+      "model": "kinetic_weaponry:block/kinetic_retention_module/charge_7",
+      "x": 180
+    },
+    "facing=up,kinetic_charge=8": {
+      "model": "kinetic_weaponry:block/kinetic_retention_module/charge_8",
+      "x": 180
+    },
+    "facing=west,kinetic_charge=0": {
+      "model": "kinetic_weaponry:block/kinetic_retention_module/charge_0",
+      "x": 90,
+      "y": 90
+    },
+    "facing=west,kinetic_charge=1": {
+      "model": "kinetic_weaponry:block/kinetic_retention_module/charge_1",
+      "x": 90,
+      "y": 90
+    },
+    "facing=west,kinetic_charge=2": {
+      "model": "kinetic_weaponry:block/kinetic_retention_module/charge_2",
+      "x": 90,
+      "y": 90
+    },
+    "facing=west,kinetic_charge=3": {
+      "model": "kinetic_weaponry:block/kinetic_retention_module/charge_3",
+      "x": 90,
+      "y": 90
+    },
+    "facing=west,kinetic_charge=4": {
+      "model": "kinetic_weaponry:block/kinetic_retention_module/charge_4",
+      "x": 90,
+      "y": 90
+    },
+    "facing=west,kinetic_charge=5": {
+      "model": "kinetic_weaponry:block/kinetic_retention_module/charge_5",
+      "x": 90,
+      "y": 90
+    },
+    "facing=west,kinetic_charge=6": {
+      "model": "kinetic_weaponry:block/kinetic_retention_module/charge_6",
+      "x": 90,
+      "y": 90
+    },
+    "facing=west,kinetic_charge=7": {
+      "model": "kinetic_weaponry:block/kinetic_retention_module/charge_7",
+      "x": 90,
+      "y": 90
+    },
+    "facing=west,kinetic_charge=8": {
+      "model": "kinetic_weaponry:block/kinetic_retention_module/charge_8",
+      "x": 90,
+      "y": 90
+    }
+  }
+}

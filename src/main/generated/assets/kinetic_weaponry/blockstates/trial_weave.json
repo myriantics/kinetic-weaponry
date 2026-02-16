@@ -1,0 +1,10 @@
+{
+  "variants": {
+    "triggered=false": {
+      "model": "kinetic_weaponry:block/trial_weave_idle"
+    },
+    "triggered=true": {
+      "model": "kinetic_weaponry:block/trial_weave_triggered"
+    }
+  }
+}

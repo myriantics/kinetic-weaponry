@@ -27,7 +27,6 @@ import org.jetbrains.annotations.Nullable;
 
 public abstract class AbstractKineticRetentionModuleBlock extends Block implements SimpleWaterloggedBlock, KineticBlock {
     public static final DirectionProperty FACING = BlockStateProperties.FACING;
-    public static final BooleanProperty POWERED = BlockStateProperties.POWERED;
     public static final BooleanProperty WATERLOGGED = BlockStateProperties.WATERLOGGED;
 
     public static final int IMPACT_CHARGE_DIVISOR = 8;
@@ -37,7 +36,6 @@ public abstract class AbstractKineticRetentionModuleBlock extends Block implemen
 
         registerDefaultState(stateDefinition.any()
                 .setValue(FACING, Direction.UP)
-                .setValue(POWERED, false)
                 .setValue(WATERLOGGED, false));
     }
 
@@ -65,7 +63,7 @@ public abstract class AbstractKineticRetentionModuleBlock extends Block implemen
 
     @Override
     protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> builder) {
-        builder.add(FACING, POWERED, WATERLOGGED);
+        builder.add(FACING, WATERLOGGED);
     }
 
     @Nullable
@@ -96,26 +94,6 @@ public abstract class AbstractKineticRetentionModuleBlock extends Block implemen
     @Override
     public boolean acceptsInput(Level level, BlockPos pos, BlockState state, KineticImpactType impactType, Direction inputDir) {
         return inputDir.getOpposite().equals(state.getValue(FACING));
-    }
-
-    protected void onPlace(BlockState state, Level level, BlockPos pos, BlockState oldState, boolean movedByPiston) {
-        if (oldState.getBlock() != state.getBlock() && level instanceof ServerLevel serverlevel) {
-            this.updateRedstoneState(serverlevel, state, pos);
-        }
-    }
-
-    @Override
-    protected void neighborChanged(BlockState state, Level level, BlockPos pos, Block neighborBlock, BlockPos neighborPos, boolean movedByPiston) {
-        if (level instanceof ServerLevel serverLevel) {
-            this.updateRedstoneState(serverLevel, state, pos);
-        }
-    }
-
-    private void updateRedstoneState(ServerLevel serverLevel, BlockState state, BlockPos pos) {
-        boolean inboundRedstoneSignal = serverLevel.hasNeighborSignal(pos);
-        if (inboundRedstoneSignal != state.getValue(POWERED)) {
-            serverLevel.setBlockAndUpdate(pos, state.setValue(POWERED, inboundRedstoneSignal));
-        }
     }
 
     @Override

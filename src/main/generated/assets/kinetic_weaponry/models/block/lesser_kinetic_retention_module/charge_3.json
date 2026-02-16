@@ -1,0 +1,8 @@
+{
+  "parent": "kinetic_weaponry:block/lesser_kinetic_retention_module",
+  "textures": {
+    "bottom": "kinetic_weaponry:block/lesser_kinetic_retention_module_bottom",
+    "side": "kinetic_weaponry:block/lesser_kinetic_retention_module_side",
+    "top": "kinetic_weaponry:block/lesser_kinetic_retention_module_top"
+  }
+}

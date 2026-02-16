@@ -20,6 +20,9 @@
     ],
     "client": [
       "net.myriantics.kinetic_weaponry.KWClient"
+    ],
+    "fabric-datagen": [
+      "net.myriantics.kinetic_weaponry.KWDataGenerator"
     ]
   },
   "mixins": [
