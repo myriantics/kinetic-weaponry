@@ -54,7 +54,7 @@ public class TrialWeaveBlock extends Block implements KineticBlock {
 
     @Override
     public boolean acceptsInput(Level level, BlockPos pos, BlockState state, KineticImpactType impactType, Direction inputDir) {
-        return true;
+        return !state.getValue(TRIGGERED);
     }
 
     @Override
@@ -76,6 +76,8 @@ public class TrialWeaveBlock extends Block implements KineticBlock {
                 // don't cascade kinetic charge transfers to other trial weave blocks because that causes recursive fuckery
                 if (this.canConduct(targetState)) {
                     this.trigger(level, targetPos, targetState);
+                } else {
+                    return;
                 }
             } else if (targetState.getBlock() instanceof KineticBlock kineticBlock && kineticBlock.acceptsInput(level, targetPos, targetState, KineticImpactType.KINETIC_CHARGE_TRANSFER, conductionDirection)) {
                 kineticBlock.addCharge(level, targetPos, targetState, inboundCharge);
