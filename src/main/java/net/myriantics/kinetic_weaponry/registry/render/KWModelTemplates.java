@@ -16,7 +16,7 @@ public abstract class KWModelTemplates {
     );
 
     public static ModelTemplate LESSER_KINETIC_RETENTION_MODULE = block(
-            "lesser_kinetic_retention_module",
+            "lesser_kinetic_retention_module_parent",
             TextureSlot.TOP,
             TextureSlot.SIDE,
             TextureSlot.BOTTOM

@@ -2,7 +2,7 @@
   "parent": "kinetic_weaponry:block/standard_kinetic_retention_module_parent",
   "textures": {
     "bottom": "kinetic_weaponry:block/kinetic_retention_module_bottom",
-    "side": "kinetic_weaponry:block/kinetic_retention_module_side",
+    "side": "kinetic_weaponry:block/kinetic_retention_module_side_charge_6",
     "top": "kinetic_weaponry:block/kinetic_retention_module_top"
   }
 }

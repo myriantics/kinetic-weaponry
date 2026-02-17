@@ -3,7 +3,7 @@ package net.myriantics.kinetic_weaponry.datagen.model;
 import net.minecraft.core.Direction;
 import net.minecraft.data.models.BlockModelGenerators;
 import net.minecraft.data.models.blockstates.*;
-import net.minecraft.data.models.model.TexturedModel;
+import net.minecraft.data.models.model.*;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
@@ -14,6 +14,7 @@ import net.myriantics.kinetic_weaponry.block.trial_weave.TrialWeaveBlock;
 import net.myriantics.kinetic_weaponry.datagen.KWModelProvider;
 import net.myriantics.kinetic_weaponry.mechanics.kinetic_charge.KineticBlock;
 import net.myriantics.kinetic_weaponry.registry.block.KWBlocks;
+import net.myriantics.kinetic_weaponry.registry.render.KWModelTemplates;
 import net.myriantics.kinetic_weaponry.registry.render.KWTexturedModels;
 import org.jetbrains.annotations.Nullable;
 
@@ -31,10 +32,10 @@ public class KWBlockModelGenerator {
     public void generateModels() {
         generateFacing(KWBlocks.KINETIC_DETONATOR);
 
-        generateKineticRetentionModule(KWBlocks.KINETIC_RETENTION_MODULE, StandardKineticRetentionModuleBlock.KINETIC_CHARGE, KWTexturedModels.STANDARD_KINETIC_RETENTION_MODULE);
-        generateKineticRetentionModule(KWBlocks.CREATIVE_KINETIC_RETENTION_MODULE, null, KWTexturedModels.STANDARD_KINETIC_RETENTION_MODULE);
-        generateKineticRetentionModule(KWBlocks.LESSER_KINETIC_RETENTION_MODULE, LesserKineticRetentionModuleBlock.KINETIC_CHARGE, KWTexturedModels.LESSER_KINETIC_RETENTION_MODULE);
-        generateKineticRetentionModule(KWBlocks.CREATIVE_LESSER_KINETIC_RETENTION_MODULE, null, KWTexturedModels.LESSER_KINETIC_RETENTION_MODULE);
+        generateKineticRetentionModule(KWBlocks.KINETIC_RETENTION_MODULE, StandardKineticRetentionModuleBlock.KINETIC_CHARGE, KWModelTemplates.STANDARD_KINETIC_RETENTION_MODULE);
+        generateKineticRetentionModule(KWBlocks.CREATIVE_KINETIC_RETENTION_MODULE, null, KWModelTemplates.STANDARD_KINETIC_RETENTION_MODULE);
+        generateKineticRetentionModule(KWBlocks.LESSER_KINETIC_RETENTION_MODULE, LesserKineticRetentionModuleBlock.KINETIC_CHARGE, KWModelTemplates.LESSER_KINETIC_RETENTION_MODULE);
+        generateKineticRetentionModule(KWBlocks.CREATIVE_LESSER_KINETIC_RETENTION_MODULE, null, KWModelTemplates.LESSER_KINETIC_RETENTION_MODULE);
 
         generateTrialWeave(KWBlocks.TRIAL_WEAVE);
     }
@@ -46,8 +47,8 @@ public class KWBlockModelGenerator {
     }
 
     private void generateTrialWeave(Block block) {
-        ResourceLocation idleModel = TexturedModel.CUBE.createWithSuffix(block, "_idle", generator.modelOutput);
-        ResourceLocation triggeredModel = TexturedModel.CUBE.createWithSuffix(block, "_triggered", generator.modelOutput);
+        ResourceLocation idleModel = TexturedModel.createDefault((b)-> TextureMapping.cube(TextureMapping.getBlockTexture(b, "_idle")), ModelTemplates.CUBE_ALL).createWithSuffix(block, "_idle", generator.modelOutput);
+        ResourceLocation triggeredModel = TexturedModel.createDefault((b)-> TextureMapping.cube(TextureMapping.getBlockTexture(b, "_triggered")), ModelTemplates.CUBE_ALL).createWithSuffix(block, "_triggered", generator.modelOutput);
         generator.delegateItemModel(block, idleModel);
 
         generator.blockStateOutput.accept(
@@ -60,11 +61,15 @@ public class KWBlockModelGenerator {
         ));
     }
 
-    private void generateKineticRetentionModule(Block block, IntegerProperty property, TexturedModel.Provider provider) {
+    private void generateKineticRetentionModule(Block block, IntegerProperty property, ModelTemplate template) {
         KineticBlock kineticBlock = (KineticBlock) block;
-        ResourceLocation[] charge2Ids = kineticBlock.getMaxCharge() > 0 ? new ResourceLocation[kineticBlock.getMaxCharge() + 1] : new ResourceLocation[] {provider.create(block, generator.modelOutput)};
+        ResourceLocation[] charge2Ids = kineticBlock.getMaxCharge() > 0 ? new ResourceLocation[kineticBlock.getMaxCharge() + 1] : new ResourceLocation[] {TexturedModel.createDefault(TextureMapping::cubeBottomTop, template).create(block, generator.modelOutput)};
         for (int i = 0; i < charge2Ids.length; i++) {
-            charge2Ids[i] = provider.createWithSuffix(block, "/charge_" + i, generator.modelOutput);
+            int finalI = i;
+            charge2Ids[i] = TexturedModel.createDefault(
+                    block1 -> TextureMapping.cubeBottomTop(block1).put(TextureSlot.SIDE, TextureMapping.getBlockTexture(block1, "_side_charge_" + finalI)),
+                    template
+            ).createWithSuffix(block, "/charge_" + i, generator.modelOutput);
         }
         generator.delegateItemModel(block, charge2Ids[0]);
 
