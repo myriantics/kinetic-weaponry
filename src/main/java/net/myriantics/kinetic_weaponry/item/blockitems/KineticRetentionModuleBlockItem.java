@@ -1,8 +1,7 @@
 package net.myriantics.kinetic_weaponry.item.blockitems;
 
 import net.myriantics.kinetic_weaponry.block.retention_module.AbstractKineticRetentionModuleBlock;
-import net.myriantics.kinetic_weaponry.mechanics.kinetic_charge.KineticChargeStoringItem;
-import net.minecraft.network.chat.Component;
+import net.myriantics.kinetic_weaponry.mechanics.kinetic_charge.KineticItem;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResultHolder;
 import net.minecraft.world.entity.EquipmentSlot;
@@ -12,9 +11,7 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.List;
-
-public class KineticRetentionModuleBlockItem extends BlockItem implements Equipable, KineticChargeStoringItem {
+public class KineticRetentionModuleBlockItem extends BlockItem implements Equipable, KineticItem {
 
     private final EquipmentSlot equipmentSlot;
 

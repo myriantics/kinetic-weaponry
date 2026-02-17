@@ -6,7 +6,7 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
 import net.myriantics.kinetic_weaponry.KWCommon;
-import net.myriantics.kinetic_weaponry.mechanics.kinetic_charge.KineticChargeStoringItem;
+import net.myriantics.kinetic_weaponry.mechanics.kinetic_charge.KineticItem;
 import net.myriantics.kinetic_weaponry.mechanics.weapon_heat.OverheatWeapon;
 import net.myriantics.kinetic_weaponry.registry.item.KWDataComponents;
 import org.jetbrains.annotations.Nullable;
@@ -20,7 +20,7 @@ public class KWTooltipAdditions {
 
     static {
         register((tooltipContext, player, stack, tooltipFlag) -> {
-            if (stack.getItem() instanceof KineticChargeStoringItem storage) {
+            if (stack.getItem() instanceof KineticItem storage) {
                 if (stack.has(KWDataComponents.INFINITE_KINETIC_CHARGE)) {
                     return Component.translatable("tooltip.kinetic_weaponry.kinetic_charge.infinite");
                 } else {

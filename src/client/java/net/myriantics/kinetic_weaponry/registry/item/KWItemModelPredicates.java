@@ -4,14 +4,14 @@ import net.minecraft.client.renderer.item.ClampedItemPropertyFunction;
 import net.minecraft.client.renderer.item.ItemProperties;
 import net.minecraft.resources.ResourceLocation;
 import net.myriantics.kinetic_weaponry.KWCommon;
-import net.myriantics.kinetic_weaponry.mechanics.kinetic_charge.KineticChargeStoringItem;
+import net.myriantics.kinetic_weaponry.mechanics.kinetic_charge.KineticItem;
 import net.myriantics.kinetic_weaponry.item.equipment.KineticShortbowItem;
 import net.myriantics.kinetic_weaponry.mechanics.weapon_heat.OverheatWeapon;
 
 public class KWItemModelPredicates {
     public static void init() {
         registerSomethingOrOther("kinetic_charge", (itemStack, clientLevel, livingEntity, i) ->
-            itemStack.getItem() instanceof KineticChargeStoringItem storage
+            itemStack.getItem() instanceof KineticItem storage
                     ? (float) storage.getCharge(itemStack) / storage.getMaxCharge(itemStack)
                     : 0
         );

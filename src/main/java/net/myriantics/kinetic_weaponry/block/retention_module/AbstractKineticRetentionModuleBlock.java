@@ -3,13 +3,10 @@ package net.myriantics.kinetic_weaponry.block.retention_module;
 import net.minecraft.world.level.material.FluidState;
 import net.minecraft.world.level.material.Fluids;
 import net.myriantics.kinetic_weaponry.mechanics.kinetic_charge.KineticBlock;
+import net.myriantics.kinetic_weaponry.mechanics.kinetic_charge.KineticItem;
 import net.myriantics.kinetic_weaponry.mechanics.kinetic_charge.KineticImpactType;
-import net.myriantics.kinetic_weaponry.registry.block.KWBlockStateProperties;
-import net.myriantics.kinetic_weaponry.registry.block.KWBlocks;
-import net.myriantics.kinetic_weaponry.item.blockitems.KineticRetentionModuleBlockItem;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
-import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.item.ItemStack;
@@ -71,24 +68,16 @@ public abstract class AbstractKineticRetentionModuleBlock extends Block implemen
     public BlockState getStateForPlacement(BlockPlaceContext context) {
         ItemStack moduleStack = context.getItemInHand();
 
-        BlockState state = getPlacementState(moduleStack);
+        BlockState state = super.getStateForPlacement(context);
 
         // waterlogged check :)
         state = state.setValue(WATERLOGGED, context.getLevel().getBlockState(context.getClickedPos()).getFluidState().is(Fluids.WATER));
 
-        return state.setValue(FACING, context.getClickedFace().getOpposite());
-    }
+        state = state.setValue(FACING, context.getClickedFace().getOpposite());
 
-    public static BlockState getPlacementState(ItemStack moduleStack) {
-        BlockState defaultState = KWBlocks.KINETIC_RETENTION_MODULE.defaultBlockState();
-
-        if (moduleStack.getItem() instanceof KineticRetentionModuleBlockItem item) {
-            return defaultState.setValue(
-                    KWBlockStateProperties.STANDARD_KINETIC_RETENTION_MODULE_KINETIC_CHARGE,
-                    item.getCharge(moduleStack)
-            );
-        }
-        return defaultState;
+        return moduleStack.getItem() instanceof KineticItem kineticItem
+                ? this.withCharge(state, Math.clamp(kineticItem.getCharge(moduleStack), 0, this.getMaxCharge()))
+                : state;
     }
 
     @Override

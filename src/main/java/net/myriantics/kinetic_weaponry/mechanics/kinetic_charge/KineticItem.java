@@ -8,7 +8,7 @@ import net.minecraft.world.item.ItemStack;
 import net.myriantics.kinetic_weaponry.registry.item.KWDataComponents;
 import net.myriantics.kinetic_weaponry.registry.misc.KWSounds;
 
-public interface KineticChargeStoringItem {
+public interface KineticItem {
 
     default int getMaxCharge(ItemStack stack) {
         return stack.getOrDefault(KWDataComponents.MAX_KINETIC_CHARGE, 0);
@@ -40,10 +40,10 @@ public interface KineticChargeStoringItem {
 
     default boolean rechargeFromRetentionModule(Player player, ItemStack usedItemStack) {
         ItemStack retentionModuleStack = ItemStack.EMPTY;
-        KineticChargeStoringItem retentionModuleStorage = null;
+        KineticItem retentionModuleStorage = null;
         for (EquipmentSlot checkedSlot : EquipmentSlot.values()) {
             ItemStack potentialStack = player.getItemBySlot(checkedSlot);
-            if (potentialStack.getItem() instanceof KineticChargeStoringItem temp && temp.getCharge(potentialStack) > 0) {
+            if (potentialStack.getItem() instanceof KineticItem temp && temp.getCharge(potentialStack) > 0) {
                 retentionModuleStack = potentialStack;
                 retentionModuleStorage = temp;
                 break;

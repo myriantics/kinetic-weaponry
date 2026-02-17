@@ -5,7 +5,7 @@ import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundSource;
 import net.myriantics.kinetic_weaponry.mechanics.attack_use.AttackUseItem;
 import net.myriantics.kinetic_weaponry.mechanics.weapon_heat.OverheatWeapon;
-import net.myriantics.kinetic_weaponry.mechanics.kinetic_charge.KineticChargeStoringItem;
+import net.myriantics.kinetic_weaponry.mechanics.kinetic_charge.KineticItem;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResultHolder;
@@ -23,7 +23,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.function.Predicate;
 
-public class KineticShortbowItem extends ProjectileWeaponItem implements KineticChargeStoringItem, OverheatWeapon, AttackUseItem {
+public class KineticShortbowItem extends ProjectileWeaponItem implements KineticItem, OverheatWeapon, AttackUseItem {
 
     public static final float OUTPUT_VELOCITY = 5.0f;
     public static final int RANGE = 20;
@@ -213,6 +213,6 @@ public class KineticShortbowItem extends ProjectileWeaponItem implements Kinetic
     }
 
     public static boolean canFire(LivingEntity livingEntity, ItemStack usedStack) {
-        return (livingEntity.hasInfiniteMaterials() || (usedStack.getItem() instanceof KineticChargeStoringItem storage && storage.getCharge(usedStack) > 0));
+        return (livingEntity.hasInfiniteMaterials() || (usedStack.getItem() instanceof KineticItem storage && storage.getCharge(usedStack) > 0));
     }
 }
