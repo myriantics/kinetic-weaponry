@@ -16,7 +16,7 @@ public abstract class AbstractLesserKineticRetentionModuleBlock extends Abstract
 
     private static final VoxelShape UP = Block.box(5.0, 6.0, 5.0, 11.0, 16.0, 11.0);
     private static final VoxelShape DOWN = Block.box(5.0, 0.0, 5.0, 11.0, 10.0, 11.0);
-    private static final VoxelShape NORTH = Block.box(5.0, 0.0, 0.0, 11.0, 11.0, 10.0);
+    private static final VoxelShape NORTH = Block.box(5.0, 5.0, 0.0, 11.0, 11.0, 10.0);
     private static final VoxelShape EAST = Block.box(6.0, 5.0, 5.0, 16.0, 11.0, 11.0);
     private static final VoxelShape SOUTH = Block.box(5.0, 5.0, 6.0, 11.0, 11.0, 16.0);
     private static final VoxelShape WEST = Block.box(0.0, 5.0, 5.0, 10.0, 11.0, 11.0);
