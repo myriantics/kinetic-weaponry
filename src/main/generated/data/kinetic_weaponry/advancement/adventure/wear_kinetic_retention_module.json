@@ -1,0 +1,36 @@
+{
+  "parent": "minecraft:adventure/revaulting",
+  "criteria": {
+    "wear_kinetic_retention_module": {
+      "conditions": {
+        "items": [
+          {
+            "items": "kinetic_weaponry:kinetic_retention_module"
+          },
+          {
+            "items": "kinetic_weaponry:lesser_kinetic_retention_module"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    }
+  },
+  "display": {
+    "description": {
+      "translate": "advancements.kinetic_weaponry.adventure.wear_kinetic_retention_module.description"
+    },
+    "icon": {
+      "count": 1,
+      "id": "kinetic_weaponry:kinetic_retention_module"
+    },
+    "title": {
+      "translate": "advancements.kinetic_weaponry.adventure.wear_kinetic_retention_module.title"
+    }
+  },
+  "requirements": [
+    [
+      "wear_kinetic_retention_module"
+    ]
+  ],
+  "sends_telemetry_event": true
+}

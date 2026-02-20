@@ -1,0 +1,31 @@
+{
+  "parent": "minecraft:adventure/revaulting",
+  "criteria": {
+    "charge_kinetic_shortbow": {
+      "conditions": {
+        "item_predicate": {
+          "items": "kinetic_weaponry:kinetic_shortbow"
+        }
+      },
+      "trigger": "kinetic_weaponry:kinetic_item_charge"
+    }
+  },
+  "display": {
+    "description": {
+      "translate": "advancements.kinetic_weaponry.adventure.charge_kinetic_shortbow.description"
+    },
+    "icon": {
+      "count": 1,
+      "id": "kinetic_weaponry:kinetic_shortbow"
+    },
+    "title": {
+      "translate": "advancements.kinetic_weaponry.adventure.charge_kinetic_shortbow.title"
+    }
+  },
+  "requirements": [
+    [
+      "charge_kinetic_shortbow"
+    ]
+  ],
+  "sends_telemetry_event": true
+}
