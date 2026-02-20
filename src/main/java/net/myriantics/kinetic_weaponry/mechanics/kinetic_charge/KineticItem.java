@@ -5,6 +5,7 @@ import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
+import net.myriantics.kinetic_weaponry.registry.advancement.KWAdvancementTriggers;
 import net.myriantics.kinetic_weaponry.registry.item.KWDataComponents;
 import net.myriantics.kinetic_weaponry.registry.misc.KWSounds;
 
@@ -63,7 +64,7 @@ public interface KineticItem {
 
             if (chargeSuccessfullyAdded) {
                 // only update components on the server
-                if (player instanceof ServerPlayer) {
+                if (player instanceof ServerPlayer serverPlayer) {
                     if (!retentionModuleStack.has(KWDataComponents.INFINITE_KINETIC_CHARGE)) {
                         retentionModuleStorage.addCharge(retentionModuleStack, -1);
                     }
@@ -76,6 +77,7 @@ public interface KineticItem {
                             SoundSource.PLAYERS,
                             1.0F,
                             1.0F / (player.level().getRandom().nextFloat() * 0.4F + 1.2F) * 0.5F);
+                    KWAdvancementTriggers.triggerKineticItemCharge(serverPlayer, usedItemStack);
                 }
                 // yay you won
                 return true;
