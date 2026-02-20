@@ -26,6 +26,8 @@ public class KWBlocks {
             TrialWeaveBlock::new,
             BlockBehaviour.Properties
                     .ofFullCopy(Blocks.WHITE_WOOL)
+                    .lightLevel(state -> state.getValue(TrialWeaveBlock.TRIGGERED) ? 6 : 0)
+                    .emissiveRendering((blockState, blockGetter, blockPos) -> blockState.getValue(TrialWeaveBlock.TRIGGERED))
     );
 
     public static final Block KINETIC_DETONATOR = register(

@@ -17,7 +17,7 @@ import org.jetbrains.annotations.Nullable;
 public class TrialWeaveBlock extends Block implements KineticBlock {
 
     public static final BooleanProperty TRIGGERED = BlockStateProperties.TRIGGERED;
-    public static final int TRANSFER_COOLDOWN_TICKS = 2;
+    public static final int TRANSFER_COOLDOWN_TICKS = 4;
 
     public TrialWeaveBlock(Properties properties) {
         super(properties);
