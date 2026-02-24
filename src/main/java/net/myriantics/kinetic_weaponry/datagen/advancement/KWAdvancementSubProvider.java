@@ -10,6 +10,7 @@ import net.myriantics.kinetic_weaponry.KWCommon;
 import net.myriantics.kinetic_weaponry.advancement.KineticItemChargeCriterionTrigger;
 import net.myriantics.kinetic_weaponry.registry.advancement.KWCriteriaTriggers;
 import net.myriantics.kinetic_weaponry.registry.item.KWItems;
+import net.myriantics.kinetic_weaponry.tag.KWItemTags;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.function.Consumer;
@@ -36,7 +37,7 @@ public class KWAdvancementSubProvider {
                 true,
                 true,
                 false,
-                CriteriaTriggers.INVENTORY_CHANGED.createCriterion(InventoryChangeTrigger.TriggerInstance.hasItems(KWItems.KINETIC_RETENTION_MODULE, KWItems.LESSER_KINETIC_RETENTION_MODULE).triggerInstance()),
+                CriteriaTriggers.INVENTORY_CHANGED.createCriterion(InventoryChangeTrigger.TriggerInstance.hasItems(ItemPredicate.Builder.item().of(KWItemTags.KINETIC_RETENTION_MODULES)).triggerInstance()),
                 null
         );
 

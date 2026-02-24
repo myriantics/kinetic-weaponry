@@ -5,10 +5,7 @@
       "conditions": {
         "items": [
           {
-            "items": "kinetic_weaponry:kinetic_retention_module"
-          },
-          {
-            "items": "kinetic_weaponry:lesser_kinetic_retention_module"
+            "items": "#kinetic_weaponry:kinetic_retention_module"
           }
         ]
       },

@@ -10,6 +10,8 @@ import net.minecraft.resources.ResourceKey;
 import net.minecraft.tags.ItemTags;
 import net.minecraft.world.item.Item;
 import net.myriantics.kinetic_weaponry.registry.item.KWItems;
+import net.myriantics.kinetic_weaponry.tag.KWBlockTags;
+import net.myriantics.kinetic_weaponry.tag.KWItemTags;
 
 import java.util.concurrent.CompletableFuture;
 
@@ -33,5 +35,19 @@ public class KWItemTagProvider extends FabricTagProvider<Item> {
         getOrCreateTagBuilder(ItemTags.CHEST_ARMOR)
                 .add(KWItems.KINETIC_RETENTION_MODULE)
                 .add(KWItems.CREATIVE_KINETIC_RETENTION_MODULE);
+
+
+        getOrCreateTagBuilder(KWItemTags.KINETIC_CHARGING_BUSES)
+                .add(KWItems.KINETIC_CHARGING_BUS)
+                .add(KWItems.CREATIVE_KINETIC_CHARGING_BUS);
+        getOrCreateTagBuilder(KWItemTags.KINETIC_RETENTION_MODULES)
+                .forceAddTag(KWItemTags.STANDARD_KINETIC_RETENTION_MODULES)
+                .forceAddTag(KWItemTags.LESSER_KINETIC_RETENTION_MODULES);
+        getOrCreateTagBuilder(KWItemTags.STANDARD_KINETIC_RETENTION_MODULES)
+                .add(KWItems.KINETIC_RETENTION_MODULE)
+                .add(KWItems.CREATIVE_KINETIC_RETENTION_MODULE);
+        getOrCreateTagBuilder(KWItemTags.LESSER_KINETIC_RETENTION_MODULES)
+                .add(KWItems.CREATIVE_LESSER_KINETIC_RETENTION_MODULE)
+                .add(KWItems.LESSER_KINETIC_RETENTION_MODULE);
     }
 }
