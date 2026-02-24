@@ -23,6 +23,12 @@ public class KWItems {
             new Item.Properties()
     );
 
+    public static final Item TRIAL_TWINE = register(
+            "trial_twine",
+            Item::new,
+            new Item.Properties()
+    );
+
     public static final Item KINETIC_DETONATOR = register(
             "kinetic_detonator",
             properties -> new BlockItem(KWBlocks.KINETIC_DETONATOR, properties),
