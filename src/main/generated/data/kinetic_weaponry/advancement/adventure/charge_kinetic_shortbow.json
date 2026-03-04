@@ -1,5 +1,5 @@
 {
-  "parent": "minecraft:adventure/revaulting",
+  "parent": "kinetic_weaponry:adventure/wear_kinetic_retention_module",
   "criteria": {
     "charge_kinetic_shortbow": {
       "conditions": {

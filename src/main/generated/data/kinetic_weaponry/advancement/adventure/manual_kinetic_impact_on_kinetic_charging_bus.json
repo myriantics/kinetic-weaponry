@@ -1,0 +1,31 @@
+{
+  "parent": "minecraft:adventure/revaulting",
+  "criteria": {
+    "manual_kinetic_impact_on_kinetic_charging_bus": {
+      "conditions": {
+        "block_predicate": {
+          "blocks": "kinetic_weaponry:kinetic_charging_bus"
+        }
+      },
+      "trigger": "kinetic_weaponry:kinetic_impact"
+    }
+  },
+  "display": {
+    "description": {
+      "translate": "advancements.kinetic_weaponry.adventure.manual_kinetic_impact_on_kinetic_charging_bus.description"
+    },
+    "icon": {
+      "count": 1,
+      "id": "kinetic_weaponry:kinetic_charging_bus"
+    },
+    "title": {
+      "translate": "advancements.kinetic_weaponry.adventure.manual_kinetic_impact_on_kinetic_charging_bus.title"
+    }
+  },
+  "requirements": [
+    [
+      "manual_kinetic_impact_on_kinetic_charging_bus"
+    ]
+  ],
+  "sends_telemetry_event": true
+}

@@ -1,0 +1,31 @@
+{
+  "parent": "minecraft:adventure/revaulting",
+  "criteria": {
+    "manual_kinetic_impact_on_kinetic_detonator": {
+      "conditions": {
+        "block_predicate": {
+          "blocks": "kinetic_weaponry:kinetic_detonator"
+        }
+      },
+      "trigger": "kinetic_weaponry:kinetic_impact"
+    }
+  },
+  "display": {
+    "description": {
+      "translate": "advancements.kinetic_weaponry.adventure.manual_kinetic_impact_on_kinetic_detonator.description"
+    },
+    "icon": {
+      "count": 1,
+      "id": "kinetic_weaponry:kinetic_detonator"
+    },
+    "title": {
+      "translate": "advancements.kinetic_weaponry.adventure.manual_kinetic_impact_on_kinetic_detonator.title"
+    }
+  },
+  "requirements": [
+    [
+      "manual_kinetic_impact_on_kinetic_detonator"
+    ]
+  ],
+  "sends_telemetry_event": true
+}
