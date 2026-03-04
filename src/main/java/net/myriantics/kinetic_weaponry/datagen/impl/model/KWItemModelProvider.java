@@ -8,6 +8,7 @@ import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.myriantics.kinetic_weaponry.registry.item.KWItems;
 import net.myriantics.kinetic_weaponry.registry.render.KWItemModelPredicateIds;
+import net.myriantics.kinetic_weaponry.registry.render.KWModelTemplates;
 import net.myriantics.kinetic_weaponry.registry.render.KWTextures;
 import net.myriantics.myrror.datagen.template.model.MyrrorItemModelSubProvider;
 import net.myriantics.myrror.datagen.template.model.MyrrorModelProvider;
@@ -32,7 +33,7 @@ public class KWItemModelProvider extends MyrrorItemModelSubProvider {
         TextureSlot layer2 = TextureSlot.LAYER2;
 
         add(
-                ModelTemplates.THREE_LAYERED_ITEM,
+                KWModelTemplates.KINETIC_SHORTBOW,
                 modelId,
                 Map.of(
                         layer0, KWTextures.KINETIC_SHORTBOW_HEAT_SINK_INERT,

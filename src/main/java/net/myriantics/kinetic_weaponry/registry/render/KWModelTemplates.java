@@ -22,9 +22,24 @@ public abstract class KWModelTemplates {
             TextureSlot.BOTTOM
     );
 
+    public static ModelTemplate KINETIC_SHORTBOW = item(
+            "kinetic_shortbow_parent",
+            TextureSlot.LAYER0,
+            TextureSlot.LAYER1,
+            TextureSlot.LAYER2
+    );
+
     private static ModelTemplate block(String path, TextureSlot... textureSlots) {
         return new ModelTemplate(
                 Optional.of(KWCommon.locate("block/" + path)),
+                Optional.empty(),
+                textureSlots
+        );
+    }
+
+    private static ModelTemplate item(String path, TextureSlot... textureSlots) {
+        return new ModelTemplate(
+                Optional.of(KWCommon.locate("item/" + path)),
                 Optional.empty(),
                 textureSlots
         );

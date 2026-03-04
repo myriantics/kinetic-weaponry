@@ -1,5 +1,5 @@
 {
-  "parent": "minecraft:item/generated",
+  "parent": "kinetic_weaponry:item/kinetic_shortbow_parent",
   "overrides": [
     {
       "model": "kinetic_weaponry:item/kinetic_shortbow/heat_unit_0.0_pulling_0.0",
