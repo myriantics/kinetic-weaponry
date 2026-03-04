@@ -4,7 +4,7 @@ import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricModelProvider;
 import net.minecraft.data.models.BlockModelGenerators;
 import net.minecraft.data.models.ItemModelGenerators;
-import net.myriantics.kinetic_weaponry.datagen.model.KWBlockModelGenerator;
+import net.myriantics.kinetic_weaponry.datagen.impl.model.KWBlockModelGenerator;
 
 public class KWModelProvider extends FabricModelProvider {
     public KWModelProvider(FabricDataOutput output) {

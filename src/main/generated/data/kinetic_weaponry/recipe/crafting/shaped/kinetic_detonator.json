@@ -1,0 +1,30 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "C": {
+      "item": "minecraft:chiseled_copper"
+    },
+    "H": {
+      "item": "minecraft:heavy_core"
+    },
+    "I": {
+      "item": "minecraft:copper_ingot"
+    },
+    "M": {
+      "item": "minecraft:tnt_minecart"
+    },
+    "R": {
+      "item": "minecraft:breeze_rod"
+    }
+  },
+  "pattern": [
+    "IHI",
+    "RMR",
+    "ICI"
+  ],
+  "result": {
+    "count": 1,
+    "id": "kinetic_weaponry:kinetic_detonator"
+  }
+}

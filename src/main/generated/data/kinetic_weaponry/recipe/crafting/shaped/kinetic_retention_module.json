@@ -1,27 +1,24 @@
 {
   "type": "minecraft:crafting_shaped",
-  "category": "combat",
+  "category": "misc",
   "key": {
-    "C": {
-      "item": "minecraft:copper_block"
-    },
-    "R": {
+    "B": {
       "item": "minecraft:breeze_rod"
+    },
+    "C": {
+      "item": "minecraft:chiseled_copper"
     },
     "H": {
       "item": "minecraft:heavy_core"
     },
-    "I": {
-      "item": "minecraft:copper_ingot"
-    },
-    "B": {
-      "item": "minecraft:copper_bulb"
+    "W": {
+      "item": "kinetic_weaponry:trial_weave"
     }
   },
   "pattern": [
-    "CHC",
-    "IRI",
-    "CBC"
+    " H ",
+    "BWB",
+    " C "
   ],
   "result": {
     "count": 1,

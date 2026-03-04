@@ -1,4 +1,4 @@
-package net.myriantics.kinetic_weaponry.datagen.tag;
+package net.myriantics.kinetic_weaponry.datagen.impl.tag;
 
 import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricTagProvider;
@@ -9,6 +9,7 @@ import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.tags.ItemTags;
 import net.minecraft.world.item.Item;
+import net.minecraft.world.item.Items;
 import net.myriantics.kinetic_weaponry.registry.item.KWItems;
 import net.myriantics.kinetic_weaponry.tag.KWBlockTags;
 import net.myriantics.kinetic_weaponry.tag.KWItemTags;
@@ -49,5 +50,15 @@ public class KWItemTagProvider extends FabricTagProvider<Item> {
         getOrCreateTagBuilder(KWItemTags.LESSER_KINETIC_RETENTION_MODULES)
                 .add(KWItems.CREATIVE_LESSER_KINETIC_RETENTION_MODULE)
                 .add(KWItems.LESSER_KINETIC_RETENTION_MODULE);
+        getOrCreateTagBuilder(KWItemTags.HEAT_SINKS)
+                .add(Items.COPPER_GRATE)
+                .add(Items.EXPOSED_COPPER_GRATE)
+                .add(Items.WEATHERED_COPPER_GRATE)
+                .add(Items.OXIDIZED_COPPER_GRATE)
+                .add(Items.WAXED_COPPER_GRATE)
+                .add(Items.WAXED_EXPOSED_COPPER_GRATE)
+                .add(Items.WAXED_WEATHERED_COPPER_GRATE)
+                .add(Items.WAXED_OXIDIZED_COPPER_GRATE)
+        ;
     }
 }

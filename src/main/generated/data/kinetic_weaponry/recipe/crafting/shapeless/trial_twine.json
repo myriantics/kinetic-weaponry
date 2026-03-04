@@ -1,0 +1,13 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "misc",
+  "ingredients": [
+    {
+      "item": "kinetic_weaponry:trial_weave"
+    }
+  ],
+  "result": {
+    "count": 4,
+    "id": "kinetic_weaponry:trial_twine"
+  }
+}

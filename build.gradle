@@ -22,6 +22,9 @@ repositories {
         name = 'ParchmentMC'
         url = 'https://maven.parchmentmc.org'
     }
+    maven {
+        url = 'https://www.jitpack.io'
+    }
 }
 
 base {
@@ -61,6 +64,9 @@ dependencies {
 
     // Fabric API. This is technically optional, but you probably want it anyway.
     modImplementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_api_version}"
+
+    // datagen go brrt
+    modApi "com.github.myriantics:myrror:0.0.4"
 }
 
 // Example configuration to allow publishing using the maven-publish plugin

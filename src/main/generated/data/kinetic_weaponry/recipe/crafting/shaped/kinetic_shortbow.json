@@ -1,24 +1,24 @@
 {
   "type": "minecraft:crafting_shaped",
-  "category": "combat",
+  "category": "equipment",
   "key": {
-    "C": {
-      "item": "minecraft:copper_grate"
-    },
     "B": {
       "item": "minecraft:breeze_rod"
+    },
+    "C": {
+      "tag": "kinetic_weaponry:heat_sinks"
     },
     "H": {
       "item": "minecraft:heavy_core"
     },
-    "S": {
-      "item": "minecraft:string"
+    "T": {
+      "item": "kinetic_weaponry:trial_twine"
     }
   },
   "pattern": [
-    "CBS",
-    "B S",
-    "HBS"
+    "CBT",
+    "B T",
+    "HBT"
   ],
   "result": {
     "count": 1,

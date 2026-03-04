@@ -1,4 +1,4 @@
-package net.myriantics.kinetic_weaponry.datagen.advancement;
+package net.myriantics.kinetic_weaponry.datagen.impl.advancement;
 
 import net.minecraft.advancements.*;
 import net.minecraft.advancements.critereon.InventoryChangeTrigger;

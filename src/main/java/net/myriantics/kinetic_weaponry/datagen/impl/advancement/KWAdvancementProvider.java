@@ -1,4 +1,4 @@
-package net.myriantics.kinetic_weaponry.datagen.advancement;
+package net.myriantics.kinetic_weaponry.datagen.impl.advancement;
 
 import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricAdvancementProvider;

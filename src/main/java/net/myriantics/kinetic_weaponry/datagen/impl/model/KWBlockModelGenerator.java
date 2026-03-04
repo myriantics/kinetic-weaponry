@@ -1,4 +1,4 @@
-package net.myriantics.kinetic_weaponry.datagen.model;
+package net.myriantics.kinetic_weaponry.datagen.impl.model;
 
 import net.minecraft.core.Direction;
 import net.minecraft.data.models.BlockModelGenerators;
