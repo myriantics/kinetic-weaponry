@@ -1,0 +1,73 @@
+{
+  "parent": "minecraft:item/generated",
+  "overrides": [
+    {
+      "model": "kinetic_weaponry:item/kinetic_shortbow/heat_unit_0.0_pulling_0.0",
+      "predicate": {
+        "kinetic_weaponry:heat_unit": 0.0,
+        "kinetic_weaponry:pulling": 0.0
+      }
+    },
+    {
+      "model": "kinetic_weaponry:item/kinetic_shortbow/heat_unit_0.1_pulling_0.0",
+      "predicate": {
+        "kinetic_weaponry:heat_unit": 0.1,
+        "kinetic_weaponry:pulling": 0.0
+      }
+    },
+    {
+      "model": "kinetic_weaponry:item/kinetic_shortbow/heat_unit_0.2_pulling_0.0",
+      "predicate": {
+        "kinetic_weaponry:heat_unit": 0.2,
+        "kinetic_weaponry:pulling": 0.0
+      }
+    },
+    {
+      "model": "kinetic_weaponry:item/kinetic_shortbow/heat_unit_0.0_pulling_0.65",
+      "predicate": {
+        "kinetic_weaponry:heat_unit": 0.0,
+        "kinetic_weaponry:pulling": 0.65
+      }
+    },
+    {
+      "model": "kinetic_weaponry:item/kinetic_shortbow/heat_unit_0.1_pulling_0.65",
+      "predicate": {
+        "kinetic_weaponry:heat_unit": 0.1,
+        "kinetic_weaponry:pulling": 0.65
+      }
+    },
+    {
+      "model": "kinetic_weaponry:item/kinetic_shortbow/heat_unit_0.2_pulling_0.65",
+      "predicate": {
+        "kinetic_weaponry:heat_unit": 0.2,
+        "kinetic_weaponry:pulling": 0.65
+      }
+    },
+    {
+      "model": "kinetic_weaponry:item/kinetic_shortbow/heat_unit_0.0_pulling_0.95",
+      "predicate": {
+        "kinetic_weaponry:heat_unit": 0.0,
+        "kinetic_weaponry:pulling": 0.95
+      }
+    },
+    {
+      "model": "kinetic_weaponry:item/kinetic_shortbow/heat_unit_0.1_pulling_0.95",
+      "predicate": {
+        "kinetic_weaponry:heat_unit": 0.1,
+        "kinetic_weaponry:pulling": 0.95
+      }
+    },
+    {
+      "model": "kinetic_weaponry:item/kinetic_shortbow/heat_unit_0.2_pulling_0.95",
+      "predicate": {
+        "kinetic_weaponry:heat_unit": 0.2,
+        "kinetic_weaponry:pulling": 0.95
+      }
+    }
+  ],
+  "textures": {
+    "layer0": "kinetic_weaponry:item/kinetic_shortbow/heat_sink_inert",
+    "layer1": "kinetic_weaponry:item/kinetic_shortbow/base_pulling_0",
+    "layer2": "kinetic_weaponry:item/kinetic_shortbow/heavy_core_static"
+  }
+}

@@ -2,7 +2,10 @@ package net.myriantics.kinetic_weaponry.datagen.impl.model;
 
 import net.minecraft.core.Direction;
 import net.minecraft.data.models.BlockModelGenerators;
-import net.minecraft.data.models.blockstates.*;
+import net.minecraft.data.models.blockstates.MultiVariantGenerator;
+import net.minecraft.data.models.blockstates.PropertyDispatch;
+import net.minecraft.data.models.blockstates.Variant;
+import net.minecraft.data.models.blockstates.VariantProperties;
 import net.minecraft.data.models.model.*;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.block.Block;
@@ -11,25 +14,19 @@ import net.minecraft.world.level.block.state.properties.IntegerProperty;
 import net.myriantics.kinetic_weaponry.block.retention_module.lesser.LesserKineticRetentionModuleBlock;
 import net.myriantics.kinetic_weaponry.block.retention_module.standard.StandardKineticRetentionModuleBlock;
 import net.myriantics.kinetic_weaponry.block.trial_weave.TrialWeaveBlock;
-import net.myriantics.kinetic_weaponry.datagen.KWModelProvider;
 import net.myriantics.kinetic_weaponry.mechanics.kinetic_charge.KineticBlock;
 import net.myriantics.kinetic_weaponry.registry.block.KWBlocks;
 import net.myriantics.kinetic_weaponry.registry.render.KWModelTemplates;
-import net.myriantics.kinetic_weaponry.registry.render.KWTexturedModels;
-import org.jetbrains.annotations.Nullable;
+import net.myriantics.myrror.datagen.template.model.MyrrorBlockModelSubProvider;
+import net.myriantics.myrror.datagen.template.model.MyrrorModelProvider;
 
-import java.util.function.UnaryOperator;
-
-public class KWBlockModelGenerator {
-    public final BlockModelGenerators generator;
-    public final KWModelProvider provider;
-
-    public KWBlockModelGenerator(BlockModelGenerators generator, KWModelProvider provider) {
-        this.generator = generator;
-        this.provider = provider;
+public class KWBlockModelProvider extends MyrrorBlockModelSubProvider {
+    public KWBlockModelProvider(MyrrorModelProvider provider, BlockModelGenerators generators) {
+        super(provider, generators);
     }
 
-    public void generateModels() {
+    @Override
+    public void generate() {
         generateFacing(KWBlocks.KINETIC_DETONATOR);
 
         generateKineticRetentionModule(KWBlocks.KINETIC_RETENTION_MODULE, StandardKineticRetentionModuleBlock.KINETIC_CHARGE, KWModelTemplates.STANDARD_KINETIC_RETENTION_MODULE);
@@ -41,37 +38,37 @@ public class KWBlockModelGenerator {
     }
 
     private void generateFacing(Block block) {
-        ResourceLocation resourceLocation = TexturedModel.CUBE_TOP_BOTTOM.create(block, this.generator.modelOutput);
-        this.generator.blockStateOutput.accept(MultiVariantGenerator.multiVariant(block, Variant.variant().with(VariantProperties.MODEL, resourceLocation)).with(createUpDefaultRotationStates()));
-        this.generator.delegateItemModel(block, resourceLocation);
+        ResourceLocation resourceLocation = TexturedModel.CUBE_TOP_BOTTOM.create(block, this.generators.modelOutput);
+        this.generators.blockStateOutput.accept(MultiVariantGenerator.multiVariant(block, Variant.variant().with(VariantProperties.MODEL, resourceLocation)).with(createUpDefaultRotationStates()));
+        this.generators.delegateItemModel(block, resourceLocation);
     }
 
     private void generateTrialWeave(Block block) {
-        ResourceLocation idleModel = TexturedModel.createDefault((b)-> TextureMapping.cube(TextureMapping.getBlockTexture(b, "_idle")), ModelTemplates.CUBE_ALL).createWithSuffix(block, "_idle", generator.modelOutput);
-        ResourceLocation triggeredModel = TexturedModel.createDefault((b)-> TextureMapping.cube(TextureMapping.getBlockTexture(b, "_triggered")), ModelTemplates.CUBE_ALL).createWithSuffix(block, "_triggered", generator.modelOutput);
-        generator.delegateItemModel(block, idleModel);
+        ResourceLocation idleModel = TexturedModel.createDefault((b)-> TextureMapping.cube(TextureMapping.getBlockTexture(b, "_idle")), ModelTemplates.CUBE_ALL).createWithSuffix(block, "_idle", generators.modelOutput);
+        ResourceLocation triggeredModel = TexturedModel.createDefault((b)-> TextureMapping.cube(TextureMapping.getBlockTexture(b, "_triggered")), ModelTemplates.CUBE_ALL).createWithSuffix(block, "_triggered", generators.modelOutput);
+        generators.delegateItemModel(block, idleModel);
 
-        generator.blockStateOutput.accept(
+        generators.blockStateOutput.accept(
                 MultiVariantGenerator.multiVariant(
                         block,
                         Variant.variant().with(VariantProperties.MODEL, idleModel)
                 ).with(PropertyDispatch.property(TrialWeaveBlock.TRIGGERED)
                         .select(false, Variant.variant().with(VariantProperties.MODEL, idleModel))
                         .select(true, Variant.variant().with(VariantProperties.MODEL, triggeredModel))
-        ));
+                ));
     }
 
     private void generateKineticRetentionModule(Block block, IntegerProperty property, ModelTemplate template) {
         KineticBlock kineticBlock = (KineticBlock) block;
-        ResourceLocation[] charge2Ids = kineticBlock.getMaxCharge() > 0 ? new ResourceLocation[kineticBlock.getMaxCharge() + 1] : new ResourceLocation[] {TexturedModel.createDefault(TextureMapping::cubeBottomTop, template).create(block, generator.modelOutput)};
+        ResourceLocation[] charge2Ids = kineticBlock.getMaxCharge() > 0 ? new ResourceLocation[kineticBlock.getMaxCharge() + 1] : new ResourceLocation[] {TexturedModel.createDefault(TextureMapping::cubeBottomTop, template).create(block, generators.modelOutput)};
         for (int i = 0; i < charge2Ids.length; i++) {
             int finalI = i;
             charge2Ids[i] = TexturedModel.createDefault(
                     block1 -> TextureMapping.cubeBottomTop(block1).put(TextureSlot.SIDE, TextureMapping.getBlockTexture(block1, "_side_charge_" + finalI)),
                     template
-            ).createWithSuffix(block, "/charge_" + i, generator.modelOutput);
+            ).createWithSuffix(block, "/charge_" + i, generators.modelOutput);
         }
-        generator.delegateItemModel(block, charge2Ids[0]);
+        generators.delegateItemModel(block, charge2Ids[0]);
 
         MultiVariantGenerator variantGenerator = MultiVariantGenerator.multiVariant(
                 block,
@@ -89,7 +86,7 @@ public class KWBlockModelGenerator {
             variantGenerator.with(dispatch);
         }
 
-        generator.blockStateOutput.accept(
+        generators.blockStateOutput.accept(
                 variantGenerator
         );
     }

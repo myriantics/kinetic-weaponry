@@ -1,6 +1,0 @@
-{
-    "parent": "kinetic_weaponry:item/kinetic_shortbow",
-    "textures": {
-        "layer0": "kinetic_weaponry:item/kinetic_shortbow/kinetic_shortbow_heat_sink_hottest"
-    }
-}

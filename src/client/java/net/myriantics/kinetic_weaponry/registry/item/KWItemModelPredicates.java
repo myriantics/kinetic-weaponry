@@ -7,22 +7,23 @@ import net.myriantics.kinetic_weaponry.KWCommon;
 import net.myriantics.kinetic_weaponry.mechanics.kinetic_charge.KineticItem;
 import net.myriantics.kinetic_weaponry.item.equipment.KineticShortbowItem;
 import net.myriantics.kinetic_weaponry.mechanics.weapon_heat.OverheatWeapon;
+import net.myriantics.kinetic_weaponry.registry.render.KWItemModelPredicateIds;
 
 public class KWItemModelPredicates {
     public static void init() {
-        registerSomethingOrOther("kinetic_charge", (itemStack, clientLevel, livingEntity, i) ->
+        register(KWItemModelPredicateIds.KINETIC_CHARGE, (itemStack, clientLevel, livingEntity, i) ->
             itemStack.getItem() instanceof KineticItem storage
                     ? (float) storage.getCharge(itemStack) / storage.getMaxCharge(itemStack)
                     : 0
         );
 
-        registerSomethingOrOther("heat_unit", (itemStack, clientLevel, livingEntity, i) ->
+        register(KWItemModelPredicateIds.HEAT_UNIT, (itemStack, clientLevel, livingEntity, i) ->
                 itemStack.getItem() instanceof OverheatWeapon weapon
-                        ? weapon.getHeatUnits(itemStack)
+                        ? (float) weapon.getHeatUnits(itemStack) / weapon.getMaxHeatUnits(itemStack)
                         : 0f
         );
 
-        ItemProperties.register(KWItems.KINETIC_SHORTBOW, ResourceLocation.withDefaultNamespace("pull"), (usedStack, clientLevel, livingEntity, i) -> {
+        ItemProperties.register(KWItems.KINETIC_SHORTBOW, KWItemModelPredicateIds.PULL, (usedStack, clientLevel, livingEntity, i) -> {
             if (livingEntity == null) {
                 return 0.0F;
             } else {
@@ -33,7 +34,7 @@ public class KWItemModelPredicates {
             }
         });
 
-        ItemProperties.register(KWItems.KINETIC_SHORTBOW, ResourceLocation.withDefaultNamespace("pulling"), (usedStack, clientLevel, livingEntity, i) -> {
+        ItemProperties.register(KWItems.KINETIC_SHORTBOW, KWItemModelPredicateIds.PULLING, (usedStack, clientLevel, livingEntity, i) -> {
             return livingEntity != null
                     && KineticShortbowItem.canFire(livingEntity, usedStack)
                     && livingEntity.isUsingItem()
@@ -41,7 +42,7 @@ public class KWItemModelPredicates {
         });
     }
 
-    private static void registerSomethingOrOther(String id, ClampedItemPropertyFunction fun) {
-        ItemProperties.registerGeneric(KWCommon.locate(id), fun);
+    private static void register(ResourceLocation id, ClampedItemPropertyFunction fun) {
+        ItemProperties.registerGeneric(id, fun);
     }
 }
