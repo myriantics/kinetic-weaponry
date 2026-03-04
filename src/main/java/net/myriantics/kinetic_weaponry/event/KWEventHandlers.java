@@ -17,6 +17,7 @@ import net.minecraft.world.level.Explosion;
 import net.minecraft.world.level.Level;
 import net.myriantics.kinetic_weaponry.mechanics.kinetic_charge.KineticBlock;
 import net.myriantics.kinetic_weaponry.mechanics.kinetic_charge.KineticImpactType;
+import net.myriantics.kinetic_weaponry.registry.advancement.KWAdvancementTriggers;
 
 public class KWEventHandlers {
 
@@ -27,6 +28,9 @@ public class KWEventHandlers {
 
             float impactDamage = Items.MACE.getAttackDamageBonus(player, 0, Explosion.getDefaultDamageSource(level, player));
             if (impactDamage > 0) {
+                if (player instanceof ServerPlayer serverPlayer) {
+                    KWAdvancementTriggers.triggerKineticImpact(serverPlayer, serverPlayer.serverLevel(), blockPos);
+                }
                 bonkedBlock.onImpact(level, blockPos, targetState, player, direction.getOpposite(), KineticImpactType.MACE, impactDamage);
 
                 if (player instanceof ServerPlayer serverPlayer) {
