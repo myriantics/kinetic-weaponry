@@ -2,66 +2,66 @@
   "parent": "kinetic_weaponry:item/kinetic_shortbow_parent",
   "overrides": [
     {
-      "model": "kinetic_weaponry:item/kinetic_shortbow/heat_unit_0.0_pulling_0.0",
+      "model": "kinetic_weaponry:item/kinetic_shortbow/heat_unit_0.0_pull_progress_0.0",
       "predicate": {
         "kinetic_weaponry:heat_unit": 0.0,
-        "kinetic_weaponry:pulling": 0.0
+        "kinetic_weaponry:pull_progress": 0.0
       }
     },
     {
-      "model": "kinetic_weaponry:item/kinetic_shortbow/heat_unit_0.1_pulling_0.0",
+      "model": "kinetic_weaponry:item/kinetic_shortbow/heat_unit_0.1_pull_progress_0.0",
       "predicate": {
         "kinetic_weaponry:heat_unit": 0.1,
-        "kinetic_weaponry:pulling": 0.0
+        "kinetic_weaponry:pull_progress": 0.0
       }
     },
     {
-      "model": "kinetic_weaponry:item/kinetic_shortbow/heat_unit_0.2_pulling_0.0",
+      "model": "kinetic_weaponry:item/kinetic_shortbow/heat_unit_0.2_pull_progress_0.0",
       "predicate": {
         "kinetic_weaponry:heat_unit": 0.2,
-        "kinetic_weaponry:pulling": 0.0
+        "kinetic_weaponry:pull_progress": 0.0
       }
     },
     {
-      "model": "kinetic_weaponry:item/kinetic_shortbow/heat_unit_0.0_pulling_0.65",
+      "model": "kinetic_weaponry:item/kinetic_shortbow/heat_unit_0.0_pull_progress_0.65",
       "predicate": {
         "kinetic_weaponry:heat_unit": 0.0,
-        "kinetic_weaponry:pulling": 0.65
+        "kinetic_weaponry:pull_progress": 0.65
       }
     },
     {
-      "model": "kinetic_weaponry:item/kinetic_shortbow/heat_unit_0.1_pulling_0.65",
+      "model": "kinetic_weaponry:item/kinetic_shortbow/heat_unit_0.1_pull_progress_0.65",
       "predicate": {
         "kinetic_weaponry:heat_unit": 0.1,
-        "kinetic_weaponry:pulling": 0.65
+        "kinetic_weaponry:pull_progress": 0.65
       }
     },
     {
-      "model": "kinetic_weaponry:item/kinetic_shortbow/heat_unit_0.2_pulling_0.65",
+      "model": "kinetic_weaponry:item/kinetic_shortbow/heat_unit_0.2_pull_progress_0.65",
       "predicate": {
         "kinetic_weaponry:heat_unit": 0.2,
-        "kinetic_weaponry:pulling": 0.65
+        "kinetic_weaponry:pull_progress": 0.65
       }
     },
     {
-      "model": "kinetic_weaponry:item/kinetic_shortbow/heat_unit_0.0_pulling_0.95",
+      "model": "kinetic_weaponry:item/kinetic_shortbow/heat_unit_0.0_pull_progress_0.95",
       "predicate": {
         "kinetic_weaponry:heat_unit": 0.0,
-        "kinetic_weaponry:pulling": 0.95
+        "kinetic_weaponry:pull_progress": 0.95
       }
     },
     {
-      "model": "kinetic_weaponry:item/kinetic_shortbow/heat_unit_0.1_pulling_0.95",
+      "model": "kinetic_weaponry:item/kinetic_shortbow/heat_unit_0.1_pull_progress_0.95",
       "predicate": {
         "kinetic_weaponry:heat_unit": 0.1,
-        "kinetic_weaponry:pulling": 0.95
+        "kinetic_weaponry:pull_progress": 0.95
       }
     },
     {
-      "model": "kinetic_weaponry:item/kinetic_shortbow/heat_unit_0.2_pulling_0.95",
+      "model": "kinetic_weaponry:item/kinetic_shortbow/heat_unit_0.2_pull_progress_0.95",
       "predicate": {
         "kinetic_weaponry:heat_unit": 0.2,
-        "kinetic_weaponry:pulling": 0.95
+        "kinetic_weaponry:pull_progress": 0.95
       }
     }
   ],

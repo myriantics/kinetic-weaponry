@@ -2,9 +2,7 @@ package net.myriantics.kinetic_weaponry.datagen.impl.model;
 
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.data.models.ItemModelGenerators;
-import net.minecraft.data.models.model.ModelTemplates;
 import net.minecraft.data.models.model.TextureSlot;
-import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.myriantics.kinetic_weaponry.registry.item.KWItems;
 import net.myriantics.kinetic_weaponry.registry.render.KWItemModelPredicateIds;
@@ -46,7 +44,7 @@ public class KWItemModelProvider extends MyrrorItemModelSubProvider {
                         .add(10f/100, KWTextures.KINETIC_SHORTBOW_HEAT_SINK_HOT)
                         .add(20f/100, KWTextures.KINETIC_SHORTBOW_HEAT_SINK_HOTTEST)
                         .endOverride()
-                        .textureOverride(KWItemModelPredicateIds.PULLING, layer1.getId())
+                        .textureOverride(KWItemModelPredicateIds.PULL_PROGRESS, layer1.getId())
                         .add(0.0f, KWTextures.KINETIC_SHORTBOW_BASE_PULLING_0)
                         .add(0.65f, KWTextures.KINETIC_SHORTBOW_BASE_PULLING_1)
                         .add(0.95f, KWTextures.KINETIC_SHORTBOW_BASE_PULLING_2)

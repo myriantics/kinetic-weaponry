@@ -15,6 +15,7 @@
   "tooltip.kinetic_weaponry.kinetic_charge.infinite": "Infinite Kinetic Charge",
   "tooltip.kinetic_weaponry.kinetic_charge": "Kinetic Charge: [%1$s / %2$s]",
   "tooltip.kinetic_weaponry.heat": "Heat: [%1$s / %2$s]",
+  "tooltip.kinetic_weaponry.heat.immune": "Heat Immune",
   "subtitles.entity.kinetic_shortbow.shoot": "Kinetic Shortbow Fires",
   "subtitles.item.kinetic_charge_item.kinetic_recharge": "Kinetic Item Recharged",
   "subtitles.block.kinetic_charging_bus.discharge": "Kinetic Charging Bus Discharges",

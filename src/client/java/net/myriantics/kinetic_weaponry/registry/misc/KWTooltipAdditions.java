@@ -31,7 +31,11 @@ public class KWTooltipAdditions {
         });
         register((tooltipContext, player, stack, tooltipFlag) -> {
             if (stack.getItem() instanceof OverheatWeapon overheatWeapon) {
-                return Component.translatable("tooltip.kinetic_weaponry.heat", overheatWeapon.getHeatUnits(stack), overheatWeapon.getMaxHeatUnits(stack));
+                if (overheatWeapon.getMaxHeatUnits(stack) == 0) {
+                    return Component.translatable("tooltip.kinetic_weaponry.heat.immune");
+                } else {
+                    return Component.translatable("tooltip.kinetic_weaponry.heat", overheatWeapon.getHeatUnits(stack), overheatWeapon.getMaxHeatUnits(stack));
+                }
             } else {
                 return null;
             }

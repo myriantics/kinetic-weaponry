@@ -7,8 +7,7 @@ public abstract class KWItemModelPredicateIds {
 
     public static final ResourceLocation KINETIC_CHARGE = of("kinetic_charge");
     public static final ResourceLocation HEAT_UNIT = of("heat_unit");
-    public static final ResourceLocation PULLING = of("pulling");
-    public static final ResourceLocation PULL = of("pull");
+    public static final ResourceLocation PULL_PROGRESS = of("pull_progress");
 
     private static ResourceLocation of(String name) {
         return KWCommon.locate(name);

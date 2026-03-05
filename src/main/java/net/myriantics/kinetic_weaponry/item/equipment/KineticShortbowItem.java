@@ -69,7 +69,9 @@ public class KineticShortbowItem extends ProjectileWeaponItem implements Kinetic
         // there's a windup for the rapid "fuller auto" fire
         // so this lets you do quick instant shots
         if (player instanceof ServerPlayer serverPlayer && isPressed && updated) {
-            this.fireProjectile(serverPlayer);
+            if (!tryFireProjectile(serverPlayer)) {
+                player.stopUsingItem();
+            }
         }
 
         return updated;
@@ -87,7 +89,9 @@ public class KineticShortbowItem extends ProjectileWeaponItem implements Kinetic
                         && usageTicks % 3 == 0
                         // so you can do individual shots if you want
                         && usageTicks - attackUseStartTicks > STARTUP_TIME_TICKS) {
-                    fireProjectile(player);
+                    if (!tryFireProjectile(player)) {
+                        player.stopUsingItem();
+                    }
                 }
             }
         }
@@ -97,7 +101,10 @@ public class KineticShortbowItem extends ProjectileWeaponItem implements Kinetic
 
     @Override
     public void inventoryTick(ItemStack stack, Level level, Entity entity, int slotId, boolean isSelected) {
-        this.tickHeat(entity, stack);
+        // don't decrement heat if it's being actively used
+        if (!(entity instanceof LivingEntity livingEntity) || livingEntity.getUseItem() != stack) {
+            this.tickHeat(entity, stack);
+        }
     }
 
     @Override
@@ -120,7 +127,7 @@ public class KineticShortbowItem extends ProjectileWeaponItem implements Kinetic
         }
     }
 
-    private void fireProjectile(ServerPlayer player) {
+    private boolean tryFireProjectile(ServerPlayer player) {
         InteractionHand hand = player.getUsedItemHand();
         ServerLevel level = (ServerLevel) player.level();
         ItemStack shortbowStack = player.getItemInHand(hand);
@@ -148,7 +155,9 @@ public class KineticShortbowItem extends ProjectileWeaponItem implements Kinetic
                 // add a heat unit
                 this.addHeatUnits(shortbowStack, 1);
 
+                int maxHeatUnits = this.getMaxHeatUnits(shortbowStack);
                 int heatUnits = this.getHeatUnits(shortbowStack);
+                float heatRatio = maxHeatUnits == 0 ? 0 : (float) heatUnits / maxHeatUnits;
 
                 for (int threshold : this.getHeatSoundThresholds(shortbowStack)) {
                     if (heatUnits == threshold) {
@@ -160,12 +169,12 @@ public class KineticShortbowItem extends ProjectileWeaponItem implements Kinetic
                                 KWSounds.KINETIC_SHORTBOW_OVERHEAT,
                                 SoundSource.PLAYERS,
                                 1.0F,
-                                1.0F / (level.getRandom().nextFloat() * 0.4F + 2.4F) * 0.5F + (float) 0.05 * heatUnits
+                                1.0F / (level.getRandom().nextFloat() * 0.4F + 2.4F) * 0.5F + 0.5f * heatRatio
                         );
                     }
                 }
 
-                this.shoot(level, player, hand, shortbowStack, projectiles, OUTPUT_VELOCITY, heatUnits * 0.2f, false, null);
+                this.shoot(level, player, hand, shortbowStack, projectiles, OUTPUT_VELOCITY, 0.05f + 0.95f * heatRatio, false, null);
                 level.playSound(
                         null,
                         player.getX(),
@@ -174,12 +183,12 @@ public class KineticShortbowItem extends ProjectileWeaponItem implements Kinetic
                         KWSounds.KINETIC_SHORTBOW_SHOOT,
                         SoundSource.PLAYERS,
                         1.0F,
-                        1.0F / (level.getRandom().nextFloat() * 0.4F + 2.4F) * 0.5F + (float) 0.05 * heatUnits
+                        1.0F / (level.getRandom().nextFloat() * 0.4F + 2.4F) * 0.5F + 0.5f * heatRatio
                 );
-            } else if (!player.isCreative()) {
-                interruptUsage(player, shortbowStack);
+                return true;
             }
         }
+        return false;
     }
 
     private static void interruptUsage(ServerPlayer player, ItemStack usedStack) {
@@ -212,7 +221,17 @@ public class KineticShortbowItem extends ProjectileWeaponItem implements Kinetic
         return original;
     }
 
-    public static boolean canFire(LivingEntity livingEntity, ItemStack usedStack) {
+    public boolean canFire(LivingEntity livingEntity, ItemStack usedStack) {
         return (livingEntity.hasInfiniteMaterials() || (usedStack.getItem() instanceof KineticItem storage && storage.getCharge(usedStack) > 0));
+    }
+
+    /**
+     * Assumes that this is the item that said LivingEntity is using
+     * @param livingEntity The entity using the item
+     * @param usedStack The Kinetic Shortbow's stack
+     * @return Float from 0 to 1 representing charge progress.
+     */
+    public float getChargeProgress(LivingEntity livingEntity, ItemStack usedStack) {
+        return ((float) this.getUseDuration(usedStack, livingEntity) - livingEntity.getUseItemRemainingTicks()) / STARTUP_TIME_TICKS;
     }
 }
