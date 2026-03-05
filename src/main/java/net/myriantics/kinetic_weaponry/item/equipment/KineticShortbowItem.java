@@ -106,10 +106,7 @@ public class KineticShortbowItem extends ProjectileWeaponItem implements Kinetic
 
     @Override
     public void inventoryTick(ItemStack stack, Level level, Entity entity, int slotId, boolean isSelected) {
-        // don't decrement heat if it's being actively used
-        if (!(entity instanceof LivingEntity livingEntity) || livingEntity.getUseItem() != stack) {
-            this.tickHeat(entity, stack);
-        }
+        this.tickHeat(entity, stack);
     }
 
     @Override
@@ -158,7 +155,9 @@ public class KineticShortbowItem extends ProjectileWeaponItem implements Kinetic
                 }
 
                 // add a heat unit
-                this.addHeatUnits(shortbowStack, 1);
+                if (!player.isInWaterOrRain()) {
+                    this.addHeatUnits(shortbowStack, 1);
+                }
 
                 int maxHeatUnits = this.getMaxHeatUnits(shortbowStack);
                 int heatUnits = this.getHeatUnits(shortbowStack);
