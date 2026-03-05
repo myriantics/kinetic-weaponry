@@ -36,14 +36,11 @@ public class KWItemModelPredicates {
         });
 
         ItemProperties.register(KWItems.KINETIC_SHORTBOW, KWItemModelPredicateIds.PULL_PROGRESS, (usedStack, clientLevel, livingEntity, i) -> {
-            if (livingEntity == null) {
+            if (livingEntity == null || livingEntity.getUseItem() != usedStack) {
                 return 0.0F;
             } else {
                 KineticShortbowItem shortbow = ((KineticShortbowItem) usedStack.getItem());
-                // if used stack matches and is charged
-                return shortbow.canFire(livingEntity, usedStack) && livingEntity.getUseItem().equals(usedStack)
-                        ? shortbow.getChargeProgress(livingEntity, usedStack)
-                        : 0.0f;
+                return shortbow.getChargeProgress(livingEntity, usedStack);
             }
         });
     }

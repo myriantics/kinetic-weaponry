@@ -5,7 +5,8 @@
   "mixins": [
     "FallingBlockEntityMixin",
     "PistonBaseBlockMixin",
-    "PistonStructureResolverMixin"
+    "PistonStructureResolverMixin",
+    "ThrownPotionEntityMixin"
   ],
   "injectors": {
     "defaultRequire": 1
