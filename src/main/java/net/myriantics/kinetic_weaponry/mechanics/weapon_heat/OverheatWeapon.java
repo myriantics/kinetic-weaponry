@@ -69,8 +69,8 @@ public interface OverheatWeapon {
         if (entity.tickCount % 20 == 0 && oldHeatUnits > 0) {
             if (!level.isClientSide()) {
                 // don't decrement heat while using
-                if (entity instanceof LivingEntity livingEntity && livingEntity.getUseItem() == stack) {
-                    if (heatRatio > IGNITION_THRESHOLD) {
+                if (!this.allowHeatDissipation(entity, stack)) {
+                    if (entity instanceof LivingEntity livingEntity && heatRatio > IGNITION_THRESHOLD) {
                         livingEntity.igniteForTicks((int) (40f * heatRatio));
                     }
                 } else {
@@ -95,4 +95,6 @@ public interface OverheatWeapon {
             }
         }
     }
+
+    boolean allowHeatDissipation(Entity entity, ItemStack stack);
 }

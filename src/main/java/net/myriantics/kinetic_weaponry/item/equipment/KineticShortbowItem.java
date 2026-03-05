@@ -17,6 +17,7 @@ import net.minecraft.world.entity.projectile.Projectile;
 import net.minecraft.world.item.*;
 import net.minecraft.world.level.Level;
 import net.myriantics.kinetic_weaponry.registry.item.KWDataComponents;
+import net.myriantics.kinetic_weaponry.registry.misc.KWAttachmentTypes;
 import net.myriantics.kinetic_weaponry.registry.misc.KWSounds;
 import org.jetbrains.annotations.Nullable;
 
@@ -237,5 +238,14 @@ public class KineticShortbowItem extends ProjectileWeaponItem implements Kinetic
      */
     public float getChargeProgress(LivingEntity livingEntity, ItemStack usedStack) {
         return ((float) this.getUseDuration(usedStack, livingEntity) - livingEntity.getUseItemRemainingTicks()) / STARTUP_TIME_TICKS;
+    }
+
+    @Override
+    public boolean allowHeatDissipation(Entity entity, ItemStack stack) {
+        if (!(entity instanceof LivingEntity livingEntity)) {
+            return true;
+        }
+
+        return !(livingEntity.getUseItem() == stack && livingEntity.getAttachedOrElse(KWAttachmentTypes.ATTACK_KEY_DOWN, false));
     }
 }
