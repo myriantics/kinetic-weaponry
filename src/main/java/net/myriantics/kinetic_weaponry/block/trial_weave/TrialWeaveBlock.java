@@ -72,12 +72,12 @@ public class TrialWeaveBlock extends Block implements KineticBlock {
         for (int i = 0; i < 8; i++) {
             BlockPos targetPos = mutable.move(conductionDirection).immutable();
             BlockState targetState = level.getBlockState(targetPos);
-            if (targetState.getBlock() instanceof TrialWeaveBlock) {
+            if (targetState.getBlock() instanceof TrialWeaveBlock trialWeaveBlock) {
                 // don't cascade kinetic charge transfers to other trial weave blocks because that causes recursive fuckery
-                if (this.canConduct(targetState)) {
-                    this.trigger(level, targetPos, targetState);
+                if (trialWeaveBlock.canConduct(targetState)) {
+                    trialWeaveBlock.trigger(level, targetPos, targetState);
                 } else {
-                    return;
+                    continue;
                 }
             } else if (targetState.getBlock() instanceof KineticBlock kineticBlock && kineticBlock.acceptsInput(level, targetPos, targetState, KineticImpactType.KINETIC_CHARGE_TRANSFER, conductionDirection)) {
                 kineticBlock.addCharge(level, targetPos, targetState, inboundCharge);
