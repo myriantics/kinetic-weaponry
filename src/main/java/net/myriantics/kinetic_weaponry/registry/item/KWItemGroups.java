@@ -29,8 +29,10 @@ public class KWItemGroups {
                     output.accept(KWItems.CREATIVE_LESSER_KINETIC_RETENTION_MODULE);
 
                     // trial twine & weave
+                    output.accept(KWItems.TRIAL_TWINE);
                     output.accept(KWItems.TRIAL_WEAVE);
 
+                    // equipment
                     output.accept(KWItems.KINETIC_SHORTBOW);
                 });
             }
