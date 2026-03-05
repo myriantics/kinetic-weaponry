@@ -3,6 +3,7 @@ package net.myriantics.kinetic_weaponry.item.equipment;
 import net.minecraft.core.component.TypedDataComponent;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundSource;
+import net.minecraft.util.Mth;
 import net.myriantics.kinetic_weaponry.mechanics.attack_use.AttackUseItem;
 import net.myriantics.kinetic_weaponry.mechanics.weapon_heat.OverheatWeapon;
 import net.myriantics.kinetic_weaponry.mechanics.kinetic_charge.KineticItem;
@@ -26,6 +27,7 @@ import java.util.function.Predicate;
 public class KineticShortbowItem extends ProjectileWeaponItem implements KineticItem, OverheatWeapon, AttackUseItem {
 
     public static final float OUTPUT_VELOCITY = 5.0f;
+    private static final float MAX_HEAT_INACCURACY_RADIUS = 10.0f;
     public static final int RANGE = 20;
 
     public static final int STARTUP_TIME_TICKS = 6;
@@ -47,8 +49,11 @@ public class KineticShortbowItem extends ProjectileWeaponItem implements Kinetic
     }
 
     @Override
-    protected void shootProjectile(LivingEntity livingEntity, Projectile projectile, int index, float velocity, float angle, float inaccuracy, @Nullable LivingEntity target) {
-        projectile.shootFromRotation(livingEntity, livingEntity.getXRot(), livingEntity.getYRot() + angle, 0.0F, velocity, inaccuracy);
+    protected void shootProjectile(LivingEntity shooter, Projectile projectile, int index, float velocity, float inaccuracy, float angle, @Nullable LivingEntity target) {
+        float xRot = shooter.getXRot() + Mth.randomBetween(shooter.getRandom(), -inaccuracy, inaccuracy);
+        float yRot = shooter.getYRot() + angle + Mth.randomBetween(shooter.getRandom(), -inaccuracy, inaccuracy);
+
+        projectile.shootFromRotation(shooter, xRot, yRot, 0.0F, velocity, 0);
     }
 
     @Override
@@ -174,7 +179,7 @@ public class KineticShortbowItem extends ProjectileWeaponItem implements Kinetic
                     }
                 }
 
-                this.shoot(level, player, hand, shortbowStack, projectiles, OUTPUT_VELOCITY, 0.05f + 0.95f * heatRatio, false, null);
+                this.shoot(level, player, hand, shortbowStack, projectiles, OUTPUT_VELOCITY, MAX_HEAT_INACCURACY_RADIUS * 0.05f + MAX_HEAT_INACCURACY_RADIUS * 0.95f * heatRatio, false, null);
                 level.playSound(
                         null,
                         player.getX(),
