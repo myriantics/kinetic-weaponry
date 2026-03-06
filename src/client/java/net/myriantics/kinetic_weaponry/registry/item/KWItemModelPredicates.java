@@ -40,7 +40,7 @@ public class KWItemModelPredicates {
                 return 0.0F;
             } else {
                 KineticShortbowItem shortbow = ((KineticShortbowItem) usedStack.getItem());
-                return shortbow.getChargeProgress(livingEntity, usedStack);
+                return shortbow.getDrawProgress(livingEntity, usedStack);
             }
         });
     }

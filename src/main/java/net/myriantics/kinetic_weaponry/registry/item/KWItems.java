@@ -98,6 +98,7 @@ public class KWItems {
                     .component(KWDataComponents.MAX_HEAT_UNITS, 100)
                     .component(KWDataComponents.HEAT_UNIT_DISSIPATION_RATE, OverheatWeapon.DEFAULT_HEAT_UNIT_DISSIPATION_RATE)
                     .component(KWDataComponents.HEAT_SOUND_THRESHOLDS, List.of(KineticShortbowItem.HEAT_UNIT_HOT_THRESHOLD, KineticShortbowItem.HEAT_UNIT_HOTTEST_THRESHOLD))
+                    .component(KWDataComponents.KINETIC_SHORTBOW_CONFIG, KineticShortbowItem.DEFAULT)
                     .stacksTo(1)
                     .rarity(Rarity.EPIC)
     );

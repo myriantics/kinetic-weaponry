@@ -4,9 +4,11 @@ import net.minecraft.core.Registry;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
+import net.minecraft.world.item.Item;
 import net.myriantics.kinetic_weaponry.KWCommon;
+import net.myriantics.kinetic_weaponry.registry.item.KWItems;
 
-public class KWSounds {
+public abstract class KWSounds {
     public static final SoundEvent KINETIC_SHORTBOW_SHOOT = register(
             "entity.kinetic_shortbow.shoot",
             SoundEvents.ARROW_SHOOT
@@ -27,6 +29,15 @@ public class KWSounds {
             SoundEvents.DISPENSER_FAIL
     );
 
+    //
+    public static final SoundEvent KINETIC_SHORTBOW_READY = register(KWItems.KINETIC_SHORTBOW, "ready", SoundEvents.LODESTONE_COMPASS_LOCK);
+
+    public static final SoundEvent KINETIC_SHORTBOW_ATTACK_USE_START = register(KWItems.KINETIC_SHORTBOW, "attack_use.start", SoundEvents.NOTE_BLOCK_HAT.value());
+
+    public static final SoundEvent KINETIC_SHORTBOW_ATTACK_USE_END = register(KWItems.KINETIC_SHORTBOW, "attack_use_end", SoundEvents.NOTE_BLOCK_HAT.value());
+
+    public static final SoundEvent KINETIC_SHORTBOW_FIRING = register(KWItems.KINETIC_SHORTBOW, "firing_ambience", SoundEvents.EMPTY);
+
     public static final SoundEvent KINETIC_SHORTBOW_OVERHEAT = register(
             "item.kinetic_shortbow.overheat",
             SoundEvents.FIRECHARGE_USE
@@ -36,6 +47,10 @@ public class KWSounds {
             "item.kinetic_shortbow.cool_down",
             SoundEvents.FIRE_EXTINGUISH
     );
+
+    private static SoundEvent register(Item item, String name, SoundEvent soundEvent) {
+        return register(item.getDescriptionId() + "." + name, soundEvent);
+    }
 
     private static SoundEvent register(String name, SoundEvent soundEvent) {
         return Registry.register(BuiltInRegistries.SOUND_EVENT, KWCommon.locate(name), soundEvent);

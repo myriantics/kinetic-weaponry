@@ -1,5 +1,6 @@
 package net.myriantics.kinetic_weaponry.mechanics.attack_use;
 
+import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.myriantics.kinetic_weaponry.registry.misc.KWAttachmentTypes;
 
@@ -18,11 +19,11 @@ public interface AttackUseItem {
         return changed;
     }
 
-    default boolean isAttackUseActive(Player player) {
-        return player.getAttachedOrElse(KWAttachmentTypes.ATTACK_KEY_DOWN, false);
+    default boolean isAttackUseActive(LivingEntity livingEntity) {
+        return livingEntity.getAttachedOrElse(KWAttachmentTypes.ATTACK_KEY_DOWN, false);
     }
 
-    default int getAttackUseStartTimeTicks(Player player) {
-        return player.getAttachedOrElse(KWAttachmentTypes.ATTACK_USE_START_TIME_TICKS, -1);
+    default int getAttackUseStartTimeTicks(LivingEntity livingEntity) {
+        return livingEntity.getAttachedOrElse(KWAttachmentTypes.ATTACK_USE_START_TIME_TICKS, -1);
     }
 }

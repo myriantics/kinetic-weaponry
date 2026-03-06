@@ -3,6 +3,7 @@
   "package": "net.myriantics.kinetic_weaponry.mixin",
   "compatibilityLevel": "JAVA_21",
   "mixins": [
+    "LivingEntityMixin",
     "FallingBlockEntityMixin",
     "PistonBaseBlockMixin",
     "PistonStructureResolverMixin",

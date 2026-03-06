@@ -9,6 +9,7 @@ import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.util.Unit;
 import net.myriantics.kinetic_weaponry.KWCommon;
 import net.minecraft.core.component.DataComponentType;
+import net.myriantics.kinetic_weaponry.component.KineticShortbowConfig;
 
 import java.util.List;
 import java.util.function.UnaryOperator;
@@ -62,6 +63,13 @@ public class KWDataComponents {
             listBuilder -> listBuilder
                     .persistent(Codec.list(Codec.INT))
                     .networkSynchronized(ByteBufCodecs.<ByteBuf, Integer>list().apply(ByteBufCodecs.INT))
+    );
+
+    public static final DataComponentType<KineticShortbowConfig> KINETIC_SHORTBOW_CONFIG = register(
+            "kinetic_shortbow_config",
+            builder -> builder
+                    .persistent(KineticShortbowConfig.CODEC.codec())
+                    .networkSynchronized(KineticShortbowConfig.STREAM_CODEC)
     );
 
     private static <T> DataComponentType<T> register(String name, UnaryOperator<DataComponentType.Builder<T>> builder) {
