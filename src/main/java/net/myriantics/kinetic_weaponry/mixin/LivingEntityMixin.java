@@ -3,6 +3,7 @@ package net.myriantics.kinetic_weaponry.mixin;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.Entity;import net.minecraft.world.entity.EntityType;import net.minecraft.world.entity.LivingEntity;import net.minecraft.world.entity.player.Player;import net.minecraft.world.item.ItemStack;import net.minecraft.world.level.Level;import net.myriantics.kinetic_weaponry.mechanics.attack_use.AttackUseItem;
 import net.myriantics.kinetic_weaponry.mechanics.swingable.SwingableItem;
+import net.myriantics.kinetic_weaponry.registry.item.KWDataComponents;
 import net.myriantics.kinetic_weaponry.registry.misc.KWAttachmentTypes;import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
@@ -12,8 +13,32 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 public abstract class LivingEntityMixin extends Entity {
     @Shadow public abstract ItemStack getUseItem();
 
+    @Shadow
+    public abstract ItemStack getMainHandItem();
+
     public LivingEntityMixin(EntityType<?> entityType, Level level) {
         super(entityType, level);
+    }
+
+    @Inject(
+            method = "baseTick",
+            at = @At(value = "HEAD")
+    )
+    private void kinetic_weaponry$tickSwingChargeCooldowns(CallbackInfo ci) {
+        if (!this.level().isClientSide()) {
+            this.modifyAttached(KWAttachmentTypes.SWING_CHARGE_COOLDOWN_TICKS, (cooldown -> {
+                if (cooldown == null || cooldown < 0) {
+                    return null;
+                } else {
+                    int maxCooldown = this.getMainHandItem().getOrDefault(KWDataComponents.SWING_CHARGE_COOLDOWN, 0);
+                    if (cooldown > maxCooldown) {
+                        return null;
+                    } else {
+                        return cooldown - 1;
+                    }
+                }
+            }));
+        }
     }
 
     @Inject(

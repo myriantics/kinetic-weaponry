@@ -167,7 +167,7 @@ public class KineticShortbowItem extends ProjectileWeaponItem implements Kinetic
         if (!projectiles.isEmpty()) {
             // remove a kinetic charge (but not in creative)
             if (!entity.hasInfiniteMaterials()) {
-                this.addCharge(shortbowStack, -1);
+                this.removeCharge(shortbowStack, 1);
             }
 
             // add a heat unit

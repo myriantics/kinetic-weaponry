@@ -65,12 +65,20 @@ public abstract class KWDataComponents {
                     .networkSynchronized(ByteBufCodecs.<ByteBuf, Integer>list().apply(ByteBufCodecs.INT))
     );
 
+    public static final DataComponentType<Integer> SWING_CHARGE_COOLDOWN = register(
+            "swing_charge_cooldown",
+            builder -> builder
+                    .persistent(Codec.INT)
+                    .networkSynchronized(ByteBufCodecs.INT)
+    );
+
     public static final DataComponentType<KineticShortbowConfig> KINETIC_SHORTBOW_CONFIG = register(
             "kinetic_shortbow_config",
-            builder -> builder
-                    .persistent(KineticShortbowConfig.CODEC.codec())
-                    .networkSynchronized(KineticShortbowConfig.STREAM_CODEC)
+    builder -> builder
+            .persistent(KineticShortbowConfig.CODEC.codec())
+            .networkSynchronized(KineticShortbowConfig.STREAM_CODEC)
     );
+
 
     private static <T> DataComponentType<T> register(String name, UnaryOperator<DataComponentType.Builder<T>> builder) {
         return Registry.register(BuiltInRegistries.DATA_COMPONENT_TYPE, KWCommon.locate(name), builder.apply(DataComponentType.builder()).build());

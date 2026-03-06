@@ -34,6 +34,7 @@ public abstract class KWItemGroups {
 
                     // equipment
                     output.accept(KWItems.KINETIC_SHORTBOW);
+                    output.accept(KWItems.KINETIC_CROSSBOW);
                 });
             }
     );

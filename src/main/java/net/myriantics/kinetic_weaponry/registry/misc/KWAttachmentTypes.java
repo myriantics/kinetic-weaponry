@@ -22,6 +22,11 @@ public abstract class KWAttachmentTypes {
                     .initializer(() -> 0)
                     .syncWith(ByteBufCodecs.INT, AttachmentSyncPredicate.allButTarget())
     );
+    public static final AttachmentType<Integer> SWING_CHARGE_COOLDOWN_TICKS = register(
+            "swing_charge_cooldown_ticks",
+            integerBuilder -> integerBuilder
+                    .initializer(() -> 0)
+    );
 
     private static <T> AttachmentType<T> register(String name, Consumer<AttachmentRegistry.Builder<T>> consumer) {
         return AttachmentRegistry.create(KWCommon.locate(name), consumer);

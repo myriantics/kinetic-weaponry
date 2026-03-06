@@ -1,13 +1,14 @@
 package net.myriantics.kinetic_weaponry.mechanics.kinetic_charge;
 
 import net.minecraft.server.level.ServerPlayer;
-import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.entity.EquipmentSlot;
-import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.ItemStack;
 import net.myriantics.kinetic_weaponry.registry.advancement.KWAdvancementTriggers;
 import net.myriantics.kinetic_weaponry.registry.item.KWDataComponents;
 import net.myriantics.kinetic_weaponry.registry.misc.KWSounds;
+
+import java.util.NoSuchElementException;
 
 public interface KineticItem {
 
@@ -29,55 +30,76 @@ public interface KineticItem {
         }
     }
 
-    default boolean addCharge(ItemStack stack, int charge) {
+    /**
+     * Returns
+     * @param stack KineticItem stack to add charge to
+     * @param charge The amount of charge you'd like to add
+     * @return The amount of charge that's actually been added
+     */
+    default int addCharge(ItemStack stack, int charge) {
         int maxCharge = this.getMaxCharge(stack);
         int initialCharge = this.getCharge(stack);
 
         int newCharge = Math.clamp((long) initialCharge + (long) charge, 0, maxCharge);
 
         this.setCharge(stack, newCharge);
-        return newCharge != initialCharge;
+        return newCharge - initialCharge;
     }
 
-    default boolean rechargeFromRetentionModule(Player player, ItemStack usedItemStack) {
-        ItemStack retentionModuleStack = ItemStack.EMPTY;
-        KineticItem retentionModuleStorage = null;
-        for (EquipmentSlot checkedSlot : EquipmentSlot.values()) {
-            ItemStack potentialStack = player.getItemBySlot(checkedSlot);
-            if (potentialStack.getItem() instanceof KineticItem temp && temp.getCharge(potentialStack) > 0) {
-                retentionModuleStack = potentialStack;
-                retentionModuleStorage = temp;
-                break;
+    /**
+     * Returns
+     * @param stack KineticItem stack to remove charge from
+     * @param charge The amount of charge you'd like to remove
+     * @return The amount of charge that's actually been removed (represented positively)
+     */
+    default int removeCharge(ItemStack stack, int charge) {
+        return -addCharge(stack, -charge);
+    }
+
+    default ItemStack findChargedEnergyStorage(LivingEntity livingEntity) throws NoSuchElementException {
+        for (ItemStack stack : livingEntity.getArmorAndBodyArmorSlots()) {
+            if (stack.getItem() instanceof KineticItem kineticItem && kineticItem.getCharge(stack) > 0) {
+                return stack;
             }
         }
 
+        throw new NoSuchElementException("No Kinetic Energy Storage found on " + livingEntity);
+    }
 
-        if (!retentionModuleStack.isEmpty()) {
+    default boolean rechargeFromRetentionModule(LivingEntity entity, ItemStack usedItemStack) {
+        ItemStack energyStorageStack;
+        try {
+            energyStorageStack = findChargedEnergyStorage(entity);
+        } catch (NoSuchElementException e) {
+            return false;
+        }
+
+        if (energyStorageStack.getItem() instanceof KineticItem energyStorage) {
 
             boolean chargeSuccessfullyAdded;
-            if (retentionModuleStack.has(KWDataComponents.INFINITE_KINETIC_CHARGE)) {
+            if (energyStorageStack.has(KWDataComponents.INFINITE_KINETIC_CHARGE)) {
                 chargeSuccessfullyAdded = true;
                 this.setCharge(usedItemStack, this.getMaxCharge(usedItemStack));
             } else {
-                chargeSuccessfullyAdded = this.addCharge(usedItemStack, retentionModuleStorage.getCharge(retentionModuleStack));
+                chargeSuccessfullyAdded = this.addCharge(usedItemStack, energyStorage.getCharge(energyStorageStack)) != 0;
             }
 
             if (chargeSuccessfullyAdded) {
+                entity.playSound(
+                        KWSounds.KINETIC_RECHARGE_CONSUME,
+                        1.0F,
+                        1.0F / (entity.getRandom().nextFloat() * 0.4F + 1.2F) * 0.5F
+                );
+
                 // only update components on the server
-                if (player instanceof ServerPlayer serverPlayer) {
-                    if (!retentionModuleStack.has(KWDataComponents.INFINITE_KINETIC_CHARGE)) {
-                        retentionModuleStorage.addCharge(retentionModuleStack, -1);
+                if (!entity.level().isClientSide()) {
+                    if (!energyStorageStack.has(KWDataComponents.INFINITE_KINETIC_CHARGE)) {
+                        energyStorage.addCharge(energyStorageStack, -1);
                     }
-                    player.level().playSound(
-                            null,
-                            player.getX(),
-                            player.getY(),
-                            player.getZ(),
-                            KWSounds.KINETIC_RECHARGE_CONSUME,
-                            SoundSource.PLAYERS,
-                            1.0F,
-                            1.0F / (player.level().getRandom().nextFloat() * 0.4F + 1.2F) * 0.5F);
-                    KWAdvancementTriggers.triggerKineticItemCharge(serverPlayer, usedItemStack);
+
+                    if (entity instanceof ServerPlayer serverPlayer) {
+                        KWAdvancementTriggers.triggerKineticItemCharge(serverPlayer, usedItemStack);
+                    }
                 }
                 // yay you won
                 return true;

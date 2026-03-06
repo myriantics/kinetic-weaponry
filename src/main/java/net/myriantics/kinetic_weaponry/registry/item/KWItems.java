@@ -4,7 +4,9 @@ import net.minecraft.core.Registry;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.util.Unit;
 import net.minecraft.world.entity.EquipmentSlot;
+import net.minecraft.world.item.component.ChargedProjectiles;
 import net.myriantics.kinetic_weaponry.KWCommon;
+import net.myriantics.kinetic_weaponry.item.equipment.KineticCrossbowItem;
 import net.myriantics.kinetic_weaponry.item.equipment.KineticShortbowItem;
 import net.myriantics.kinetic_weaponry.mechanics.weapon_heat.OverheatWeapon;
 import net.myriantics.kinetic_weaponry.registry.block.KWBlocks;
@@ -99,6 +101,18 @@ public abstract class KWItems {
                     .component(KWDataComponents.HEAT_UNIT_DISSIPATION_RATE, OverheatWeapon.DEFAULT_HEAT_UNIT_DISSIPATION_RATE)
                     .component(KWDataComponents.HEAT_SOUND_THRESHOLDS, List.of(KineticShortbowItem.HEAT_UNIT_HOT_THRESHOLD, KineticShortbowItem.HEAT_UNIT_HOTTEST_THRESHOLD))
                     .component(KWDataComponents.KINETIC_SHORTBOW_CONFIG, KineticShortbowItem.DEFAULT)
+                    .stacksTo(1)
+                    .rarity(Rarity.EPIC)
+    );
+
+    public static final Item KINETIC_CROSSBOW = register(
+            "kinetic_crossbow",
+            KineticCrossbowItem::new,
+            new Item.Properties()
+                    .component(KWDataComponents.KINETIC_CHARGE, 0)
+                    .component(KWDataComponents.MAX_KINETIC_CHARGE, 4)
+                    .component(KWDataComponents.SWING_CHARGE_COOLDOWN, 8)
+                    .component(DataComponents.CHARGED_PROJECTILES, ChargedProjectiles.EMPTY)
                     .stacksTo(1)
                     .rarity(Rarity.EPIC)
     );
