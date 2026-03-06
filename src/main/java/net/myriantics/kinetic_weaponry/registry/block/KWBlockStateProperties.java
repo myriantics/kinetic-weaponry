@@ -6,7 +6,7 @@ import net.myriantics.kinetic_weaponry.block.charging_bus.KineticChargingBusBloc
 import net.myriantics.kinetic_weaponry.block.retention_module.lesser.LesserKineticRetentionModuleBlock;
 import net.myriantics.kinetic_weaponry.block.retention_module.standard.StandardKineticRetentionModuleBlock;
 
-public class KWBlockStateProperties {
+public abstract class KWBlockStateProperties {
     public static final IntegerProperty LESSER_KINETIC_RETENTION_MODULE_KINETIC_CHARGE = createKineticCharge(
             0,
             LesserKineticRetentionModuleBlock.MAX_CHARGES

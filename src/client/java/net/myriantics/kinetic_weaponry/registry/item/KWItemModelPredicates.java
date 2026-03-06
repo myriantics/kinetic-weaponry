@@ -8,7 +8,7 @@ import net.myriantics.kinetic_weaponry.item.equipment.KineticShortbowItem;
 import net.myriantics.kinetic_weaponry.mechanics.weapon_heat.OverheatWeapon;
 import net.myriantics.kinetic_weaponry.registry.render.KWItemModelPredicateIds;
 
-public class KWItemModelPredicates {
+public abstract class KWItemModelPredicates {
     public static void init() {
         register(KWItemModelPredicateIds.KINETIC_CHARGE, (itemStack, clientLevel, livingEntity, i) -> {
             if (itemStack.getItem() instanceof KineticItem kineticItem) {

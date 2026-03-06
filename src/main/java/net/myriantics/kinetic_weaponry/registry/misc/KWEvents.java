@@ -5,7 +5,7 @@ import net.fabricmc.fabric.api.event.player.PlayerBlockBreakEvents;
 import net.myriantics.kinetic_weaponry.KWCommon;
 import net.myriantics.kinetic_weaponry.event.KWEventHandlers;
 
-public class KWEvents {
+public abstract class KWEvents {
 
     public static void init() {
         KWCommon.LOGGER.info("Registered Kinetic Weaponry's Event Listeners!");

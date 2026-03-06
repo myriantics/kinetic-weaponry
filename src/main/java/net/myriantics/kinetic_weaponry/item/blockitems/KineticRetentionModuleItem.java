@@ -1,5 +1,7 @@
 package net.myriantics.kinetic_weaponry.item.blockitems;
 
+import net.fabricmc.fabric.api.item.v1.EquipmentSlotProvider;
+import net.minecraft.world.entity.LivingEntity;
 import net.myriantics.kinetic_weaponry.block.retention_module.AbstractKineticRetentionModuleBlock;
 import net.myriantics.kinetic_weaponry.mechanics.kinetic_charge.KineticItem;
 import net.minecraft.world.InteractionHand;
@@ -11,13 +13,15 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import org.jetbrains.annotations.NotNull;
 
-public class KineticRetentionModuleBlockItem extends BlockItem implements Equipable, KineticItem {
+public class KineticRetentionModuleItem extends BlockItem implements Equipable, KineticItem, EquipmentSlotProvider {
 
-    private final EquipmentSlot equipmentSlot;
+    private final ArmorItem.Type type;
+    private final ArmorMaterial material;
 
-    public KineticRetentionModuleBlockItem(Block block, EquipmentSlot equipmentSlot, Properties properties) {
+    public KineticRetentionModuleItem(Block block, ArmorItem.Type type, ArmorMaterial material, Properties properties) {
         super(block, properties);
-        this.equipmentSlot = equipmentSlot;
+        this.type = type;
+        this.material = material;
         if (!(block instanceof AbstractKineticRetentionModuleBlock)) {
             throw new AssertionError("Non-Kinetic Retention Module Block passed into Kinetic Retention Module BlockItem! Errant block: " + block);
         }
@@ -25,7 +29,16 @@ public class KineticRetentionModuleBlockItem extends BlockItem implements Equipa
 
     @Override
     public @NotNull EquipmentSlot getEquipmentSlot() {
-        return equipmentSlot;
+        return this.type.getSlot();
+    }
+
+    @Override
+    public EquipmentSlot getPreferredEquipmentSlot(LivingEntity entity, ItemStack stack) {
+        return this.type.getSlot();
+    }
+
+    public ArmorMaterial getMaterial() {
+        return this.material;
     }
 
     @Override

@@ -12,7 +12,7 @@ import net.myriantics.kinetic_weaponry.KWCommon;
 import java.util.function.Consumer;
 import java.util.function.Supplier;
 
-public class KWItemGroups {
+public abstract class KWItemGroups {
     public static final CreativeModeTab KINETIC_WEAPONRY = register(
             "kinetic_weaponry",
             () -> new ItemStack(KWItems.KINETIC_DETONATOR),

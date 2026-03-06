@@ -6,7 +6,7 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.properties.IntegerProperty;
 import net.minecraft.world.level.storage.loot.LootParams;
-import net.myriantics.kinetic_weaponry.item.blockitems.KineticRetentionModuleBlockItem;
+import net.myriantics.kinetic_weaponry.item.blockitems.KineticRetentionModuleItem;
 import net.myriantics.kinetic_weaponry.registry.block.KWBlockStateProperties;
 
 import java.util.List;
@@ -44,7 +44,7 @@ public class LesserKineticRetentionModuleBlock extends AbstractLesserKineticRete
     protected List<ItemStack> getDrops(BlockState state, LootParams.Builder params) {
         List<ItemStack> items = super.getDrops(state, params);
         for (ItemStack stack : items) {
-            if (stack.getItem() instanceof KineticRetentionModuleBlockItem item) {
+            if (stack.getItem() instanceof KineticRetentionModuleItem item) {
                 item.setCharge(stack, state.getValue(KINETIC_CHARGE));
             }
         }

@@ -8,14 +8,14 @@ import net.myriantics.kinetic_weaponry.KWCommon;
 import net.myriantics.kinetic_weaponry.item.equipment.KineticShortbowItem;
 import net.myriantics.kinetic_weaponry.mechanics.weapon_heat.OverheatWeapon;
 import net.myriantics.kinetic_weaponry.registry.block.KWBlocks;
-import net.myriantics.kinetic_weaponry.item.blockitems.KineticRetentionModuleBlockItem;
+import net.myriantics.kinetic_weaponry.item.blockitems.KineticRetentionModuleItem;
 import net.minecraft.core.component.DataComponents;
 import net.minecraft.world.item.*;
 
 import java.util.List;
 import java.util.function.Function;
 
-public class KWItems {
+public abstract class KWItems {
 
     public static final Item TRIAL_WEAVE = register(
             "trial_weave",
@@ -38,7 +38,7 @@ public class KWItems {
 
     public static final Item KINETIC_RETENTION_MODULE = register(
             "kinetic_retention_module",
-            properties -> new KineticRetentionModuleBlockItem(KWBlocks.KINETIC_RETENTION_MODULE, EquipmentSlot.CHEST, properties),
+            properties -> new KineticRetentionModuleItem(KWBlocks.KINETIC_RETENTION_MODULE, ArmorItem.Type.CHESTPLATE, KWArmorMaterials.KINETIC_COPPER, properties),
             new Item.Properties()
                     .component(KWDataComponents.KINETIC_CHARGE, 0)
                     .stacksTo(1)
@@ -47,7 +47,7 @@ public class KWItems {
 
     public static final Item CREATIVE_KINETIC_RETENTION_MODULE = register(
             "creative_kinetic_retention_module",
-            properties -> new KineticRetentionModuleBlockItem(KWBlocks.CREATIVE_KINETIC_RETENTION_MODULE, EquipmentSlot.CHEST, properties),
+            properties -> new KineticRetentionModuleItem(KWBlocks.CREATIVE_KINETIC_RETENTION_MODULE, ArmorItem.Type.CHESTPLATE, KWArmorMaterials.KINETIC_CREATIVE, properties),
             new Item.Properties()
                     .component(DataComponents.ENCHANTMENT_GLINT_OVERRIDE, true)
                     .component(KWDataComponents.INFINITE_KINETIC_CHARGE, Unit.INSTANCE)
@@ -57,7 +57,7 @@ public class KWItems {
 
     public static final Item LESSER_KINETIC_RETENTION_MODULE = register(
             "lesser_kinetic_retention_module",
-            properties -> new KineticRetentionModuleBlockItem(KWBlocks.LESSER_KINETIC_RETENTION_MODULE, EquipmentSlot.HEAD, properties),
+            properties -> new KineticRetentionModuleItem(KWBlocks.LESSER_KINETIC_RETENTION_MODULE, ArmorItem.Type.HELMET, KWArmorMaterials.KINETIC_COPPER, properties),
             new Item.Properties()
                     .component(KWDataComponents.KINETIC_CHARGE, 0)
                     .stacksTo(1)
@@ -66,7 +66,7 @@ public class KWItems {
 
     public static final Item CREATIVE_LESSER_KINETIC_RETENTION_MODULE = register(
             "creative_lesser_kinetic_retention_module",
-            properties -> new KineticRetentionModuleBlockItem(KWBlocks.CREATIVE_LESSER_KINETIC_RETENTION_MODULE, EquipmentSlot.HEAD, properties),
+            properties -> new KineticRetentionModuleItem(KWBlocks.CREATIVE_LESSER_KINETIC_RETENTION_MODULE, ArmorItem.Type.HELMET, KWArmorMaterials.KINETIC_CREATIVE, properties),
             new Item.Properties()
                     .component(DataComponents.ENCHANTMENT_GLINT_OVERRIDE, true)
                     .component(KWDataComponents.INFINITE_KINETIC_CHARGE, Unit.INSTANCE)

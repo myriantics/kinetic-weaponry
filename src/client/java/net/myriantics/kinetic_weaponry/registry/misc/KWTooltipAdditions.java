@@ -14,7 +14,7 @@ import org.jetbrains.annotations.Nullable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class KWTooltipAdditions {
+public abstract class KWTooltipAdditions {
 
     public static final List<TooltipAddition> TOOLTIP_ADDITIONS = new ArrayList<>();
 

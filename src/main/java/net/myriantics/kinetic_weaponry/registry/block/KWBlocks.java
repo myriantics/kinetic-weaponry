@@ -19,7 +19,7 @@ import net.myriantics.kinetic_weaponry.block.trial_weave.TrialWeaveBlock;
 
 import java.util.function.Function;
 
-public class KWBlocks {
+public abstract class KWBlocks {
 
     public static final Block TRIAL_WEAVE = register(
             "trial_weave",

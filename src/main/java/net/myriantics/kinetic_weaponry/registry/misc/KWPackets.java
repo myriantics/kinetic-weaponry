@@ -6,7 +6,7 @@ import net.myriantics.kinetic_weaponry.KWCommon;
 import net.myriantics.kinetic_weaponry.networking.packets.PlayerAttackUseUpdateC2SPacket;
 import net.minecraft.resources.ResourceLocation;
 
-public class KWPackets {
+public abstract class KWPackets {
     public static final ResourceLocation PLAYER_LEFT_CLICK_WHILE_USING_C2S = KWCommon.locate("player_left_click_while_using_c2s");
 
     public static void initC2SRecievers() {

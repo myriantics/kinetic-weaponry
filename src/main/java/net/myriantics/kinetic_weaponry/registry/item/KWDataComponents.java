@@ -14,7 +14,7 @@ import net.myriantics.kinetic_weaponry.component.KineticShortbowConfig;
 import java.util.List;
 import java.util.function.UnaryOperator;
 
-public class KWDataComponents {
+public abstract class KWDataComponents {
 
     public static final DataComponentType<Integer> MAX_KINETIC_CHARGE = register(
             "max_kinetic_charge",

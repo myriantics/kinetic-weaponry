@@ -4,7 +4,7 @@ import net.fabricmc.fabric.api.registry.FlammableBlockRegistry;
 import net.minecraft.world.level.block.Block;
 import net.myriantics.kinetic_weaponry.KWCommon;
 
-public class KWFlammableBlocks {
+public abstract class KWFlammableBlocks {
 
     static {
         register(KWBlocks.TRIAL_WEAVE, 60, 30);
