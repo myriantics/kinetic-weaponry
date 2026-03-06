@@ -111,7 +111,7 @@ public abstract class KWItems {
             new Item.Properties()
                     .component(KWDataComponents.KINETIC_CHARGE, 0)
                     .component(KWDataComponents.MAX_KINETIC_CHARGE, 4)
-                    .component(KWDataComponents.SWING_CHARGE_COOLDOWN, 8)
+                    .component(KWDataComponents.SWING_CHARGE_COOLDOWN, 20)
                     .component(DataComponents.CHARGED_PROJECTILES, ChargedProjectiles.EMPTY)
                     .stacksTo(1)
                     .rarity(Rarity.EPIC)
