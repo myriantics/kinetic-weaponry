@@ -1,6 +1,7 @@
 package net.myriantics.kinetic_weaponry.item.blockitems;
 
 import net.fabricmc.fabric.api.item.v1.EquipmentSlotProvider;
+import net.minecraft.core.Holder;
 import net.minecraft.world.entity.LivingEntity;
 import net.myriantics.kinetic_weaponry.block.retention_module.AbstractKineticRetentionModuleBlock;
 import net.myriantics.kinetic_weaponry.mechanics.kinetic_charge.KineticItem;
@@ -16,9 +17,9 @@ import org.jetbrains.annotations.NotNull;
 public class KineticRetentionModuleItem extends BlockItem implements Equipable, KineticItem, EquipmentSlotProvider {
 
     private final ArmorItem.Type type;
-    private final ArmorMaterial material;
+    private final Holder<ArmorMaterial> material;
 
-    public KineticRetentionModuleItem(Block block, ArmorItem.Type type, ArmorMaterial material, Properties properties) {
+    public KineticRetentionModuleItem(Block block, ArmorItem.Type type, Holder<ArmorMaterial> material, Properties properties) {
         super(block, properties);
         this.type = type;
         this.material = material;
@@ -37,7 +38,7 @@ public class KineticRetentionModuleItem extends BlockItem implements Equipable, 
         return this.type.getSlot();
     }
 
-    public ArmorMaterial getMaterial() {
+    public Holder<ArmorMaterial> getMaterial() {
         return this.material;
     }
 

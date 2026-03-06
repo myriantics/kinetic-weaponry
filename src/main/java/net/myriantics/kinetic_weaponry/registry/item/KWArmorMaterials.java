@@ -1,6 +1,7 @@
 package net.myriantics.kinetic_weaponry.registry.item;
 
 import net.minecraft.Util;
+import net.minecraft.core.Holder;
 import net.minecraft.core.Registry;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.sounds.SoundEvents;
@@ -16,7 +17,7 @@ import java.util.Map;
 
 public abstract class KWArmorMaterials {
 
-    public static final ArmorMaterial KINETIC_COPPER = register("kinetic_copper", new ArmorMaterial(
+    public static final Holder<ArmorMaterial> KINETIC_COPPER = register("kinetic_copper", new ArmorMaterial(
             Util.make(new EnumMap<>(ArmorItem.Type.class), enumMap -> {
                 enumMap.put(ArmorItem.Type.BOOTS, 1);
                 enumMap.put(ArmorItem.Type.LEGGINGS, 3);
@@ -34,7 +35,7 @@ public abstract class KWArmorMaterials {
             0.0f
     ));
 
-    public static final ArmorMaterial KINETIC_CREATIVE = register("kinetic_creative", new ArmorMaterial(
+    public static final Holder<ArmorMaterial> KINETIC_CREATIVE = register("kinetic_creative", new ArmorMaterial(
             Util.make(new EnumMap<>(ArmorItem.Type.class), enumMap -> {
                 enumMap.put(ArmorItem.Type.BOOTS, 3);
                 enumMap.put(ArmorItem.Type.LEGGINGS, 6);
@@ -52,7 +53,7 @@ public abstract class KWArmorMaterials {
             0.1f
     ));
 
-    private static ArmorMaterial register(String name, ArmorMaterial material) {
-        return Registry.register(BuiltInRegistries.ARMOR_MATERIAL, KWCommon.locate(name), material);
+    private static Holder<ArmorMaterial> register(String name, ArmorMaterial material) {
+        return Registry.registerForHolder(BuiltInRegistries.ARMOR_MATERIAL, KWCommon.locate(name), material);
     }
 }
