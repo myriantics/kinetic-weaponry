@@ -43,9 +43,9 @@ public abstract class HumanoidArmorLayerMixin<T extends LivingEntity, M extends 
     )
     private Item kinetic_weaponry$swapInDummyItem(Item original, @Share(value = "useKineticRetentionModule") LocalBooleanRef useKineticRetentionModule) {
         // hacky hack hack
-        if (original instanceof KineticRetentionModuleItem) {
+        if (original instanceof KineticRetentionModuleItem retentionModuleItem) {
             useKineticRetentionModule.set(true);
-            return Items.IRON_CHESTPLATE;
+            return retentionModuleItem.getDummyItem();
         }
 
         return original;
