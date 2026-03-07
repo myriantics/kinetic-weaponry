@@ -29,22 +29,13 @@ public abstract class HumanoidArmorLayerMixin<T extends LivingEntity, M extends 
         super(renderer);
     }
 
-    @Inject(
-            method = "renderArmorPiece",
-            at = @At(value = "HEAD")
-    )
-    private void kinetic_weaponry$initSharedVar(PoseStack poseStack, MultiBufferSource bufferSource, T livingEntity, EquipmentSlot slot, int packedLight, A model, CallbackInfo ci, @Share(value = "useKineticRetentionModule") LocalBooleanRef useKineticRetentionModule) {
-        useKineticRetentionModule.set(false);
-    }
-
     @ModifyExpressionValue(
             method = "renderArmorPiece",
             at = @At(value = "INVOKE", target = "Lnet/minecraft/world/item/ItemStack;getItem()Lnet/minecraft/world/item/Item;")
     )
-    private Item kinetic_weaponry$swapInDummyItem(Item original, @Share(value = "useKineticRetentionModule") LocalBooleanRef useKineticRetentionModule) {
+    private Item kinetic_weaponry$swapInDummyItem(Item original) {
         // hacky hack hack
         if (original instanceof KineticRetentionModuleItem retentionModuleItem) {
-            useKineticRetentionModule.set(true);
             return retentionModuleItem.getDummyItem();
         }
 
@@ -55,9 +46,9 @@ public abstract class HumanoidArmorLayerMixin<T extends LivingEntity, M extends 
             method = "renderArmorPiece",
             at = @At(value = "INVOKE", target = "Lnet/minecraft/world/item/ArmorItem;getEquipmentSlot()Lnet/minecraft/world/entity/EquipmentSlot;")
     )
-    private EquipmentSlot kinetic_weaponry$swapInKineticRetentionModuleArmorSlot(ArmorItem instance, Operation<EquipmentSlot> original, @Local ItemStack stack, @Share(value = "useKineticRetentionModule") LocalBooleanRef useKineticRetentionModule) {
-        if (useKineticRetentionModule.get()) {
-            return ((KineticRetentionModuleItem) stack.getItem()).getEquipmentSlot();
+    private EquipmentSlot kinetic_weaponry$swapInKineticRetentionModuleArmorSlot(ArmorItem instance, Operation<EquipmentSlot> original, @Local ItemStack stack) {
+        if (stack.getItem() instanceof KineticRetentionModuleItem retentionModuleItem) {
+            return retentionModuleItem.getEquipmentSlot();
         } else {
             return original.call(instance);
         }
@@ -67,9 +58,9 @@ public abstract class HumanoidArmorLayerMixin<T extends LivingEntity, M extends 
             method = "renderArmorPiece",
             at = @At(value = "INVOKE", target = "Lnet/minecraft/world/item/ArmorItem;getMaterial()Lnet/minecraft/core/Holder;")
     )
-    private Holder<ArmorMaterial> kinetic_weaponry$swapInKineticRetentionModuleArmorType(ArmorItem instance, Operation<Holder<ArmorMaterial>> original, @Local ItemStack stack, @Share(value = "useKineticRetentionModule") LocalBooleanRef useKineticRetentionModule) {
-        if (useKineticRetentionModule.get()) {
-            return ((KineticRetentionModuleItem) stack.getItem()).getMaterial();
+    private Holder<ArmorMaterial> kinetic_weaponry$swapInKineticRetentionModuleArmorType(ArmorItem instance, Operation<Holder<ArmorMaterial>> original, @Local ItemStack stack) {
+        if (stack.getItem() instanceof KineticRetentionModuleItem retentionModuleItem) {
+            return retentionModuleItem.getMaterial();
         } else {
             return original.call(instance);
         }
