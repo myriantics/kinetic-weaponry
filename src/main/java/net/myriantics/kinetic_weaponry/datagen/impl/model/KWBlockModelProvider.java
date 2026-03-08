@@ -60,9 +60,8 @@ public class KWBlockModelProvider extends MyrrorBlockModelSubProvider {
     }
 
     private void generateKineticRetentionModule(Block block, IntegerProperty property, ModelTemplate template) {
-        KineticBlock kineticBlock = (KineticBlock) block;
-        int min = ((IntegerPropertyAccessor) property).kinetic_weaponry$getMin();
-        int max = ((IntegerPropertyAccessor) property).kinetic_weaponry$getMax();
+        int min = property == null ? 0 : ((IntegerPropertyAccessor) property).kinetic_weaponry$getMin();
+        int max = property == null ? 0 : ((IntegerPropertyAccessor) property).kinetic_weaponry$getMax();
 
         ResourceLocation[] charge2Ids = max > 0 ? new ResourceLocation[max + 1] : new ResourceLocation[] {TexturedModel.createDefault(TextureMapping::cubeBottomTop, template).create(block, generators.modelOutput)};
         for (int i = 0; i < charge2Ids.length; i++) {

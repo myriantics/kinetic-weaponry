@@ -4,6 +4,7 @@ import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricBlockLootTableProvider;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.core.component.DataComponents;
+import net.minecraft.world.level.ItemLike;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.storage.loot.LootPool;
 import net.minecraft.world.level.storage.loot.LootTable;
@@ -27,26 +28,27 @@ public class KWBlockLootTableProvider extends FabricBlockLootTableProvider {
         add(KWBlocks.CREATIVE_KINETIC_RETENTION_MODULE, this::createKineticRetentionModuleDrop);
         add(KWBlocks.LESSER_KINETIC_RETENTION_MODULE, this::createKineticRetentionModuleDrop);
         add(KWBlocks.CREATIVE_LESSER_KINETIC_RETENTION_MODULE, this::createKineticRetentionModuleDrop);
+        add(KWBlocks.KINETIC_DETONATOR, this::dropSelfExplosionImmune);
+        add(KWBlocks.KINETIC_CHARGING_BUS, this::dropSelfExplosionImmune);
+        add(KWBlocks.CREATIVE_KINETIC_CHARGING_BUS, this::dropSelfExplosionImmune);
         dropSelf(KWBlocks.TRIAL_WEAVE);
-        dropSelf(KWBlocks.KINETIC_DETONATOR);
-        dropSelf(KWBlocks.KINETIC_CHARGING_BUS);
-        dropSelf(KWBlocks.CREATIVE_KINETIC_CHARGING_BUS);
     }
 
     private LootTable.Builder createKineticRetentionModuleDrop(Block module) {
         return LootTable.lootTable()
                 .withPool(
-                        this.applyExplosionCondition(
-                                module,
-                                LootPool.lootPool()
-                                        .setRolls(ConstantValue.exactly(1.0F))
-                                        .add(
-                                                LootItem.lootTableItem(module)
-                                                        .apply(
-                                                                CopyComponentsFunction.copyComponents(CopyComponentsFunction.Source.BLOCK_ENTITY)
-                                                        )
-                                        )
-                        )
+                        LootPool.lootPool()
+                                .setRolls(ConstantValue.exactly(1.0F))
+                                .add(
+                                        LootItem.lootTableItem(module)
+                                                .apply(
+                                                        CopyComponentsFunction.copyComponents(CopyComponentsFunction.Source.BLOCK_ENTITY)
+                                                )
+                                ).unwrap()
                 );
+    }
+
+    public LootTable.Builder dropSelfExplosionImmune(ItemLike item) {
+        return LootTable.lootTable().withPool(LootPool.lootPool().setRolls(ConstantValue.exactly(1.0F)).add(LootItem.lootTableItem(item)));
     }
 }
