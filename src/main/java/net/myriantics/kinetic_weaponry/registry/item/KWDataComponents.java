@@ -16,17 +16,19 @@ import java.util.function.UnaryOperator;
 
 public abstract class KWDataComponents {
 
+    private static final Codec<Integer> POSITIVE_INTEGERS = Codec.intRange(0, Integer.MAX_VALUE);
+
     public static final DataComponentType<Integer> MAX_KINETIC_CHARGE = register(
             "max_kinetic_charge",
             integerBuilder -> integerBuilder
-                    .persistent(Codec.INT)
+                    .persistent(POSITIVE_INTEGERS)
                     .networkSynchronized(ByteBufCodecs.INT)
     );
 
     public static final DataComponentType<Integer> KINETIC_CHARGE = register(
             "kinetic_charge",
             integerBuilder -> integerBuilder
-                    .persistent(Codec.INT)
+                    .persistent(POSITIVE_INTEGERS)
                     .networkSynchronized(ByteBufCodecs.INT)
     );
 
@@ -40,35 +42,35 @@ public abstract class KWDataComponents {
     public static final DataComponentType<Integer> MAX_HEAT_UNITS = register(
             "max_heat_units",
             integerBuilder -> integerBuilder
-                    .persistent(Codec.INT)
+                    .persistent(POSITIVE_INTEGERS)
                     .networkSynchronized(ByteBufCodecs.INT)
     );
 
     public static final DataComponentType<Integer> HEAT_UNITS = register(
             "heat_units",
             integerBuilder -> integerBuilder
-                    .persistent(Codec.INT)
+                    .persistent(POSITIVE_INTEGERS)
                     .networkSynchronized(ByteBufCodecs.INT)
     );
 
     public static final DataComponentType<Integer> HEAT_UNIT_DISSIPATION_RATE = register(
             "heat_unit_dissipation_rate",
             integerBuilder -> integerBuilder
-                    .persistent(Codec.INT)
+                    .persistent(POSITIVE_INTEGERS)
                     .networkSynchronized(ByteBufCodecs.INT)
     );
 
     public static final DataComponentType<List<Integer>> HEAT_SOUND_THRESHOLDS = register(
             "heat_sound_thresholds",
             listBuilder -> listBuilder
-                    .persistent(Codec.list(Codec.INT))
+                    .persistent(Codec.list(POSITIVE_INTEGERS))
                     .networkSynchronized(ByteBufCodecs.<ByteBuf, Integer>list().apply(ByteBufCodecs.INT))
     );
 
     public static final DataComponentType<Integer> SWING_CHARGE_COOLDOWN = register(
             "swing_charge_cooldown",
             builder -> builder
-                    .persistent(Codec.INT)
+                    .persistent(POSITIVE_INTEGERS)
                     .networkSynchronized(ByteBufCodecs.INT)
     );
 

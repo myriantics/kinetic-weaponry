@@ -87,10 +87,10 @@ public class KineticRetentionModuleBlockEntity extends BlockEntity {
     protected void loadAdditional(CompoundTag tag, HolderLookup.Provider registries) {
         super.loadAdditional(tag, registries);
         if (tag.contains(KWNbtIds.MAX_KINETIC_CHARGE)) {
-            this.setMaxCharge(tag.getInt(KWNbtIds.MAX_KINETIC_CHARGE));
+            this.setMaxCharge(Math.max(0, tag.getInt(KWNbtIds.MAX_KINETIC_CHARGE)));
         }
         if (tag.contains(KWNbtIds.KINETIC_CHARGE)) {
-            this.setCharge(Math.min(tag.getInt(KWNbtIds.KINETIC_CHARGE), this.maxCharge));
+            this.setCharge(Math.clamp(tag.getInt(KWNbtIds.KINETIC_CHARGE), 0, this.maxCharge));
             if (this.level != null) {
                 this.updateState(this.level, this.getBlockPos(), this.level.getBlockState(this.getBlockPos()));
             }
