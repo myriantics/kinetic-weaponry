@@ -36,7 +36,6 @@ public abstract class KWBlocks {
             KineticDetonatorBlock::new,
             BlockBehaviour.Properties
                     .ofFullCopy(Blocks.COPPER_BLOCK)
-                    .explosionResistance(300.0f)
     );
 
     public static final Block KINETIC_RETENTION_MODULE = register(
@@ -45,7 +44,6 @@ public abstract class KWBlocks {
             BlockBehaviour.Properties
                     .ofFullCopy(Blocks.COPPER_BLOCK)
                     .lightLevel((state) -> state.getValue(StandardKineticRetentionModuleBlock.KINETIC_CHARGE) > 0 ? 15 : 0)
-                    .explosionResistance(300.0f)
                     .pushReaction(PushReaction.DESTROY)
                     .forceSolidOn()
     );
@@ -77,7 +75,6 @@ public abstract class KWBlocks {
             BlockBehaviour.Properties
                     .ofFullCopy(Blocks.COPPER_BLOCK)
                     .lightLevel((state) -> (int) (15.0 / 4) * (state.getValue(KWBlockStateProperties.KINETIC_CHARGING_BUS_KINETIC_CHARGE) / 2))
-                    .explosionResistance(300.0f)
     );
 
     public static final Block CREATIVE_KINETIC_CHARGING_BUS = register(
