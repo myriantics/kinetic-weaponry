@@ -12,6 +12,7 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.component.ChargedProjectiles;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.gameevent.GameEvent;
 import net.myriantics.kinetic_weaponry.entity.crossbow_bolt.AbstractCrossbowBoltEntity;
 import net.myriantics.kinetic_weaponry.mechanics.kinetic_charge.KineticItem;
 import net.myriantics.kinetic_weaponry.mechanics.swingable.SwingableItem;
@@ -72,6 +73,8 @@ public class KineticCrossbowItem extends CrossbowItem implements SwingableItem, 
                                 1.0F,
                                 0.2f + (0.3f * livingEntity.getRandom().nextFloat()) + (0.5f * (oldCharge + 1))
                         );
+
+                        livingEntity.gameEvent(GameEvent.ITEM_INTERACT_FINISH);
 
                         if (livingEntity instanceof ServerPlayer player) {
                             player.getCooldowns().addCooldown(this, swungStack.getOrDefault(KWDataComponents.SWING_CHARGE_COOLDOWN, 0));
