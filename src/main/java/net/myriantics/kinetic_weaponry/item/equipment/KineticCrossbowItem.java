@@ -132,4 +132,9 @@ public class KineticCrossbowItem extends CrossbowItem implements SwingableItem, 
     public int getEnchantmentValue() {
         return 15;
     }
+
+    @Override
+    public boolean isValidRepairItem(ItemStack stack, ItemStack repairCandidate) {
+        return stack.is(KWItemTags.KINETIC_CROSSBOW_REPAIR_ITEMS) || super.isValidRepairItem(stack, repairCandidate);
+    }
 }

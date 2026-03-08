@@ -71,5 +71,9 @@ public class KWItemTagProvider extends FabricTagProvider<Item> {
         ;
         getOrCreateTagBuilder(KWItemTags.CROSSBOW_BOLTS)
                 .add(KWItems.BLAZING_BOLT);
+        getOrCreateTagBuilder(KWItemTags.KINETIC_SHORTBOW_REPAIR_ITEMS)
+                .add(KWItems.TRIAL_TWINE);
+        getOrCreateTagBuilder(KWItemTags.KINETIC_CROSSBOW_REPAIR_ITEMS)
+                .add(KWItems.TRIAL_TWINE);
     }
 }

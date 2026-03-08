@@ -20,6 +20,7 @@ import net.minecraft.world.item.*;
 import net.minecraft.world.level.Level;
 import net.myriantics.kinetic_weaponry.registry.item.KWDataComponents;
 import net.myriantics.kinetic_weaponry.registry.misc.KWSounds;
+import net.myriantics.kinetic_weaponry.tag.KWItemTags;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
@@ -277,5 +278,10 @@ public class KineticShortbowItem extends ProjectileWeaponItem implements Kinetic
     @Override
     public int getEnchantmentValue() {
         return 15;
+    }
+
+    @Override
+    public boolean isValidRepairItem(ItemStack stack, ItemStack repairCandidate) {
+        return stack.is(KWItemTags.KINETIC_SHORTBOW_REPAIR_ITEMS) || super.isValidRepairItem(stack, repairCandidate);
     }
 }
