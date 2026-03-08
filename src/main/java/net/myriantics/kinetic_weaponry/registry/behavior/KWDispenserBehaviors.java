@@ -13,6 +13,14 @@ public abstract class KWDispenserBehaviors {
             new KineticRetentionModuleDispenserBehavior()
     );
 
+    static {
+        KineticRetentionModuleDispenserBehavior behavior = new KineticRetentionModuleDispenserBehavior();
+        register(KWItems.KINETIC_RETENTION_MODULE, behavior);
+        register(KWItems.CREATIVE_KINETIC_RETENTION_MODULE, behavior);
+        register(KWItems.LESSER_KINETIC_RETENTION_MODULE, behavior);
+        register(KWItems.CREATIVE_LESSER_KINETIC_RETENTION_MODULE, behavior);
+    }
+
     private static DispenseItemBehavior register(Item item, DispenseItemBehavior behavior) {
         DispenserBlock.registerBehavior(item, behavior);
         return behavior;

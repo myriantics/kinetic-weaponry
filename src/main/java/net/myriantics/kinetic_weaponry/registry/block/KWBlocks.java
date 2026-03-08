@@ -3,6 +3,7 @@ package net.myriantics.kinetic_weaponry.registry.block;
 import net.minecraft.core.Registry;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.material.PushReaction;
 import net.myriantics.kinetic_weaponry.KWCommon;
 import net.myriantics.kinetic_weaponry.block.charging_bus.CreativeKineticChargingBusBlock;
 import net.myriantics.kinetic_weaponry.block.charging_bus.KineticChargingBusBlock;
@@ -45,6 +46,7 @@ public abstract class KWBlocks {
                     .ofFullCopy(Blocks.COPPER_BLOCK)
                     .lightLevel((state) -> state.getValue(StandardKineticRetentionModuleBlock.KINETIC_CHARGE) > 0 ? 15 : 0)
                     .explosionResistance(300.0f)
+                    .pushReaction(PushReaction.DESTROY)
                     .forceSolidOn()
     );
 
