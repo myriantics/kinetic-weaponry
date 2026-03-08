@@ -11,6 +11,7 @@ import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
+import net.myriantics.kinetic_weaponry.block.retention_module.KineticRetentionModuleBlockEntity;
 import net.myriantics.kinetic_weaponry.mechanics.kinetic_charge.KineticBlock;
 import net.myriantics.kinetic_weaponry.mechanics.kinetic_charge.KineticItem;
 import org.jetbrains.annotations.NotNull;
@@ -44,9 +45,13 @@ public class KineticRetentionModuleDispenserBehavior extends OptionalDispenseIte
                 level.setBlockAndUpdate(
                         targetPos,
                         stack.getItem() instanceof KineticItem kineticItem
-                                ? ((KineticBlock) state.getBlock()).withCharge(state, kineticItem.getCharge(stack))
+                                ? ((KineticBlock) state.getBlock()).withCharge(state, (float) kineticItem.getCharge(stack) / kineticItem.getMaxCharge(stack))
                                 : state
                 );
+
+                if (level.getBlockEntity(targetPos) instanceof KineticRetentionModuleBlockEntity retentionModule) {
+                    retentionModule.applyComponentsFromItemStack(stack);
+                }
 
                 this.setSuccess(true);
                 return ItemStack.EMPTY;

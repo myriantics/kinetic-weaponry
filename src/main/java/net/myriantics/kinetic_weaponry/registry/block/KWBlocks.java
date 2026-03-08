@@ -43,7 +43,7 @@ public abstract class KWBlocks {
             StandardKineticRetentionModuleBlock::new,
             BlockBehaviour.Properties
                     .ofFullCopy(Blocks.COPPER_BLOCK)
-                    .lightLevel((state) -> ((AbstractKineticRetentionModuleBlock) state.getBlock()).getCharge(state) > 0 ? 15 : 0)
+                    .lightLevel((state) -> state.getValue(StandardKineticRetentionModuleBlock.KINETIC_CHARGE) > 0 ? 15 : 0)
                     .explosionResistance(300.0f)
                     .forceSolidOn()
     );
@@ -52,18 +52,21 @@ public abstract class KWBlocks {
             "creative_kinetic_retention_module",
             CreativeStandardKineticRetentionModuleBlock::new,
             BlockBehaviour.Properties.ofFullCopy(KINETIC_RETENTION_MODULE)
+                    .lightLevel((state) -> 15)
     );
 
     public static final Block LESSER_KINETIC_RETENTION_MODULE = register(
             "lesser_kinetic_retention_module",
             LesserKineticRetentionModuleBlock::new,
             BlockBehaviour.Properties.ofFullCopy(KINETIC_RETENTION_MODULE)
+                    .lightLevel((state) -> state.getValue(LesserKineticRetentionModuleBlock.KINETIC_CHARGE) > 0 ? 15 : 0)
     );
 
     public static final Block CREATIVE_LESSER_KINETIC_RETENTION_MODULE = register(
             "creative_lesser_kinetic_retention_module",
             CreativeLesserKineticRetentionModuleBlock::new,
             BlockBehaviour.Properties.ofFullCopy(LESSER_KINETIC_RETENTION_MODULE)
+                    .lightLevel((state) -> 15)
     );
 
     public static final Block KINETIC_CHARGING_BUS = register(

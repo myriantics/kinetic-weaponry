@@ -5,6 +5,8 @@ import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.util.Unit;
 import net.minecraft.world.item.component.ChargedProjectiles;
 import net.myriantics.kinetic_weaponry.KWCommon;
+import net.myriantics.kinetic_weaponry.block.retention_module.lesser.LesserKineticRetentionModuleBlock;
+import net.myriantics.kinetic_weaponry.block.retention_module.standard.StandardKineticRetentionModuleBlock;
 import net.myriantics.kinetic_weaponry.entity.crossbow_bolt.BlazingBoltEntity;
 import net.myriantics.kinetic_weaponry.item.ammo.CrossbowBoltItem;
 import net.myriantics.kinetic_weaponry.item.equipment.KineticCrossbowItem;
@@ -44,6 +46,7 @@ public abstract class KWItems {
             properties -> new KineticRetentionModuleItem(KWBlocks.KINETIC_RETENTION_MODULE, ArmorItem.Type.CHESTPLATE, KWArmorMaterials.KINETIC_COPPER, properties),
             new Item.Properties()
                     .component(KWDataComponents.KINETIC_CHARGE, 0)
+                    .component(KWDataComponents.MAX_KINETIC_CHARGE, StandardKineticRetentionModuleBlock.MAX_CHARGES)
                     .durability(352)
                     .rarity(Rarity.EPIC)
     );
@@ -63,6 +66,7 @@ public abstract class KWItems {
             properties -> new KineticRetentionModuleItem(KWBlocks.LESSER_KINETIC_RETENTION_MODULE, ArmorItem.Type.HELMET, KWArmorMaterials.KINETIC_COPPER, properties),
             new Item.Properties()
                     .component(KWDataComponents.KINETIC_CHARGE, 0)
+                    .component(KWDataComponents.MAX_KINETIC_CHARGE, LesserKineticRetentionModuleBlock.MAX_CHARGES)
                     .durability(222)
                     .rarity(Rarity.EPIC)
     );

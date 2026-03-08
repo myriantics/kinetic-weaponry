@@ -3,6 +3,7 @@ package net.myriantics.kinetic_weaponry;
 import net.fabricmc.fabric.api.datagen.v1.DataGeneratorEntrypoint;
 import net.fabricmc.fabric.api.datagen.v1.FabricDataGenerator;
 import net.myriantics.kinetic_weaponry.datagen.impl.advancement.KWAdvancementProvider;
+import net.myriantics.kinetic_weaponry.datagen.impl.loot_table.KWBlockLootTableProvider;
 import net.myriantics.kinetic_weaponry.datagen.impl.model.KWBlockModelProvider;
 import net.myriantics.kinetic_weaponry.datagen.impl.model.KWItemModelProvider;
 import net.myriantics.kinetic_weaponry.datagen.impl.recipe.KWCraftingRecipeProvider;
@@ -30,5 +31,6 @@ public class KWDataGenerator implements DataGeneratorEntrypoint {
                 .add(KWItemModelProvider::new)
                 .add(KWBlockModelProvider::new)
         );
+        pack.addProvider(KWBlockLootTableProvider::new);
     }
 }

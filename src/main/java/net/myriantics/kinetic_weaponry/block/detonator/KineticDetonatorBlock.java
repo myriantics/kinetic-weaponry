@@ -83,17 +83,22 @@ public class KineticDetonatorBlock extends Block implements KineticBlock {
     }
 
     @Override
-    public int getCharge(BlockState state) {
+    public int getCharge(Level level, BlockPos pos, BlockState state) {
         return 0;
     }
 
     @Override
-    public int getMaxCharge() {
+    public int getMaxCharge(Level level, BlockPos pos) {
         return 0;
     }
 
     @Override
-    public BlockState withCharge(BlockState state, int newCharge) {
+    public void setCharge(Level level, BlockPos pos, int charge) {
+
+    }
+
+    @Override
+    public BlockState withCharge(BlockState state, float newCharge) {
         return state;
     }
 

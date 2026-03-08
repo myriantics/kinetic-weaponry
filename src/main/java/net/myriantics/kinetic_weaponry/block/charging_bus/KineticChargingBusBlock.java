@@ -38,21 +38,26 @@ public class KineticChargingBusBlock extends AbstractKineticChargingBusBlock {
 
     @Override
     protected int getAnalogOutputSignal(BlockState state, Level level, BlockPos pos) {
-        return (int) (15.0 / MAX_CHARGES * this.getCharge(state));
+        return (int) (15.0 / MAX_CHARGES * this.getCharge(level, pos, state));
     }
 
     @Override
-    public int getCharge(BlockState state) {
+    public int getCharge(Level level, BlockPos pos, BlockState state) {
         return state.getValue(KINETIC_CHARGE);
     }
 
     @Override
-    public int getMaxCharge() {
+    public int getMaxCharge(Level level, BlockPos pos) {
         return MAX_CHARGES;
     }
 
     @Override
-    public BlockState withCharge(BlockState state, int newCharge) {
-        return state.setValue(KINETIC_CHARGE, newCharge);
+    public void setCharge(Level level, BlockPos pos, int charge) {
+
+    }
+
+    @Override
+    public BlockState withCharge(BlockState state, float newCharge) {
+        return state.setValue(KINETIC_CHARGE, (int) (newCharge * MAX_CHARGES));
     }
 }

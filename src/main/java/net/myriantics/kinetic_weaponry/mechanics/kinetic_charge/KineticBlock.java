@@ -10,22 +10,24 @@ import org.jetbrains.annotations.Nullable;
 public interface KineticBlock {
     float getImpactConversionEfficiency(BlockState state, @Nullable KineticImpactType impactType);
 
-    int getCharge(BlockState state);
+    int getCharge(Level level, BlockPos pos, BlockState state);
 
-    int getMaxCharge();
+    int getMaxCharge(Level level, BlockPos pos);
 
-    BlockState withCharge(BlockState state, int newCharge);
+    void setCharge(Level level, BlockPos pos, int charge);
+
+    BlockState withCharge(BlockState state, float ratio);
 
     default int addCharge(Level level, BlockPos pos, BlockState state, int inboundCharge) {
-        int initialCharge = this.getCharge(state);
-        int maxCharge = this.getMaxCharge();
+        int initialCharge = this.getCharge(level, pos, state);
+        int maxCharge = this.getMaxCharge(level, pos);
 
         if (initialCharge >= maxCharge) {
             this.handleOverload(level, pos, state, inboundCharge);
             return 0;
         } else {
             int newCharge = Math.clamp((long) initialCharge + inboundCharge, 0, maxCharge);
-            level.setBlockAndUpdate(pos, this.withCharge(state, newCharge));
+            this.setCharge(level, pos, newCharge);
             return newCharge;
         }
     }

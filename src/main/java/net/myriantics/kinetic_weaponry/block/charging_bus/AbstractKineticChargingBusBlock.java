@@ -62,7 +62,7 @@ public abstract class AbstractKineticChargingBusBlock extends Block implements K
 
     public void chargeDockedKineticBlocks(BlockState state, ServerLevel level, BlockPos pos) {
         boolean discharged = false;
-        int initialCharge = this.getCharge(state);
+        int initialCharge = this.getCharge(level, pos, state);
 
         if (initialCharge > 0) {
             // charges all connected retention modules evenly before removing charge

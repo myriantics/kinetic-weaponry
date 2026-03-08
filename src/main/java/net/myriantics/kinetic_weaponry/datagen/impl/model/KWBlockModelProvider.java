@@ -15,6 +15,7 @@ import net.myriantics.kinetic_weaponry.block.retention_module.lesser.LesserKinet
 import net.myriantics.kinetic_weaponry.block.retention_module.standard.StandardKineticRetentionModuleBlock;
 import net.myriantics.kinetic_weaponry.block.trial_weave.TrialWeaveBlock;
 import net.myriantics.kinetic_weaponry.mechanics.kinetic_charge.KineticBlock;
+import net.myriantics.kinetic_weaponry.mixin.minecraft.IntegerPropertyAccessor;
 import net.myriantics.kinetic_weaponry.registry.block.KWBlocks;
 import net.myriantics.kinetic_weaponry.registry.render.KWModelTemplates;
 import net.myriantics.myrror.datagen.template.model.MyrrorBlockModelSubProvider;
@@ -60,7 +61,10 @@ public class KWBlockModelProvider extends MyrrorBlockModelSubProvider {
 
     private void generateKineticRetentionModule(Block block, IntegerProperty property, ModelTemplate template) {
         KineticBlock kineticBlock = (KineticBlock) block;
-        ResourceLocation[] charge2Ids = kineticBlock.getMaxCharge() > 0 ? new ResourceLocation[kineticBlock.getMaxCharge() + 1] : new ResourceLocation[] {TexturedModel.createDefault(TextureMapping::cubeBottomTop, template).create(block, generators.modelOutput)};
+        int min = ((IntegerPropertyAccessor) property).kinetic_weaponry$getMin();
+        int max = ((IntegerPropertyAccessor) property).kinetic_weaponry$getMax();
+
+        ResourceLocation[] charge2Ids = max > 0 ? new ResourceLocation[max + 1] : new ResourceLocation[] {TexturedModel.createDefault(TextureMapping::cubeBottomTop, template).create(block, generators.modelOutput)};
         for (int i = 0; i < charge2Ids.length; i++) {
             int finalI = i;
             charge2Ids[i] = TexturedModel.createDefault(
@@ -76,7 +80,7 @@ public class KWBlockModelProvider extends MyrrorBlockModelSubProvider {
         ).with(createDownDefaultRotationStates());
 
         // add kinetic charge if needed
-        if (kineticBlock.getMaxCharge() > 0) {
+        if (max > 0) {
             PropertyDispatch.C1<Integer> dispatch = PropertyDispatch.property(property);
 
             for (int i = 0; i < charge2Ids.length; i++) {

@@ -11,7 +11,7 @@ import net.myriantics.kinetic_weaponry.entity.crossbow_bolt.BlazingBoltEntity;
 
 import java.util.function.UnaryOperator;
 
-public class KWEntityTypes {
+public abstract class KWEntityTypes {
 
     public static final EntityType<BlazingBoltEntity> BLAZING_BOLT = register(
             "blazing_bolt",

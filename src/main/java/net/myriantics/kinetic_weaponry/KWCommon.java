@@ -3,6 +3,7 @@ package net.myriantics.kinetic_weaponry;
 import net.fabricmc.api.ModInitializer;
 import net.myriantics.kinetic_weaponry.registry.advancement.KWCriteriaTriggers;
 import net.myriantics.kinetic_weaponry.registry.behavior.KWDispenserBehaviors;
+import net.myriantics.kinetic_weaponry.registry.block.KWBlockEntityTypes;
 import net.myriantics.kinetic_weaponry.registry.block.KWFlammableBlocks;
 import net.myriantics.kinetic_weaponry.registry.item.KWItemGroups;
 import net.myriantics.kinetic_weaponry.registry.item.KWItems;
@@ -39,6 +40,7 @@ public class KWCommon implements ModInitializer {
         KWItemGroups.init();
 
         KWBlocks.init();
+        KWBlockEntityTypes.init();
         KWFlammableBlocks.init();
         KWDispenserBehaviors.init();
 

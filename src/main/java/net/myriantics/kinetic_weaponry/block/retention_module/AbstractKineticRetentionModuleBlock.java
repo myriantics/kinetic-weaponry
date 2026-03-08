@@ -1,14 +1,18 @@
 package net.myriantics.kinetic_weaponry.block.retention_module;
 
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.material.FluidState;
 import net.minecraft.world.level.material.Fluids;
+import net.minecraft.world.level.storage.loot.LootParams;
+import net.minecraft.world.level.storage.loot.parameters.LootContextParam;
+import net.minecraft.world.level.storage.loot.parameters.LootContextParams;
+import net.myriantics.kinetic_weaponry.KWCommon;
 import net.myriantics.kinetic_weaponry.mechanics.kinetic_charge.KineticBlock;
 import net.myriantics.kinetic_weaponry.mechanics.kinetic_charge.KineticItem;
 import net.myriantics.kinetic_weaponry.mechanics.kinetic_charge.KineticImpactType;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
-import net.minecraft.sounds.SoundEvents;
-import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.Level;
@@ -18,15 +22,16 @@ import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.level.block.state.properties.BooleanProperty;
 import net.minecraft.world.level.block.state.properties.DirectionProperty;
-import net.minecraft.world.level.material.PushReaction;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-public abstract class AbstractKineticRetentionModuleBlock extends Block implements SimpleWaterloggedBlock, KineticBlock {
+import java.util.List;
+
+public abstract class AbstractKineticRetentionModuleBlock extends BaseEntityBlock implements SimpleWaterloggedBlock, KineticBlock {
     public static final DirectionProperty FACING = BlockStateProperties.FACING;
     public static final BooleanProperty WATERLOGGED = BlockStateProperties.WATERLOGGED;
 
-    public static final int IMPACT_CHARGE_DIVISOR = 8;
+    public static final ResourceLocation DYNAMIC = KWCommon.locate("kinetic_retention_module_dynamic");
 
     public AbstractKineticRetentionModuleBlock(Properties properties) {
         super(properties);
@@ -37,20 +42,31 @@ public abstract class AbstractKineticRetentionModuleBlock extends Block implemen
     }
 
     @Override
-    public int addCharge(Level level, BlockPos pos, BlockState state, int inboundCharge) {
-        int initialCharge = this.getCharge(state);
-
-        int superval = KineticBlock.super.addCharge(level, pos, state, inboundCharge);
-
-        int newCharge = this.getCharge(state);
-
-        // play sound if necessary
-        // ooo XOR moment
-        if (initialCharge == 0 ^ newCharge == 0) {
-            level.playSound(null, pos, initialCharge == 0 ? SoundEvents.COPPER_BULB_TURN_ON : SoundEvents.COPPER_BULB_TURN_OFF, SoundSource.BLOCKS);
+    public void setCharge(Level level, BlockPos pos, int charge) {
+        if (level.getBlockEntity(pos) instanceof KineticRetentionModuleBlockEntity retentionModule) {
+            retentionModule.setChargeWithSFX(charge);
+            retentionModule.updateState(level, pos, level.getBlockState(pos));
         }
+    }
 
-        return superval;
+    @Override
+    public int getCharge(Level level, BlockPos pos, BlockState state) {
+        return level.getBlockEntity(pos) instanceof KineticRetentionModuleBlockEntity module ? module.getCharge() : 0;
+    }
+
+    @Override
+    public int getMaxCharge(Level level, BlockPos pos) {
+        return level.getBlockEntity(pos) instanceof KineticRetentionModuleBlockEntity module ? module.getMaxCharge() : 0;
+    }
+
+    @Override
+    protected RenderShape getRenderShape(BlockState state) {
+        return RenderShape.MODEL;
+    }
+
+    @Override
+    public @Nullable BlockEntity newBlockEntity(BlockPos pos, BlockState state) {
+        return new KineticRetentionModuleBlockEntity(pos, state);
     }
 
     @Override
@@ -76,7 +92,7 @@ public abstract class AbstractKineticRetentionModuleBlock extends Block implemen
         state = state.setValue(FACING, context.getClickedFace().getOpposite());
 
         return moduleStack.getItem() instanceof KineticItem kineticItem
-                ? this.withCharge(state, Math.clamp(kineticItem.getCharge(moduleStack), 0, this.getMaxCharge()))
+                ? this.withCharge(state, (float) kineticItem.getCharge(moduleStack) / kineticItem.getMaxCharge(moduleStack))
                 : state;
     }
 
@@ -92,12 +108,15 @@ public abstract class AbstractKineticRetentionModuleBlock extends Block implemen
 
     @Override
     protected int getAnalogOutputSignal(BlockState state, Level level, BlockPos pos) {
-        return (int) (15.0 / this.getMaxCharge() * this.getCharge(state));
-    }
-
-    public static PushReaction getCorrectedPistonPushReaction(PushReaction originalPushReaction, BlockState targetBlockState, Direction pistonPushDirection) {
-        Direction.Axis retentionModuleAxis = targetBlockState.getValue(FACING).getAxis();
-        Direction.Axis pistonPushAxis = pistonPushDirection.getAxis();
-        return retentionModuleAxis.equals(pistonPushAxis) ? originalPushReaction : PushReaction.DESTROY;
+        if (level.getBlockEntity(pos) instanceof KineticRetentionModuleBlockEntity module) {
+            int maxCharge = module.getMaxCharge();
+            if (maxCharge == 0) {
+                return 0;
+            } else {
+                return module.getCharge() / module.getMaxCharge();
+            }
+        } else {
+            return 0;
+        }
     }
 }

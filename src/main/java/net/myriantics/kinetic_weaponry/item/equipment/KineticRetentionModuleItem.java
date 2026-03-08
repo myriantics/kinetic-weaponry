@@ -74,11 +74,6 @@ public class KineticRetentionModuleItem extends BlockItem implements Equipable, 
         return builder.build();
     }
 
-    @Override
-    public int getMaxCharge(ItemStack stack) {
-        return ((AbstractKineticRetentionModuleBlock) this.getBlock()).getMaxCharge();
-    }
-
     public ArmorItem getDummyItem() {
         return (ArmorItem) switch (this.type) {
             case HELMET -> Items.IRON_HELMET;

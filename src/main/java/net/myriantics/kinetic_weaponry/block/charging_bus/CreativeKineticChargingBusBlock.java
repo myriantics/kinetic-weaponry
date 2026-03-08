@@ -12,17 +12,21 @@ public class CreativeKineticChargingBusBlock extends AbstractKineticChargingBusB
     }
 
     @Override
-    public int getCharge(BlockState state) {
+    public int getCharge(Level level, BlockPos pos, BlockState state) {
         return Integer.MAX_VALUE;
     }
 
     @Override
-    public int getMaxCharge() {
+    public int getMaxCharge(Level level, BlockPos pos) {
         return 0;
     }
 
     @Override
-    public BlockState withCharge(BlockState state, int newCharge) {
+    public void setCharge(Level level, BlockPos pos, int charge) {
+    }
+
+    @Override
+    public BlockState withCharge(BlockState state, float newCharge) {
         return state;
     }
 

@@ -4,9 +4,8 @@
   "compatibilityLevel": "JAVA_21",
   "mixins": [
     "minecraft.FallingBlockEntityMixin",
+    "minecraft.IntegerPropertyAccessor",
     "minecraft.LivingEntityMixin",
-    "minecraft.PistonBaseBlockMixin",
-    "minecraft.PistonStructureResolverMixin",
     "minecraft.ThrownPotionEntityMixin",
     "minecraft.kinetic_crossbow.CrossbowItemMixin",
     "minecraft.kinetic_retention_module.LivingEntityMixin"
