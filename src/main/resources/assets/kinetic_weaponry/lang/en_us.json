@@ -12,6 +12,8 @@
   "item.kinetic_weaponry.kinetic_crossbow": "Kinetic Crossbow",
   "item.kinetic_weaponry.kinetic_hoist": "Kinetic Hoist",
   "item.kinetic_weaponry.trial_twine": "Trial Twine",
+  "item.kinetic_weaponry.blazing_bolt": "Blazing Bolt",
+  "entity.kinetic_weaponry.blazing_bolt": "Blazing Bolt",
   "tooltip.kinetic_weaponry.kinetic_charge.infinite": "Infinite Kinetic Charge",
   "tooltip.kinetic_weaponry.kinetic_charge": "Kinetic Charge: [%1$s / %2$s]",
   "tooltip.kinetic_weaponry.heat": "Heat: [%1$s / %2$s]",

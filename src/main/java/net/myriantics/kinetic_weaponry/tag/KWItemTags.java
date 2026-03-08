@@ -12,6 +12,7 @@ public class KWItemTags {
     public static final TagKey<Item> LESSER_KINETIC_RETENTION_MODULES = subTag("lesser", KINETIC_RETENTION_MODULES);
     public static final TagKey<Item> KINETIC_CHARGING_BUSES = create("kinetic_charging_bus");
     public static final TagKey<Item> HEAT_SINKS = create("heat_sinks");
+    public static final TagKey<Item> CROSSBOW_BOLTS = create("crossbow_bolts");
 
     private static TagKey<Item> create(String name) {
         return TagKey.create(Registries.ITEM, KWCommon.locate(name));

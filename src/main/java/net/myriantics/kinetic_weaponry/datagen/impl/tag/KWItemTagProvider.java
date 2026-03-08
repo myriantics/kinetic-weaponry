@@ -60,5 +60,7 @@ public class KWItemTagProvider extends FabricTagProvider<Item> {
                 .add(Items.WAXED_WEATHERED_COPPER_GRATE)
                 .add(Items.WAXED_OXIDIZED_COPPER_GRATE)
         ;
+        getOrCreateTagBuilder(KWItemTags.CROSSBOW_BOLTS)
+                .add(KWItems.BLAZING_BOLT);
     }
 }

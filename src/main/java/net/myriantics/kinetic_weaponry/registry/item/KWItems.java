@@ -3,9 +3,10 @@ package net.myriantics.kinetic_weaponry.registry.item;
 import net.minecraft.core.Registry;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.util.Unit;
-import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.item.component.ChargedProjectiles;
 import net.myriantics.kinetic_weaponry.KWCommon;
+import net.myriantics.kinetic_weaponry.entity.crossbow_bolt.BlazingBoltEntity;
+import net.myriantics.kinetic_weaponry.item.ammo.CrossbowBoltItem;
 import net.myriantics.kinetic_weaponry.item.equipment.KineticCrossbowItem;
 import net.myriantics.kinetic_weaponry.item.equipment.KineticShortbowItem;
 import net.myriantics.kinetic_weaponry.mechanics.weapon_heat.OverheatWeapon;
@@ -115,6 +116,12 @@ public abstract class KWItems {
                     .component(DataComponents.CHARGED_PROJECTILES, ChargedProjectiles.EMPTY)
                     .stacksTo(1)
                     .rarity(Rarity.EPIC)
+    );
+
+    public static final Item BLAZING_BOLT = register(
+            "blazing_bolt",
+            (properties -> new CrossbowBoltItem(properties, BlazingBoltEntity::new, BlazingBoltEntity::new)),
+            new Item.Properties()
     );
 
     private static Item register(String name, Function<Item.Properties, Item> constructor, Item.Properties properties) {

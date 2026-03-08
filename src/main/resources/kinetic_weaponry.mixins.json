@@ -3,11 +3,12 @@
   "package": "net.myriantics.kinetic_weaponry.mixin",
   "compatibilityLevel": "JAVA_21",
   "mixins": [
-    "minecraft.LivingEntityMixin",
     "minecraft.FallingBlockEntityMixin",
+    "minecraft.LivingEntityMixin",
     "minecraft.PistonBaseBlockMixin",
     "minecraft.PistonStructureResolverMixin",
-    "minecraft.ThrownPotionEntityMixin"
+    "minecraft.ThrownPotionEntityMixin",
+    "minecraft.kinetic_crossbow.CrossbowItemMixin"
   ],
   "injectors": {
     "defaultRequire": 1

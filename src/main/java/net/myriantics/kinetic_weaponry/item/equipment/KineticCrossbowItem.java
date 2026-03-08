@@ -12,16 +12,23 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.component.ChargedProjectiles;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
+import net.myriantics.kinetic_weaponry.entity.crossbow_bolt.AbstractCrossbowBoltEntity;
 import net.myriantics.kinetic_weaponry.mechanics.kinetic_charge.KineticItem;
 import net.myriantics.kinetic_weaponry.mechanics.swingable.SwingableItem;
 import net.myriantics.kinetic_weaponry.registry.advancement.KWAdvancementTriggers;
 import net.myriantics.kinetic_weaponry.registry.item.KWDataComponents;
+import net.myriantics.kinetic_weaponry.registry.item.KWItems;
 import net.myriantics.kinetic_weaponry.registry.misc.KWSounds;
+import net.myriantics.kinetic_weaponry.tag.KWItemTags;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.NoSuchElementException;
+import java.util.function.Predicate;
 
 public class KineticCrossbowItem extends CrossbowItem implements SwingableItem, KineticItem {
+
+    public static final Predicate<ItemStack> CROSSBOW_BOLTS = (itemStack) -> itemStack.is(KWItemTags.CROSSBOW_BOLTS);
+
     public KineticCrossbowItem(Properties properties) {
         super(properties);
     }
@@ -77,8 +84,22 @@ public class KineticCrossbowItem extends CrossbowItem implements SwingableItem, 
     }
 
     @Override
-    protected void shootProjectile(LivingEntity shooter, Projectile projectile, int index, float velocity, float inaccuracy, float angle, @Nullable LivingEntity target) {
-        super.shootProjectile(shooter, projectile, index, velocity, inaccuracy, angle, target);
+    public Predicate<ItemStack> getSupportedHeldProjectiles() {
+        return CROSSBOW_BOLTS;
+    }
+
+    @Override
+    public Predicate<ItemStack> getAllSupportedProjectiles() {
+        return CROSSBOW_BOLTS;
+    }
+
+    @Override
+    protected Projectile createProjectile(Level level, LivingEntity shooter, ItemStack weapon, ItemStack ammo, boolean isCrit) {
+        Projectile projectile = super.createProjectile(level, shooter, weapon, ammo, isCrit);
+        if (projectile instanceof AbstractCrossbowBoltEntity crossbowBolt) {
+            crossbowBolt.setKineticCharge(this.getCharge(weapon));
+        }
+        return projectile;
     }
 
     @Override
@@ -91,6 +112,10 @@ public class KineticCrossbowItem extends CrossbowItem implements SwingableItem, 
     @Override
     public boolean canAttackBlock(BlockState state, Level level, BlockPos pos, Player player) {
         return player.getMainHandItem().getOrDefault(DataComponents.CHARGED_PROJECTILES, ChargedProjectiles.EMPTY).isEmpty();
+    }
+
+    public ItemStack getDefaultProjectile() {
+        return new ItemStack(KWItems.BLAZING_BOLT);
     }
 
     /**
