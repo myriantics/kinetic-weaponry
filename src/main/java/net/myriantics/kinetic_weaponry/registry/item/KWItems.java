@@ -11,7 +11,7 @@ import net.myriantics.kinetic_weaponry.item.equipment.KineticCrossbowItem;
 import net.myriantics.kinetic_weaponry.item.equipment.KineticShortbowItem;
 import net.myriantics.kinetic_weaponry.mechanics.weapon_heat.OverheatWeapon;
 import net.myriantics.kinetic_weaponry.registry.block.KWBlocks;
-import net.myriantics.kinetic_weaponry.item.blockitems.KineticRetentionModuleItem;
+import net.myriantics.kinetic_weaponry.item.equipment.KineticRetentionModuleItem;
 import net.minecraft.core.component.DataComponents;
 import net.minecraft.world.item.*;
 

@@ -273,4 +273,9 @@ public class KineticShortbowItem extends ProjectileWeaponItem implements Kinetic
     protected KineticShortbowConfig getConfig(ItemStack shortbowStack) {
         return shortbowStack.getOrDefault(KWDataComponents.KINETIC_SHORTBOW_CONFIG, DEFAULT);
     }
+
+    @Override
+    public int getEnchantmentValue() {
+        return 15;
+    }
 }

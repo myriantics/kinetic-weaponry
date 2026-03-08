@@ -1,4 +1,4 @@
-package net.myriantics.kinetic_weaponry.item.blockitems;
+package net.myriantics.kinetic_weaponry.item.equipment;
 
 import net.fabricmc.fabric.api.item.v1.EquipmentSlotProvider;
 import net.minecraft.core.Holder;
@@ -74,31 +74,6 @@ public class KineticRetentionModuleItem extends BlockItem implements Equipable, 
         return builder.build();
     }
 
-    /* @Override
-    public void inventoryTick(ItemStack stack, Level level, Entity entity, int slotId, boolean isSelected) {
-        if (!level.isClientSide) {
-            if(entity instanceof ServerPlayer player && stack.is(KWItems.KINETIC_RETENTION_MODULE_BLOCK_ITEM.get())
-                    // add entity whitelist tag here
-                    && ((LivingEntity)entity).getEquipmentSlotForItem(stack).equals(EquipmentSlot.BODY)
-                    && !entity.isSpectator()) {
-                summonRetentionModuleEntity(level, player);
-            }
-        }
-        super.inventoryTick(stack, level, entity, slotId, isSelected);
-    }
-
-    // ty to Dungeon Now Loading for serving as a reference
-    private void summonRetentionModuleEntity(Level level, Entity entity) {
-        Vec3 rawEntityPos = entity.getPosition(0.5f);
-        Vec3 entityLookDirection = entity.getLookAngle();
-        Vec3 entityPos = rawEntityPos.subtract(entityLookDirection.multiply(3, 3, 3));
-        KineticRetentionModuleEntity retentionModuleEntity = KWEntities.KINETIC_RETENTION_MODULE_ENTITY.get().create(level);
-        if (retentionModuleEntity != null) {
-            retentionModuleEntity.moveTo(entityPos.x, entityPos.y, entityPos.z, entity.getYRot(), entity.getXRot());
-            level.addFreshEntity(retentionModuleEntity);
-        }
-    } */
-
     @Override
     public int getMaxCharge(ItemStack stack) {
         return ((AbstractKineticRetentionModuleBlock) this.getBlock()).getMaxCharge();
@@ -112,5 +87,15 @@ public class KineticRetentionModuleItem extends BlockItem implements Equipable, 
             case BOOTS -> Items.IRON_BOOTS;
             case BODY -> Items.IRON_HORSE_ARMOR;
         };
+    }
+
+    @Override
+    public int getEnchantmentValue() {
+        return this.material.value().enchantmentValue();
+    }
+
+    @Override
+    public boolean isValidRepairItem(ItemStack stack, ItemStack repairCandidate) {
+        return this.material.value().repairIngredient().get().test(repairCandidate) || super.isValidRepairItem(stack, repairCandidate);
     }
 }

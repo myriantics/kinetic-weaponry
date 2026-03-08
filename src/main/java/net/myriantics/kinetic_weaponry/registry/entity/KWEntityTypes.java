@@ -6,23 +6,12 @@ import net.minecraft.world.entity.Entity;
 import net.myriantics.kinetic_weaponry.KWCommon;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.MobCategory;
-import net.myriantics.kinetic_weaponry.entity.KineticRetentionModuleEntity;
 import net.myriantics.kinetic_weaponry.entity.crossbow_bolt.AbstractCrossbowBoltEntity;
 import net.myriantics.kinetic_weaponry.entity.crossbow_bolt.BlazingBoltEntity;
 
-import java.util.function.Consumer;
-import java.util.function.Function;
 import java.util.function.UnaryOperator;
 
 public class KWEntityTypes {
-
-    public static final EntityType<KineticRetentionModuleEntity> KINETIC_RETENTION_MODULE_ENTITY = register(
-            "kinetic_retention_module",
-            KineticRetentionModuleEntity::new,
-            MobCategory.MISC,
-            builder -> builder
-            .sized(0.6f, 0.8f).clientTrackingRange(10)
-    );
 
     public static final EntityType<BlazingBoltEntity> BLAZING_BOLT = register(
             "blazing_bolt",

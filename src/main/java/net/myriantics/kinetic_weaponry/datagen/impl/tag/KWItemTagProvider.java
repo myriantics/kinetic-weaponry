@@ -32,6 +32,9 @@ public class KWItemTagProvider extends FabricTagProvider<Item> {
                 .add(KWItems.KINETIC_SHORTBOW);
         getOrCreateTagBuilder(ConventionalItemTags.CROSSBOW_TOOLS)
                 .add(KWItems.KINETIC_CROSSBOW);
+        getOrCreateTagBuilder(ConventionalItemTags.RANGED_WEAPON_TOOLS)
+                .add(KWItems.KINETIC_SHORTBOW)
+                .add(KWItems.KINETIC_CROSSBOW);
         getOrCreateTagBuilder(ItemTags.HEAD_ARMOR)
                 .add(KWItems.LESSER_KINETIC_RETENTION_MODULE)
                 .add(KWItems.CREATIVE_LESSER_KINETIC_RETENTION_MODULE);

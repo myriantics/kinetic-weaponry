@@ -127,4 +127,9 @@ public class KineticCrossbowItem extends CrossbowItem implements SwingableItem, 
     public float getDrawProgress(LivingEntity livingEntity, ItemStack usedStack) {
         return CrossbowItem.isCharged(usedStack) ? 0.0F : (float)(usedStack.getUseDuration(livingEntity) - livingEntity.getUseItemRemainingTicks()) / (float)getChargeDuration(usedStack, livingEntity);
     }
+
+    @Override
+    public int getEnchantmentValue() {
+        return 15;
+    }
 }

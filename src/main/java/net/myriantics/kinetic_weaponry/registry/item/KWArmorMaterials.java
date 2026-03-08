@@ -45,7 +45,7 @@ public abstract class KWArmorMaterials {
             }),
             15,
             SoundEvents.ARMOR_EQUIP_IRON,
-            () -> Ingredient.of(Items.COPPER_INGOT),
+            Ingredient::of,
             List.of(
                     new ArmorMaterial.Layer(KWCommon.locate("kinetic_creative"))
             ),
