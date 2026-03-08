@@ -1,0 +1,30 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "B": {
+      "item": "minecraft:breeze_rod"
+    },
+    "C": {
+      "item": "minecraft:waxed_chiseled_copper"
+    },
+    "H": {
+      "item": "minecraft:heavy_core"
+    },
+    "T": {
+      "item": "kinetic_weaponry:trial_twine"
+    },
+    "c": {
+      "item": "minecraft:copper_ingot"
+    }
+  },
+  "pattern": [
+    "BHB",
+    "TCT",
+    " c "
+  ],
+  "result": {
+    "count": 1,
+    "id": "kinetic_weaponry:kinetic_crossbow"
+  }
+}

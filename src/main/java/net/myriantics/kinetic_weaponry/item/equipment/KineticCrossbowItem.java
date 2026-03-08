@@ -6,6 +6,7 @@ import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.entity.projectile.Projectile;
 import net.minecraft.world.item.CrossbowItem;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.component.ChargedProjectiles;
@@ -27,9 +28,9 @@ public class KineticCrossbowItem extends CrossbowItem implements SwingableItem, 
 
     @Override
     public void onSwing(LivingEntity livingEntity, ItemStack swungStack, InteractionHand hand) {
-        int swingChargeCooldown = this.getRemainingSwingChargeCooldown(livingEntity);
+        boolean cooldown = livingEntity instanceof Player player && player.getCooldowns().isOnCooldown(this);
 
-        if (swingChargeCooldown > 0) {
+        if (cooldown) {
             return;
         }
 
@@ -65,11 +66,10 @@ public class KineticCrossbowItem extends CrossbowItem implements SwingableItem, 
                                 0.2f + (0.3f * livingEntity.getRandom().nextFloat()) + (0.5f * (oldCharge + 1))
                         );
 
-                        if (livingEntity instanceof ServerPlayer serverPlayer) {
-                            KWAdvancementTriggers.triggerKineticItemCharge(serverPlayer, swungStack);
+                        if (livingEntity instanceof ServerPlayer player) {
+                            player.getCooldowns().addCooldown(this, swungStack.getOrDefault(KWDataComponents.SWING_CHARGE_COOLDOWN, 0));
+                            KWAdvancementTriggers.triggerKineticItemCharge(player, swungStack);
                         }
-
-                        this.resetSwingChargeCooldown(livingEntity, swungStack);
                     }
                 }
             }
@@ -77,13 +77,29 @@ public class KineticCrossbowItem extends CrossbowItem implements SwingableItem, 
     }
 
     @Override
+    protected void shootProjectile(LivingEntity shooter, Projectile projectile, int index, float velocity, float inaccuracy, float angle, @Nullable LivingEntity target) {
+        super.shootProjectile(shooter, projectile, index, velocity, inaccuracy, angle, target);
+    }
+
+    @Override
     public void performShooting(Level level, LivingEntity shooter, InteractionHand hand, ItemStack weapon, float velocity, float inaccuracy, @Nullable LivingEntity target) {
         super.performShooting(level, shooter, hand, weapon, velocity, inaccuracy, target);
+        // reset charge after finished shooting
         this.setCharge(weapon, 0);
     }
 
     @Override
     public boolean canAttackBlock(BlockState state, Level level, BlockPos pos, Player player) {
         return player.getMainHandItem().getOrDefault(DataComponents.CHARGED_PROJECTILES, ChargedProjectiles.EMPTY).isEmpty();
+    }
+
+    /**
+     * Assumes that this is the item that said LivingEntity is using
+     * @param livingEntity The entity using the item
+     * @param usedStack The Kinetic Shortbow's stack
+     * @return Float from 0 to 1 representing charge progress.
+     */
+    public float getDrawProgress(LivingEntity livingEntity, ItemStack usedStack) {
+        return CrossbowItem.isCharged(usedStack) ? 0.0F : (float)(usedStack.getUseDuration(livingEntity) - livingEntity.getUseItemRemainingTicks()) / (float)getChargeDuration(usedStack, livingEntity);
     }
 }

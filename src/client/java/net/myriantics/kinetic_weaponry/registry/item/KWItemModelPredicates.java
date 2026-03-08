@@ -3,6 +3,8 @@ package net.myriantics.kinetic_weaponry.registry.item;
 import net.minecraft.client.renderer.item.ClampedItemPropertyFunction;
 import net.minecraft.client.renderer.item.ItemProperties;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.item.Item;
+import net.myriantics.kinetic_weaponry.item.equipment.KineticCrossbowItem;
 import net.myriantics.kinetic_weaponry.mechanics.kinetic_charge.KineticItem;
 import net.myriantics.kinetic_weaponry.item.equipment.KineticShortbowItem;
 import net.myriantics.kinetic_weaponry.mechanics.weapon_heat.OverheatWeapon;
@@ -12,10 +14,13 @@ public abstract class KWItemModelPredicates {
     public static void init() {
         register(KWItemModelPredicateIds.KINETIC_CHARGE, (itemStack, clientLevel, livingEntity, i) -> {
             if (itemStack.getItem() instanceof KineticItem kineticItem) {
+                int maxCharge = kineticItem.getMaxCharge(itemStack);
                 if (itemStack.has(KWDataComponents.INFINITE_KINETIC_CHARGE)) {
                     return 1.0f;
-                } else {
+                } else if (maxCharge == 0) {
                     return 0f;
+                } else {
+                    return (float) kineticItem.getCharge(itemStack) / kineticItem.getMaxCharge(itemStack);
                 }
             } else {
                 return 0;
@@ -35,7 +40,7 @@ public abstract class KWItemModelPredicates {
             }
         });
 
-        ItemProperties.register(KWItems.KINETIC_SHORTBOW, KWItemModelPredicateIds.PULL_PROGRESS, (usedStack, clientLevel, livingEntity, i) -> {
+        registerItem(KWItems.KINETIC_SHORTBOW, KWItemModelPredicateIds.PULL_PROGRESS, (usedStack, clientLevel, livingEntity, i) -> {
             if (livingEntity == null || livingEntity.getUseItem() != usedStack) {
                 return 0.0F;
             } else {
@@ -43,6 +48,19 @@ public abstract class KWItemModelPredicates {
                 return shortbow.getDrawProgress(livingEntity, usedStack);
             }
         });
+
+        registerItem(KWItems.KINETIC_CROSSBOW, KWItemModelPredicateIds.PULL_PROGRESS, (usedStack, clientLevel, livingEntity, i) -> {
+            if (livingEntity == null || livingEntity.getUseItem() != usedStack) {
+                return 0.0f;
+            } else {
+                KineticCrossbowItem crossbow = ((KineticCrossbowItem) usedStack.getItem());
+                return crossbow.getDrawProgress(livingEntity, usedStack);
+            }
+        });
+    }
+
+    private static void registerItem(Item item, ResourceLocation id, ClampedItemPropertyFunction function) {
+        ItemProperties.register(item, id, function);
     }
 
     private static void register(ResourceLocation id, ClampedItemPropertyFunction fun) {

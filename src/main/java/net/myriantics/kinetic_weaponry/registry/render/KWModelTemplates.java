@@ -29,6 +29,12 @@ public abstract class KWModelTemplates {
             TextureSlot.LAYER2
     );
 
+    public static ModelTemplate KINETIC_CROSSBOW = item(
+            "kinetic_crossbow_parent",
+            TextureSlot.LAYER0,
+            TextureSlot.LAYER1
+    );
+
     private static ModelTemplate block(String path, TextureSlot... textureSlots) {
         return new ModelTemplate(
                 Optional.of(KWCommon.locate("block/" + path)),

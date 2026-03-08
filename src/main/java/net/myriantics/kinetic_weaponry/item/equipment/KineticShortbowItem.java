@@ -245,7 +245,7 @@ public class KineticShortbowItem extends ProjectileWeaponItem implements Kinetic
      * @return Float from 0 to 1 representing charge progress.
      */
     public float getDrawProgress(LivingEntity livingEntity, ItemStack usedStack) {
-        return (float) livingEntity.getTicksUsingItem() / usedStack.getOrDefault(KWDataComponents.KINETIC_SHORTBOW_CONFIG, DEFAULT).drawTicks();
+        return (float) livingEntity.getTicksUsingItem() / this.getConfig(usedStack).drawTicks();
     }
 
     public boolean isDrawn(LivingEntity livingEntity, ItemStack stack) {

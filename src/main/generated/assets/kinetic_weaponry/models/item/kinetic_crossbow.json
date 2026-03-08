@@ -1,0 +1,149 @@
+{
+  "parent": "kinetic_weaponry:item/kinetic_crossbow_parent",
+  "overrides": [
+    {
+      "model": "kinetic_weaponry:item/kinetic_crossbow/kinetic_charge_0.0_pull_progress_0.0",
+      "predicate": {
+        "kinetic_weaponry:kinetic_charge": 0.0,
+        "kinetic_weaponry:pull_progress": 0.0
+      }
+    },
+    {
+      "model": "kinetic_weaponry:item/kinetic_crossbow/kinetic_charge_0.25_pull_progress_0.0",
+      "predicate": {
+        "kinetic_weaponry:kinetic_charge": 0.25,
+        "kinetic_weaponry:pull_progress": 0.0
+      }
+    },
+    {
+      "model": "kinetic_weaponry:item/kinetic_crossbow/kinetic_charge_0.5_pull_progress_0.0",
+      "predicate": {
+        "kinetic_weaponry:kinetic_charge": 0.5,
+        "kinetic_weaponry:pull_progress": 0.0
+      }
+    },
+    {
+      "model": "kinetic_weaponry:item/kinetic_crossbow/kinetic_charge_0.75_pull_progress_0.0",
+      "predicate": {
+        "kinetic_weaponry:kinetic_charge": 0.75,
+        "kinetic_weaponry:pull_progress": 0.0
+      }
+    },
+    {
+      "model": "kinetic_weaponry:item/kinetic_crossbow/kinetic_charge_1.0_pull_progress_0.0",
+      "predicate": {
+        "kinetic_weaponry:kinetic_charge": 1.0,
+        "kinetic_weaponry:pull_progress": 0.0
+      }
+    },
+    {
+      "model": "kinetic_weaponry:item/kinetic_crossbow/kinetic_charge_0.0_pull_progress_0.33333334",
+      "predicate": {
+        "kinetic_weaponry:kinetic_charge": 0.0,
+        "kinetic_weaponry:pull_progress": 0.33333334
+      }
+    },
+    {
+      "model": "kinetic_weaponry:item/kinetic_crossbow/kinetic_charge_0.25_pull_progress_0.33333334",
+      "predicate": {
+        "kinetic_weaponry:kinetic_charge": 0.25,
+        "kinetic_weaponry:pull_progress": 0.33333334
+      }
+    },
+    {
+      "model": "kinetic_weaponry:item/kinetic_crossbow/kinetic_charge_0.5_pull_progress_0.33333334",
+      "predicate": {
+        "kinetic_weaponry:kinetic_charge": 0.5,
+        "kinetic_weaponry:pull_progress": 0.33333334
+      }
+    },
+    {
+      "model": "kinetic_weaponry:item/kinetic_crossbow/kinetic_charge_0.75_pull_progress_0.33333334",
+      "predicate": {
+        "kinetic_weaponry:kinetic_charge": 0.75,
+        "kinetic_weaponry:pull_progress": 0.33333334
+      }
+    },
+    {
+      "model": "kinetic_weaponry:item/kinetic_crossbow/kinetic_charge_1.0_pull_progress_0.33333334",
+      "predicate": {
+        "kinetic_weaponry:kinetic_charge": 1.0,
+        "kinetic_weaponry:pull_progress": 0.33333334
+      }
+    },
+    {
+      "model": "kinetic_weaponry:item/kinetic_crossbow/kinetic_charge_0.0_pull_progress_0.6666667",
+      "predicate": {
+        "kinetic_weaponry:kinetic_charge": 0.0,
+        "kinetic_weaponry:pull_progress": 0.6666667
+      }
+    },
+    {
+      "model": "kinetic_weaponry:item/kinetic_crossbow/kinetic_charge_0.25_pull_progress_0.6666667",
+      "predicate": {
+        "kinetic_weaponry:kinetic_charge": 0.25,
+        "kinetic_weaponry:pull_progress": 0.6666667
+      }
+    },
+    {
+      "model": "kinetic_weaponry:item/kinetic_crossbow/kinetic_charge_0.5_pull_progress_0.6666667",
+      "predicate": {
+        "kinetic_weaponry:kinetic_charge": 0.5,
+        "kinetic_weaponry:pull_progress": 0.6666667
+      }
+    },
+    {
+      "model": "kinetic_weaponry:item/kinetic_crossbow/kinetic_charge_0.75_pull_progress_0.6666667",
+      "predicate": {
+        "kinetic_weaponry:kinetic_charge": 0.75,
+        "kinetic_weaponry:pull_progress": 0.6666667
+      }
+    },
+    {
+      "model": "kinetic_weaponry:item/kinetic_crossbow/kinetic_charge_1.0_pull_progress_0.6666667",
+      "predicate": {
+        "kinetic_weaponry:kinetic_charge": 1.0,
+        "kinetic_weaponry:pull_progress": 0.6666667
+      }
+    },
+    {
+      "model": "kinetic_weaponry:item/kinetic_crossbow/kinetic_charge_0.0_pull_progress_1.0",
+      "predicate": {
+        "kinetic_weaponry:kinetic_charge": 0.0,
+        "kinetic_weaponry:pull_progress": 1.0
+      }
+    },
+    {
+      "model": "kinetic_weaponry:item/kinetic_crossbow/kinetic_charge_0.25_pull_progress_1.0",
+      "predicate": {
+        "kinetic_weaponry:kinetic_charge": 0.25,
+        "kinetic_weaponry:pull_progress": 1.0
+      }
+    },
+    {
+      "model": "kinetic_weaponry:item/kinetic_crossbow/kinetic_charge_0.5_pull_progress_1.0",
+      "predicate": {
+        "kinetic_weaponry:kinetic_charge": 0.5,
+        "kinetic_weaponry:pull_progress": 1.0
+      }
+    },
+    {
+      "model": "kinetic_weaponry:item/kinetic_crossbow/kinetic_charge_0.75_pull_progress_1.0",
+      "predicate": {
+        "kinetic_weaponry:kinetic_charge": 0.75,
+        "kinetic_weaponry:pull_progress": 1.0
+      }
+    },
+    {
+      "model": "kinetic_weaponry:item/kinetic_crossbow/kinetic_charge_1.0_pull_progress_1.0",
+      "predicate": {
+        "kinetic_weaponry:kinetic_charge": 1.0,
+        "kinetic_weaponry:pull_progress": 1.0
+      }
+    }
+  ],
+  "textures": {
+    "layer0": "kinetic_weaponry:item/kinetic_crossbow/base/standby",
+    "layer1": "kinetic_weaponry:item/kinetic_crossbow/heavy_core/charge_0"
+  }
+}

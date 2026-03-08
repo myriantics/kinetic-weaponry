@@ -21,27 +21,6 @@ public abstract class LivingEntityMixin extends Entity {
     }
 
     @Inject(
-            method = "baseTick",
-            at = @At(value = "HEAD")
-    )
-    private void kinetic_weaponry$tickSwingChargeCooldowns(CallbackInfo ci) {
-        if (!this.level().isClientSide()) {
-            this.modifyAttached(KWAttachmentTypes.SWING_CHARGE_COOLDOWN_TICKS, (cooldown -> {
-                if (cooldown == null || cooldown < 0) {
-                    return null;
-                } else {
-                    int maxCooldown = this.getMainHandItem().getOrDefault(KWDataComponents.SWING_CHARGE_COOLDOWN, 0);
-                    if (cooldown > maxCooldown) {
-                        return null;
-                    } else {
-                        return cooldown - 1;
-                    }
-                }
-            }));
-        }
-    }
-
-    @Inject(
             method = "stopUsingItem",
             at = @At(value = "HEAD")
     )

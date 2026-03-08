@@ -1,0 +1,7 @@
+{
+  "parent": "kinetic_weaponry:item/kinetic_crossbow",
+  "textures": {
+    "layer0": "kinetic_weaponry:item/kinetic_crossbow/base/pulling_0",
+    "layer1": "kinetic_weaponry:item/kinetic_crossbow/heavy_core/charge_3"
+  }
+}

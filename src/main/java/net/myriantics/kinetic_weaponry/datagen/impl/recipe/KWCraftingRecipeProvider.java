@@ -33,12 +33,31 @@ public class KWCraftingRecipeProvider extends CraftingRecipeProvider {
                         .associate('B', Items.BREEZE_ROD)
                         .category(CraftingBookCategory.EQUIPMENT)
         );
+        addKineticCrossbowRecipe(Items.CHISELED_COPPER);
+        addKineticCrossbowRecipe(Items.WAXED_CHISELED_COPPER);
         addKineticDetonatorRecipe(KWItems.KINETIC_DETONATOR, Items.CHISELED_COPPER);
         addKineticDetonatorRecipe(KWItems.KINETIC_DETONATOR,  Items.WAXED_CHISELED_COPPER);
         addKineticChargingBusRecipe(KWItems.KINETIC_CHARGING_BUS, Items.CHISELED_COPPER);
         addKineticChargingBusRecipe(KWItems.KINETIC_CHARGING_BUS, Items.WAXED_CHISELED_COPPER);
         addStandardKineticRetentionModuleRecipe(KWItems.KINETIC_RETENTION_MODULE, Items.CHISELED_COPPER);
         addStandardKineticRetentionModuleRecipe(KWItems.KINETIC_RETENTION_MODULE, Items.WAXED_CHISELED_COPPER);
+    }
+
+    private void addKineticCrossbowRecipe(Item chiseledBlock) {
+        addShapedCraftingRecipe(
+                new String[] {
+                        "BHB",
+                        "TCT",
+                        " c "
+                },
+                new ItemStack(KWItems.KINETIC_CROSSBOW),
+                builder -> builder
+                        .associate('B', Items.BREEZE_ROD)
+                        .associate('T', KWItems.TRIAL_TWINE)
+                        .associate('H', Items.HEAVY_CORE)
+                        .associate('C', chiseledBlock)
+                        .associate('c', Items.COPPER_INGOT)
+        );
     }
 
     private void addStandardKineticRetentionModuleRecipe(Item result, Item chiseledBlock) {
