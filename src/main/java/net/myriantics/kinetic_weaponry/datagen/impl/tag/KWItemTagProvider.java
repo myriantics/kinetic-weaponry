@@ -28,14 +28,20 @@ public class KWItemTagProvider extends FabricTagProvider<Item> {
                 .add(KWItems.TRIAL_WEAVE);
         getOrCreateTagBuilder(ConventionalItemTags.STRINGS)
                 .add(KWItems.TRIAL_TWINE);
-        getOrCreateTagBuilder(ConventionalItemTags.RANGED_WEAPON_TOOLS)
+        getOrCreateTagBuilder(ConventionalItemTags.BOW_TOOLS)
                 .add(KWItems.KINETIC_SHORTBOW);
+        getOrCreateTagBuilder(ConventionalItemTags.CROSSBOW_TOOLS)
+                .add(KWItems.KINETIC_CROSSBOW);
         getOrCreateTagBuilder(ItemTags.HEAD_ARMOR)
                 .add(KWItems.LESSER_KINETIC_RETENTION_MODULE)
                 .add(KWItems.CREATIVE_LESSER_KINETIC_RETENTION_MODULE);
         getOrCreateTagBuilder(ItemTags.CHEST_ARMOR)
                 .add(KWItems.KINETIC_RETENTION_MODULE)
                 .add(KWItems.CREATIVE_KINETIC_RETENTION_MODULE);
+        getOrCreateTagBuilder(ItemTags.BOW_ENCHANTABLE)
+                .add(KWItems.KINETIC_SHORTBOW);
+        getOrCreateTagBuilder(ItemTags.CROSSBOW_ENCHANTABLE)
+                .add(KWItems.KINETIC_CROSSBOW);
 
 
         getOrCreateTagBuilder(KWItemTags.KINETIC_CHARGING_BUSES)
