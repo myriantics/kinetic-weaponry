@@ -5,7 +5,9 @@
   "client": [
     "HumanoidArmorLayerMixin",
     "MinecraftHandleKeybindsMixin",
-    "SmithingScreenMixin"
+    "SmithingScreenMixin",
+    "minecraft.kinetic_crossbow.ItemInHandRendererMixin",
+    "minecraft.kinetic_crossbow.PlayerRendererMixin"
   ],
   "injectors": {
     "defaultRequire": 1
