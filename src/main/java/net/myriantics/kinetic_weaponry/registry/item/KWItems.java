@@ -44,7 +44,7 @@ public abstract class KWItems {
             properties -> new KineticRetentionModuleItem(KWBlocks.KINETIC_RETENTION_MODULE, ArmorItem.Type.CHESTPLATE, KWArmorMaterials.KINETIC_COPPER, properties),
             new Item.Properties()
                     .component(KWDataComponents.KINETIC_CHARGE, 0)
-                    .stacksTo(1)
+                    .durability(352)
                     .rarity(Rarity.EPIC)
     );
 
@@ -63,7 +63,7 @@ public abstract class KWItems {
             properties -> new KineticRetentionModuleItem(KWBlocks.LESSER_KINETIC_RETENTION_MODULE, ArmorItem.Type.HELMET, KWArmorMaterials.KINETIC_COPPER, properties),
             new Item.Properties()
                     .component(KWDataComponents.KINETIC_CHARGE, 0)
-                    .stacksTo(1)
+                    .durability(222)
                     .rarity(Rarity.EPIC)
     );
 
@@ -102,7 +102,7 @@ public abstract class KWItems {
                     .component(KWDataComponents.HEAT_UNIT_DISSIPATION_RATE, OverheatWeapon.DEFAULT_HEAT_UNIT_DISSIPATION_RATE)
                     .component(KWDataComponents.HEAT_SOUND_THRESHOLDS, List.of(KineticShortbowItem.HEAT_UNIT_HOT_THRESHOLD, KineticShortbowItem.HEAT_UNIT_HOTTEST_THRESHOLD))
                     .component(KWDataComponents.KINETIC_SHORTBOW_CONFIG, KineticShortbowItem.DEFAULT)
-                    .stacksTo(1)
+                    .durability(512)
                     .rarity(Rarity.EPIC)
     );
 
@@ -114,7 +114,7 @@ public abstract class KWItems {
                     .component(KWDataComponents.MAX_KINETIC_CHARGE, 4)
                     .component(KWDataComponents.SWING_CHARGE_COOLDOWN, 20)
                     .component(DataComponents.CHARGED_PROJECTILES, ChargedProjectiles.EMPTY)
-                    .stacksTo(1)
+                    .durability(512)
                     .rarity(Rarity.EPIC)
     );
 

@@ -45,6 +45,9 @@ public class KWItemTagProvider extends FabricTagProvider<Item> {
                 .add(KWItems.KINETIC_SHORTBOW);
         getOrCreateTagBuilder(ItemTags.CROSSBOW_ENCHANTABLE)
                 .add(KWItems.KINETIC_CROSSBOW);
+        getOrCreateTagBuilder(ItemTags.DURABILITY_ENCHANTABLE)
+                .add(KWItems.KINETIC_CROSSBOW)
+                .add(KWItems.KINETIC_SHORTBOW);
 
 
         getOrCreateTagBuilder(KWItemTags.KINETIC_CHARGING_BUSES)

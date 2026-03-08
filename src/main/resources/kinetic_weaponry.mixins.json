@@ -8,7 +8,8 @@
     "minecraft.PistonBaseBlockMixin",
     "minecraft.PistonStructureResolverMixin",
     "minecraft.ThrownPotionEntityMixin",
-    "minecraft.kinetic_crossbow.CrossbowItemMixin"
+    "minecraft.kinetic_crossbow.CrossbowItemMixin",
+    "minecraft.kinetic_retention_module.LivingEntityMixin"
   ],
   "injectors": {
     "defaultRequire": 1
