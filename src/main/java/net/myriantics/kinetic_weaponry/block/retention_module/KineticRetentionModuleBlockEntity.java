@@ -46,6 +46,9 @@ public class KineticRetentionModuleBlockEntity extends BlockEntity {
     private void setCharge(int charge) {
         this.charge = Math.abs(charge);
         this.setChanged();
+        if (this.level != null) {
+            this.level.updateNeighbourForOutputSignal(this.getBlockPos(), this.level.getBlockState(this.getBlockPos()).getBlock());
+        }
     }
 
     private void setMaxCharge(int maxCharge) {
@@ -88,6 +91,9 @@ public class KineticRetentionModuleBlockEntity extends BlockEntity {
         }
         if (tag.contains(KWNbtIds.KINETIC_CHARGE)) {
             this.setCharge(Math.min(tag.getInt(KWNbtIds.KINETIC_CHARGE), this.maxCharge));
+            if (this.level != null) {
+                this.updateState(this.level, this.getBlockPos(), this.level.getBlockState(this.getBlockPos()));
+            }
         }
     }
 }
