@@ -282,6 +282,6 @@ public class KineticShortbowItem extends ProjectileWeaponItem implements Kinetic
 
     @Override
     public boolean isValidRepairItem(ItemStack stack, ItemStack repairCandidate) {
-        return stack.is(KWItemTags.KINETIC_SHORTBOW_REPAIR_ITEMS) || super.isValidRepairItem(stack, repairCandidate);
+        return repairCandidate.is(KWItemTags.KINETIC_SHORTBOW_REPAIR_ITEMS) || super.isValidRepairItem(stack, repairCandidate);
     }
 }

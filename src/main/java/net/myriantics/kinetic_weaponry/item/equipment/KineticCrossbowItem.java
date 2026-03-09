@@ -138,6 +138,6 @@ public class KineticCrossbowItem extends CrossbowItem implements SwingableItem, 
 
     @Override
     public boolean isValidRepairItem(ItemStack stack, ItemStack repairCandidate) {
-        return stack.is(KWItemTags.KINETIC_CROSSBOW_REPAIR_ITEMS) || super.isValidRepairItem(stack, repairCandidate);
+        return repairCandidate.is(KWItemTags.KINETIC_CROSSBOW_REPAIR_ITEMS) || super.isValidRepairItem(stack, repairCandidate);
     }
 }
