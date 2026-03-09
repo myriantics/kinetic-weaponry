@@ -9,16 +9,16 @@ import net.myriantics.kinetic_weaponry.registry.item.KWItems;
 
 public abstract class KWDispenserBehaviors {
     public static DispenseItemBehavior KINETIC_RETENTION_MODULE = register(
-            KWItems.KINETIC_RETENTION_MODULE,
+            KWItems.KINETIC_RETENTION_BACKTANK,
             new KineticRetentionModuleDispenserBehavior()
     );
 
     static {
         KineticRetentionModuleDispenserBehavior behavior = new KineticRetentionModuleDispenserBehavior();
-        register(KWItems.KINETIC_RETENTION_MODULE, behavior);
-        register(KWItems.CREATIVE_KINETIC_RETENTION_MODULE, behavior);
-        register(KWItems.LESSER_KINETIC_RETENTION_MODULE, behavior);
-        register(KWItems.CREATIVE_LESSER_KINETIC_RETENTION_MODULE, behavior);
+        register(KWItems.KINETIC_RETENTION_BACKTANK, behavior);
+        register(KWItems.CREATIVE_KINETIC_RETENTION_BACKTANK, behavior);
+        register(KWItems.KINETIC_RETENTION_HEADGEAR, behavior);
+        register(KWItems.CREATIVE_KINETIC_RETENTION_HEADGEAR, behavior);
     }
 
     private static DispenseItemBehavior register(Item item, DispenseItemBehavior behavior) {

@@ -5,7 +5,6 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.crafting.CraftingBookCategory;
-import net.myriantics.kinetic_weaponry.datagen.impl.tag.KWItemTagProvider;
 import net.myriantics.kinetic_weaponry.registry.item.KWItems;
 import net.myriantics.kinetic_weaponry.tag.KWItemTags;
 import net.myriantics.myrror.datagen.template.recipe.MyrrorRecipeProvider;
@@ -39,8 +38,8 @@ public class KWCraftingRecipeProvider extends CraftingRecipeProvider {
         addKineticDetonatorRecipe(KWItems.KINETIC_DETONATOR,  Items.WAXED_CHISELED_COPPER);
         addKineticChargingBusRecipe(KWItems.KINETIC_CHARGING_BUS, Items.CHISELED_COPPER);
         addKineticChargingBusRecipe(KWItems.KINETIC_CHARGING_BUS, Items.WAXED_CHISELED_COPPER);
-        addStandardKineticRetentionModuleRecipe(KWItems.KINETIC_RETENTION_MODULE, Items.CHISELED_COPPER);
-        addStandardKineticRetentionModuleRecipe(KWItems.KINETIC_RETENTION_MODULE, Items.WAXED_CHISELED_COPPER);
+        addStandardKineticRetentionModuleRecipe(KWItems.KINETIC_RETENTION_BACKTANK, Items.CHISELED_COPPER);
+        addStandardKineticRetentionModuleRecipe(KWItems.KINETIC_RETENTION_BACKTANK, Items.WAXED_CHISELED_COPPER);
     }
 
     private void addKineticCrossbowRecipe(Item chiseledBlock) {

@@ -18,7 +18,7 @@
     },
     "icon": {
       "count": 1,
-      "id": "kinetic_weaponry:kinetic_retention_module"
+      "id": "kinetic_weaponry:kinetic_retention_backtank"
     },
     "title": {
       "translate": "advancements.kinetic_weaponry.adventure.wear_kinetic_retention_module.title"

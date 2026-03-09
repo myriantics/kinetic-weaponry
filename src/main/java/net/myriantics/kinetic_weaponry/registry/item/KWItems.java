@@ -5,8 +5,8 @@ import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.util.Unit;
 import net.minecraft.world.item.component.ChargedProjectiles;
 import net.myriantics.kinetic_weaponry.KWCommon;
-import net.myriantics.kinetic_weaponry.block.retention_module.lesser.LesserKineticRetentionModuleBlock;
-import net.myriantics.kinetic_weaponry.block.retention_module.standard.StandardKineticRetentionModuleBlock;
+import net.myriantics.kinetic_weaponry.block.retention_module.lesser.KineticRetentionHeadgearBlock;
+import net.myriantics.kinetic_weaponry.block.retention_module.standard.KineticRetentionBacktankBlock;
 import net.myriantics.kinetic_weaponry.entity.crossbow_bolt.BlazingBoltEntity;
 import net.myriantics.kinetic_weaponry.item.ammo.CrossbowBoltItem;
 import net.myriantics.kinetic_weaponry.item.equipment.KineticCrossbowItem;
@@ -41,19 +41,19 @@ public abstract class KWItems {
                     .rarity(Rarity.EPIC)
     );
 
-    public static final Item KINETIC_RETENTION_MODULE = register(
-            "kinetic_retention_module",
-            properties -> new KineticRetentionModuleItem(KWBlocks.KINETIC_RETENTION_MODULE, ArmorItem.Type.CHESTPLATE, KWArmorMaterials.KINETIC_COPPER, properties),
+    public static final Item KINETIC_RETENTION_BACKTANK = register(
+            "kinetic_retention_backtank",
+            properties -> new KineticRetentionModuleItem(KWBlocks.KINETIC_RETENTION_BACKTANK, ArmorItem.Type.CHESTPLATE, KWArmorMaterials.KINETIC_COPPER, properties),
             new Item.Properties()
                     .component(KWDataComponents.KINETIC_CHARGE, 0)
-                    .component(KWDataComponents.MAX_KINETIC_CHARGE, StandardKineticRetentionModuleBlock.MAX_CHARGES)
+                    .component(KWDataComponents.MAX_KINETIC_CHARGE, KineticRetentionBacktankBlock.MAX_CHARGES)
                     .durability(352)
                     .rarity(Rarity.EPIC)
     );
 
-    public static final Item CREATIVE_KINETIC_RETENTION_MODULE = register(
-            "creative_kinetic_retention_module",
-            properties -> new KineticRetentionModuleItem(KWBlocks.CREATIVE_KINETIC_RETENTION_MODULE, ArmorItem.Type.CHESTPLATE, KWArmorMaterials.KINETIC_CREATIVE, properties),
+    public static final Item CREATIVE_KINETIC_RETENTION_BACKTANK = register(
+            "creative_kinetic_retention_backtank",
+            properties -> new KineticRetentionModuleItem(KWBlocks.CREATIVE_KINETIC_RETENTION_BACKTANK, ArmorItem.Type.CHESTPLATE, KWArmorMaterials.KINETIC_CREATIVE, properties),
             new Item.Properties()
                     .component(DataComponents.ENCHANTMENT_GLINT_OVERRIDE, true)
                     .component(KWDataComponents.INFINITE_KINETIC_CHARGE, Unit.INSTANCE)
@@ -61,19 +61,19 @@ public abstract class KWItems {
                     .rarity(Rarity.EPIC)
     );
 
-    public static final Item LESSER_KINETIC_RETENTION_MODULE = register(
-            "lesser_kinetic_retention_module",
-            properties -> new KineticRetentionModuleItem(KWBlocks.LESSER_KINETIC_RETENTION_MODULE, ArmorItem.Type.HELMET, KWArmorMaterials.KINETIC_COPPER, properties),
+    public static final Item KINETIC_RETENTION_HEADGEAR = register(
+            "kinetic_retention_headgear",
+            properties -> new KineticRetentionModuleItem(KWBlocks.KINETIC_RETENTION_HEADGEAR, ArmorItem.Type.HELMET, KWArmorMaterials.KINETIC_COPPER, properties),
             new Item.Properties()
                     .component(KWDataComponents.KINETIC_CHARGE, 0)
-                    .component(KWDataComponents.MAX_KINETIC_CHARGE, LesserKineticRetentionModuleBlock.MAX_CHARGES)
+                    .component(KWDataComponents.MAX_KINETIC_CHARGE, KineticRetentionHeadgearBlock.MAX_CHARGES)
                     .durability(222)
                     .rarity(Rarity.EPIC)
     );
 
-    public static final Item CREATIVE_LESSER_KINETIC_RETENTION_MODULE = register(
-            "creative_lesser_kinetic_retention_module",
-            properties -> new KineticRetentionModuleItem(KWBlocks.CREATIVE_LESSER_KINETIC_RETENTION_MODULE, ArmorItem.Type.HELMET, KWArmorMaterials.KINETIC_CREATIVE, properties),
+    public static final Item CREATIVE_KINETIC_RETENTION_HEADGEAR = register(
+            "creative_kinetic_retention_headgear",
+            properties -> new KineticRetentionModuleItem(KWBlocks.CREATIVE_KINETIC_RETENTION_HEADGEAR, ArmorItem.Type.HELMET, KWArmorMaterials.KINETIC_CREATIVE, properties),
             new Item.Properties()
                     .component(DataComponents.ENCHANTMENT_GLINT_OVERRIDE, true)
                     .component(KWDataComponents.INFINITE_KINETIC_CHARGE, Unit.INSTANCE)

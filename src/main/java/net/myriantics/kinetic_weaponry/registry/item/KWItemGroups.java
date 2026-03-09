@@ -23,10 +23,10 @@ public abstract class KWItemGroups {
                     output.accept(KWItems.KINETIC_DETONATOR);
 
                     // retention modules
-                    output.accept(KWItems.KINETIC_RETENTION_MODULE);
-                    output.accept(KWItems.CREATIVE_KINETIC_RETENTION_MODULE);
-                    output.accept(KWItems.LESSER_KINETIC_RETENTION_MODULE);
-                    output.accept(KWItems.CREATIVE_LESSER_KINETIC_RETENTION_MODULE);
+                    output.accept(KWItems.KINETIC_RETENTION_BACKTANK);
+                    output.accept(KWItems.CREATIVE_KINETIC_RETENTION_BACKTANK);
+                    output.accept(KWItems.KINETIC_RETENTION_HEADGEAR);
+                    output.accept(KWItems.CREATIVE_KINETIC_RETENTION_HEADGEAR);
 
                     // trial twine & weave
                     output.accept(KWItems.TRIAL_TWINE);

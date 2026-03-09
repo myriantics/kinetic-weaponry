@@ -8,14 +8,12 @@ import net.myriantics.kinetic_weaponry.KWCommon;
 import net.myriantics.kinetic_weaponry.block.charging_bus.CreativeKineticChargingBusBlock;
 import net.myriantics.kinetic_weaponry.block.charging_bus.KineticChargingBusBlock;
 import net.myriantics.kinetic_weaponry.block.detonator.KineticDetonatorBlock;
-import net.myriantics.kinetic_weaponry.block.retention_module.AbstractKineticRetentionModuleBlock;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockBehaviour;
-import net.minecraft.world.level.block.state.properties.BlockStateProperties;
-import net.myriantics.kinetic_weaponry.block.retention_module.lesser.CreativeLesserKineticRetentionModuleBlock;
-import net.myriantics.kinetic_weaponry.block.retention_module.lesser.LesserKineticRetentionModuleBlock;
-import net.myriantics.kinetic_weaponry.block.retention_module.standard.CreativeStandardKineticRetentionModuleBlock;
-import net.myriantics.kinetic_weaponry.block.retention_module.standard.StandardKineticRetentionModuleBlock;
+import net.myriantics.kinetic_weaponry.block.retention_module.lesser.CreativeKineticRetentionHeadgearBlock;
+import net.myriantics.kinetic_weaponry.block.retention_module.lesser.KineticRetentionHeadgearBlock;
+import net.myriantics.kinetic_weaponry.block.retention_module.standard.CreativeKineticRetentionBacktankBlock;
+import net.myriantics.kinetic_weaponry.block.retention_module.standard.KineticRetentionBacktankBlock;
 import net.myriantics.kinetic_weaponry.block.trial_weave.TrialWeaveBlock;
 
 import java.util.function.Function;
@@ -38,34 +36,34 @@ public abstract class KWBlocks {
                     .ofFullCopy(Blocks.COPPER_BLOCK)
     );
 
-    public static final Block KINETIC_RETENTION_MODULE = register(
-            "kinetic_retention_module",
-            StandardKineticRetentionModuleBlock::new,
+    public static final Block KINETIC_RETENTION_BACKTANK = register(
+            "kinetic_retention_backtank",
+            KineticRetentionBacktankBlock::new,
             BlockBehaviour.Properties
                     .ofFullCopy(Blocks.COPPER_BLOCK)
-                    .lightLevel((state) -> state.getValue(StandardKineticRetentionModuleBlock.KINETIC_CHARGE) > 0 ? 15 : 0)
+                    .lightLevel((state) -> state.getValue(KineticRetentionBacktankBlock.KINETIC_CHARGE) > 0 ? 15 : 0)
                     .pushReaction(PushReaction.DESTROY)
                     .forceSolidOn()
     );
 
-    public static final Block CREATIVE_KINETIC_RETENTION_MODULE = register(
-            "creative_kinetic_retention_module",
-            CreativeStandardKineticRetentionModuleBlock::new,
-            BlockBehaviour.Properties.ofFullCopy(KINETIC_RETENTION_MODULE)
+    public static final Block CREATIVE_KINETIC_RETENTION_BACKTANK = register(
+            "creative_kinetic_retention_backtank",
+            CreativeKineticRetentionBacktankBlock::new,
+            BlockBehaviour.Properties.ofFullCopy(KINETIC_RETENTION_BACKTANK)
                     .lightLevel((state) -> 15)
     );
 
-    public static final Block LESSER_KINETIC_RETENTION_MODULE = register(
-            "lesser_kinetic_retention_module",
-            LesserKineticRetentionModuleBlock::new,
-            BlockBehaviour.Properties.ofFullCopy(KINETIC_RETENTION_MODULE)
-                    .lightLevel((state) -> state.getValue(LesserKineticRetentionModuleBlock.KINETIC_CHARGE) > 0 ? 15 : 0)
+    public static final Block KINETIC_RETENTION_HEADGEAR = register(
+            "kinetic_retention_headgear",
+            KineticRetentionHeadgearBlock::new,
+            BlockBehaviour.Properties.ofFullCopy(KINETIC_RETENTION_BACKTANK)
+                    .lightLevel((state) -> state.getValue(KineticRetentionHeadgearBlock.KINETIC_CHARGE) > 0 ? 15 : 0)
     );
 
-    public static final Block CREATIVE_LESSER_KINETIC_RETENTION_MODULE = register(
-            "creative_lesser_kinetic_retention_module",
-            CreativeLesserKineticRetentionModuleBlock::new,
-            BlockBehaviour.Properties.ofFullCopy(LESSER_KINETIC_RETENTION_MODULE)
+    public static final Block CREATIVE_KINETIC_RETENTION_HEADGEAR = register(
+            "creative_kinetic_retention_headgear",
+            CreativeKineticRetentionHeadgearBlock::new,
+            BlockBehaviour.Properties.ofFullCopy(KINETIC_RETENTION_HEADGEAR)
                     .lightLevel((state) -> 15)
     );
 

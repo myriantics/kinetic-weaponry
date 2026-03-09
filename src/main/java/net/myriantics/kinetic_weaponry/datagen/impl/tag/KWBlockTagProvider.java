@@ -3,9 +3,7 @@ package net.myriantics.kinetic_weaponry.datagen.impl.tag;
 import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricTagProvider;
 import net.minecraft.core.HolderLookup;
-import net.minecraft.core.Registry;
 import net.minecraft.core.registries.Registries;
-import net.minecraft.resources.ResourceKey;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.world.level.block.Block;
 import net.myriantics.kinetic_weaponry.registry.block.KWBlocks;
@@ -39,10 +37,10 @@ public class KWBlockTagProvider extends FabricTagProvider<Block> {
                 .forceAddTag(KWBlockTags.STANDARD_KINETIC_RETENTION_MODULES)
                 .forceAddTag(KWBlockTags.LESSER_KINETIC_RETENTION_MODULES);
         getOrCreateTagBuilder(KWBlockTags.STANDARD_KINETIC_RETENTION_MODULES)
-                .add(KWBlocks.KINETIC_RETENTION_MODULE)
-                .add(KWBlocks.CREATIVE_KINETIC_RETENTION_MODULE);
+                .add(KWBlocks.KINETIC_RETENTION_BACKTANK)
+                .add(KWBlocks.CREATIVE_KINETIC_RETENTION_BACKTANK);
         getOrCreateTagBuilder(KWBlockTags.LESSER_KINETIC_RETENTION_MODULES)
-                .add(KWBlocks.CREATIVE_LESSER_KINETIC_RETENTION_MODULE)
-                .add(KWBlocks.LESSER_KINETIC_RETENTION_MODULE);
+                .add(KWBlocks.CREATIVE_KINETIC_RETENTION_HEADGEAR)
+                .add(KWBlocks.KINETIC_RETENTION_HEADGEAR);
     }
 }

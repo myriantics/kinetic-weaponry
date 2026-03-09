@@ -11,10 +11,9 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.level.block.state.properties.IntegerProperty;
-import net.myriantics.kinetic_weaponry.block.retention_module.lesser.LesserKineticRetentionModuleBlock;
-import net.myriantics.kinetic_weaponry.block.retention_module.standard.StandardKineticRetentionModuleBlock;
+import net.myriantics.kinetic_weaponry.block.retention_module.lesser.KineticRetentionHeadgearBlock;
+import net.myriantics.kinetic_weaponry.block.retention_module.standard.KineticRetentionBacktankBlock;
 import net.myriantics.kinetic_weaponry.block.trial_weave.TrialWeaveBlock;
-import net.myriantics.kinetic_weaponry.mechanics.kinetic_charge.KineticBlock;
 import net.myriantics.kinetic_weaponry.mixin.minecraft.IntegerPropertyAccessor;
 import net.myriantics.kinetic_weaponry.registry.block.KWBlocks;
 import net.myriantics.kinetic_weaponry.registry.render.KWModelTemplates;
@@ -30,10 +29,10 @@ public class KWBlockModelProvider extends MyrrorBlockModelSubProvider {
     public void generate() {
         generateFacing(KWBlocks.KINETIC_DETONATOR);
 
-        generateKineticRetentionModule(KWBlocks.KINETIC_RETENTION_MODULE, StandardKineticRetentionModuleBlock.KINETIC_CHARGE, KWModelTemplates.STANDARD_KINETIC_RETENTION_MODULE);
-        generateKineticRetentionModule(KWBlocks.CREATIVE_KINETIC_RETENTION_MODULE, null, KWModelTemplates.STANDARD_KINETIC_RETENTION_MODULE);
-        generateKineticRetentionModule(KWBlocks.LESSER_KINETIC_RETENTION_MODULE, LesserKineticRetentionModuleBlock.KINETIC_CHARGE, KWModelTemplates.LESSER_KINETIC_RETENTION_MODULE);
-        generateKineticRetentionModule(KWBlocks.CREATIVE_LESSER_KINETIC_RETENTION_MODULE, null, KWModelTemplates.LESSER_KINETIC_RETENTION_MODULE);
+        generateKineticRetentionModule(KWBlocks.KINETIC_RETENTION_BACKTANK, KineticRetentionBacktankBlock.KINETIC_CHARGE, KWModelTemplates.STANDARD_KINETIC_RETENTION_MODULE);
+        generateKineticRetentionModule(KWBlocks.CREATIVE_KINETIC_RETENTION_BACKTANK, null, KWModelTemplates.STANDARD_KINETIC_RETENTION_MODULE);
+        generateKineticRetentionModule(KWBlocks.KINETIC_RETENTION_HEADGEAR, KineticRetentionHeadgearBlock.KINETIC_CHARGE, KWModelTemplates.LESSER_KINETIC_RETENTION_MODULE);
+        generateKineticRetentionModule(KWBlocks.CREATIVE_KINETIC_RETENTION_HEADGEAR, null, KWModelTemplates.LESSER_KINETIC_RETENTION_MODULE);
 
         generateTrialWeave(KWBlocks.TRIAL_WEAVE);
     }
