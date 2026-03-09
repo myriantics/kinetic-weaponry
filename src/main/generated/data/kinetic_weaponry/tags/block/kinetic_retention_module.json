@@ -1,6 +1,6 @@
 {
   "values": [
-    "#kinetic_weaponry:kinetic_retention_module/standard",
-    "#kinetic_weaponry:kinetic_retention_module/lesser"
+    "#kinetic_weaponry:kinetic_retention_module/backtank",
+    "#kinetic_weaponry:kinetic_retention_module/headgear"
   ]
 }

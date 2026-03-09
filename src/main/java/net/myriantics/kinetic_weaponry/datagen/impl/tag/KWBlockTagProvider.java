@@ -34,12 +34,12 @@ public class KWBlockTagProvider extends FabricTagProvider<Block> {
                 .add(KWBlocks.KINETIC_CHARGING_BUS)
                 .add(KWBlocks.CREATIVE_KINETIC_CHARGING_BUS);
         getOrCreateTagBuilder(KWBlockTags.KINETIC_RETENTION_MODULES)
-                .forceAddTag(KWBlockTags.STANDARD_KINETIC_RETENTION_MODULES)
-                .forceAddTag(KWBlockTags.LESSER_KINETIC_RETENTION_MODULES);
-        getOrCreateTagBuilder(KWBlockTags.STANDARD_KINETIC_RETENTION_MODULES)
+                .forceAddTag(KWBlockTags.KINETIC_RETENTION_BACKTANKS)
+                .forceAddTag(KWBlockTags.KINETIC_RETENTION_HEADGEAR);
+        getOrCreateTagBuilder(KWBlockTags.KINETIC_RETENTION_BACKTANKS)
                 .add(KWBlocks.KINETIC_RETENTION_BACKTANK)
                 .add(KWBlocks.CREATIVE_KINETIC_RETENTION_BACKTANK);
-        getOrCreateTagBuilder(KWBlockTags.LESSER_KINETIC_RETENTION_MODULES)
+        getOrCreateTagBuilder(KWBlockTags.KINETIC_RETENTION_HEADGEAR)
                 .add(KWBlocks.CREATIVE_KINETIC_RETENTION_HEADGEAR)
                 .add(KWBlocks.KINETIC_RETENTION_HEADGEAR);
     }
