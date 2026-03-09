@@ -1,8 +1,0 @@
-{
-  "parent": "kinetic_weaponry:block/standard_kinetic_retention_module_parent",
-  "textures": {
-    "bottom": "kinetic_weaponry:block/creative_kinetic_retention_backtank_bottom",
-    "side": "kinetic_weaponry:block/creative_kinetic_retention_backtank_side_charge_0",
-    "top": "kinetic_weaponry:block/creative_kinetic_retention_backtank_top"
-  }
-}

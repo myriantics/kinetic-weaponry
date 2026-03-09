@@ -1,27 +1,27 @@
 {
   "variants": {
     "facing=down": {
-      "model": "kinetic_weaponry:block/creative_kinetic_retention_backtank/charge_0"
+      "model": "kinetic_weaponry:block/creative_kinetic_retention_backtank"
     },
     "facing=east": {
-      "model": "kinetic_weaponry:block/creative_kinetic_retention_backtank/charge_0",
+      "model": "kinetic_weaponry:block/creative_kinetic_retention_backtank",
       "x": 90,
       "y": 270
     },
     "facing=north": {
-      "model": "kinetic_weaponry:block/creative_kinetic_retention_backtank/charge_0",
+      "model": "kinetic_weaponry:block/creative_kinetic_retention_backtank",
       "x": 270
     },
     "facing=south": {
-      "model": "kinetic_weaponry:block/creative_kinetic_retention_backtank/charge_0",
+      "model": "kinetic_weaponry:block/creative_kinetic_retention_backtank",
       "x": 90
     },
     "facing=up": {
-      "model": "kinetic_weaponry:block/creative_kinetic_retention_backtank/charge_0",
+      "model": "kinetic_weaponry:block/creative_kinetic_retention_backtank",
       "x": 180
     },
     "facing=west": {
-      "model": "kinetic_weaponry:block/creative_kinetic_retention_backtank/charge_0",
+      "model": "kinetic_weaponry:block/creative_kinetic_retention_backtank",
       "x": 90,
       "y": 90
     }

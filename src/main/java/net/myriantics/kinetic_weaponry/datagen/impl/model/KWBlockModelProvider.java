@@ -30,9 +30,9 @@ public class KWBlockModelProvider extends MyrrorBlockModelSubProvider {
         generateFacing(KWBlocks.KINETIC_DETONATOR);
 
         generateKineticRetentionModule(KWBlocks.KINETIC_RETENTION_BACKTANK, KineticRetentionBacktankBlock.KINETIC_CHARGE, KWModelTemplates.STANDARD_KINETIC_RETENTION_MODULE);
-        generateKineticRetentionModule(KWBlocks.CREATIVE_KINETIC_RETENTION_BACKTANK, null, KWModelTemplates.STANDARD_KINETIC_RETENTION_MODULE);
+        generateCreativeKineticRetentionModule(KWBlocks.CREATIVE_KINETIC_RETENTION_BACKTANK, KWModelTemplates.STANDARD_KINETIC_RETENTION_MODULE);
         generateKineticRetentionModule(KWBlocks.KINETIC_RETENTION_HEADGEAR, KineticRetentionHeadgearBlock.KINETIC_CHARGE, KWModelTemplates.LESSER_KINETIC_RETENTION_MODULE);
-        generateKineticRetentionModule(KWBlocks.CREATIVE_KINETIC_RETENTION_HEADGEAR, null, KWModelTemplates.LESSER_KINETIC_RETENTION_MODULE);
+        generateCreativeKineticRetentionModule(KWBlocks.CREATIVE_KINETIC_RETENTION_HEADGEAR, KWModelTemplates.LESSER_KINETIC_RETENTION_MODULE);
 
         generateTrialWeave(KWBlocks.TRIAL_WEAVE);
     }
@@ -58,19 +58,43 @@ public class KWBlockModelProvider extends MyrrorBlockModelSubProvider {
                 ));
     }
 
+    private void generateCreativeKineticRetentionModule(Block block, ModelTemplate template) {
+        TextureMapping mapping = new TextureMapping()
+                .put(TextureSlot.TOP, TextureMapping.getBlockTexture(block, "/top"))
+                .put(TextureSlot.BOTTOM, TextureMapping.getBlockTexture(block, "/bottom"))
+                .put(TextureSlot.SIDE, TextureMapping.getBlockTexture(block, "/side"));
+        ResourceLocation modelId = TexturedModel.createDefault(
+                b -> mapping,
+                template
+        ).create(block, this.generators.modelOutput);
+
+        MultiVariantGenerator variantGenerator = MultiVariantGenerator.multiVariant(
+                block,
+                Variant.variant().with(VariantProperties.MODEL, modelId)
+        ).with(createDownDefaultRotationStates());
+
+        this.generators.blockStateOutput.accept(variantGenerator);
+    }
+
     private void generateKineticRetentionModule(Block block, IntegerProperty property, ModelTemplate template) {
-        int min = property == null ? 0 : ((IntegerPropertyAccessor) property).kinetic_weaponry$getMin();
-        int max = property == null ? 0 : ((IntegerPropertyAccessor) property).kinetic_weaponry$getMax();
+        int min = ((IntegerPropertyAccessor) property).kinetic_weaponry$getMin();
+        if (min != 0) {
+            throw new IllegalArgumentException("Minimum value of " + property + " in block " + block + " is [" + min + "] - should be 0!");
+        }
+        int max = ((IntegerPropertyAccessor) property).kinetic_weaponry$getMax();
 
         ResourceLocation[] charge2Ids = max > 0 ? new ResourceLocation[max + 1] : new ResourceLocation[] {TexturedModel.createDefault(TextureMapping::cubeBottomTop, template).create(block, generators.modelOutput)};
         for (int i = 0; i < charge2Ids.length; i++) {
-            int finalI = i;
+            TextureMapping mapping = new TextureMapping()
+                    .put(TextureSlot.TOP, TextureMapping.getBlockTexture(block, "/top"))
+                    .put(TextureSlot.BOTTOM, TextureMapping.getBlockTexture(block, "/bottom" + (i == min ? "/off" : "/on")))
+                    .put(TextureSlot.SIDE, TextureMapping.getBlockTexture(block, "/side/charge_" + i));
+
             charge2Ids[i] = TexturedModel.createDefault(
-                    block1 -> TextureMapping.cubeBottomTop(block1).put(TextureSlot.SIDE, TextureMapping.getBlockTexture(block1, "_side_charge_" + finalI)),
+                    (b) -> mapping,
                     template
             ).createWithSuffix(block, "/charge_" + i, generators.modelOutput);
         }
-        generators.delegateItemModel(block, charge2Ids[0]);
 
         MultiVariantGenerator variantGenerator = MultiVariantGenerator.multiVariant(
                 block,
