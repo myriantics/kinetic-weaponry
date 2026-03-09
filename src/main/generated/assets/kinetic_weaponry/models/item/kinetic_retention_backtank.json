@@ -1,0 +1,51 @@
+{
+  "parent": "minecraft:item/generated",
+  "overrides": [
+    {
+      "model": "kinetic_weaponry:item/kinetic_retention_backtank/kinetic_charge_0.0",
+      "predicate": {
+        "kinetic_weaponry:kinetic_charge": 0.0
+      }
+    },
+    {
+      "model": "kinetic_weaponry:item/kinetic_retention_backtank/kinetic_charge_0.016666668",
+      "predicate": {
+        "kinetic_weaponry:kinetic_charge": 0.016666668
+      }
+    },
+    {
+      "model": "kinetic_weaponry:item/kinetic_retention_backtank/kinetic_charge_0.33333334",
+      "predicate": {
+        "kinetic_weaponry:kinetic_charge": 0.33333334
+      }
+    },
+    {
+      "model": "kinetic_weaponry:item/kinetic_retention_backtank/kinetic_charge_0.5",
+      "predicate": {
+        "kinetic_weaponry:kinetic_charge": 0.5
+      }
+    },
+    {
+      "model": "kinetic_weaponry:item/kinetic_retention_backtank/kinetic_charge_0.6666667",
+      "predicate": {
+        "kinetic_weaponry:kinetic_charge": 0.6666667
+      }
+    },
+    {
+      "model": "kinetic_weaponry:item/kinetic_retention_backtank/kinetic_charge_0.8333333",
+      "predicate": {
+        "kinetic_weaponry:kinetic_charge": 0.8333333
+      }
+    },
+    {
+      "model": "kinetic_weaponry:item/kinetic_retention_backtank/kinetic_charge_1.0",
+      "predicate": {
+        "kinetic_weaponry:kinetic_charge": 1.0
+      }
+    }
+  ],
+  "textures": {
+    "layer0": "kinetic_weaponry:item/kinetic_retention_backtank/base",
+    "layer1": "kinetic_weaponry:item/kinetic_retention_backtank/gauge/charge_0"
+  }
+}

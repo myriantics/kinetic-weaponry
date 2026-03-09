@@ -49,6 +49,10 @@ public class KineticRetentionModuleItem extends BlockItem implements Equipable, 
         return this.material;
     }
 
+    public ArmorItem.Type getType() {
+        return this.type;
+    }
+
     @Override
     public InteractionResultHolder<ItemStack> use(Level level, Player player, InteractionHand usedHand) {
         return this.swapWithEquipmentSlot(this, level, player, usedHand);

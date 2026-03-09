@@ -2,9 +2,7 @@ package net.myriantics.kinetic_weaponry.datagen.impl.model;
 
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.data.models.ItemModelGenerators;
-import net.minecraft.data.models.model.ModelTemplate;
-import net.minecraft.data.models.model.ModelTemplates;
-import net.minecraft.data.models.model.TextureSlot;
+import net.minecraft.data.models.model.*;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Item;
 import net.myriantics.kinetic_weaponry.registry.item.KWItems;
@@ -25,6 +23,7 @@ public class KWItemModelProvider extends MyrrorItemModelSubProvider {
     public void generate() {
         generateKineticShortbow();
         generateKineticCrossbow();
+        generateKineticRetentionBacktank();
         addSimpleItem(KWItems.TRIAL_TWINE);
     }
 
@@ -89,5 +88,31 @@ public class KWItemModelProvider extends MyrrorItemModelSubProvider {
 
     private void addSimpleItem(Item item) {
         generators.generateFlatItem(item, ModelTemplates.FLAT_ITEM);
+    }
+
+    private void generateKineticRetentionBacktank() {
+        TextureSlot layer0 = TextureSlot.LAYER0;
+        TextureSlot layer1 = TextureSlot.LAYER1;
+        TextureSlot layer2 = TextureSlot.LAYER2;
+
+        ResourceLocation modelLocation = ModelLocationUtils.getModelLocation(KWItems.KINETIC_RETENTION_BACKTANK);
+        add(
+                ModelTemplates.TWO_LAYERED_ITEM,
+                modelLocation,
+                Map.of(
+                        layer0, KWTextures.KINETIC_RETENTION_BACKTANK_ITEM_BASE,
+                        layer1, KWTextures.KINETIC_RETENTION_BACKTANK_ITEM_GAUGE_CHARGE_0
+                ),
+                builder ->
+                        builder.textureOverride(KWItemModelPredicateIds.KINETIC_CHARGE, layer1.getId())
+                                .add(0f/6, KWTextures.KINETIC_RETENTION_BACKTANK_ITEM_GAUGE_CHARGE_0)
+                                .add(0.1f/6, KWTextures.KINETIC_RETENTION_BACKTANK_ITEM_GAUGE_CHARGE_1)
+                                .add(2f/6, KWTextures.KINETIC_RETENTION_BACKTANK_ITEM_GAUGE_CHARGE_2)
+                                .add(3f/6, KWTextures.KINETIC_RETENTION_BACKTANK_ITEM_GAUGE_CHARGE_3)
+                                .add(4f/6, KWTextures.KINETIC_RETENTION_BACKTANK_ITEM_GAUGE_CHARGE_4)
+                                .add(5f/6, KWTextures.KINETIC_RETENTION_BACKTANK_ITEM_GAUGE_CHARGE_5)
+                                .add(6f/6, KWTextures.KINETIC_RETENTION_BACKTANK_ITEM_GAUGE_CHARGE_6)
+                                .endOverride()
+        );
     }
 }

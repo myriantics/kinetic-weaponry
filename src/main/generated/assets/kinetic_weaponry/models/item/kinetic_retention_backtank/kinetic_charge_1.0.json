@@ -1,0 +1,7 @@
+{
+  "parent": "kinetic_weaponry:item/kinetic_retention_backtank",
+  "textures": {
+    "layer0": "kinetic_weaponry:item/kinetic_retention_backtank/base",
+    "layer1": "kinetic_weaponry:item/kinetic_retention_backtank/gauge/charge_6"
+  }
+}
