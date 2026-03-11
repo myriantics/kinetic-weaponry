@@ -115,18 +115,13 @@ public class KineticRetentionModuleItem extends BlockItem implements Equipable, 
         return this.material.value().repairIngredient().get().test(repairCandidate) || super.isValidRepairItem(stack, repairCandidate);
     }
 
+    public boolean absorbHelmetHitWhileEquipped(LivingEntity damagedEntity, DamageSource damageSource, float damageAmount, ItemStack moduleStack) {
+        return this.addChargeFromDamage(damagedEntity, moduleStack, damageAmount, KineticImpactType.FALLING_BLOCK);
+    }
+
     public boolean absorbMaceHitWhileEquipped(LivingEntity livingEntity, DamageSource source, float amount, EquipmentSlot slot, ItemStack stack) {
         // make sure we're in the right slot
         if (!slot.equals(this.getEquipmentSlot())) {
-            return false;
-        }
-
-        int charge = this.getCharge(stack);
-        int maxCharge = this.getMaxCharge(stack);
-
-        // make sure we have room for more charge
-        if (charge >= maxCharge) {
-            //TODO: add overloading mechanic
             return false;
         }
 
@@ -137,14 +132,27 @@ public class KineticRetentionModuleItem extends BlockItem implements Equipable, 
                 Vec3 source2Target = damageSourcePosition.vectorTo(livingEntity.position());
                 source2Target = new Vec3(source2Target.x, 0.0, source2Target.z).normalize();
 
-                int inboundCharge = (int) (amount * ((KineticBlock) this.getBlock()).getImpactConversionEfficiency(KineticImpactType.MACE));
-                this.addCharge(stack, inboundCharge);
+                this.addChargeFromDamage(livingEntity, stack, amount, KineticImpactType.MACE);
 
                 return source2Target.dot(viewVector) < 0.0;
             }
         }
 
         return false;
+    }
+
+    public boolean addChargeFromDamage(LivingEntity damagedEntity, ItemStack moduleStack, float damageAmount, KineticImpactType impactType) {
+        int charge = this.getCharge(moduleStack);
+        int maxCharge = this.getMaxCharge(moduleStack);
+
+        // make sure we have room for more charge
+        if (charge >= maxCharge) {
+            //TODO: add overloading mechanic
+            return false;
+        }
+
+        int inboundCharge = (int) (damageAmount * ((KineticBlock) this.getBlock()).getImpactConversionEfficiency(impactType));
+        return this.addCharge(moduleStack, inboundCharge) > 0;
     }
 
     protected @Nullable Vec3 getViewVectorOfProtectionFromMaceHits(LivingEntity livingEntity) {

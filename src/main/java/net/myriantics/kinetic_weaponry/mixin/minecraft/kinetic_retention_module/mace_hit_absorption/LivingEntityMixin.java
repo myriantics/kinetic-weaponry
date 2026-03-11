@@ -2,6 +2,9 @@ package net.myriantics.kinetic_weaponry.mixin.minecraft.kinetic_retention_module
 
 import com.llamalad7.mixinextras.injector.ModifyExpressionValue;
 import com.llamalad7.mixinextras.injector.ModifyReturnValue;
+import com.llamalad7.mixinextras.injector.wrapmethod.WrapMethod;
+import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
+import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
 import com.llamalad7.mixinextras.sugar.Local;
 import com.llamalad7.mixinextras.sugar.ref.LocalBooleanRef;
 import com.llamalad7.mixinextras.sugar.ref.LocalFloatRef;
@@ -56,5 +59,24 @@ public abstract class LivingEntityMixin extends Entity {
         }
 
         return false;
+    }
+
+    @WrapOperation(
+            method = "hurt",
+            at = @At(value = "INVOKE", target = "Lnet/minecraft/world/entity/LivingEntity;hurtHelmet(Lnet/minecraft/world/damagesource/DamageSource;F)V")
+    )
+    private void kinetic_weaponry$absorbFallingBlockDamage(
+            LivingEntity instance,
+            DamageSource damageSource,
+            float damageAmount,
+            Operation<Void> original,
+            @Local(argsOnly = true) LocalFloatRef mutableDamageAmount
+    ) {
+        ItemStack helmetStack = this.getItemBySlot(EquipmentSlot.HEAD);
+        // assuming helmet stack is not null because minecraft just checks for it
+        // if we properly absorb charge, nullify all damage.
+        if (helmetStack.getItem() instanceof KineticRetentionModuleItem retentionModuleItem && retentionModuleItem.absorbHelmetHitWhileEquipped(instance, damageSource, damageAmount, helmetStack)) {
+            mutableDamageAmount.set(0);
+        }
     }
 }
