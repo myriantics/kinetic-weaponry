@@ -4,12 +4,14 @@ import net.fabricmc.fabric.api.item.v1.EquipmentSlotProvider;
 import net.minecraft.core.Holder;
 import net.minecraft.core.component.DataComponents;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.InteractionResult;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.EquipmentSlotGroup;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.item.component.ItemAttributeModifiers;
+import net.minecraft.world.item.context.UseOnContext;
 import net.minecraft.world.phys.Vec3;
 import net.myriantics.kinetic_weaponry.KWCommon;
 import net.myriantics.kinetic_weaponry.block.retention_module.AbstractKineticRetentionModuleBlock;
@@ -61,6 +63,16 @@ public class KineticRetentionModuleItem extends BlockItem implements Equipable, 
     @Override
     public InteractionResultHolder<ItemStack> use(Level level, Player player, InteractionHand usedHand) {
         return this.swapWithEquipmentSlot(this, level, player, usedHand);
+    }
+
+    @Override
+    public InteractionResult useOn(UseOnContext context) {
+        InteractionResult result = super.useOn(context);
+        if (result.indicateItemUse()) {
+            return result;
+        } else {
+            return InteractionResult.PASS;
+        }
     }
 
     public static ItemAttributeModifiers createAttributeModifiers(Holder<ArmorMaterial> material, ArmorItem.Type type) {
