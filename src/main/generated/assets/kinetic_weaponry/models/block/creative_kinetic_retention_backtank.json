@@ -2,6 +2,7 @@
   "parent": "kinetic_weaponry:block/standard_kinetic_retention_module_parent",
   "textures": {
     "bottom": "kinetic_weaponry:block/creative_kinetic_retention_backtank/bottom",
+    "particle": "kinetic_weaponry:block/creative_kinetic_retention_backtank/top",
     "side": "kinetic_weaponry:block/creative_kinetic_retention_backtank/side",
     "top": "kinetic_weaponry:block/creative_kinetic_retention_backtank/top"
   }

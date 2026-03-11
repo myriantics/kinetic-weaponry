@@ -62,7 +62,8 @@ public class KWBlockModelProvider extends MyrrorBlockModelSubProvider {
         TextureMapping mapping = new TextureMapping()
                 .put(TextureSlot.TOP, TextureMapping.getBlockTexture(block, "/top"))
                 .put(TextureSlot.BOTTOM, TextureMapping.getBlockTexture(block, "/bottom"))
-                .put(TextureSlot.SIDE, TextureMapping.getBlockTexture(block, "/side"));
+                .put(TextureSlot.SIDE, TextureMapping.getBlockTexture(block, "/side"))
+                .put(TextureSlot.PARTICLE, TextureMapping.getBlockTexture(block, "/top"));
         ResourceLocation modelId = TexturedModel.createDefault(
                 b -> mapping,
                 template
@@ -88,7 +89,8 @@ public class KWBlockModelProvider extends MyrrorBlockModelSubProvider {
             TextureMapping mapping = new TextureMapping()
                     .put(TextureSlot.TOP, TextureMapping.getBlockTexture(block, "/top"))
                     .put(TextureSlot.BOTTOM, TextureMapping.getBlockTexture(block, "/bottom" + (i == min ? "/off" : "/on")))
-                    .put(TextureSlot.SIDE, TextureMapping.getBlockTexture(block, "/side/charge_" + i));
+                    .put(TextureSlot.SIDE, TextureMapping.getBlockTexture(block, "/side/charge_" + i))
+                    .put(TextureSlot.PARTICLE, TextureMapping.getBlockTexture(block, "/top"));
 
             charge2Ids[i] = TexturedModel.createDefault(
                     (b) -> mapping,
