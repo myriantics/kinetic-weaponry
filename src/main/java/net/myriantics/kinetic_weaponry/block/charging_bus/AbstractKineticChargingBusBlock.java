@@ -51,7 +51,7 @@ public abstract class AbstractKineticChargingBusBlock extends Block implements K
     }
 
     @Override
-    public float getImpactConversionEfficiency(BlockState state, @Nullable KineticImpactType impactType) {
+    public float getImpactConversionEfficiency(@Nullable KineticImpactType impactType) {
         return 1f / IMPACT_CHARGE_DIVISOR;
     }
 
@@ -72,7 +72,7 @@ public abstract class AbstractKineticChargingBusBlock extends Block implements K
                     BlockPos targetPos = pos.relative(side, 1);
                     BlockState targetState = level.getBlockState(targetPos);
                     if (targetState.getBlock() instanceof KineticBlock kineticBlock && kineticBlock.acceptsInput(level, pos, targetState, KineticImpactType.KINETIC_CHARGE_TRANSFER, side)) {
-                        kineticBlock.addCharge(level, targetPos, targetState, (int) (initialCharge * kineticBlock.getImpactConversionEfficiency(targetState, KineticImpactType.KINETIC_CHARGE_TRANSFER)));
+                        kineticBlock.addCharge(level, targetPos, targetState, (int) (initialCharge * kineticBlock.getImpactConversionEfficiency(KineticImpactType.KINETIC_CHARGE_TRANSFER)));
                         discharged = true;
                     }
                 }

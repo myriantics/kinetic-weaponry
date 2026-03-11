@@ -1,4 +1,4 @@
-package net.myriantics.kinetic_weaponry.mixin.minecraft.kinetic_retention_module;
+package net.myriantics.kinetic_weaponry.mixin.minecraft.kinetic_retention_module.durability;
 
 import com.llamalad7.mixinextras.injector.ModifyExpressionValue;
 import net.minecraft.world.entity.LivingEntity;

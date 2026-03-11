@@ -4,13 +4,17 @@ import net.fabricmc.fabric.api.item.v1.EquipmentSlotProvider;
 import net.minecraft.core.Holder;
 import net.minecraft.core.component.DataComponents;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.EquipmentSlotGroup;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.item.component.ItemAttributeModifiers;
+import net.minecraft.world.phys.Vec3;
 import net.myriantics.kinetic_weaponry.KWCommon;
 import net.myriantics.kinetic_weaponry.block.retention_module.AbstractKineticRetentionModuleBlock;
+import net.myriantics.kinetic_weaponry.mechanics.kinetic_charge.KineticBlock;
+import net.myriantics.kinetic_weaponry.mechanics.kinetic_charge.KineticImpactType;
 import net.myriantics.kinetic_weaponry.mechanics.kinetic_charge.KineticItem;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResultHolder;
@@ -20,6 +24,7 @@ import net.minecraft.world.item.*;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 public class KineticRetentionModuleItem extends BlockItem implements Equipable, KineticItem, EquipmentSlotProvider {
 
@@ -96,5 +101,52 @@ public class KineticRetentionModuleItem extends BlockItem implements Equipable, 
     @Override
     public boolean isValidRepairItem(ItemStack stack, ItemStack repairCandidate) {
         return this.material.value().repairIngredient().get().test(repairCandidate) || super.isValidRepairItem(stack, repairCandidate);
+    }
+
+    public boolean absorbMaceHitWhileEquipped(LivingEntity livingEntity, DamageSource source, float amount, EquipmentSlot slot, ItemStack stack) {
+        // make sure we're in the right slot
+        if (!slot.equals(this.getEquipmentSlot())) {
+            return false;
+        }
+
+        int charge = this.getCharge(stack);
+        int maxCharge = this.getMaxCharge(stack);
+
+        // make sure we have room for more charge
+        if (charge >= maxCharge) {
+            //TODO: add overloading mechanic
+            return false;
+        }
+
+        Vec3 damageSourcePosition = source.getSourcePosition();
+        if (damageSourcePosition != null) {
+            @Nullable Vec3 viewVector = this.getViewVectorOfProtectionFromMaceHits(livingEntity);
+            if (viewVector != null) {
+                Vec3 source2Target = damageSourcePosition.vectorTo(livingEntity.position());
+                source2Target = new Vec3(source2Target.x, 0.0, source2Target.z).normalize();
+
+                int inboundCharge = (int) (amount * ((KineticBlock) this.getBlock()).getImpactConversionEfficiency(KineticImpactType.MACE));
+                this.addCharge(stack, inboundCharge);
+
+                return source2Target.dot(viewVector) < 0.0;
+            }
+        }
+
+        return false;
+    }
+
+    protected @Nullable Vec3 getViewVectorOfProtectionFromMaceHits(LivingEntity livingEntity) {
+        switch (this.getEquipmentSlot()) {
+            case CHEST -> {
+                return livingEntity.calculateViewVector(0, livingEntity.getYHeadRot() + 180f);
+            }
+            case HEAD -> {
+                // look straight ahead to protect from mace hits lol
+                return livingEntity.calculateViewVector(livingEntity.getXRot() + 90.0f, 0);
+            }
+            default -> {
+                return null;
+            }
+        }
     }
 }

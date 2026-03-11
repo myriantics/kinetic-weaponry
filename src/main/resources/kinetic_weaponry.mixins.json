@@ -8,7 +8,8 @@
     "minecraft.LivingEntityMixin",
     "minecraft.ThrownPotionEntityMixin",
     "minecraft.kinetic_crossbow.CrossbowItemMixin",
-    "minecraft.kinetic_retention_module.LivingEntityMixin"
+    "minecraft.kinetic_retention_module.durability.LivingEntityMixin",
+    "minecraft.kinetic_retention_module.mace_hit_absorption.LivingEntityMixin"
   ],
   "injectors": {
     "defaultRequire": 1

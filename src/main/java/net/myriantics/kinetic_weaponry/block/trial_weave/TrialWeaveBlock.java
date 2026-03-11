@@ -33,7 +33,7 @@ public class TrialWeaveBlock extends Block implements KineticBlock {
     }
 
     @Override
-    public float getImpactConversionEfficiency(BlockState state, @Nullable KineticImpactType impactType) {
+    public float getImpactConversionEfficiency(@Nullable KineticImpactType impactType) {
         return 1.0f;
     }
 

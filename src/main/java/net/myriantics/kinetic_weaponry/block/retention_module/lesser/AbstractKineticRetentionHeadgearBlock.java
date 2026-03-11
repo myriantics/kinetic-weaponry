@@ -38,7 +38,7 @@ public abstract class AbstractKineticRetentionHeadgearBlock extends AbstractKine
     }
 
     @Override
-    public float getImpactConversionEfficiency(BlockState state, @Nullable KineticImpactType impactType) {
+    public float getImpactConversionEfficiency(@Nullable KineticImpactType impactType) {
         return 1f/16;
     }
 }

@@ -45,7 +45,7 @@ public class KineticDetonatorBlock extends Block implements KineticBlock {
     @Override
     public void onImpact(Level level, BlockPos pos, BlockState state, @Nullable Player player, @Nullable Direction impactDir, KineticImpactType impactType, float impactDamage) {
         if (this.acceptsInput(level, pos, state, impactType, impactDir)) {
-            this.detonate(level, pos, state, player, impactDamage * this.getImpactConversionEfficiency(state, impactType));
+            this.detonate(level, pos, state, player, impactDamage * this.getImpactConversionEfficiency(impactType));
         }
     }
 
@@ -74,7 +74,7 @@ public class KineticDetonatorBlock extends Block implements KineticBlock {
     }
 
     @Override
-    public float getImpactConversionEfficiency(BlockState state, @Nullable KineticImpactType impactType) {
+    public float getImpactConversionEfficiency(@Nullable KineticImpactType impactType) {
         if (impactType == KineticImpactType.KINETIC_CHARGE_TRANSFER) {
             return KINETIC_CHARGE_TRANSFER_CONVERSION_EFFICIENCY;
         } else {
