@@ -98,7 +98,10 @@ public abstract class AbstractKineticRetentionModuleBlock extends BaseEntityBloc
 
     @Override
     public boolean acceptsInput(Level level, BlockPos pos, BlockState state, KineticImpactType impactType, Direction inputDir) {
-        return inputDir.getOpposite().equals(state.getValue(FACING));
+        return switch (impactType) {
+            case MACE -> true;
+            case FALLING_BLOCK, KINETIC_CHARGE_TRANSFER -> inputDir.getOpposite().equals(state.getValue(FACING));
+        };
     }
 
     @Override
