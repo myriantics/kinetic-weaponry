@@ -84,12 +84,18 @@ public abstract class AbstractKineticRetentionModuleBlock extends BaseEntityBloc
     public BlockState getStateForPlacement(BlockPlaceContext context) {
         ItemStack moduleStack = context.getItemInHand();
 
+        boolean sneaking = context.getPlayer() != null && context.getPlayer().isCrouching();
+
         BlockState state = super.getStateForPlacement(context);
+
+        if (state == null) {
+            state = this.defaultBlockState();
+        }
 
         // waterlogged check :)
         state = state.setValue(WATERLOGGED, context.getLevel().getBlockState(context.getClickedPos()).getFluidState().is(Fluids.WATER));
 
-        state = state.setValue(FACING, context.getClickedFace().getOpposite());
+        state = state.setValue(FACING, sneaking ? context.getClickedFace() : context.getClickedFace().getOpposite());
 
         return moduleStack.getItem() instanceof KineticItem kineticItem
                 ? this.withCharge(state, (float) kineticItem.getCharge(moduleStack) / kineticItem.getMaxCharge(moduleStack))
