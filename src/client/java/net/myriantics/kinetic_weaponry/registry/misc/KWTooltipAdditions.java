@@ -21,7 +21,7 @@ public abstract class KWTooltipAdditions {
     static {
         register((tooltipContext, player, stack, tooltipFlag) -> {
             if (stack.getItem() instanceof KineticItem storage) {
-                if (stack.has(KWDataComponents.INFINITE_KINETIC_CHARGE)) {
+                if (stack.has(KWDataComponents.INFINITE_KINETIC_CHARGE.value())) {
                     return Component.translatable("tooltip.kinetic_weaponry.kinetic_charge.infinite");
                 } else {
                     return Component.translatable("tooltip.kinetic_weaponry.kinetic_charge", storage.getCharge(stack), storage.getMaxCharge(stack));

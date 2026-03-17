@@ -17,15 +17,15 @@ public class BlazingBoltEntity extends AbstractCrossbowBoltEntity {
     }
 
     public BlazingBoltEntity(Level level, double x, double y, double z, ItemStack projectileStack, ItemStack firedFromWeapon) {
-        super(KWEntityTypes.BLAZING_BOLT, level, x, y, z, projectileStack, firedFromWeapon);
+        super(KWEntityTypes.BLAZING_BOLT.value(), level, x, y, z, projectileStack, firedFromWeapon);
     }
 
     public BlazingBoltEntity(Level level, Position pos, ItemStack projectileStack, ItemStack firedFromWeapon) {
-        super(KWEntityTypes.BLAZING_BOLT, level, pos.x(), pos.y(), pos.z(), projectileStack, firedFromWeapon);
+        super(KWEntityTypes.BLAZING_BOLT.value(), level, pos.x(), pos.y(), pos.z(), projectileStack, firedFromWeapon);
     }
 
     public BlazingBoltEntity(Level level, ItemStack projectileStack, LivingEntity owner, @Nullable ItemStack firedFromWeapon) {
-        super(KWEntityTypes.BLAZING_BOLT, level, projectileStack, owner, firedFromWeapon);
+        super(KWEntityTypes.BLAZING_BOLT.value(), level, projectileStack, owner, firedFromWeapon);
     }
 
     @Override

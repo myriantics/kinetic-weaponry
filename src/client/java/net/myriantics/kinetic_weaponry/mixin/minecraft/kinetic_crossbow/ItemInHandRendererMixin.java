@@ -19,7 +19,7 @@ public abstract class ItemInHandRendererMixin {
     )
     private static boolean kinetic_weaponry$checkForKineticCrossbow(ItemStack instance, Item item, Operation<Boolean> original) {
         if (item.equals(Items.CROSSBOW)) {
-            return original.call(instance, item) || original.call(instance, KWItems.KINETIC_CROSSBOW);
+            return original.call(instance, item) || original.call(instance, KWItems.KINETIC_CROSSBOW.value());
         } else {
             return original.call(instance, item);
         }
@@ -31,7 +31,7 @@ public abstract class ItemInHandRendererMixin {
     )
     private static boolean kinetic_weaponry$checkForKineticCrossbow2(ItemStack instance, Item item, Operation<Boolean> original) {
         if (item.equals(Items.CROSSBOW)) {
-            return original.call(instance, item) || original.call(instance, KWItems.KINETIC_CROSSBOW);
+            return original.call(instance, item) || original.call(instance, KWItems.KINETIC_CROSSBOW.value());
         } else {
             return original.call(instance, item);
         }
@@ -42,7 +42,7 @@ public abstract class ItemInHandRendererMixin {
             at = @At(value = "INVOKE", target = "Lnet/minecraft/world/item/ItemStack;is(Lnet/minecraft/world/item/Item;)Z")
     )
     private static boolean kinetic_weaponry$checkForKineticCrossbow3(ItemStack instance, Item item, Operation<Boolean> original) {
-        return original.call(instance, item) || original.call(instance, KWItems.KINETIC_CROSSBOW);
+        return original.call(instance, item) || original.call(instance, KWItems.KINETIC_CROSSBOW.value());
     }
 
     @WrapOperation(
@@ -55,7 +55,7 @@ public abstract class ItemInHandRendererMixin {
     )
     private static boolean kinetic_weaponry$checkForKineticCrossbow4(ItemStack instance, Item item, Operation<Boolean> original) {
         if (item.equals(Items.CROSSBOW)) {
-            return original.call(instance, item) || original.call(instance, KWItems.KINETIC_CROSSBOW);
+            return original.call(instance, item) || original.call(instance, KWItems.KINETIC_CROSSBOW.value());
         } else {
             return original.call(instance, item);
         }

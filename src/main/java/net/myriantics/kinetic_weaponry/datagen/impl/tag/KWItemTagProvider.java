@@ -22,43 +22,43 @@ public class KWItemTagProvider extends FabricTagProvider<Item> {
     @Override
     protected void addTags(HolderLookup.Provider wrapperLookup) {
         getOrCreateTagBuilder(ItemTags.WOOL)
-                .add(KWItems.TRIAL_WEAVE);
+                .add(KWItems.TRIAL_WEAVE.value());
         getOrCreateTagBuilder(ConventionalItemTags.STRINGS)
-                .add(KWItems.TRIAL_TWINE);
+                .add(KWItems.TRIAL_TWINE.value());
         getOrCreateTagBuilder(ConventionalItemTags.BOW_TOOLS)
-                .add(KWItems.KINETIC_SHORTBOW);
+                .add(KWItems.KINETIC_SHORTBOW.value());
         getOrCreateTagBuilder(ConventionalItemTags.CROSSBOW_TOOLS)
-                .add(KWItems.KINETIC_CROSSBOW);
+                .add(KWItems.KINETIC_CROSSBOW.value());
         getOrCreateTagBuilder(ConventionalItemTags.RANGED_WEAPON_TOOLS)
-                .add(KWItems.KINETIC_SHORTBOW)
-                .add(KWItems.KINETIC_CROSSBOW);
+                .add(KWItems.KINETIC_SHORTBOW.value())
+                .add(KWItems.KINETIC_CROSSBOW.value());
         getOrCreateTagBuilder(ItemTags.HEAD_ARMOR)
-                .add(KWItems.KINETIC_RETENTION_HEADGEAR)
-                .add(KWItems.CREATIVE_KINETIC_RETENTION_HEADGEAR);
+                .add(KWItems.KINETIC_RETENTION_HEADGEAR.value())
+                .add(KWItems.CREATIVE_KINETIC_RETENTION_HEADGEAR.value());
         getOrCreateTagBuilder(ItemTags.CHEST_ARMOR)
-                .add(KWItems.KINETIC_RETENTION_BACKTANK)
-                .add(KWItems.CREATIVE_KINETIC_RETENTION_BACKTANK);
+                .add(KWItems.KINETIC_RETENTION_BACKTANK.value())
+                .add(KWItems.CREATIVE_KINETIC_RETENTION_BACKTANK.value());
         getOrCreateTagBuilder(ItemTags.BOW_ENCHANTABLE)
-                .add(KWItems.KINETIC_SHORTBOW);
+                .add(KWItems.KINETIC_SHORTBOW.value());
         getOrCreateTagBuilder(ItemTags.CROSSBOW_ENCHANTABLE)
-                .add(KWItems.KINETIC_CROSSBOW);
+                .add(KWItems.KINETIC_CROSSBOW.value());
         getOrCreateTagBuilder(ItemTags.DURABILITY_ENCHANTABLE)
-                .add(KWItems.KINETIC_CROSSBOW)
-                .add(KWItems.KINETIC_SHORTBOW);
+                .add(KWItems.KINETIC_CROSSBOW.value())
+                .add(KWItems.KINETIC_SHORTBOW.value());
 
 
         getOrCreateTagBuilder(KWItemTags.KINETIC_CHARGING_BUSES)
-                .add(KWItems.KINETIC_CHARGING_BUS)
-                .add(KWItems.CREATIVE_KINETIC_CHARGING_BUS);
+                .add(KWItems.KINETIC_CHARGING_BUS.value())
+                .add(KWItems.CREATIVE_KINETIC_CHARGING_BUS.value());
         getOrCreateTagBuilder(KWItemTags.KINETIC_RETENTION_MODULES)
                 .forceAddTag(KWItemTags.KINETIC_RETENTION_BACKTANKS)
                 .forceAddTag(KWItemTags.KINETIC_RETENTION_HEADGEAR);
         getOrCreateTagBuilder(KWItemTags.KINETIC_RETENTION_BACKTANKS)
-                .add(KWItems.KINETIC_RETENTION_BACKTANK)
-                .add(KWItems.CREATIVE_KINETIC_RETENTION_BACKTANK);
+                .add(KWItems.KINETIC_RETENTION_BACKTANK.value())
+                .add(KWItems.CREATIVE_KINETIC_RETENTION_BACKTANK.value());
         getOrCreateTagBuilder(KWItemTags.KINETIC_RETENTION_HEADGEAR)
-                .add(KWItems.CREATIVE_KINETIC_RETENTION_HEADGEAR)
-                .add(KWItems.KINETIC_RETENTION_HEADGEAR);
+                .add(KWItems.CREATIVE_KINETIC_RETENTION_HEADGEAR.value())
+                .add(KWItems.KINETIC_RETENTION_HEADGEAR.value());
         getOrCreateTagBuilder(KWItemTags.HEAT_SINKS)
                 .add(Items.COPPER_GRATE)
                 .add(Items.EXPOSED_COPPER_GRATE)
@@ -70,10 +70,10 @@ public class KWItemTagProvider extends FabricTagProvider<Item> {
                 .add(Items.WAXED_OXIDIZED_COPPER_GRATE)
         ;
         getOrCreateTagBuilder(KWItemTags.CROSSBOW_BOLTS)
-                .add(KWItems.BLAZING_BOLT);
+                .add(KWItems.BLAZING_BOLT.value());
         getOrCreateTagBuilder(KWItemTags.KINETIC_SHORTBOW_REPAIR_ITEMS)
-                .add(KWItems.TRIAL_TWINE);
+                .add(KWItems.TRIAL_TWINE.value());
         getOrCreateTagBuilder(KWItemTags.KINETIC_CROSSBOW_REPAIR_ITEMS)
-                .add(KWItems.TRIAL_TWINE);
+                .add(KWItems.TRIAL_TWINE.value());
     }
 }

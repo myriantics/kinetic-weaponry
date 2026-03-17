@@ -1,5 +1,6 @@
 package net.myriantics.kinetic_weaponry.registry.misc;
 
+import net.minecraft.core.Holder;
 import net.minecraft.core.Registry;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.sounds.SoundEvent;
@@ -47,6 +48,10 @@ public abstract class KWSounds {
             "item.kinetic_shortbow.cool_down",
             SoundEvents.FIRE_EXTINGUISH
     );
+
+    private static SoundEvent register(Holder<Item> holder, String name, SoundEvent soundEvent) {
+        return register(holder.value(), name, soundEvent);
+    }
 
     private static SoundEvent register(Item item, String name, SoundEvent soundEvent) {
         return register(item.getDescriptionId() + "." + name, soundEvent);

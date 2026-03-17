@@ -20,27 +20,27 @@ public class KWBlockTagProvider extends FabricTagProvider<Block> {
     @Override
     protected void addTags(HolderLookup.Provider wrapperLookup) {
         getOrCreateTagBuilder(BlockTags.WOOL)
-                .add(KWBlocks.TRIAL_WEAVE);
+                .add(KWBlocks.TRIAL_WEAVE.value());
         getOrCreateTagBuilder(BlockTags.MINEABLE_WITH_PICKAXE)
                 .forceAddTag(KWBlockTags.KINETIC_RETENTION_MODULES)
                 .forceAddTag(KWBlockTags.KINETIC_CHARGING_BUSES)
-                .add(KWBlocks.KINETIC_DETONATOR);
+                .add(KWBlocks.KINETIC_DETONATOR.value());
         getOrCreateTagBuilder(BlockTags.NEEDS_STONE_TOOL)
                 .forceAddTag(KWBlockTags.KINETIC_RETENTION_MODULES)
                 .forceAddTag(KWBlockTags.KINETIC_CHARGING_BUSES)
-                .add(KWBlocks.KINETIC_DETONATOR);
+                .add(KWBlocks.KINETIC_DETONATOR.value());
 
         getOrCreateTagBuilder(KWBlockTags.KINETIC_CHARGING_BUSES)
-                .add(KWBlocks.KINETIC_CHARGING_BUS)
-                .add(KWBlocks.CREATIVE_KINETIC_CHARGING_BUS);
+                .add(KWBlocks.KINETIC_CHARGING_BUS.value())
+                .add(KWBlocks.CREATIVE_KINETIC_CHARGING_BUS.value());
         getOrCreateTagBuilder(KWBlockTags.KINETIC_RETENTION_MODULES)
                 .forceAddTag(KWBlockTags.KINETIC_RETENTION_BACKTANKS)
                 .forceAddTag(KWBlockTags.KINETIC_RETENTION_HEADGEAR);
         getOrCreateTagBuilder(KWBlockTags.KINETIC_RETENTION_BACKTANKS)
-                .add(KWBlocks.KINETIC_RETENTION_BACKTANK)
-                .add(KWBlocks.CREATIVE_KINETIC_RETENTION_BACKTANK);
+                .add(KWBlocks.KINETIC_RETENTION_BACKTANK.value())
+                .add(KWBlocks.CREATIVE_KINETIC_RETENTION_BACKTANK.value());
         getOrCreateTagBuilder(KWBlockTags.KINETIC_RETENTION_HEADGEAR)
-                .add(KWBlocks.CREATIVE_KINETIC_RETENTION_HEADGEAR)
-                .add(KWBlocks.KINETIC_RETENTION_HEADGEAR);
+                .add(KWBlocks.CREATIVE_KINETIC_RETENTION_HEADGEAR.value())
+                .add(KWBlocks.KINETIC_RETENTION_HEADGEAR.value());
     }
 }

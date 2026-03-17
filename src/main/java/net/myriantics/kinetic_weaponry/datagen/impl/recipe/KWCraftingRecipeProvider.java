@@ -1,5 +1,6 @@
 package net.myriantics.kinetic_weaponry.datagen.impl.recipe;
 
+import net.minecraft.core.Holder;
 import net.minecraft.data.recipes.RecipeOutput;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
@@ -17,7 +18,7 @@ public class KWCraftingRecipeProvider extends CraftingRecipeProvider {
 
     @Override
     protected void generateRecipes() {
-        add2x2PackingUnpackingRecipes(KWItems.TRIAL_WEAVE, KWItems.TRIAL_TWINE, craftingBuilder -> craftingBuilder);
+        add2x2PackingUnpackingRecipes(KWItems.TRIAL_WEAVE.value(), KWItems.TRIAL_TWINE.value(), craftingBuilder -> craftingBuilder);
         addShapedCraftingRecipe(
                 new String[] {
                         "CBT",
@@ -27,7 +28,7 @@ public class KWCraftingRecipeProvider extends CraftingRecipeProvider {
                 new ItemStack(KWItems.KINETIC_SHORTBOW),
                 builder -> builder
                         .associate('C', KWItemTags.HEAT_SINKS)
-                        .associate('T', KWItems.TRIAL_TWINE)
+                        .associate('T', KWItems.TRIAL_TWINE.value())
                         .associate('H', Items.HEAVY_CORE)
                         .associate('B', Items.BREEZE_ROD)
                         .category(CraftingBookCategory.EQUIPMENT)
@@ -52,14 +53,14 @@ public class KWCraftingRecipeProvider extends CraftingRecipeProvider {
                 new ItemStack(KWItems.KINETIC_CROSSBOW),
                 builder -> builder
                         .associate('B', Items.BREEZE_ROD)
-                        .associate('T', KWItems.TRIAL_TWINE)
+                        .associate('T', KWItems.TRIAL_TWINE.value())
                         .associate('H', Items.HEAVY_CORE)
                         .associate('C', chiseledBlock)
                         .associate('c', Items.COPPER_INGOT)
         );
     }
 
-    private void addStandardKineticRetentionModuleRecipe(Item result, Item chiseledBlock) {
+    private void addStandardKineticRetentionModuleRecipe(Holder<Item> result, Item chiseledBlock) {
         addShapedCraftingRecipe(
                 new String[]{
                         " H ",
@@ -69,13 +70,13 @@ public class KWCraftingRecipeProvider extends CraftingRecipeProvider {
                 new ItemStack(result),
                 builder -> builder
                         .associate('H', Items.HEAVY_CORE)
-                        .associate('W', KWItems.TRIAL_WEAVE)
+                        .associate('W', KWItems.TRIAL_WEAVE.value())
                         .associate('B', Items.BREEZE_ROD)
                         .associate('C', chiseledBlock)
         );
     }
 
-    private void addKineticChargingBusRecipe(Item result, Item chiseledBlock) {
+    private void addKineticChargingBusRecipe(Holder<Item> result, Item chiseledBlock) {
         addShapedCraftingRecipe(
                 new String[]{
                         "IHI",
@@ -86,13 +87,13 @@ public class KWCraftingRecipeProvider extends CraftingRecipeProvider {
                 builder -> builder
                         .associate('I', Items.COPPER_INGOT)
                         .associate('R', Items.BREEZE_ROD)
-                        .associate('W', KWItems.TRIAL_WEAVE)
+                        .associate('W', KWItems.TRIAL_WEAVE.value())
                         .associate('H', Items.HEAVY_CORE)
                         .associate('C', chiseledBlock)
         );
     }
 
-    private void addKineticDetonatorRecipe(Item result, Item chiseledBlock) {
+    private void addKineticDetonatorRecipe(Holder<Item> result, Item chiseledBlock) {
         addShapedCraftingRecipe(
                 new String[]{
                         "IHI",

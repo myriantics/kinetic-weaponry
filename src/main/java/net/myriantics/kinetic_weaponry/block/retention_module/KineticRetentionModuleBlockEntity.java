@@ -20,7 +20,7 @@ public class KineticRetentionModuleBlockEntity extends BlockEntity {
     private int maxCharge = 0;
 
     public KineticRetentionModuleBlockEntity(BlockPos pos, BlockState blockState) {
-        super(KWBlockEntityTypes.KINETIC_RETENTION_MODULE, pos, blockState);
+        super(KWBlockEntityTypes.KINETIC_RETENTION_MODULE.value(), pos, blockState);
     }
 
     public void updateState(Level level, BlockPos pos, BlockState original) {
@@ -32,15 +32,15 @@ public class KineticRetentionModuleBlockEntity extends BlockEntity {
     @Override
     protected void applyImplicitComponents(DataComponentInput componentInput) {
         super.applyImplicitComponents(componentInput);
-        this.setMaxCharge(componentInput.getOrDefault(KWDataComponents.MAX_KINETIC_CHARGE, 0));
-        this.setCharge(Math.min(componentInput.getOrDefault(KWDataComponents.KINETIC_CHARGE, 0), this.maxCharge));
+        this.setMaxCharge(componentInput.getOrDefault(KWDataComponents.MAX_KINETIC_CHARGE.value(), 0));
+        this.setCharge(Math.min(componentInput.getOrDefault(KWDataComponents.KINETIC_CHARGE.value(), 0), this.maxCharge));
     }
 
     @Override
     protected void collectImplicitComponents(DataComponentMap.Builder components) {
         super.collectImplicitComponents(components);
-        components.set(KWDataComponents.MAX_KINETIC_CHARGE, this.getMaxCharge());
-        components.set(KWDataComponents.KINETIC_CHARGE, this.getCharge());
+        components.set(KWDataComponents.MAX_KINETIC_CHARGE.value(), this.getMaxCharge());
+        components.set(KWDataComponents.KINETIC_CHARGE.value(), this.getCharge());
     }
 
     private void setCharge(int charge) {

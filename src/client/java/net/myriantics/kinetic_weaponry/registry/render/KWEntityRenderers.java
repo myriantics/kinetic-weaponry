@@ -13,7 +13,7 @@ import net.myriantics.kinetic_weaponry.render.CrossbowBoltRenderer;
 public class KWEntityRenderers {
 
     static {
-        register(KWEntityTypes.BLAZING_BOLT, CrossbowBoltRenderer::new);
+        register(KWEntityTypes.BLAZING_BOLT.value(), CrossbowBoltRenderer::new);
     }
 
     private static <T extends Entity> void register(EntityType<T> type, EntityRendererProvider<T> rendererFactory) {

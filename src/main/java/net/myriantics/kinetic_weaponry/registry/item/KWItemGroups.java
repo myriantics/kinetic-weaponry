@@ -18,23 +18,23 @@ public abstract class KWItemGroups {
             () -> new ItemStack(KWItems.KINETIC_DETONATOR),
             builder -> {
                 builder.displayItems((parameters, output) -> {
-                    output.accept(KWItems.KINETIC_CHARGING_BUS);
-                    output.accept(KWItems.CREATIVE_KINETIC_CHARGING_BUS);
-                    output.accept(KWItems.KINETIC_DETONATOR);
+                    output.accept(KWItems.KINETIC_CHARGING_BUS.value());
+                    output.accept(KWItems.CREATIVE_KINETIC_CHARGING_BUS.value());
+                    output.accept(KWItems.KINETIC_DETONATOR.value());
 
                     // retention modules
-                    output.accept(KWItems.KINETIC_RETENTION_BACKTANK);
-                    output.accept(KWItems.CREATIVE_KINETIC_RETENTION_BACKTANK);
-                    output.accept(KWItems.KINETIC_RETENTION_HEADGEAR);
-                    output.accept(KWItems.CREATIVE_KINETIC_RETENTION_HEADGEAR);
+                    output.accept(KWItems.KINETIC_RETENTION_BACKTANK.value());
+                    output.accept(KWItems.CREATIVE_KINETIC_RETENTION_BACKTANK.value());
+                    output.accept(KWItems.KINETIC_RETENTION_HEADGEAR.value());
+                    output.accept(KWItems.CREATIVE_KINETIC_RETENTION_HEADGEAR.value());
 
                     // trial twine & weave
-                    output.accept(KWItems.TRIAL_TWINE);
-                    output.accept(KWItems.TRIAL_WEAVE);
+                    output.accept(KWItems.TRIAL_TWINE.value());
+                    output.accept(KWItems.TRIAL_WEAVE.value());
 
                     // equipment
-                    output.accept(KWItems.KINETIC_SHORTBOW);
-                    output.accept(KWItems.KINETIC_CROSSBOW);
+                    output.accept(KWItems.KINETIC_SHORTBOW.value());
+                    output.accept(KWItems.KINETIC_CROSSBOW.value());
                 });
             }
     );

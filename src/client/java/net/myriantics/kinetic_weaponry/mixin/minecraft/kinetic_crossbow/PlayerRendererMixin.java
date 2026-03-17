@@ -22,6 +22,6 @@ public abstract class PlayerRendererMixin {
             at = @At(value = "INVOKE", target = "Lnet/minecraft/world/item/ItemStack;is(Lnet/minecraft/world/item/Item;)Z")
     )
     private static boolean kinetic_weaponry$checkForKineticCrossbow(ItemStack instance, Item item, Operation<Boolean> original) {
-        return original.call(instance, item) || original.call(instance, KWItems.KINETIC_CROSSBOW);
+        return original.call(instance, item) || original.call(instance, KWItems.KINETIC_CROSSBOW.value());
     }
 }

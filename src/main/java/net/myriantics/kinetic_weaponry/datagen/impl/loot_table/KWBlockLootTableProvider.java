@@ -21,14 +21,14 @@ public class KWBlockLootTableProvider extends FabricBlockLootTableProvider {
 
     @Override
     public void generate() {
-        add(KWBlocks.KINETIC_RETENTION_BACKTANK, this::createKineticRetentionModuleDrop);
-        add(KWBlocks.CREATIVE_KINETIC_RETENTION_BACKTANK, this::createKineticRetentionModuleDrop);
-        add(KWBlocks.KINETIC_RETENTION_HEADGEAR, this::createKineticRetentionModuleDrop);
-        add(KWBlocks.CREATIVE_KINETIC_RETENTION_HEADGEAR, this::createKineticRetentionModuleDrop);
-        add(KWBlocks.KINETIC_DETONATOR, this::dropSelfExplosionImmune);
-        add(KWBlocks.KINETIC_CHARGING_BUS, this::dropSelfExplosionImmune);
-        add(KWBlocks.CREATIVE_KINETIC_CHARGING_BUS, this::dropSelfExplosionImmune);
-        dropSelf(KWBlocks.TRIAL_WEAVE);
+        add(KWBlocks.KINETIC_RETENTION_BACKTANK.value(), this::createKineticRetentionModuleDrop);
+        add(KWBlocks.CREATIVE_KINETIC_RETENTION_BACKTANK.value(), this::createKineticRetentionModuleDrop);
+        add(KWBlocks.KINETIC_RETENTION_HEADGEAR.value(), this::createKineticRetentionModuleDrop);
+        add(KWBlocks.CREATIVE_KINETIC_RETENTION_HEADGEAR.value(), this::createKineticRetentionModuleDrop);
+        add(KWBlocks.KINETIC_DETONATOR.value(), this::dropSelfExplosionImmune);
+        add(KWBlocks.KINETIC_CHARGING_BUS.value(), this::dropSelfExplosionImmune);
+        add(KWBlocks.CREATIVE_KINETIC_CHARGING_BUS.value(), this::dropSelfExplosionImmune);
+        dropSelf(KWBlocks.TRIAL_WEAVE.value());
     }
 
     private LootTable.Builder createKineticRetentionModuleDrop(Block module) {

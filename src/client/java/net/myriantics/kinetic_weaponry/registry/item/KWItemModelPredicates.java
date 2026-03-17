@@ -2,6 +2,7 @@ package net.myriantics.kinetic_weaponry.registry.item;
 
 import net.minecraft.client.renderer.item.ClampedItemPropertyFunction;
 import net.minecraft.client.renderer.item.ItemProperties;
+import net.minecraft.core.Holder;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Item;
 import net.myriantics.kinetic_weaponry.item.equipment.KineticCrossbowItem;
@@ -15,7 +16,7 @@ public abstract class KWItemModelPredicates {
         register(KWItemModelPredicateIds.KINETIC_CHARGE, (itemStack, clientLevel, livingEntity, i) -> {
             if (itemStack.getItem() instanceof KineticItem kineticItem) {
                 int maxCharge = kineticItem.getMaxCharge(itemStack);
-                if (itemStack.has(KWDataComponents.INFINITE_KINETIC_CHARGE)) {
+                if (itemStack.has(KWDataComponents.INFINITE_KINETIC_CHARGE.value())) {
                     return 1.0f;
                 } else if (maxCharge == 0) {
                     return 0f;
@@ -57,6 +58,10 @@ public abstract class KWItemModelPredicates {
                 return crossbow.getDrawProgress(livingEntity, usedStack);
             }
         });
+    }
+
+    private static void registerItem(Holder<Item> holder, ResourceLocation id, ClampedItemPropertyFunction function) {
+        registerItem(holder.value(), id, function);
     }
 
     private static void registerItem(Item item, ResourceLocation id, ClampedItemPropertyFunction function) {

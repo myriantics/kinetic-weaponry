@@ -272,7 +272,7 @@ public class KineticShortbowItem extends ProjectileWeaponItem implements Kinetic
     }
 
     protected KineticShortbowConfig getConfig(ItemStack shortbowStack) {
-        return shortbowStack.getOrDefault(KWDataComponents.KINETIC_SHORTBOW_CONFIG, DEFAULT);
+        return shortbowStack.getOrDefault(KWDataComponents.KINETIC_SHORTBOW_CONFIG.value(), DEFAULT);
     }
 
     @Override

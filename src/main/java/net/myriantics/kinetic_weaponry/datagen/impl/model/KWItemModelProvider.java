@@ -24,11 +24,11 @@ public class KWItemModelProvider extends MyrrorItemModelSubProvider {
         generateKineticShortbow();
         generateKineticCrossbow();
         generateKineticRetentionBacktank();
-        addSimpleItem(KWItems.TRIAL_TWINE);
+        addSimpleItem(KWItems.TRIAL_TWINE.value());
     }
 
     private void generateKineticCrossbow() {
-        ResourceLocation modelId = getItemId(BuiltInRegistries.ITEM.getKey(KWItems.KINETIC_CROSSBOW));
+        ResourceLocation modelId = getItemId(BuiltInRegistries.ITEM.getKey(KWItems.KINETIC_CROSSBOW.value()));
 
         TextureSlot layer0 = TextureSlot.LAYER0;
         TextureSlot layer1 = TextureSlot.LAYER1;
@@ -58,7 +58,7 @@ public class KWItemModelProvider extends MyrrorItemModelSubProvider {
     }
 
     private void generateKineticShortbow() {
-        ResourceLocation modelId = getItemId(BuiltInRegistries.ITEM.getKey(KWItems.KINETIC_SHORTBOW));
+        ResourceLocation modelId = getItemId(BuiltInRegistries.ITEM.getKey(KWItems.KINETIC_SHORTBOW.value()));
 
         TextureSlot layer0 = TextureSlot.LAYER0;
         TextureSlot layer1 = TextureSlot.LAYER1;
@@ -95,7 +95,7 @@ public class KWItemModelProvider extends MyrrorItemModelSubProvider {
         TextureSlot layer1 = TextureSlot.LAYER1;
         TextureSlot layer2 = TextureSlot.LAYER2;
 
-        ResourceLocation modelLocation = ModelLocationUtils.getModelLocation(KWItems.KINETIC_RETENTION_BACKTANK);
+        ResourceLocation modelLocation = ModelLocationUtils.getModelLocation(KWItems.KINETIC_RETENTION_BACKTANK.value());
         add(
                 ModelTemplates.TWO_LAYERED_ITEM,
                 modelLocation,

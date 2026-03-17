@@ -77,7 +77,7 @@ public class KineticCrossbowItem extends CrossbowItem implements SwingableItem, 
                         livingEntity.gameEvent(GameEvent.ITEM_INTERACT_FINISH);
 
                         if (livingEntity instanceof ServerPlayer player) {
-                            player.getCooldowns().addCooldown(this, swungStack.getOrDefault(KWDataComponents.SWING_CHARGE_COOLDOWN, 0));
+                            player.getCooldowns().addCooldown(this, swungStack.getOrDefault(KWDataComponents.SWING_CHARGE_COOLDOWN.value(), 0));
                             KWAdvancementTriggers.triggerKineticItemCharge(player, swungStack);
                         }
                     }

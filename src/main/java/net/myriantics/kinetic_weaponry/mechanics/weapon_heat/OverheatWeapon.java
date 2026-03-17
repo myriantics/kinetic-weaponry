@@ -18,19 +18,19 @@ public interface OverheatWeapon {
    float IGNITION_THRESHOLD = 0.75f;
 
     default int getHeatUnits(ItemStack stack) {
-        return stack.getOrDefault(KWDataComponents.HEAT_UNITS, 0);
+        return stack.getOrDefault(KWDataComponents.HEAT_UNITS.value(), 0);
     }
 
     default int getMaxHeatUnits(ItemStack stack) {
-        return stack.getOrDefault(KWDataComponents.MAX_HEAT_UNITS, 0);
+        return stack.getOrDefault(KWDataComponents.MAX_HEAT_UNITS.value(), 0);
     }
 
     default void setHeatUnits(ItemStack stack, int heatUnits) {
-        stack.set(KWDataComponents.HEAT_UNITS, heatUnits);
+        stack.set(KWDataComponents.HEAT_UNITS.value(), heatUnits);
     }
 
     default int getHeatDissipationRate(ItemStack stack) {
-        return stack.getOrDefault(KWDataComponents.HEAT_UNIT_DISSIPATION_RATE, DEFAULT_HEAT_UNIT_DISSIPATION_RATE);
+        return stack.getOrDefault(KWDataComponents.HEAT_UNIT_DISSIPATION_RATE.value(), DEFAULT_HEAT_UNIT_DISSIPATION_RATE);
     }
 
     default boolean addHeatUnits(ItemStack stack, int heatUnits) {
@@ -44,7 +44,7 @@ public interface OverheatWeapon {
     }
 
     default List<Integer> getHeatSoundThresholds(ItemStack stack) {
-        return stack.getOrDefault(KWDataComponents.HEAT_SOUND_THRESHOLDS, List.of());
+        return stack.getOrDefault(KWDataComponents.HEAT_SOUND_THRESHOLDS.value(), List.of());
     }
 
     default void tickHeat(Entity entity, ItemStack stack) {

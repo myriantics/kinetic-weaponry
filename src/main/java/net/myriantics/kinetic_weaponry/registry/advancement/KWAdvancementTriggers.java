@@ -7,9 +7,9 @@ import net.minecraft.world.item.ItemStack;
 
 public abstract class KWAdvancementTriggers {
     public static void triggerKineticItemCharge(ServerPlayer serverPlayer, ItemStack chargedStack) {
-        KWCriteriaTriggers.KINETIC_ITEM_CHARGE.trigger(serverPlayer, chargedStack);
+        KWCriteriaTriggers.KINETIC_ITEM_CHARGE.value().trigger(serverPlayer, chargedStack);
     }
     public static void triggerKineticImpact(ServerPlayer serverPlayer, ServerLevel serverLevel, BlockPos pos) {
-        KWCriteriaTriggers.KINETIC_IMPACT.trigger(serverPlayer, serverLevel, pos);
+        KWCriteriaTriggers.KINETIC_IMPACT.value().trigger(serverPlayer, serverLevel, pos);
     }
 }

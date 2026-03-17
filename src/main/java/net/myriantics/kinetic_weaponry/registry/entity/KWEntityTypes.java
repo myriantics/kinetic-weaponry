@@ -1,5 +1,6 @@
 package net.myriantics.kinetic_weaponry.registry.entity;
 
+import net.minecraft.core.Holder;
 import net.minecraft.core.Registry;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.world.entity.Entity;
@@ -13,7 +14,7 @@ import java.util.function.UnaryOperator;
 
 public abstract class KWEntityTypes {
 
-    public static final EntityType<BlazingBoltEntity> BLAZING_BOLT = register(
+    public static final Holder<EntityType<BlazingBoltEntity>> BLAZING_BOLT = register(
             "blazing_bolt",
             BlazingBoltEntity::new,
             MobCategory.MISC,
@@ -27,8 +28,9 @@ public abstract class KWEntityTypes {
                 .updateInterval(20);
     }
 
-    private static <T extends Entity> EntityType<T> register(String name, EntityType.EntityFactory<T> factory, MobCategory category, UnaryOperator<EntityType.Builder<T>> consumer) {
-        return Registry.register(BuiltInRegistries.ENTITY_TYPE, KWCommon.locate(name), consumer.apply(EntityType.Builder.of(factory, category)).build());
+    @SuppressWarnings("unchecked")
+    private static <T extends Entity> Holder<EntityType<T>> register(String name, EntityType.EntityFactory<T> factory, MobCategory category, UnaryOperator<EntityType.Builder<T>> consumer) {
+        return (Holder<EntityType<T>>) (Object) Registry.registerForHolder(BuiltInRegistries.ENTITY_TYPE, KWCommon.locate(name), consumer.apply(EntityType.Builder.of(factory, category)).build());
     }
 
     public static void init() {

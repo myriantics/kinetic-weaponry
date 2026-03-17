@@ -1,5 +1,6 @@
 package net.myriantics.kinetic_weaponry.registry.behavior;
 
+import net.minecraft.core.Holder;
 import net.minecraft.core.dispenser.DispenseItemBehavior;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.DispenserBlock;
@@ -8,11 +9,6 @@ import net.myriantics.kinetic_weaponry.mechanics.dispenser_behavior.KineticReten
 import net.myriantics.kinetic_weaponry.registry.item.KWItems;
 
 public abstract class KWDispenserBehaviors {
-    public static DispenseItemBehavior KINETIC_RETENTION_MODULE = register(
-            KWItems.KINETIC_RETENTION_BACKTANK,
-            new KineticRetentionModuleDispenserBehavior()
-    );
-
     static {
         KineticRetentionModuleDispenserBehavior behavior = new KineticRetentionModuleDispenserBehavior();
         register(KWItems.KINETIC_RETENTION_BACKTANK, behavior);
@@ -21,9 +17,12 @@ public abstract class KWDispenserBehaviors {
         register(KWItems.CREATIVE_KINETIC_RETENTION_HEADGEAR, behavior);
     }
 
-    private static DispenseItemBehavior register(Item item, DispenseItemBehavior behavior) {
+    private static void register(Holder<Item> holder, DispenseItemBehavior behavior) {
+        register(holder.value(), behavior);
+    }
+
+    private static void register(Item item, DispenseItemBehavior behavior) {
         DispenserBlock.registerBehavior(item, behavior);
-        return behavior;
     }
 
     public static void init() {

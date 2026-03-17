@@ -13,20 +13,20 @@ import java.util.NoSuchElementException;
 public interface KineticItem {
 
     default int getMaxCharge(ItemStack stack) {
-        return stack.getOrDefault(KWDataComponents.MAX_KINETIC_CHARGE, 0);
+        return stack.getOrDefault(KWDataComponents.MAX_KINETIC_CHARGE.value(), 0);
     }
 
     default int getCharge(ItemStack stack) {
-        if (stack.has(KWDataComponents.INFINITE_KINETIC_CHARGE)) {
+        if (stack.has(KWDataComponents.INFINITE_KINETIC_CHARGE.value())) {
             return Integer.MAX_VALUE;
         } else {
-            return stack.getOrDefault(KWDataComponents.KINETIC_CHARGE, 0);
+            return stack.getOrDefault(KWDataComponents.KINETIC_CHARGE.value(), 0);
         }
     }
 
     default void setCharge(ItemStack stack, int charge) {
-        if (!stack.has(KWDataComponents.INFINITE_KINETIC_CHARGE)) {
-            stack.set(KWDataComponents.KINETIC_CHARGE, charge);
+        if (!stack.has(KWDataComponents.INFINITE_KINETIC_CHARGE.value())) {
+            stack.set(KWDataComponents.KINETIC_CHARGE.value(), charge);
         }
     }
 
@@ -77,7 +77,7 @@ public interface KineticItem {
         if (energyStorageStack.getItem() instanceof KineticItem energyStorage) {
 
             boolean chargeSuccessfullyAdded;
-            if (energyStorageStack.has(KWDataComponents.INFINITE_KINETIC_CHARGE)) {
+            if (energyStorageStack.has(KWDataComponents.INFINITE_KINETIC_CHARGE.value())) {
                 chargeSuccessfullyAdded = true;
                 this.setCharge(usedItemStack, this.getMaxCharge(usedItemStack));
             } else {
@@ -93,7 +93,7 @@ public interface KineticItem {
 
                 // only update components on the server
                 if (!entity.level().isClientSide()) {
-                    if (!energyStorageStack.has(KWDataComponents.INFINITE_KINETIC_CHARGE)) {
+                    if (!energyStorageStack.has(KWDataComponents.INFINITE_KINETIC_CHARGE.value())) {
                         energyStorage.addCharge(energyStorageStack, -1);
                     }
 

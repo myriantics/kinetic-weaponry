@@ -27,14 +27,14 @@ public class KWBlockModelProvider extends MyrrorBlockModelSubProvider {
 
     @Override
     public void generate() {
-        generateFacing(KWBlocks.KINETIC_DETONATOR);
+        generateFacing(KWBlocks.KINETIC_DETONATOR.value());
 
-        generateKineticRetentionModule(KWBlocks.KINETIC_RETENTION_BACKTANK, KineticRetentionBacktankBlock.KINETIC_CHARGE, KWModelTemplates.STANDARD_KINETIC_RETENTION_MODULE);
-        generateCreativeKineticRetentionModule(KWBlocks.CREATIVE_KINETIC_RETENTION_BACKTANK, KWModelTemplates.STANDARD_KINETIC_RETENTION_MODULE);
-        generateKineticRetentionModule(KWBlocks.KINETIC_RETENTION_HEADGEAR, KineticRetentionHeadgearBlock.KINETIC_CHARGE, KWModelTemplates.LESSER_KINETIC_RETENTION_MODULE);
-        generateCreativeKineticRetentionModule(KWBlocks.CREATIVE_KINETIC_RETENTION_HEADGEAR, KWModelTemplates.LESSER_KINETIC_RETENTION_MODULE);
+        generateKineticRetentionModule(KWBlocks.KINETIC_RETENTION_BACKTANK.value(), KineticRetentionBacktankBlock.KINETIC_CHARGE, KWModelTemplates.STANDARD_KINETIC_RETENTION_MODULE);
+        generateCreativeKineticRetentionModule(KWBlocks.CREATIVE_KINETIC_RETENTION_BACKTANK.value(), KWModelTemplates.STANDARD_KINETIC_RETENTION_MODULE);
+        generateKineticRetentionModule(KWBlocks.KINETIC_RETENTION_HEADGEAR.value(), KineticRetentionHeadgearBlock.KINETIC_CHARGE, KWModelTemplates.LESSER_KINETIC_RETENTION_MODULE);
+        generateCreativeKineticRetentionModule(KWBlocks.CREATIVE_KINETIC_RETENTION_HEADGEAR.value(), KWModelTemplates.LESSER_KINETIC_RETENTION_MODULE);
 
-        generateTrialWeave(KWBlocks.TRIAL_WEAVE);
+        generateTrialWeave(KWBlocks.TRIAL_WEAVE.value());
     }
 
     private void generateFacing(Block block) {

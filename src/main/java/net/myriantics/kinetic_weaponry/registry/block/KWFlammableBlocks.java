@@ -7,7 +7,7 @@ import net.myriantics.kinetic_weaponry.KWCommon;
 public abstract class KWFlammableBlocks {
 
     static {
-        register(KWBlocks.TRIAL_WEAVE, 60, 30);
+        register(KWBlocks.TRIAL_WEAVE.value(), 60, 30);
     }
 
     private static void register(Block block, int burn, int spread) {
