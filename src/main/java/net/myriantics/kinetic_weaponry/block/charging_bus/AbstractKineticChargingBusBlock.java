@@ -15,7 +15,7 @@ import net.minecraft.world.level.block.state.properties.BooleanProperty;
 import net.minecraft.world.level.block.state.properties.DirectionProperty;
 import net.myriantics.kinetic_weaponry.mechanics.kinetic_charge.KineticBlock;
 import net.myriantics.kinetic_weaponry.mechanics.kinetic_charge.KineticImpactType;
-import net.myriantics.kinetic_weaponry.registry.misc.KWSounds;
+import net.myriantics.kinetic_weaponry.registry.misc.KWSoundEvents;
 import org.jetbrains.annotations.Nullable;
 
 public abstract class AbstractKineticChargingBusBlock extends Block implements KineticBlock {
@@ -83,7 +83,7 @@ public abstract class AbstractKineticChargingBusBlock extends Block implements K
             level.playSound(
                     null,
                     pos,
-                    KWSounds.KINETIC_CHARGING_BUS_DISCHARGE,
+                    KWSoundEvents.KINETIC_CHARGING_BUS_DISCHARGE,
                     SoundSource.BLOCKS,
                     0.25f * initialCharge,
                     1.0F / (level.getRandom().nextFloat() * 1.2F) * 0.5F);
@@ -94,7 +94,7 @@ public abstract class AbstractKineticChargingBusBlock extends Block implements K
             level.playSound(
                     null,
                     pos,
-                    KWSounds.KINETIC_CHARGING_BUS_FAIL,
+                    KWSoundEvents.KINETIC_CHARGING_BUS_FAIL,
                     SoundSource.BLOCKS,
                     1.0F,
                     1.0F / (level.getRandom().nextFloat() * 1.2F) * 0.5F);

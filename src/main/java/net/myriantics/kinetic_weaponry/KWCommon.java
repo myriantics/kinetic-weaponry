@@ -5,6 +5,7 @@ import net.myriantics.kinetic_weaponry.registry.advancement.KWCriteriaTriggers;
 import net.myriantics.kinetic_weaponry.registry.behavior.KWDispenserBehaviors;
 import net.myriantics.kinetic_weaponry.registry.block.KWBlockEntityTypes;
 import net.myriantics.kinetic_weaponry.registry.block.KWFlammableBlocks;
+import net.myriantics.kinetic_weaponry.registry.item.KWArmorMaterials;
 import net.myriantics.kinetic_weaponry.registry.item.KWItemGroups;
 import net.myriantics.kinetic_weaponry.registry.item.KWItems;
 import net.myriantics.kinetic_weaponry.registry.item.KWDataComponents;
@@ -12,7 +13,7 @@ import net.myriantics.kinetic_weaponry.registry.block.KWBlocks;
 import net.myriantics.kinetic_weaponry.registry.entity.KWEntityTypes;
 import net.myriantics.kinetic_weaponry.registry.misc.KWAttachmentTypes;
 import net.myriantics.kinetic_weaponry.registry.misc.KWEvents;
-import net.myriantics.kinetic_weaponry.registry.misc.KWSounds;
+import net.myriantics.kinetic_weaponry.registry.misc.KWSoundEvents;
 import net.myriantics.kinetic_weaponry.registry.misc.KWPackets;
 import net.minecraft.resources.ResourceLocation;
 import org.slf4j.Logger;
@@ -30,14 +31,15 @@ public class KWCommon implements ModInitializer {
 
     @Override
     public void onInitialize() {
-        LOGGER.info("Starting Kinetic Weaponry!");
+        LOGGER.info("Initializing Kinetic Weaponry!");
 
         KWEntityTypes.init();
-        KWSounds.init();
+        KWSoundEvents.init();
 
         KWItems.init();
         KWDataComponents.init();
         KWItemGroups.init();
+        KWArmorMaterials.init();
 
         KWBlocks.init();
         KWBlockEntityTypes.init();
@@ -53,6 +55,6 @@ public class KWCommon implements ModInitializer {
 
         KWEvents.init();
 
-        LOGGER.info("Kinetic Weaponry has started!");
+        LOGGER.info("Kinetic Weaponry has initialized!");
     }
 }

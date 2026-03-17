@@ -1,12 +1,11 @@
 package net.myriantics.kinetic_weaponry.mechanics.kinetic_charge;
 
 import net.minecraft.server.level.ServerPlayer;
-import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.ItemStack;
 import net.myriantics.kinetic_weaponry.registry.advancement.KWAdvancementTriggers;
 import net.myriantics.kinetic_weaponry.registry.item.KWDataComponents;
-import net.myriantics.kinetic_weaponry.registry.misc.KWSounds;
+import net.myriantics.kinetic_weaponry.registry.misc.KWSoundEvents;
 
 import java.util.NoSuchElementException;
 
@@ -86,7 +85,7 @@ public interface KineticItem {
 
             if (chargeSuccessfullyAdded) {
                 entity.playSound(
-                        KWSounds.KINETIC_RECHARGE_CONSUME,
+                        KWSoundEvents.KINETIC_RECHARGE_CONSUME,
                         1.0F,
                         1.0F / (entity.getRandom().nextFloat() * 0.4F + 1.2F) * 0.5F
                 );

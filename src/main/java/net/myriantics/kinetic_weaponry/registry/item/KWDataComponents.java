@@ -88,6 +88,6 @@ public abstract class KWDataComponents {
     }
 
     public static void init() {
-        KWCommon.LOGGER.info("Registering Kinetic Weaponry's Data Components!");
+        KWCommon.LOGGER.info("Registered Kinetic Weaponry's Data Components!");
     }
 }

@@ -34,6 +34,6 @@ public abstract class KWEntityTypes {
     }
 
     public static void init() {
-        KWCommon.LOGGER.info("Registering Kinetic Weaponry's Entities!");
+        KWCommon.LOGGER.info("Registered Kinetic Weaponry's Entities!");
     }
 }

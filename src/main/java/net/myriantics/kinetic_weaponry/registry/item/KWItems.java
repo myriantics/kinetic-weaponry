@@ -134,6 +134,6 @@ public abstract class KWItems {
     }
 
     public static void init() {
-        KWCommon.LOGGER.info("Registering Kinetic Weaponry's Items!");
+        KWCommon.LOGGER.info("Registered Kinetic Weaponry's Items!");
     }
 }

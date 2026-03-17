@@ -1,16 +1,14 @@
 package net.myriantics.kinetic_weaponry.mechanics.weapon_heat;
 
-import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.myriantics.kinetic_weaponry.registry.item.KWDataComponents;
-import net.myriantics.kinetic_weaponry.registry.misc.KWSounds;
+import net.myriantics.kinetic_weaponry.registry.misc.KWSoundEvents;
 
 import java.util.List;
-import java.util.function.Predicate;
 
 public interface OverheatWeapon {
 
@@ -84,7 +82,7 @@ public interface OverheatWeapon {
                                     entity.getX(),
                                     entity.getY(),
                                     entity.getZ(),
-                                    KWSounds.KINETIC_SHORTBOW_COOL_DOWN,
+                                    KWSoundEvents.KINETIC_SHORTBOW_COOL_DOWN,
                                     SoundSource.PLAYERS,
                                     1.0F,
                                     1.0F / (level.getRandom().nextFloat() * 0.4F + 2.4F) * 0.5F + (float) 0.05 * this.getHeatUnits(stack)

@@ -56,4 +56,8 @@ public abstract class KWArmorMaterials {
     private static Holder<ArmorMaterial> register(String name, ArmorMaterial material) {
         return Registry.registerForHolder(BuiltInRegistries.ARMOR_MATERIAL, KWCommon.locate(name), material);
     }
+
+    public static void init() {
+        KWCommon.LOGGER.info("Registered Kinetic Weaponry's Armor Materials!");
+    }
 }

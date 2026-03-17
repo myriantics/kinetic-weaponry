@@ -9,7 +9,7 @@ import net.minecraft.world.item.Item;
 import net.myriantics.kinetic_weaponry.KWCommon;
 import net.myriantics.kinetic_weaponry.registry.item.KWItems;
 
-public abstract class KWSounds {
+public abstract class KWSoundEvents {
     public static final SoundEvent KINETIC_SHORTBOW_SHOOT = register(
             "entity.kinetic_shortbow.shoot",
             SoundEvents.ARROW_SHOOT

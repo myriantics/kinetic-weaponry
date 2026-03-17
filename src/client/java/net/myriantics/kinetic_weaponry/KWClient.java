@@ -11,6 +11,6 @@ public class KWClient implements ClientModInitializer {
         KWItemModelPredicates.init();
         KWTooltipAdditions.init();
         KWEntityRenderers.init();
-        KWCommon.LOGGER.info("Kinetic Weaponry - Started Clientside!");
+        KWCommon.LOGGER.info("Kinetic Weaponry has initialized clientside!");
     }
 }

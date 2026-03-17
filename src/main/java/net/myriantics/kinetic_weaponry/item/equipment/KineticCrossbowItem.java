@@ -19,7 +19,7 @@ import net.myriantics.kinetic_weaponry.mechanics.swingable.SwingableItem;
 import net.myriantics.kinetic_weaponry.registry.advancement.KWAdvancementTriggers;
 import net.myriantics.kinetic_weaponry.registry.item.KWDataComponents;
 import net.myriantics.kinetic_weaponry.registry.item.KWItems;
-import net.myriantics.kinetic_weaponry.registry.misc.KWSounds;
+import net.myriantics.kinetic_weaponry.registry.misc.KWSoundEvents;
 import net.myriantics.kinetic_weaponry.tag.KWItemTags;
 import org.jetbrains.annotations.Nullable;
 
@@ -68,7 +68,7 @@ public class KineticCrossbowItem extends CrossbowItem implements SwingableItem, 
                         livingEntity.level().playSound(
                                 null,
                                 livingEntity.getOnPos(),
-                                KWSounds.KINETIC_RECHARGE_CONSUME,
+                                KWSoundEvents.KINETIC_RECHARGE_CONSUME,
                                 livingEntity.getSoundSource(),
                                 1.0F,
                                 0.2f + (0.3f * livingEntity.getRandom().nextFloat()) + (0.5f * (oldCharge + 1))

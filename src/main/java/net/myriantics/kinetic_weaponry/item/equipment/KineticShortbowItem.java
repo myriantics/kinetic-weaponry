@@ -4,7 +4,6 @@ import net.minecraft.core.component.TypedDataComponent;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.util.Mth;
-import net.myriantics.kinetic_weaponry.KWCommon;
 import net.myriantics.kinetic_weaponry.component.KineticShortbowConfig;
 import net.myriantics.kinetic_weaponry.mechanics.attack_use.AttackUseItem;
 import net.myriantics.kinetic_weaponry.mechanics.weapon_heat.OverheatWeapon;
@@ -19,7 +18,7 @@ import net.minecraft.world.entity.projectile.Projectile;
 import net.minecraft.world.item.*;
 import net.minecraft.world.level.Level;
 import net.myriantics.kinetic_weaponry.registry.item.KWDataComponents;
-import net.myriantics.kinetic_weaponry.registry.misc.KWSounds;
+import net.myriantics.kinetic_weaponry.registry.misc.KWSoundEvents;
 import net.myriantics.kinetic_weaponry.tag.KWItemTags;
 import org.jetbrains.annotations.Nullable;
 
@@ -75,7 +74,7 @@ public class KineticShortbowItem extends ProjectileWeaponItem implements Kinetic
         if (updated) {
             // play start and end sounds
             player.playSound(
-                    isPressed ? KWSounds.KINETIC_SHORTBOW_ATTACK_USE_START : KWSounds.KINETIC_SHORTBOW_ATTACK_USE_END,
+                    isPressed ? KWSoundEvents.KINETIC_SHORTBOW_ATTACK_USE_START : KWSoundEvents.KINETIC_SHORTBOW_ATTACK_USE_END,
                     0.6f + 0.3f * player.getRandom().nextFloat(),
                     0.4f + 0.4f * player.getRandom().nextFloat()
             );
@@ -103,7 +102,7 @@ public class KineticShortbowItem extends ProjectileWeaponItem implements Kinetic
             // play sound when we're primed for firing
             if (this.getDrawProgress(livingEntity, stack) == 1) {
                 livingEntity.playSound(
-                        KWSounds.KINETIC_SHORTBOW_READY,
+                        KWSoundEvents.KINETIC_SHORTBOW_READY,
                         0.6f + 0.3f * livingEntity.getRandom().nextFloat(),
                         0.4f + 0.4f * livingEntity.getRandom().nextFloat()
                 );
@@ -187,7 +186,7 @@ public class KineticShortbowItem extends ProjectileWeaponItem implements Kinetic
                             entity.getX(),
                             entity.getY(),
                             entity.getZ(),
-                            KWSounds.KINETIC_SHORTBOW_OVERHEAT,
+                            KWSoundEvents.KINETIC_SHORTBOW_OVERHEAT,
                             SoundSource.PLAYERS,
                             1.0F,
                             1.0F / (level.getRandom().nextFloat() * 0.4F + 2.4F) * 0.5F + 0.5f * heatRatio
@@ -203,7 +202,7 @@ public class KineticShortbowItem extends ProjectileWeaponItem implements Kinetic
                     entity.getX(),
                     entity.getY(),
                     entity.getZ(),
-                    KWSounds.KINETIC_SHORTBOW_SHOOT,
+                    KWSoundEvents.KINETIC_SHORTBOW_SHOOT,
                     SoundSource.PLAYERS,
                     1.0F,
                     1.0F / (level.getRandom().nextFloat() * 0.4F + 2.4F) * 0.5F + 0.5f * heatRatio

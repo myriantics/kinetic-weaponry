@@ -94,6 +94,6 @@ public abstract class KWBlocks {
     }
 
     public static void init() {
-        KWCommon.LOGGER.info("Registering Kinetic Weaponry's Blocks!");
+        KWCommon.LOGGER.info("Registered Kinetic Weaponry's Blocks!");
     }
 }
