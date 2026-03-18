@@ -15,7 +15,7 @@ import net.myriantics.kinetic_weaponry.block.retention_module.headgear.AbstractK
 import net.myriantics.kinetic_weaponry.block.retention_module.headgear.KineticRetentionHeadgearBlock;
 import net.myriantics.kinetic_weaponry.block.retention_module.backtank.KineticRetentionBacktankBlock;
 import net.myriantics.kinetic_weaponry.block.trial_weave.TrialWeaveBlock;
-import net.myriantics.kinetic_weaponry.mixin.minecraft.IntegerPropertyAccessor;
+import net.myriantics.kinetic_weaponry.mixin.minecraft.datagen.IntegerPropertyAccessor;
 import net.myriantics.kinetic_weaponry.registry.block.KWBlocks;
 import net.myriantics.kinetic_weaponry.registry.render.KWModelTemplates;
 import net.myriantics.myrror.datagen.template.model.MyrrorBlockModelSubProvider;

@@ -1,4 +1,4 @@
-package net.myriantics.kinetic_weaponry.mixin;
+package net.myriantics.kinetic_weaponry.mixin.minecraft.tooltip;
 
 import com.llamalad7.mixinextras.sugar.Local;
 import net.minecraft.network.chat.Component;

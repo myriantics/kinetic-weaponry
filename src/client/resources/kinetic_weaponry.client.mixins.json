@@ -3,9 +3,9 @@
   "package": "net.myriantics.kinetic_weaponry.mixin",
   "compatibilityLevel": "JAVA_21",
   "client": [
-    "HumanoidArmorLayerMixin",
-    "MinecraftHandleKeybindsMixin",
-    "SmithingScreenMixin",
+    "minecraft.kinetic_retention_module.HumanoidArmorLayerMixin",
+    "minecraft.attack_use.MinecraftHandleKeybindsMixin",
+    "minecraft.kinetic_retention_module.SmithingScreenMixin",
     "minecraft.kinetic_crossbow.ItemInHandRendererMixin",
     "minecraft.kinetic_crossbow.PlayerRendererMixin"
   ],
@@ -13,6 +13,6 @@
     "defaultRequire": 1
   },
   "mixins": [
-    "ItemStackMixin"
+    "minecraft.tooltip.ItemStackMixin"
   ]
 }

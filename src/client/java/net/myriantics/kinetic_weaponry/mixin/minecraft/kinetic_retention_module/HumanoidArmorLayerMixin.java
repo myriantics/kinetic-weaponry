@@ -1,4 +1,4 @@
-package net.myriantics.kinetic_weaponry.mixin;
+package net.myriantics.kinetic_weaponry.mixin.minecraft.kinetic_retention_module;
 
 import com.llamalad7.mixinextras.injector.ModifyExpressionValue;
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;

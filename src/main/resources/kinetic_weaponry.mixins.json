@@ -3,13 +3,14 @@
   "package": "net.myriantics.kinetic_weaponry.mixin",
   "compatibilityLevel": "JAVA_21",
   "mixins": [
-    "minecraft.FallingBlockEntityMixin",
-    "minecraft.IntegerPropertyAccessor",
-    "minecraft.LivingEntityMixin",
-    "minecraft.ThrownPotionEntityMixin",
+    "minecraft.swingable_item.LivingEntityMixin",
+    "minecraft.attack_use.LivingEntityMixin",
+    "minecraft.datagen.IntegerPropertyAccessor",
+    "minecraft.kinetic_block.FallingBlockEntityMixin",
     "minecraft.kinetic_crossbow.CrossbowItemMixin",
     "minecraft.kinetic_retention_module.durability.LivingEntityMixin",
-    "minecraft.kinetic_retention_module.mace_hit_absorption.LivingEntityMixin"
+    "minecraft.kinetic_retention_module.mace_hit_absorption.LivingEntityMixin",
+    "minecraft.overheat_weapon.ThrownPotionEntityMixin"
   ],
   "injectors": {
     "defaultRequire": 1

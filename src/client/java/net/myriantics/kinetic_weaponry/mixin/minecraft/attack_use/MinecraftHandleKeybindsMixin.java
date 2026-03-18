@@ -1,4 +1,4 @@
-package net.myriantics.kinetic_weaponry.mixin;
+package net.myriantics.kinetic_weaponry.mixin.minecraft.attack_use;
 
 import com.llamalad7.mixinextras.injector.ModifyExpressionValue;
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;

@@ -1,4 +1,4 @@
-package net.myriantics.kinetic_weaponry.mixin.minecraft;
+package net.myriantics.kinetic_weaponry.mixin.minecraft.kinetic_block;
 
 import com.llamalad7.mixinextras.sugar.Local;
 import net.minecraft.world.entity.Entity;

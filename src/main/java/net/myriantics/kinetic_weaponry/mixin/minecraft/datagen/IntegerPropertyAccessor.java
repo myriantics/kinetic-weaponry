@@ -1,4 +1,4 @@
-package net.myriantics.kinetic_weaponry.mixin.minecraft;
+package net.myriantics.kinetic_weaponry.mixin.minecraft.datagen;
 
 import net.minecraft.world.level.block.state.properties.IntegerProperty;
 import org.spongepowered.asm.mixin.Mixin;
