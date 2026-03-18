@@ -114,6 +114,12 @@ public abstract class AbstractKineticRetentionModuleBlock extends BaseEntityBloc
     }
 
     @Override
+    protected void onRemove(BlockState state, Level level, BlockPos pos, BlockState newState, boolean movedByPiston) {
+        super.onRemove(state, level, pos, newState, movedByPiston);
+        level.updateNeighbourForOutputSignal(pos, this);
+    }
+
+    @Override
     protected boolean hasAnalogOutputSignal(BlockState state) {
         return true;
     }
