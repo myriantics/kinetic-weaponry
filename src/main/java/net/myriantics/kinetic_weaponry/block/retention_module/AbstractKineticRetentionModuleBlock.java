@@ -87,7 +87,7 @@ public abstract class AbstractKineticRetentionModuleBlock extends BaseEntityBloc
     public BlockState getStateForPlacement(BlockPlaceContext context) {
         ItemStack moduleStack = context.getItemInHand();
 
-        boolean sneaking = context.getPlayer() != null && context.getPlayer().isCrouching();
+        boolean sneaking = context.getPlayer() != null && context.getPlayer().isShiftKeyDown();
 
         BlockState state = super.getStateForPlacement(context);
 
