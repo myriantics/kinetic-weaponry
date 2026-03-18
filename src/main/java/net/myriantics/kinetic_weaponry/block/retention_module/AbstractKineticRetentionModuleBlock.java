@@ -31,8 +31,6 @@ public abstract class AbstractKineticRetentionModuleBlock extends BaseEntityBloc
     public static final DirectionProperty FACING = BlockStateProperties.FACING;
     public static final BooleanProperty WATERLOGGED = BlockStateProperties.WATERLOGGED;
 
-    public static final ResourceLocation DYNAMIC = KWCommon.locate("kinetic_retention_module_dynamic");
-
     public AbstractKineticRetentionModuleBlock(Properties properties) {
         super(properties);
 
@@ -79,6 +77,11 @@ public abstract class AbstractKineticRetentionModuleBlock extends BaseEntityBloc
         builder.add(FACING, WATERLOGGED);
     }
 
+    protected BlockState modifySneakPlaceState(BlockState state, BlockPlaceContext context, boolean sneaking) {
+        Direction facing = state.getValue(FACING);
+        return state.setValue(FACING, sneaking ? facing.getOpposite() : facing);
+    }
+
     @Nullable
     @Override
     public BlockState getStateForPlacement(BlockPlaceContext context) {
@@ -95,7 +98,7 @@ public abstract class AbstractKineticRetentionModuleBlock extends BaseEntityBloc
         // waterlogged check :)
         state = state.setValue(WATERLOGGED, context.getLevel().getBlockState(context.getClickedPos()).getFluidState().is(Fluids.WATER));
 
-        state = state.setValue(FACING, sneaking ? context.getClickedFace() : context.getClickedFace().getOpposite());
+        state = this.modifySneakPlaceState(state.setValue(FACING, context.getClickedFace().getOpposite()), context, sneaking);
 
         return moduleStack.getItem() instanceof KineticItem kineticItem
                 ? this.withCharge(state, (float) kineticItem.getCharge(moduleStack) / kineticItem.getMaxCharge(moduleStack))

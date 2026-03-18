@@ -12,10 +12,10 @@ import net.myriantics.kinetic_weaponry.block.charging_bus.KineticChargingBusBloc
 import net.myriantics.kinetic_weaponry.block.detonator.KineticDetonatorBlock;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockBehaviour;
-import net.myriantics.kinetic_weaponry.block.retention_module.lesser.CreativeKineticRetentionHeadgearBlock;
-import net.myriantics.kinetic_weaponry.block.retention_module.lesser.KineticRetentionHeadgearBlock;
-import net.myriantics.kinetic_weaponry.block.retention_module.standard.CreativeKineticRetentionBacktankBlock;
-import net.myriantics.kinetic_weaponry.block.retention_module.standard.KineticRetentionBacktankBlock;
+import net.myriantics.kinetic_weaponry.block.retention_module.headgear.CreativeKineticRetentionHeadgearBlock;
+import net.myriantics.kinetic_weaponry.block.retention_module.headgear.KineticRetentionHeadgearBlock;
+import net.myriantics.kinetic_weaponry.block.retention_module.backtank.CreativeKineticRetentionBacktankBlock;
+import net.myriantics.kinetic_weaponry.block.retention_module.backtank.KineticRetentionBacktankBlock;
 import net.myriantics.kinetic_weaponry.block.trial_weave.TrialWeaveBlock;
 
 import java.util.function.Function;

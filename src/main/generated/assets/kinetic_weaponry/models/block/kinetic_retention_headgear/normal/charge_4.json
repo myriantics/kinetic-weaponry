@@ -1,9 +1,9 @@
 {
-  "parent": "kinetic_weaponry:block/lesser_kinetic_retention_module_parent",
+  "parent": "kinetic_weaponry:block/kinetic_retention_headgear_template",
   "textures": {
     "bottom": "kinetic_weaponry:block/kinetic_retention_headgear/bottom/on",
     "particle": "kinetic_weaponry:block/kinetic_retention_headgear/top",
-    "side": "kinetic_weaponry:block/kinetic_retention_headgear/side/charge_2",
+    "side": "kinetic_weaponry:block/kinetic_retention_headgear/side/charge_4",
     "top": "kinetic_weaponry:block/kinetic_retention_headgear/top"
   }
 }

@@ -1,4 +1,4 @@
-package net.myriantics.kinetic_weaponry.block.retention_module.standard;
+package net.myriantics.kinetic_weaponry.block.retention_module.headgear;
 
 import com.mojang.serialization.MapCodec;
 import net.minecraft.core.BlockPos;
@@ -8,12 +8,11 @@ import net.minecraft.world.level.block.BaseEntityBlock;
 import net.minecraft.world.level.block.state.BlockState;
 import net.myriantics.kinetic_weaponry.mechanics.kinetic_charge.KineticImpactType;
 
-public class CreativeKineticRetentionBacktankBlock extends AbstractKineticRetentionBacktankBlock {
-    public CreativeKineticRetentionBacktankBlock(Properties properties) {
+public class CreativeKineticRetentionHeadgearBlock extends AbstractKineticRetentionHeadgearBlock {
+    private static final MapCodec<CreativeKineticRetentionHeadgearBlock> CODEC = simpleCodec(CreativeKineticRetentionHeadgearBlock::new);
+    public CreativeKineticRetentionHeadgearBlock(Properties properties) {
         super(properties);
     }
-
-    private static final MapCodec<CreativeKineticRetentionBacktankBlock> CODEC = simpleCodec(CreativeKineticRetentionBacktankBlock::new);
 
     @Override
     protected MapCodec<? extends BaseEntityBlock> codec() {
@@ -29,7 +28,6 @@ public class CreativeKineticRetentionBacktankBlock extends AbstractKineticRetent
     public int getCharge(Level level, BlockPos pos, BlockState state) {
         return Integer.MAX_VALUE;
     }
-
     @Override
     public BlockState withCharge(BlockState state, float newCharge) {
         return state;

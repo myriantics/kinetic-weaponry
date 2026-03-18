@@ -1,5 +1,5 @@
 {
-  "parent": "kinetic_weaponry:block/standard_kinetic_retention_module_parent",
+  "parent": "kinetic_weaponry:block/kinetic_retention_backtank_template",
   "textures": {
     "bottom": "kinetic_weaponry:block/kinetic_retention_backtank/bottom/on",
     "particle": "kinetic_weaponry:block/kinetic_retention_backtank/top",

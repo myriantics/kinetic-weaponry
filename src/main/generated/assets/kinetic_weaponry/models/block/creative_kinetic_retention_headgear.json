@@ -1,5 +1,5 @@
 {
-  "parent": "kinetic_weaponry:block/lesser_kinetic_retention_module_parent",
+  "parent": "kinetic_weaponry:block/kinetic_retention_headgear_template",
   "textures": {
     "bottom": "kinetic_weaponry:block/creative_kinetic_retention_headgear/bottom",
     "particle": "kinetic_weaponry:block/creative_kinetic_retention_headgear/top",

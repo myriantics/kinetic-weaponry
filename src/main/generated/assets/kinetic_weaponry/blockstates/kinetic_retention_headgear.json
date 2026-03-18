@@ -1,127 +1,252 @@
 {
   "variants": {
-    "facing=down,kinetic_charge=0": {
-      "model": "kinetic_weaponry:block/kinetic_retention_headgear/charge_0"
+    "facing=down,inverted=false,kinetic_charge=0": {
+      "model": "kinetic_weaponry:block/kinetic_retention_headgear/normal/charge_0"
     },
-    "facing=down,kinetic_charge=1": {
-      "model": "kinetic_weaponry:block/kinetic_retention_headgear/charge_1"
+    "facing=down,inverted=false,kinetic_charge=1": {
+      "model": "kinetic_weaponry:block/kinetic_retention_headgear/normal/charge_1"
     },
-    "facing=down,kinetic_charge=2": {
-      "model": "kinetic_weaponry:block/kinetic_retention_headgear/charge_2"
+    "facing=down,inverted=false,kinetic_charge=2": {
+      "model": "kinetic_weaponry:block/kinetic_retention_headgear/normal/charge_2"
     },
-    "facing=down,kinetic_charge=3": {
-      "model": "kinetic_weaponry:block/kinetic_retention_headgear/charge_3"
+    "facing=down,inverted=false,kinetic_charge=3": {
+      "model": "kinetic_weaponry:block/kinetic_retention_headgear/normal/charge_3"
     },
-    "facing=down,kinetic_charge=4": {
-      "model": "kinetic_weaponry:block/kinetic_retention_headgear/charge_4"
+    "facing=down,inverted=false,kinetic_charge=4": {
+      "model": "kinetic_weaponry:block/kinetic_retention_headgear/normal/charge_4"
     },
-    "facing=east,kinetic_charge=0": {
-      "model": "kinetic_weaponry:block/kinetic_retention_headgear/charge_0",
+    "facing=down,inverted=true,kinetic_charge=0": {
+      "model": "kinetic_weaponry:block/kinetic_retention_headgear/inverted/charge_0"
+    },
+    "facing=down,inverted=true,kinetic_charge=1": {
+      "model": "kinetic_weaponry:block/kinetic_retention_headgear/inverted/charge_1"
+    },
+    "facing=down,inverted=true,kinetic_charge=2": {
+      "model": "kinetic_weaponry:block/kinetic_retention_headgear/inverted/charge_2"
+    },
+    "facing=down,inverted=true,kinetic_charge=3": {
+      "model": "kinetic_weaponry:block/kinetic_retention_headgear/inverted/charge_3"
+    },
+    "facing=down,inverted=true,kinetic_charge=4": {
+      "model": "kinetic_weaponry:block/kinetic_retention_headgear/inverted/charge_4"
+    },
+    "facing=east,inverted=false,kinetic_charge=0": {
+      "model": "kinetic_weaponry:block/kinetic_retention_headgear/normal/charge_0",
       "x": 90,
       "y": 270
     },
-    "facing=east,kinetic_charge=1": {
-      "model": "kinetic_weaponry:block/kinetic_retention_headgear/charge_1",
+    "facing=east,inverted=false,kinetic_charge=1": {
+      "model": "kinetic_weaponry:block/kinetic_retention_headgear/normal/charge_1",
       "x": 90,
       "y": 270
     },
-    "facing=east,kinetic_charge=2": {
-      "model": "kinetic_weaponry:block/kinetic_retention_headgear/charge_2",
+    "facing=east,inverted=false,kinetic_charge=2": {
+      "model": "kinetic_weaponry:block/kinetic_retention_headgear/normal/charge_2",
       "x": 90,
       "y": 270
     },
-    "facing=east,kinetic_charge=3": {
-      "model": "kinetic_weaponry:block/kinetic_retention_headgear/charge_3",
+    "facing=east,inverted=false,kinetic_charge=3": {
+      "model": "kinetic_weaponry:block/kinetic_retention_headgear/normal/charge_3",
       "x": 90,
       "y": 270
     },
-    "facing=east,kinetic_charge=4": {
-      "model": "kinetic_weaponry:block/kinetic_retention_headgear/charge_4",
+    "facing=east,inverted=false,kinetic_charge=4": {
+      "model": "kinetic_weaponry:block/kinetic_retention_headgear/normal/charge_4",
       "x": 90,
       "y": 270
     },
-    "facing=north,kinetic_charge=0": {
-      "model": "kinetic_weaponry:block/kinetic_retention_headgear/charge_0",
+    "facing=east,inverted=true,kinetic_charge=0": {
+      "model": "kinetic_weaponry:block/kinetic_retention_headgear/inverted/charge_0",
+      "x": 90,
+      "y": 270
+    },
+    "facing=east,inverted=true,kinetic_charge=1": {
+      "model": "kinetic_weaponry:block/kinetic_retention_headgear/inverted/charge_1",
+      "x": 90,
+      "y": 270
+    },
+    "facing=east,inverted=true,kinetic_charge=2": {
+      "model": "kinetic_weaponry:block/kinetic_retention_headgear/inverted/charge_2",
+      "x": 90,
+      "y": 270
+    },
+    "facing=east,inverted=true,kinetic_charge=3": {
+      "model": "kinetic_weaponry:block/kinetic_retention_headgear/inverted/charge_3",
+      "x": 90,
+      "y": 270
+    },
+    "facing=east,inverted=true,kinetic_charge=4": {
+      "model": "kinetic_weaponry:block/kinetic_retention_headgear/inverted/charge_4",
+      "x": 90,
+      "y": 270
+    },
+    "facing=north,inverted=false,kinetic_charge=0": {
+      "model": "kinetic_weaponry:block/kinetic_retention_headgear/normal/charge_0",
       "x": 270
     },
-    "facing=north,kinetic_charge=1": {
-      "model": "kinetic_weaponry:block/kinetic_retention_headgear/charge_1",
+    "facing=north,inverted=false,kinetic_charge=1": {
+      "model": "kinetic_weaponry:block/kinetic_retention_headgear/normal/charge_1",
       "x": 270
     },
-    "facing=north,kinetic_charge=2": {
-      "model": "kinetic_weaponry:block/kinetic_retention_headgear/charge_2",
+    "facing=north,inverted=false,kinetic_charge=2": {
+      "model": "kinetic_weaponry:block/kinetic_retention_headgear/normal/charge_2",
       "x": 270
     },
-    "facing=north,kinetic_charge=3": {
-      "model": "kinetic_weaponry:block/kinetic_retention_headgear/charge_3",
+    "facing=north,inverted=false,kinetic_charge=3": {
+      "model": "kinetic_weaponry:block/kinetic_retention_headgear/normal/charge_3",
       "x": 270
     },
-    "facing=north,kinetic_charge=4": {
-      "model": "kinetic_weaponry:block/kinetic_retention_headgear/charge_4",
+    "facing=north,inverted=false,kinetic_charge=4": {
+      "model": "kinetic_weaponry:block/kinetic_retention_headgear/normal/charge_4",
       "x": 270
     },
-    "facing=south,kinetic_charge=0": {
-      "model": "kinetic_weaponry:block/kinetic_retention_headgear/charge_0",
+    "facing=north,inverted=true,kinetic_charge=0": {
+      "model": "kinetic_weaponry:block/kinetic_retention_headgear/inverted/charge_0",
+      "x": 270
+    },
+    "facing=north,inverted=true,kinetic_charge=1": {
+      "model": "kinetic_weaponry:block/kinetic_retention_headgear/inverted/charge_1",
+      "x": 270
+    },
+    "facing=north,inverted=true,kinetic_charge=2": {
+      "model": "kinetic_weaponry:block/kinetic_retention_headgear/inverted/charge_2",
+      "x": 270
+    },
+    "facing=north,inverted=true,kinetic_charge=3": {
+      "model": "kinetic_weaponry:block/kinetic_retention_headgear/inverted/charge_3",
+      "x": 270
+    },
+    "facing=north,inverted=true,kinetic_charge=4": {
+      "model": "kinetic_weaponry:block/kinetic_retention_headgear/inverted/charge_4",
+      "x": 270
+    },
+    "facing=south,inverted=false,kinetic_charge=0": {
+      "model": "kinetic_weaponry:block/kinetic_retention_headgear/normal/charge_0",
       "x": 90
     },
-    "facing=south,kinetic_charge=1": {
-      "model": "kinetic_weaponry:block/kinetic_retention_headgear/charge_1",
+    "facing=south,inverted=false,kinetic_charge=1": {
+      "model": "kinetic_weaponry:block/kinetic_retention_headgear/normal/charge_1",
       "x": 90
     },
-    "facing=south,kinetic_charge=2": {
-      "model": "kinetic_weaponry:block/kinetic_retention_headgear/charge_2",
+    "facing=south,inverted=false,kinetic_charge=2": {
+      "model": "kinetic_weaponry:block/kinetic_retention_headgear/normal/charge_2",
       "x": 90
     },
-    "facing=south,kinetic_charge=3": {
-      "model": "kinetic_weaponry:block/kinetic_retention_headgear/charge_3",
+    "facing=south,inverted=false,kinetic_charge=3": {
+      "model": "kinetic_weaponry:block/kinetic_retention_headgear/normal/charge_3",
       "x": 90
     },
-    "facing=south,kinetic_charge=4": {
-      "model": "kinetic_weaponry:block/kinetic_retention_headgear/charge_4",
+    "facing=south,inverted=false,kinetic_charge=4": {
+      "model": "kinetic_weaponry:block/kinetic_retention_headgear/normal/charge_4",
       "x": 90
     },
-    "facing=up,kinetic_charge=0": {
-      "model": "kinetic_weaponry:block/kinetic_retention_headgear/charge_0",
+    "facing=south,inverted=true,kinetic_charge=0": {
+      "model": "kinetic_weaponry:block/kinetic_retention_headgear/inverted/charge_0",
+      "x": 90
+    },
+    "facing=south,inverted=true,kinetic_charge=1": {
+      "model": "kinetic_weaponry:block/kinetic_retention_headgear/inverted/charge_1",
+      "x": 90
+    },
+    "facing=south,inverted=true,kinetic_charge=2": {
+      "model": "kinetic_weaponry:block/kinetic_retention_headgear/inverted/charge_2",
+      "x": 90
+    },
+    "facing=south,inverted=true,kinetic_charge=3": {
+      "model": "kinetic_weaponry:block/kinetic_retention_headgear/inverted/charge_3",
+      "x": 90
+    },
+    "facing=south,inverted=true,kinetic_charge=4": {
+      "model": "kinetic_weaponry:block/kinetic_retention_headgear/inverted/charge_4",
+      "x": 90
+    },
+    "facing=up,inverted=false,kinetic_charge=0": {
+      "model": "kinetic_weaponry:block/kinetic_retention_headgear/normal/charge_0",
       "x": 180
     },
-    "facing=up,kinetic_charge=1": {
-      "model": "kinetic_weaponry:block/kinetic_retention_headgear/charge_1",
+    "facing=up,inverted=false,kinetic_charge=1": {
+      "model": "kinetic_weaponry:block/kinetic_retention_headgear/normal/charge_1",
       "x": 180
     },
-    "facing=up,kinetic_charge=2": {
-      "model": "kinetic_weaponry:block/kinetic_retention_headgear/charge_2",
+    "facing=up,inverted=false,kinetic_charge=2": {
+      "model": "kinetic_weaponry:block/kinetic_retention_headgear/normal/charge_2",
       "x": 180
     },
-    "facing=up,kinetic_charge=3": {
-      "model": "kinetic_weaponry:block/kinetic_retention_headgear/charge_3",
+    "facing=up,inverted=false,kinetic_charge=3": {
+      "model": "kinetic_weaponry:block/kinetic_retention_headgear/normal/charge_3",
       "x": 180
     },
-    "facing=up,kinetic_charge=4": {
-      "model": "kinetic_weaponry:block/kinetic_retention_headgear/charge_4",
+    "facing=up,inverted=false,kinetic_charge=4": {
+      "model": "kinetic_weaponry:block/kinetic_retention_headgear/normal/charge_4",
       "x": 180
     },
-    "facing=west,kinetic_charge=0": {
-      "model": "kinetic_weaponry:block/kinetic_retention_headgear/charge_0",
+    "facing=up,inverted=true,kinetic_charge=0": {
+      "model": "kinetic_weaponry:block/kinetic_retention_headgear/inverted/charge_0",
+      "x": 180
+    },
+    "facing=up,inverted=true,kinetic_charge=1": {
+      "model": "kinetic_weaponry:block/kinetic_retention_headgear/inverted/charge_1",
+      "x": 180
+    },
+    "facing=up,inverted=true,kinetic_charge=2": {
+      "model": "kinetic_weaponry:block/kinetic_retention_headgear/inverted/charge_2",
+      "x": 180
+    },
+    "facing=up,inverted=true,kinetic_charge=3": {
+      "model": "kinetic_weaponry:block/kinetic_retention_headgear/inverted/charge_3",
+      "x": 180
+    },
+    "facing=up,inverted=true,kinetic_charge=4": {
+      "model": "kinetic_weaponry:block/kinetic_retention_headgear/inverted/charge_4",
+      "x": 180
+    },
+    "facing=west,inverted=false,kinetic_charge=0": {
+      "model": "kinetic_weaponry:block/kinetic_retention_headgear/normal/charge_0",
       "x": 90,
       "y": 90
     },
-    "facing=west,kinetic_charge=1": {
-      "model": "kinetic_weaponry:block/kinetic_retention_headgear/charge_1",
+    "facing=west,inverted=false,kinetic_charge=1": {
+      "model": "kinetic_weaponry:block/kinetic_retention_headgear/normal/charge_1",
       "x": 90,
       "y": 90
     },
-    "facing=west,kinetic_charge=2": {
-      "model": "kinetic_weaponry:block/kinetic_retention_headgear/charge_2",
+    "facing=west,inverted=false,kinetic_charge=2": {
+      "model": "kinetic_weaponry:block/kinetic_retention_headgear/normal/charge_2",
       "x": 90,
       "y": 90
     },
-    "facing=west,kinetic_charge=3": {
-      "model": "kinetic_weaponry:block/kinetic_retention_headgear/charge_3",
+    "facing=west,inverted=false,kinetic_charge=3": {
+      "model": "kinetic_weaponry:block/kinetic_retention_headgear/normal/charge_3",
       "x": 90,
       "y": 90
     },
-    "facing=west,kinetic_charge=4": {
-      "model": "kinetic_weaponry:block/kinetic_retention_headgear/charge_4",
+    "facing=west,inverted=false,kinetic_charge=4": {
+      "model": "kinetic_weaponry:block/kinetic_retention_headgear/normal/charge_4",
+      "x": 90,
+      "y": 90
+    },
+    "facing=west,inverted=true,kinetic_charge=0": {
+      "model": "kinetic_weaponry:block/kinetic_retention_headgear/inverted/charge_0",
+      "x": 90,
+      "y": 90
+    },
+    "facing=west,inverted=true,kinetic_charge=1": {
+      "model": "kinetic_weaponry:block/kinetic_retention_headgear/inverted/charge_1",
+      "x": 90,
+      "y": 90
+    },
+    "facing=west,inverted=true,kinetic_charge=2": {
+      "model": "kinetic_weaponry:block/kinetic_retention_headgear/inverted/charge_2",
+      "x": 90,
+      "y": 90
+    },
+    "facing=west,inverted=true,kinetic_charge=3": {
+      "model": "kinetic_weaponry:block/kinetic_retention_headgear/inverted/charge_3",
+      "x": 90,
+      "y": 90
+    },
+    "facing=west,inverted=true,kinetic_charge=4": {
+      "model": "kinetic_weaponry:block/kinetic_retention_headgear/inverted/charge_4",
       "x": 90,
       "y": 90
     }

@@ -1,4 +1,4 @@
-package net.myriantics.kinetic_weaponry.block.retention_module.standard;
+package net.myriantics.kinetic_weaponry.block.retention_module.backtank;
 
 import com.mojang.serialization.MapCodec;
 import net.minecraft.world.level.block.BaseEntityBlock;

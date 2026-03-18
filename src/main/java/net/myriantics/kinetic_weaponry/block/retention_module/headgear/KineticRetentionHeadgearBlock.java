@@ -1,4 +1,4 @@
-package net.myriantics.kinetic_weaponry.block.retention_module.lesser;
+package net.myriantics.kinetic_weaponry.block.retention_module.headgear;
 
 import com.mojang.serialization.MapCodec;
 import net.minecraft.world.level.block.BaseEntityBlock;
@@ -15,6 +15,7 @@ public class KineticRetentionHeadgearBlock extends AbstractKineticRetentionHeadg
 
     public KineticRetentionHeadgearBlock(Properties properties) {
         super(properties);
+        registerDefaultState(defaultBlockState().setValue(KINETIC_CHARGE, 0));
     }
 
     @Override

@@ -11,8 +11,9 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.level.block.state.properties.IntegerProperty;
-import net.myriantics.kinetic_weaponry.block.retention_module.lesser.KineticRetentionHeadgearBlock;
-import net.myriantics.kinetic_weaponry.block.retention_module.standard.KineticRetentionBacktankBlock;
+import net.myriantics.kinetic_weaponry.block.retention_module.headgear.AbstractKineticRetentionHeadgearBlock;
+import net.myriantics.kinetic_weaponry.block.retention_module.headgear.KineticRetentionHeadgearBlock;
+import net.myriantics.kinetic_weaponry.block.retention_module.backtank.KineticRetentionBacktankBlock;
 import net.myriantics.kinetic_weaponry.block.trial_weave.TrialWeaveBlock;
 import net.myriantics.kinetic_weaponry.mixin.minecraft.IntegerPropertyAccessor;
 import net.myriantics.kinetic_weaponry.registry.block.KWBlocks;
@@ -31,8 +32,8 @@ public class KWBlockModelProvider extends MyrrorBlockModelSubProvider {
 
         generateKineticRetentionModule(KWBlocks.KINETIC_RETENTION_BACKTANK.value(), KineticRetentionBacktankBlock.KINETIC_CHARGE, KWModelTemplates.STANDARD_KINETIC_RETENTION_MODULE);
         generateCreativeKineticRetentionModule(KWBlocks.CREATIVE_KINETIC_RETENTION_BACKTANK.value(), KWModelTemplates.STANDARD_KINETIC_RETENTION_MODULE);
-        generateKineticRetentionModule(KWBlocks.KINETIC_RETENTION_HEADGEAR.value(), KineticRetentionHeadgearBlock.KINETIC_CHARGE, KWModelTemplates.LESSER_KINETIC_RETENTION_MODULE);
-        generateCreativeKineticRetentionModule(KWBlocks.CREATIVE_KINETIC_RETENTION_HEADGEAR.value(), KWModelTemplates.LESSER_KINETIC_RETENTION_MODULE);
+        generateKineticRetentionHeadgear(KWBlocks.KINETIC_RETENTION_HEADGEAR.value(), KineticRetentionHeadgearBlock.KINETIC_CHARGE);
+        generateCreativeKineticRetentionModule(KWBlocks.CREATIVE_KINETIC_RETENTION_HEADGEAR.value(), KWModelTemplates.KINETIC_RETENTION_HEADGEAR);
 
         generateTrialWeave(KWBlocks.TRIAL_WEAVE.value());
     }
@@ -109,6 +110,64 @@ public class KWBlockModelProvider extends MyrrorBlockModelSubProvider {
 
             for (int i = 0; i < charge2Ids.length; i++) {
                 dispatch = dispatch.select(i, Variant.variant().with(VariantProperties.MODEL, charge2Ids[i]));
+            }
+
+            variantGenerator.with(dispatch);
+        }
+
+        generators.blockStateOutput.accept(
+                variantGenerator
+        );
+    }
+
+    private void generateKineticRetentionHeadgear(Block block, IntegerProperty property) {
+        int min = ((IntegerPropertyAccessor) property).kinetic_weaponry$getMin();
+        if (min != 0) {
+            throw new IllegalArgumentException("Minimum value of " + property + " in block " + block + " is [" + min + "] - should be 0!");
+        }
+        int max = ((IntegerPropertyAccessor) property).kinetic_weaponry$getMax();
+
+        ResourceLocation[] charge2Ids = new ResourceLocation[max + 1];
+        for (int i = 0; i < charge2Ids.length; i++) {
+            TextureMapping mapping = new TextureMapping()
+                    .put(TextureSlot.TOP, TextureMapping.getBlockTexture(block, "/top"))
+                    .put(TextureSlot.BOTTOM, TextureMapping.getBlockTexture(block, "/bottom" + (i == min ? "/off" : "/on")))
+                    .put(TextureSlot.SIDE, TextureMapping.getBlockTexture(block, "/side/charge_" + i))
+                    .put(TextureSlot.PARTICLE, TextureMapping.getBlockTexture(block, "/top"));
+
+            charge2Ids[i] = TexturedModel.createDefault(
+                    (b) -> mapping,
+                    KWModelTemplates.KINETIC_RETENTION_HEADGEAR
+            ).createWithSuffix(block, "/normal/charge_" + i, generators.modelOutput);
+        }
+
+        ResourceLocation[] charge2InvertedIds = new ResourceLocation[max + 1];
+        for (int i = 0; i < charge2InvertedIds.length; i++) {
+            TextureMapping mapping = new TextureMapping()
+                    .put(TextureSlot.TOP, TextureMapping.getBlockTexture(block, "/top"))
+                    .put(TextureSlot.BOTTOM, TextureMapping.getBlockTexture(block, "/bottom" + (i == min ? "/off" : "/on")))
+                    .put(TextureSlot.SIDE, TextureMapping.getBlockTexture(block, "/side/charge_" + i))
+                    .put(TextureSlot.PARTICLE, TextureMapping.getBlockTexture(block, "/top"));
+
+            charge2InvertedIds[i] = TexturedModel.createDefault(
+                    (b) -> mapping,
+                    KWModelTemplates.KINETIC_RETENTION_HEADGEAR_INVERTED
+            ).createWithSuffix(block, "/inverted/charge_" + i, generators.modelOutput);
+        }
+
+
+        MultiVariantGenerator variantGenerator = MultiVariantGenerator.multiVariant(
+                block,
+                Variant.variant().with(VariantProperties.MODEL, charge2Ids[0])
+        ).with(createDownDefaultRotationStates());
+
+        // add kinetic charge if needed
+        if (max > 0) {
+            PropertyDispatch.C2<Boolean, Integer> dispatch = PropertyDispatch.properties(AbstractKineticRetentionHeadgearBlock.INVERTED, property);
+
+            for (int i = 0; i < charge2Ids.length; i++) {
+                dispatch = dispatch.select(false, i, Variant.variant().with(VariantProperties.MODEL, charge2Ids[i]));
+                dispatch = dispatch.select(true, i, Variant.variant().with(VariantProperties.MODEL, charge2InvertedIds[i]));
             }
 
             variantGenerator.with(dispatch);
