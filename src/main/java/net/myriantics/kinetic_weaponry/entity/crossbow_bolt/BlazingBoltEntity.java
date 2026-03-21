@@ -46,4 +46,9 @@ public class BlazingBoltEntity extends AbstractCrossbowBoltEntity {
     @Override
     public void extinguishFire() {
     }
+
+    @Override
+    public void runEndpointEffects() {
+
+    }
 }

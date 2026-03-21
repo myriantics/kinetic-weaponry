@@ -4,6 +4,7 @@ import net.myriantics.kinetic_weaponry.KWCommon;
 
 public abstract class KWNbtIds {
     public static String KINETIC_CHARGE = of("kinetic_charge");
+    public static String ANTIGRAV_TICKS = of("antigrav_ticks");
     public static String MAX_KINETIC_CHARGE = of("max_kinetic_charge");
 
     private static String of(String name) {

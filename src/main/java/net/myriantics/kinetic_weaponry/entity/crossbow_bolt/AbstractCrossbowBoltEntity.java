@@ -2,7 +2,6 @@ package net.myriantics.kinetic_weaponry.entity.crossbow_bolt;
 
 import net.minecraft.core.Position;
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.projectile.AbstractArrow;
@@ -12,6 +11,8 @@ import net.myriantics.kinetic_weaponry.registry.misc.KWNbtIds;
 import org.jetbrains.annotations.Nullable;
 
 public abstract class AbstractCrossbowBoltEntity extends AbstractArrow {
+
+    protected int antigravTicks = 0;
 
     private int kineticCharge = 0;
 
@@ -31,6 +32,27 @@ public abstract class AbstractCrossbowBoltEntity extends AbstractArrow {
         super(type, owner, level, projectileStack, firedFromWeapon);
     }
 
+    @Override
+    public void tick() {
+        super.tick();
+        if (this.antigravTicks > 0) {
+            if (this.level().isInWorldBounds(this.blockPosition())) {
+                this.antigravTicks--;
+                this.setNoGravity(true);
+            } else {
+                this.antigravTicks = 0;
+            }
+        } else {
+            this.setNoGravity(false);
+        }
+    }
+
+    public abstract void runEndpointEffects();
+
+    public void setAntigravTicks(int antigravTicks) {
+        this.antigravTicks = antigravTicks;
+    }
+
     public void setKineticCharge(int kineticCharge) {
         this.kineticCharge = kineticCharge;
     }
@@ -39,6 +61,7 @@ public abstract class AbstractCrossbowBoltEntity extends AbstractArrow {
     public void addAdditionalSaveData(CompoundTag compound) {
         super.addAdditionalSaveData(compound);
         compound.putInt(KWNbtIds.KINETIC_CHARGE, this.kineticCharge);
+        compound.putInt(KWNbtIds.ANTIGRAV_TICKS, this.antigravTicks);
     }
 
     @Override
@@ -46,6 +69,9 @@ public abstract class AbstractCrossbowBoltEntity extends AbstractArrow {
         super.readAdditionalSaveData(compound);
         if (compound.contains(KWNbtIds.KINETIC_CHARGE)) {
             this.kineticCharge = compound.getInt(KWNbtIds.KINETIC_CHARGE);
+        }
+        if (compound.contains(KWNbtIds.ANTIGRAV_TICKS)) {
+            this.antigravTicks = compound.getInt(KWNbtIds.ANTIGRAV_TICKS);
         }
     }
 }
