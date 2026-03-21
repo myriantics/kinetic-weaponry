@@ -99,12 +99,12 @@ public class KineticCrossbowItem extends CrossbowItem implements SwingableItem, 
     @Override
     protected Projectile createProjectile(Level level, LivingEntity shooter, ItemStack weapon, ItemStack ammo, boolean isCrit) {
         Projectile projectile = super.createProjectile(level, shooter, weapon, ammo, isCrit);
+        int charge = this.getCharge(weapon);
         if (projectile instanceof AbstractCrossbowBoltEntity crossbowBolt) {
-            int charge = this.getCharge(weapon);
             crossbowBolt.setKineticCharge(charge);
             crossbowBolt.setAntigravTicks(charge * 10);
-            crossbowBolt.addDeltaMovement(crossbowBolt.getDeltaMovement().scale(0.1 * charge));
         }
+        projectile.addDeltaMovement(projectile.getDeltaMovement().scale(0.1 * charge));
         return projectile;
     }
 

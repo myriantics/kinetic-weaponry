@@ -9,6 +9,7 @@ import net.myriantics.kinetic_weaponry.KWCommon;
 import net.myriantics.kinetic_weaponry.block.retention_module.headgear.KineticRetentionHeadgearBlock;
 import net.myriantics.kinetic_weaponry.block.retention_module.backtank.KineticRetentionBacktankBlock;
 import net.myriantics.kinetic_weaponry.entity.crossbow_bolt.BlazingBoltEntity;
+import net.myriantics.kinetic_weaponry.entity.crossbow_bolt.BreezyBoltEntity;
 import net.myriantics.kinetic_weaponry.item.ammo.CrossbowBoltItem;
 import net.myriantics.kinetic_weaponry.item.equipment.KineticCrossbowItem;
 import net.myriantics.kinetic_weaponry.item.equipment.KineticShortbowItem;
@@ -126,6 +127,12 @@ public abstract class KWItems {
     public static final Holder<Item> BLAZING_BOLT = register(
             "blazing_bolt",
             (properties -> new CrossbowBoltItem(properties, BlazingBoltEntity::new, BlazingBoltEntity::new)),
+            new Item.Properties()
+    );
+
+    public static final Holder<Item> BREEZY_BOLT = register(
+            "breezy_bolt",
+            (properties -> new CrossbowBoltItem(properties, BreezyBoltEntity::new, BreezyBoltEntity::new)),
             new Item.Properties()
     );
 

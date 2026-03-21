@@ -14,6 +14,7 @@ public class KWEntityRenderers {
 
     static {
         register(KWEntityTypes.BLAZING_BOLT.value(), CrossbowBoltRenderer::new);
+        register(KWEntityTypes.BREEZY_BOLT.value(), CrossbowBoltRenderer::new);
     }
 
     private static <T extends Entity> void register(EntityType<T> type, EntityRendererProvider<T> rendererFactory) {

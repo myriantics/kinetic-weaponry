@@ -9,6 +9,7 @@ import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.MobCategory;
 import net.myriantics.kinetic_weaponry.entity.crossbow_bolt.AbstractCrossbowBoltEntity;
 import net.myriantics.kinetic_weaponry.entity.crossbow_bolt.BlazingBoltEntity;
+import net.myriantics.kinetic_weaponry.entity.crossbow_bolt.BreezyBoltEntity;
 
 import java.util.function.UnaryOperator;
 
@@ -17,6 +18,13 @@ public abstract class KWEntityTypes {
     public static final Holder<EntityType<BlazingBoltEntity>> BLAZING_BOLT = register(
             "blazing_bolt",
             BlazingBoltEntity::new,
+            MobCategory.MISC,
+            KWEntityTypes::crossbowBolt
+    );
+
+    public static final Holder<EntityType<BreezyBoltEntity>> BREEZY_BOLT = register(
+            "breezy_bolt",
+            BreezyBoltEntity::new,
             MobCategory.MISC,
             KWEntityTypes::crossbowBolt
     );

@@ -70,7 +70,8 @@ public class KWItemTagProvider extends FabricTagProvider<Item> {
                 .add(Items.WAXED_OXIDIZED_COPPER_GRATE)
         ;
         getOrCreateTagBuilder(KWItemTags.CROSSBOW_BOLTS)
-                .add(KWItems.BLAZING_BOLT.value());
+                .add(KWItems.BLAZING_BOLT.value())
+                .add(KWItems.BREEZY_BOLT.value());
         getOrCreateTagBuilder(KWItemTags.KINETIC_SHORTBOW_REPAIR_ITEMS)
                 .add(KWItems.TRIAL_TWINE.value());
         getOrCreateTagBuilder(KWItemTags.KINETIC_CROSSBOW_REPAIR_ITEMS)
