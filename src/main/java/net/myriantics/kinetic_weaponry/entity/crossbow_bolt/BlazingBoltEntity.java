@@ -1,7 +1,6 @@
 package net.myriantics.kinetic_weaponry.entity.crossbow_bolt;
 
 import net.minecraft.core.Position;
-import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.ItemStack;
@@ -49,6 +48,12 @@ public class BlazingBoltEntity extends AbstractCrossbowBoltEntity {
 
     @Override
     public void runEndpointEffects() {
-
+        Level level = this.level();
+        boolean charged = this.kineticCharge > 0;
+        if (charged && !this.level().isClientSide()) {
+            float explosionPower = 1.5f * this.kineticCharge;
+            level.explode(this, this.getX(), this.getY(), this.getZ(), explosionPower, true, Level.ExplosionInteraction.TNT);
+            this.discard();
+        }
     }
 }

@@ -7,6 +7,7 @@ import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.projectile.AbstractArrow;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.phys.BlockHitResult;
 import net.myriantics.kinetic_weaponry.registry.misc.KWNbtIds;
 import org.jetbrains.annotations.Nullable;
 
@@ -14,7 +15,7 @@ public abstract class AbstractCrossbowBoltEntity extends AbstractArrow {
 
     protected int antigravTicks = 0;
 
-    private int kineticCharge = 0;
+    protected int kineticCharge = 0;
 
     public AbstractCrossbowBoltEntity(EntityType<? extends AbstractCrossbowBoltEntity> entityType, Level level) {
         super(entityType, level);
@@ -35,16 +36,26 @@ public abstract class AbstractCrossbowBoltEntity extends AbstractArrow {
     @Override
     public void tick() {
         super.tick();
-        if (this.antigravTicks > 0) {
-            if (this.level().isInWorldBounds(this.blockPosition())) {
-                this.antigravTicks--;
-                this.setNoGravity(true);
+        Level level = this.level();
+
+        if (!level.isClientSide()) {
+            if (this.antigravTicks > 0) {
+                if (level.isInWorldBounds(this.blockPosition())) {
+                    this.antigravTicks--;
+                    this.setNoGravity(true);
+                } else {
+                    this.antigravTicks = 0;
+                }
             } else {
-                this.antigravTicks = 0;
+                this.setNoGravity(false);
             }
-        } else {
-            this.setNoGravity(false);
         }
+    }
+
+    @Override
+    protected void onHitBlock(BlockHitResult result) {
+        super.onHitBlock(result);
+        this.runEndpointEffects();
     }
 
     public abstract void runEndpointEffects();
