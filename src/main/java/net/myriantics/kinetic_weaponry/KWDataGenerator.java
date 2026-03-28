@@ -8,6 +8,7 @@ import net.myriantics.kinetic_weaponry.datagen.impl.model.KWBlockModelProvider;
 import net.myriantics.kinetic_weaponry.datagen.impl.model.KWItemModelProvider;
 import net.myriantics.kinetic_weaponry.datagen.impl.recipe.KWCraftingRecipeProvider;
 import net.myriantics.kinetic_weaponry.datagen.impl.tag.KWBlockTagProvider;
+import net.myriantics.kinetic_weaponry.datagen.impl.tag.KWEntityTypeTagProvider;
 import net.myriantics.kinetic_weaponry.datagen.impl.tag.KWItemTagProvider;
 import net.myriantics.myrror.datagen.template.advancement.MyrrorAdvancementProvider;
 import net.myriantics.myrror.datagen.template.model.MyrrorModelProvider;
@@ -20,6 +21,7 @@ public class KWDataGenerator implements DataGeneratorEntrypoint {
 
         pack.addProvider(KWBlockTagProvider::new);
         pack.addProvider(KWItemTagProvider::new);
+        pack.addProvider(KWEntityTypeTagProvider::new);
 
         pack.addProvider((output, registriesFuture) -> new MyrrorRecipeProvider(output, registriesFuture, KWCommon.MOD_ID)
                 .addProvider(KWCraftingRecipeProvider::new)
