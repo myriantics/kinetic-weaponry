@@ -19,12 +19,12 @@
     }
   },
   "pattern": [
-    "IHI",
-    "BWB",
-    " C "
+    "CHI",
+    "IWB",
+    "   "
   ],
   "result": {
     "count": 1,
-    "id": "kinetic_weaponry:kinetic_retention_backtank"
+    "id": "kinetic_weaponry:kinetic_retention_headgear"
   }
 }

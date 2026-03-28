@@ -39,8 +39,10 @@ public class KWCraftingRecipeProvider extends CraftingRecipeProvider {
         addKineticDetonatorRecipe(KWItems.KINETIC_DETONATOR,  Items.WAXED_CHISELED_COPPER);
         addKineticChargingBusRecipe(KWItems.KINETIC_CHARGING_BUS, Items.CHISELED_COPPER);
         addKineticChargingBusRecipe(KWItems.KINETIC_CHARGING_BUS, Items.WAXED_CHISELED_COPPER);
-        addStandardKineticRetentionModuleRecipe(KWItems.KINETIC_RETENTION_BACKTANK, Items.CHISELED_COPPER);
-        addStandardKineticRetentionModuleRecipe(KWItems.KINETIC_RETENTION_BACKTANK, Items.WAXED_CHISELED_COPPER);
+        addKineticRetentionBacktankRecipe(KWItems.KINETIC_RETENTION_BACKTANK, Items.COPPER_BULB);
+        addKineticRetentionBacktankRecipe(KWItems.KINETIC_RETENTION_BACKTANK, Items.WAXED_COPPER_BULB);
+        addKineticRetentionHeadgearRecipe(KWItems.KINETIC_RETENTION_HEADGEAR, Items.COPPER_BULB);
+        addKineticRetentionHeadgearRecipe(KWItems.KINETIC_RETENTION_HEADGEAR, Items.WAXED_COPPER_BULB);
     }
 
     private void addKineticCrossbowRecipe(Item chiseledBlock) {
@@ -60,10 +62,27 @@ public class KWCraftingRecipeProvider extends CraftingRecipeProvider {
         );
     }
 
-    private void addStandardKineticRetentionModuleRecipe(Holder<Item> result, Item chiseledBlock) {
+    private void addKineticRetentionHeadgearRecipe(Holder<Item> result, Item bulb) {
         addShapedCraftingRecipe(
                 new String[]{
-                        " H ",
+                        "CHI",
+                        "IWB",
+                        "   "
+                },
+                new ItemStack(result),
+                builder -> builder
+                        .associate('H', Items.HEAVY_CORE)
+                        .associate('W', KWItems.TRIAL_WEAVE.value())
+                        .associate('B', Items.BREEZE_ROD)
+                        .associate('I', Items.COPPER_INGOT)
+                        .associate('C', bulb)
+        );
+    }
+
+    private void addKineticRetentionBacktankRecipe(Holder<Item> result, Item bulb) {
+        addShapedCraftingRecipe(
+                new String[]{
+                        "IHI",
                         "BWB",
                         " C "
                 },
@@ -72,7 +91,8 @@ public class KWCraftingRecipeProvider extends CraftingRecipeProvider {
                         .associate('H', Items.HEAVY_CORE)
                         .associate('W', KWItems.TRIAL_WEAVE.value())
                         .associate('B', Items.BREEZE_ROD)
-                        .associate('C', chiseledBlock)
+                        .associate('I', Items.COPPER_INGOT)
+                        .associate('C', bulb)
         );
     }
 

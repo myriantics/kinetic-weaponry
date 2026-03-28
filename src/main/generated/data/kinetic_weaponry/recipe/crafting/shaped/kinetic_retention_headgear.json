@@ -6,7 +6,7 @@
       "item": "minecraft:breeze_rod"
     },
     "C": {
-      "item": "minecraft:waxed_copper_bulb"
+      "item": "minecraft:copper_bulb"
     },
     "H": {
       "item": "minecraft:heavy_core"
@@ -19,12 +19,12 @@
     }
   },
   "pattern": [
-    "IHI",
-    "BWB",
-    " C "
+    "CHI",
+    "IWB",
+    "   "
   ],
   "result": {
     "count": 1,
-    "id": "kinetic_weaponry:kinetic_retention_backtank"
+    "id": "kinetic_weaponry:kinetic_retention_headgear"
   }
 }

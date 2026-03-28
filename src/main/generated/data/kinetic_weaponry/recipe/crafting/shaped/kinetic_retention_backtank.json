@@ -6,17 +6,20 @@
       "item": "minecraft:breeze_rod"
     },
     "C": {
-      "item": "minecraft:chiseled_copper"
+      "item": "minecraft:copper_bulb"
     },
     "H": {
       "item": "minecraft:heavy_core"
+    },
+    "I": {
+      "item": "minecraft:copper_ingot"
     },
     "W": {
       "item": "kinetic_weaponry:trial_weave"
     }
   },
   "pattern": [
-    " H ",
+    "IHI",
     "BWB",
     " C "
   ],
