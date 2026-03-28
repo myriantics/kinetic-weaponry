@@ -45,11 +45,18 @@ public class BreezyBoltEntity extends AbstractCrossbowBoltEntity {
     @Override
     protected void onHitEntity(EntityHitResult result) {
         super.onHitEntity(result);
-        this.tryApplyUpdraft(result.getEntity());
+        Level level = this.level();
+        Entity entity = result.getEntity();
+        if (!entity.isRemoved()) {
+            if (!level.isClientSide()) {
+                entity.extinguishFire();
+            }
+            this.tryApplyUpdraft(result.getEntity());
+        }
     }
 
     protected void tryApplyUpdraft(Entity entity) {
-        if (!entity.isRemoved() && entity.isEffectiveAi()) {
+        if (entity.isEffectiveAi()) {
             Vec3 updraftMovement = new Vec3(0, (double) (3 * (this.kineticCharge + 1)) /20, 0);
             entity.addDeltaMovement(updraftMovement);
         }
