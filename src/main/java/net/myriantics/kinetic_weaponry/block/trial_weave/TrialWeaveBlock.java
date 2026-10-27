@@ -56,7 +56,8 @@ public class TrialWeaveBlock extends Block implements KineticImpactListener {
                             this.initialized = true;
                         }
                         this.conductionInstance = TrialWeaveBlock.this.gatherConductionData(level, pos, context.getImpactedFace(), context.getSource());
-                        return TrialWeaveBlock.this.distributeChargeToConductedStorages(maxAmount, this.conductionInstance, tx);
+                        TrialWeaveBlock.this.distributeChargeToConductedStorages(maxAmount, this.conductionInstance, tx);
+                        return maxAmount;
                     }
 
                     private void onFinalCommit(TransactionContext.Result result) {

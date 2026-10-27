@@ -3,6 +3,7 @@ package net.myriantics.kinetic_weaponry.entity.minecart;
 import it.unimi.dsi.fastutil.ints.Int2ObjectMap;
 import net.fabricmc.fabric.api.transfer.v1.transaction.Transaction;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.Tag;
 import net.minecraft.server.level.ServerLevel;
@@ -19,6 +20,7 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
 import net.myriantics.kinetic_weaponry.block.charging_bus.KineticChargingBusBlock;
 import net.myriantics.kinetic_weaponry.mechanics.kinetic_charge.block.KineticChargeVisualizer;
+import net.myriantics.kinetic_weaponry.mechanics.kinetic_charge.storage.KineticChargeSidedTransferContext;
 import net.myriantics.kinetic_weaponry.mechanics.kinetic_charge.storage.KineticChargeStorage;
 import net.myriantics.kinetic_weaponry.mechanics.kinetic_charge.storage.SimpleKineticChargeStorage;
 import net.myriantics.kinetic_weaponry.registry.block.KWBlocks;
@@ -36,6 +38,7 @@ public class MinecartKineticChargingBusEntity extends AbstractMinecart {
     private static final int DEFAULT_MAX_CHARGE = 8;
     private static final BlockState BASE_STATE = KWBlocks.KINETIC_CHARGING_BUS.value().defaultBlockState();
 
+    private boolean triggered = false;
     private long charge = 0;
     private long maxCharge = DEFAULT_MAX_CHARGE;
     private final KineticChargeStorage storage = new SimpleKineticChargeStorage() {
@@ -132,12 +135,61 @@ public class MinecartKineticChargingBusEntity extends AbstractMinecart {
     }
 
     @Override
+    public void activateMinecart(int x, int y, int z, boolean powered) {
+        if (powered != this.triggered) {
+            this.setTriggered(powered);
+            if (this.triggered) {
+                this.transferToNearbyStorages(new BlockPos(x, y, z));
+            }
+        }
+    }
+
+    public void transferToNearbyStorages(BlockPos activatorPos) {
+        if (this.charge == 0) {
+            return;
+        }
+
+        // prioritize motion direction
+        Direction facing = this.getMotionDirection();
+
+        long totalTransferred = 0;
+
+        for (int i = 0; i < 4; i++) {
+            Direction selected = Direction.from2DDataValue(facing.get2DDataValue() + i);
+            @Nullable KineticChargeStorage adjacentStorage = KineticChargeStorage.SIDED.find(this.level(), activatorPos.relative(selected), KineticChargeSidedTransferContext.of(selected.getOpposite(), this));
+            if (adjacentStorage == null) {
+                continue;
+            }
+
+            try (Transaction tx = Transaction.openOuter()) {
+                long transferred = adjacentStorage.insert(this.charge - totalTransferred, tx);
+                if (transferred > 0) {
+                    totalTransferred += transferred;
+                    tx.commit();
+                }
+            }
+
+            if (totalTransferred == this.charge) {
+                this.charge = 0;
+                break;
+            }
+        }
+    }
+
+    protected void setTriggered(boolean triggered) {
+        this.triggered = triggered;
+    }
+
+    @Override
     protected void addAdditionalSaveData(CompoundTag compound) {
         super.addAdditionalSaveData(compound);
         if (this.maxCharge != DEFAULT_MAX_CHARGE) {
             compound.putLong(KWNbtIds.MAX_KINETIC_CHARGE, this.maxCharge);
         }
         compound.putLong(KWNbtIds.KINETIC_CHARGE, this.charge);
+        if (this.triggered) {
+            compound.putBoolean(KWNbtIds.TRIGGERED, true);
+        }
     }
 
     @Override
@@ -148,6 +200,9 @@ public class MinecartKineticChargingBusEntity extends AbstractMinecart {
         }
         if (compound.contains(KWNbtIds.KINETIC_CHARGE, Tag.TAG_LONG)) {
             this.charge = Math.clamp(compound.getLong(KWNbtIds.KINETIC_CHARGE), 0, this.maxCharge);
+        }
+        if (compound.contains(KWNbtIds.TRIGGERED)) {
+            this.triggered = compound.getBoolean(KWNbtIds.TRIGGERED);
         }
     }
 }
