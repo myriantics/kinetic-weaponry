@@ -28,7 +28,7 @@ public class KWCraftingRecipeProvider extends CraftingRecipeProvider {
         );
         addShapedCraftingRecipe(
                 new String[] {
-                        " R",
+                        " R ",
                         "RWR",
                         " R "
                 },

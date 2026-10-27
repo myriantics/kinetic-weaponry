@@ -51,8 +51,9 @@ public class KineticCrossbowItem extends CrossbowItem implements SwingableItem, 
 
         if (storage != null && oldCharge < maxCharge && !projectiles.isEmpty()) {
             try (Transaction tx = Transaction.openOuter()) {
-                long extracted = this.extractChargeFromEntity(livingEntity, storage, 1, tx);
+                long extracted = this.extractChargeFromEntity(livingEntity,1, tx);
                 if (extracted > 0) {
+                    this.setCharge(swungStack, oldCharge + 1);
                     tx.commit();
                     if (livingEntity instanceof ServerPlayer serverPlayer) {
                         livingEntity.level().playSound(
