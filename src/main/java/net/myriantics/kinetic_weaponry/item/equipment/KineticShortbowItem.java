@@ -1,13 +1,16 @@
 package net.myriantics.kinetic_weaponry.item.equipment;
 
+import net.fabricmc.fabric.api.transfer.v1.context.ContainerItemContext;
+import net.fabricmc.fabric.api.transfer.v1.transaction.Transaction;
 import net.minecraft.core.component.TypedDataComponent;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.util.Mth;
 import net.myriantics.kinetic_weaponry.component.KineticShortbowConfig;
 import net.myriantics.kinetic_weaponry.mechanics.attack_use.AttackUseItem;
+import net.myriantics.kinetic_weaponry.mechanics.kinetic_charge.storage.KineticChargeStorage;
 import net.myriantics.kinetic_weaponry.mechanics.weapon_heat.OverheatWeapon;
-import net.myriantics.kinetic_weaponry.mechanics.kinetic_charge.KineticItem;
+import net.myriantics.kinetic_weaponry.mechanics.kinetic_charge.SimpleKineticItem;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResultHolder;
@@ -26,7 +29,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.function.Predicate;
 
-public class KineticShortbowItem extends ProjectileWeaponItem implements KineticItem, OverheatWeapon, AttackUseItem {
+public class KineticShortbowItem extends ProjectileWeaponItem implements SimpleKineticItem, OverheatWeapon, AttackUseItem {
 
     public static final int RANGE = 20;
 
@@ -130,11 +133,28 @@ public class KineticShortbowItem extends ProjectileWeaponItem implements Kinetic
     public InteractionResultHolder<ItemStack> use(Level level, Player player, InteractionHand usedHand) {
         ItemStack usedStack = player.getItemInHand(usedHand);
 
-        boolean isCharged = this.getCharge(usedStack) > 0;
-        if (!isCharged && !player.isCreative()) {
-            return rechargeFromRetentionModule(player, usedStack)
-                    ? InteractionResultHolder.success(usedStack)
-                    : InteractionResultHolder.fail(usedStack);
+        @Nullable KineticChargeStorage storage = KineticChargeStorage.ITEM.find(usedStack, ContainerItemContext.forPlayerInteraction(player, usedHand));
+
+        if (storage == null) {
+            return InteractionResultHolder.fail(usedStack);
+        }
+
+        if (storage.isEmpty() && !player.isCreative()) {
+            try (Transaction tx = Transaction.openOuter()) {
+                long extracted = this.extractChargeFromEntity(player, 1, tx);
+                if (extracted > 0 && storage.insert(this.getMaxCharge(usedStack), tx) > 0) {
+                    player.playSound(
+                            KWSoundEvents.KINETIC_RECHARGE_CONSUME,
+                            1.0F,
+                            1.0F / (player.getRandom().nextFloat() * 0.4F + 1.2F) * 0.5F
+                    );
+                    tx.commit();
+                    return InteractionResultHolder.success(usedStack);
+                } else {
+                    tx.abort();
+                    return InteractionResultHolder.fail(usedStack);
+                }
+            }
         }
 
         boolean hasAmmo = !player.getProjectile(usedStack).isEmpty();
@@ -167,7 +187,13 @@ public class KineticShortbowItem extends ProjectileWeaponItem implements Kinetic
         if (!projectiles.isEmpty()) {
             // remove a kinetic charge (but not in creative)
             if (!entity.hasInfiniteMaterials()) {
-                this.removeCharge(shortbowStack, 1);
+                KineticChargeStorage storage = KineticChargeStorage.ITEM.find(shortbowStack, ContainerItemContext.withConstant(shortbowStack));
+                if (storage != null && storage.supportsExtraction()) {
+                    try (Transaction tx = Transaction.openOuter()) {
+                        storage.extract(1, tx);
+                        tx.commit();
+                    }
+                }
             }
 
             // add a heat unit

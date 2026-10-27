@@ -40,6 +40,13 @@ public abstract class KWDataComponents {
                     .networkSynchronized(StreamCodec.unit(Unit.INSTANCE))
     );
 
+    public static final Holder<DataComponentType<Float>> KINETIC_IMPACT_CONVERSION_EFFICIENCY = register(
+            "kinetic_impact_conversion_efficiency",
+            builder -> builder
+                    .persistent(Codec.floatRange(0, 1))
+                    .networkSynchronized(ByteBufCodecs.FLOAT)
+    );
+
     public static final Holder<DataComponentType<Integer>> MAX_HEAT_UNITS = register(
             "max_heat_units",
             integerBuilder -> integerBuilder

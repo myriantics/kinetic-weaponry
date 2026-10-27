@@ -1,6 +1,8 @@
 package net.myriantics.kinetic_weaponry.item.equipment;
 
 import net.fabricmc.fabric.api.item.v1.EquipmentSlotProvider;
+import net.fabricmc.fabric.api.transfer.v1.context.ContainerItemContext;
+import net.fabricmc.fabric.api.transfer.v1.transaction.Transaction;
 import net.minecraft.core.Holder;
 import net.minecraft.core.component.DataComponents;
 import net.minecraft.resources.ResourceLocation;
@@ -15,9 +17,9 @@ import net.minecraft.world.item.context.UseOnContext;
 import net.minecraft.world.phys.Vec3;
 import net.myriantics.kinetic_weaponry.KWCommon;
 import net.myriantics.kinetic_weaponry.block.retention_module.AbstractKineticRetentionModuleBlock;
-import net.myriantics.kinetic_weaponry.mechanics.kinetic_charge.KineticBlock;
-import net.myriantics.kinetic_weaponry.mechanics.kinetic_charge.KineticImpactType;
-import net.myriantics.kinetic_weaponry.mechanics.kinetic_charge.KineticItem;
+import net.myriantics.kinetic_weaponry.block.retention_module.backtank.AbstractKineticRetentionBacktankBlock;
+import net.myriantics.kinetic_weaponry.block.retention_module.headgear.KineticRetentionHeadgearBlock;
+import net.myriantics.kinetic_weaponry.mechanics.kinetic_charge.SimpleKineticItem;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResultHolder;
 import net.minecraft.world.entity.EquipmentSlot;
@@ -25,10 +27,12 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.*;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
+import net.myriantics.kinetic_weaponry.mechanics.kinetic_charge.storage.KineticChargeStorage;
+import net.myriantics.kinetic_weaponry.registry.item.KWDataComponents;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-public class KineticRetentionModuleItem extends BlockItem implements Equipable, KineticItem, EquipmentSlotProvider {
+public class KineticRetentionModuleItem extends BlockItem implements Equipable, SimpleKineticItem, EquipmentSlotProvider {
 
     private final ArmorItem.Type type;
     private final Holder<ArmorMaterial> material;
@@ -116,7 +120,7 @@ public class KineticRetentionModuleItem extends BlockItem implements Equipable, 
     }
 
     public boolean absorbHelmetHitWhileEquipped(LivingEntity damagedEntity, DamageSource damageSource, float damageAmount, ItemStack moduleStack) {
-        return this.addChargeFromDamage(damagedEntity, moduleStack, damageAmount, KineticImpactType.FALLING_BLOCK);
+        return this.addChargeFromDamage(damagedEntity, moduleStack, damageAmount);
     }
 
     public boolean absorbMaceHitWhileEquipped(LivingEntity livingEntity, DamageSource source, float amount, EquipmentSlot slot, ItemStack stack) {
@@ -132,7 +136,7 @@ public class KineticRetentionModuleItem extends BlockItem implements Equipable, 
                 Vec3 source2Target = damageSourcePosition.vectorTo(livingEntity.position());
                 source2Target = new Vec3(source2Target.x, 0.0, source2Target.z).normalize();
 
-                this.addChargeFromDamage(livingEntity, stack, amount, KineticImpactType.MACE);
+                this.addChargeFromDamage(livingEntity, stack, amount);
 
                 return source2Target.dot(viewVector) < 0.0;
             }
@@ -141,18 +145,23 @@ public class KineticRetentionModuleItem extends BlockItem implements Equipable, 
         return false;
     }
 
-    public boolean addChargeFromDamage(LivingEntity damagedEntity, ItemStack moduleStack, float damageAmount, KineticImpactType impactType) {
-        int charge = this.getCharge(moduleStack);
-        int maxCharge = this.getMaxCharge(moduleStack);
+    public boolean addChargeFromDamage(LivingEntity damagedEntity, ItemStack moduleStack, float damageAmount) {
+        @Nullable KineticChargeStorage storage = KineticChargeStorage.ITEM.find(moduleStack, ContainerItemContext.withConstant(moduleStack));
 
-        // make sure we have room for more charge
-        if (charge >= maxCharge) {
-            //TODO: add overloading mechanic
-            return false;
+        int inboundCharge = (int) (damageAmount * moduleStack.getOrDefault(KWDataComponents.KINETIC_IMPACT_CONVERSION_EFFICIENCY.value(), this.type == ArmorItem.Type.HELMET ? KineticRetentionHeadgearBlock.IMPACT_CONVERSION_EFFICIENCY : AbstractKineticRetentionBacktankBlock.IMPACT_CONVERSION_EFFICIENCY));
+
+        if (storage != null && storage.supportsInsertion()) {
+            try (Transaction tx = Transaction.openOuter()) {
+                if (storage.insert(inboundCharge, tx) > 0) {
+                    tx.commit();
+                    return true;
+                } else {
+                    tx.abort();
+                }
+            }
         }
 
-        int inboundCharge = (int) (damageAmount * ((KineticBlock) this.getBlock()).getImpactConversionEfficiency(impactType));
-        return this.addCharge(moduleStack, inboundCharge) > 0;
+        return false;
     }
 
     protected @Nullable Vec3 getViewVectorOfProtectionFromMaceHits(LivingEntity livingEntity) {

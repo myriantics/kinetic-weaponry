@@ -6,6 +6,8 @@ import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.util.Unit;
 import net.minecraft.world.item.component.ChargedProjectiles;
 import net.myriantics.kinetic_weaponry.KWCommon;
+import net.myriantics.kinetic_weaponry.block.retention_module.backtank.AbstractKineticRetentionBacktankBlock;
+import net.myriantics.kinetic_weaponry.block.retention_module.headgear.AbstractKineticRetentionHeadgearBlock;
 import net.myriantics.kinetic_weaponry.block.retention_module.headgear.KineticRetentionHeadgearBlock;
 import net.myriantics.kinetic_weaponry.block.retention_module.backtank.KineticRetentionBacktankBlock;
 import net.myriantics.kinetic_weaponry.entity.crossbow_bolt.BlazingBoltEntity;
@@ -49,6 +51,7 @@ public abstract class KWItems {
             new Item.Properties()
                     .component(KWDataComponents.KINETIC_CHARGE.value(), 0)
                     .component(KWDataComponents.MAX_KINETIC_CHARGE.value(), KineticRetentionBacktankBlock.MAX_CHARGES)
+                    .component(KWDataComponents.KINETIC_IMPACT_CONVERSION_EFFICIENCY.value(), AbstractKineticRetentionBacktankBlock.IMPACT_CONVERSION_EFFICIENCY)
                     .durability(352)
                     .rarity(Rarity.EPIC)
     );
@@ -69,6 +72,7 @@ public abstract class KWItems {
             new Item.Properties()
                     .component(KWDataComponents.KINETIC_CHARGE.value(), 0)
                     .component(KWDataComponents.MAX_KINETIC_CHARGE.value(), KineticRetentionHeadgearBlock.MAX_CHARGES)
+                    .component(KWDataComponents.KINETIC_IMPACT_CONVERSION_EFFICIENCY.value(), AbstractKineticRetentionHeadgearBlock.IMPACT_CONVERSION_EFFICIENCY)
                     .durability(222)
                     .rarity(Rarity.EPIC)
     );

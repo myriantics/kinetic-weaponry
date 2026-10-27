@@ -3,7 +3,9 @@ package net.myriantics.kinetic_weaponry.block.detonator;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.*;
@@ -11,11 +13,14 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.level.block.state.properties.DirectionProperty;
-import net.myriantics.kinetic_weaponry.mechanics.kinetic_charge.KineticBlock;
 import net.myriantics.kinetic_weaponry.mechanics.kinetic_charge.KineticImpactType;
+import net.myriantics.kinetic_weaponry.mechanics.kinetic_charge.impact.KineticImpactListener;
+import net.myriantics.kinetic_weaponry.mechanics.kinetic_charge.storage.KineticChargeSidedTransferContext;
+import net.myriantics.kinetic_weaponry.mechanics.kinetic_charge.storage.KineticChargeStorage;
+import net.myriantics.kinetic_weaponry.mechanics.kinetic_charge.storage.SimpleKineticChargeStorage;
 import org.jetbrains.annotations.Nullable;
 
-public class KineticDetonatorBlock extends Block implements KineticBlock {
+public class KineticDetonatorBlock extends Block implements KineticImpactListener {
 
     public static final DirectionProperty FACING = BlockStateProperties.FACING;
 
@@ -28,6 +33,38 @@ public class KineticDetonatorBlock extends Block implements KineticBlock {
 
         registerDefaultState(stateDefinition.any()
                 .setValue(FACING, Direction.UP)
+        );
+
+        this.registerStorage();
+    }
+
+    protected void registerStorage() {
+        KineticChargeStorage.SIDED.registerForBlocks(
+                (level, pos, state, blockEntity, context) -> state.getValue(FACING) != context.getImpactedFace() ? null : new SimpleKineticChargeStorage() {
+                    private long charge = 0;
+
+                    @Override
+                    protected void setCharge(long newCharge) {
+                        this.charge = newCharge;
+                    }
+
+                    @Override
+                    protected long getMaxCharge() {
+                        return 0;
+                    }
+
+                    @Override
+                    public long getAmount() {
+                        return Long.MAX_VALUE;
+                    }
+
+                    @Override
+                    protected void onFinalCommit() {
+                        super.onFinalCommit();
+                        KineticDetonatorBlock.this.detonate(level, pos, state, context.getSource(), this.charge * KINETIC_CHARGE_TRANSFER_CONVERSION_EFFICIENCY);
+                    }
+                },
+                this
         );
     }
 
@@ -42,19 +79,8 @@ public class KineticDetonatorBlock extends Block implements KineticBlock {
         return this.defaultBlockState().setValue(FACING, context.getClickedFace());
     }
 
-    @Override
-    public void onImpact(Level level, BlockPos pos, BlockState state, @Nullable Player player, @Nullable Direction impactDir, KineticImpactType impactType, float impactDamage) {
-        if (this.acceptsInput(level, pos, state, impactType, impactDir)) {
-            this.detonate(level, pos, state, player, impactDamage * this.getImpactConversionEfficiency(impactType));
-        }
-    }
 
-    @Override
-    public void handleOverload(Level level, BlockPos pos, BlockState state, int inboundCharge) {
-        this.detonate(level, pos, state, null, inboundCharge);
-    }
-
-    protected void detonate(Level level, BlockPos pos, BlockState state, @Nullable Player player, float explosionPower) {
+    protected void detonate(Level level, BlockPos pos, BlockState state, @Nullable Entity source, float explosionPower) {
         if (level instanceof ServerLevel serverLevel) {
             // so the explosion actually goes through the block
             serverLevel.setBlockAndUpdate(pos, Blocks.AIR.defaultBlockState());
@@ -62,7 +88,7 @@ public class KineticDetonatorBlock extends Block implements KineticBlock {
             serverLevel.addDestroyBlockEffect(pos, state);
             // kaboom? yes rico, kaboom.
             serverLevel.explode(
-                    player,
+                    source,
                     pos.getCenter().x,
                     pos.getCenter().y,
                     pos.getCenter().z,
@@ -74,39 +100,14 @@ public class KineticDetonatorBlock extends Block implements KineticBlock {
     }
 
     @Override
-    public float getImpactConversionEfficiency(@Nullable KineticImpactType impactType) {
-        if (impactType == KineticImpactType.KINETIC_CHARGE_TRANSFER) {
-            return KINETIC_CHARGE_TRANSFER_CONVERSION_EFFICIENCY;
-        } else {
-            return DEFAULT_IMPACT_CONVERSION_EFFICIENCY;
+    public void onMeleeKineticImpact(Level level, BlockPos pos, BlockState state, Player player, ItemStack weaponStack, Direction impactedFace, float impactDamage) {
+        this.detonate(level, pos, state, player, impactDamage * DEFAULT_IMPACT_CONVERSION_EFFICIENCY);
+    }
+
+    @Override
+    public void onKineticImpact(Level level, BlockPos pos, BlockState state, float impactDamage, KineticChargeSidedTransferContext context) {
+        if (state.getValue(FACING) == context.getImpactedFace()) {
+            this.detonate(level, pos, state, context.getSource(), impactDamage * DEFAULT_IMPACT_CONVERSION_EFFICIENCY);
         }
-    }
-
-    @Override
-    public int getCharge(Level level, BlockPos pos, BlockState state) {
-        return 0;
-    }
-
-    @Override
-    public int getMaxCharge(Level level, BlockPos pos) {
-        return 0;
-    }
-
-    @Override
-    public void setCharge(Level level, BlockPos pos, int charge) {
-
-    }
-
-    @Override
-    public BlockState withCharge(BlockState state, float newCharge) {
-        return state;
-    }
-
-    @Override
-    public boolean acceptsInput(Level level, BlockPos pos, BlockState state, KineticImpactType impactType, Direction inputDir) {
-        return switch (impactType) {
-            case MACE -> true;
-            case FALLING_BLOCK, KINETIC_CHARGE_TRANSFER -> inputDir.getOpposite().equals(state.getValue(FACING));
-        };
     }
 }

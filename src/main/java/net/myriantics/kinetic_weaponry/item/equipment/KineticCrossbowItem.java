@@ -1,5 +1,7 @@
 package net.myriantics.kinetic_weaponry.item.equipment;
 
+import net.fabricmc.fabric.api.transfer.v1.context.ContainerItemContext;
+import net.fabricmc.fabric.api.transfer.v1.transaction.Transaction;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.component.DataComponents;
 import net.minecraft.server.level.ServerPlayer;
@@ -14,7 +16,8 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.gameevent.GameEvent;
 import net.myriantics.kinetic_weaponry.entity.crossbow_bolt.AbstractCrossbowBoltEntity;
-import net.myriantics.kinetic_weaponry.mechanics.kinetic_charge.KineticItem;
+import net.myriantics.kinetic_weaponry.mechanics.kinetic_charge.SimpleKineticItem;
+import net.myriantics.kinetic_weaponry.mechanics.kinetic_charge.storage.KineticChargeStorage;
 import net.myriantics.kinetic_weaponry.mechanics.swingable.SwingableItem;
 import net.myriantics.kinetic_weaponry.registry.advancement.KWAdvancementTriggers;
 import net.myriantics.kinetic_weaponry.registry.item.KWDataComponents;
@@ -23,10 +26,9 @@ import net.myriantics.kinetic_weaponry.registry.misc.KWSoundEvents;
 import net.myriantics.kinetic_weaponry.tag.KWItemTags;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.NoSuchElementException;
 import java.util.function.Predicate;
 
-public class KineticCrossbowItem extends CrossbowItem implements SwingableItem, KineticItem {
+public class KineticCrossbowItem extends CrossbowItem implements SwingableItem, SimpleKineticItem {
 
     public static final Predicate<ItemStack> CROSSBOW_BOLTS = (itemStack) -> itemStack.is(KWItemTags.CROSSBOW_BOLTS);
 
@@ -42,29 +44,17 @@ public class KineticCrossbowItem extends CrossbowItem implements SwingableItem, 
             return;
         }
 
+        @Nullable KineticChargeStorage storage = KineticChargeStorage.ITEM.find(swungStack, ContainerItemContext.withConstant(swungStack));
         ChargedProjectiles projectiles = swungStack.getOrDefault(DataComponents.CHARGED_PROJECTILES, ChargedProjectiles.EMPTY);
         int oldCharge = this.getCharge(swungStack);
         int maxCharge = this.getMaxCharge(swungStack);
 
-        if (oldCharge < maxCharge && !projectiles.isEmpty()) {
-            ItemStack energyStorageStack;
-            try {
-                energyStorageStack = this.findChargedEnergyStorage(livingEntity);
-            } catch (NoSuchElementException e) {
-                energyStorageStack = ItemStack.EMPTY;
-            }
-
-            if (energyStorageStack.getItem() instanceof KineticItem energyStorage) {
-
-
-                if (!livingEntity.level().isClientSide()) {
-                    int subtracted  = 1;
-                    if (!livingEntity.hasInfiniteMaterials()) {
-                        subtracted = energyStorage.removeCharge(energyStorageStack, 1);
-                    }
-                    if (subtracted > 0) {
-                        this.addCharge(swungStack, 1);
-
+        if (storage != null && oldCharge < maxCharge && !projectiles.isEmpty()) {
+            try (Transaction tx = Transaction.openOuter()) {
+                long extracted = this.extractChargeFromEntity(livingEntity, storage, 1, tx);
+                if (extracted > 0) {
+                    tx.commit();
+                    if (livingEntity instanceof ServerPlayer serverPlayer) {
                         livingEntity.level().playSound(
                                 null,
                                 livingEntity.getOnPos(),
@@ -76,11 +66,11 @@ public class KineticCrossbowItem extends CrossbowItem implements SwingableItem, 
 
                         livingEntity.gameEvent(GameEvent.ITEM_INTERACT_FINISH);
 
-                        if (livingEntity instanceof ServerPlayer player) {
-                            player.getCooldowns().addCooldown(this, swungStack.getOrDefault(KWDataComponents.SWING_CHARGE_COOLDOWN.value(), 0));
-                            KWAdvancementTriggers.triggerKineticItemCharge(player, swungStack);
-                        }
+                        KWAdvancementTriggers.triggerKineticItemCharge(serverPlayer, swungStack);
+                        serverPlayer.getCooldowns().addCooldown(this, swungStack.getOrDefault(KWDataComponents.SWING_CHARGE_COOLDOWN.value(), 0));
                     }
+                } else {
+                    tx.abort();
                 }
             }
         }

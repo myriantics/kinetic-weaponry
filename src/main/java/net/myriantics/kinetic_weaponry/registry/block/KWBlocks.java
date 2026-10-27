@@ -26,9 +26,9 @@ public abstract class KWBlocks {
             "trial_weave",
             TrialWeaveBlock::new,
             copyProperties(Blocks.WHITE_WOOL)
-                    .lightLevel(state -> state.getValue(TrialWeaveBlock.TRIGGERED) ? 6 : 0)
+                    .lightLevel(state -> state.getValue(TrialWeaveBlock.STATE).isActive() ? 6 : 0)
                     .mapColor(MapColor.COLOR_CYAN)
-                    .emissiveRendering((blockState, blockGetter, blockPos) -> blockState.getValue(TrialWeaveBlock.TRIGGERED))
+                    .emissiveRendering((blockState, blockGetter, blockPos) -> blockState.getValue(TrialWeaveBlock.STATE).isActive())
     );
 
     public static final Holder<Block> KINETIC_DETONATOR = register(

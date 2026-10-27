@@ -53,9 +53,11 @@ public class KWBlockModelProvider extends MyrrorBlockModelSubProvider {
                 MultiVariantGenerator.multiVariant(
                         block,
                         Variant.variant().with(VariantProperties.MODEL, idleModel)
-                ).with(PropertyDispatch.property(TrialWeaveBlock.TRIGGERED)
-                        .select(false, Variant.variant().with(VariantProperties.MODEL, idleModel))
-                        .select(true, Variant.variant().with(VariantProperties.MODEL, triggeredModel))
+                ).with(PropertyDispatch.property(TrialWeaveBlock.STATE)
+                        .generate(state -> state.isActive()
+                                ? Variant.variant().with(VariantProperties.MODEL, triggeredModel)
+                                : Variant.variant().with(VariantProperties.MODEL, idleModel)
+                        )
                 ));
     }
 

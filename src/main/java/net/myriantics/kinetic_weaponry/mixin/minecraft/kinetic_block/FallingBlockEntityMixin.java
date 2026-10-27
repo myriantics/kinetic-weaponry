@@ -4,13 +4,12 @@ import com.llamalad7.mixinextras.sugar.Local;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.core.BlockPos;
-import net.minecraft.core.Direction;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.item.FallingBlockEntity;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
-import net.myriantics.kinetic_weaponry.mechanics.kinetic_charge.KineticBlock;
-import net.myriantics.kinetic_weaponry.mechanics.kinetic_charge.KineticImpactType;
+import net.myriantics.kinetic_weaponry.mechanics.kinetic_charge.block.SimpleKineticBlock;
+import net.myriantics.kinetic_weaponry.mechanics.kinetic_charge.impact.KineticImpactListener;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
@@ -29,13 +28,13 @@ public abstract class FallingBlockEntityMixin extends Entity {
         Level level = this.level();
 
         // if the block the entity is in isnt a kinetic impact block, check the one below.
-        BlockPos impactedBlockPos = level.getBlockState(entityPos).getBlock() instanceof KineticBlock ? entityPos : entityPos.below();
+        BlockPos impactedBlockPos = level.getBlockState(entityPos).getBlock() instanceof SimpleKineticBlock ? entityPos : entityPos.below();
 
         BlockState impactedState = level.getBlockState(impactedBlockPos);
 
         // if the landed-upon block is a kinetic block, trigger impact logic
-        if (impactedState.getBlock() instanceof KineticBlock kineticBlock) {
-            kineticBlock.onImpact(level, impactedBlockPos, impactedState, null, Direction.DOWN, KineticImpactType.FALLING_BLOCK, damageBonus);
+        if (impactedState.getBlock() instanceof KineticImpactListener listener) {
+            listener.onFallingBlockKineticImpact(level, impactedBlockPos, impactedState, (FallingBlockEntity) (Object) this, damageBonus);
         }
     }
 }

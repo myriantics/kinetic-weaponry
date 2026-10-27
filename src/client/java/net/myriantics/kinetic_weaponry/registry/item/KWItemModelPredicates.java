@@ -6,7 +6,7 @@ import net.minecraft.core.Holder;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Item;
 import net.myriantics.kinetic_weaponry.item.equipment.KineticCrossbowItem;
-import net.myriantics.kinetic_weaponry.mechanics.kinetic_charge.KineticItem;
+import net.myriantics.kinetic_weaponry.mechanics.kinetic_charge.SimpleKineticItem;
 import net.myriantics.kinetic_weaponry.item.equipment.KineticShortbowItem;
 import net.myriantics.kinetic_weaponry.mechanics.weapon_heat.OverheatWeapon;
 import net.myriantics.kinetic_weaponry.registry.render.KWItemModelPredicateIds;
@@ -14,7 +14,7 @@ import net.myriantics.kinetic_weaponry.registry.render.KWItemModelPredicateIds;
 public abstract class KWItemModelPredicates {
     public static void init() {
         register(KWItemModelPredicateIds.KINETIC_CHARGE, (itemStack, clientLevel, livingEntity, i) -> {
-            if (itemStack.getItem() instanceof KineticItem kineticItem) {
+            if (itemStack.getItem() instanceof SimpleKineticItem kineticItem) {
                 int maxCharge = kineticItem.getMaxCharge(itemStack);
                 if (itemStack.has(KWDataComponents.INFINITE_KINETIC_CHARGE.value())) {
                     return 1.0f;

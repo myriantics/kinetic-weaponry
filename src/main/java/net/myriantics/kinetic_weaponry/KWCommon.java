@@ -1,6 +1,7 @@
 package net.myriantics.kinetic_weaponry;
 
 import net.fabricmc.api.ModInitializer;
+import net.myriantics.kinetic_weaponry.mechanics.kinetic_charge.storage.KineticChargeStorage;
 import net.myriantics.kinetic_weaponry.registry.advancement.KWCriteriaTriggers;
 import net.myriantics.kinetic_weaponry.registry.behavior.KWDispenserBehaviors;
 import net.myriantics.kinetic_weaponry.registry.block.KWBlockEntityTypes;
@@ -54,6 +55,7 @@ public class KWCommon implements ModInitializer {
         KWCriteriaTriggers.init();
 
         KWEvents.init();
+        KineticChargeStorage.init();
 
         LOGGER.info("Kinetic Weaponry has initialized!");
     }

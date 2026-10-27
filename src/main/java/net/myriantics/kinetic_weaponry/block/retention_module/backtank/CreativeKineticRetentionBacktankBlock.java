@@ -21,27 +21,12 @@ public class CreativeKineticRetentionBacktankBlock extends AbstractKineticRetent
     }
 
     @Override
-    public int getMaxCharge(Level level, BlockPos pos) {
-        return 0;
-    }
-
-    @Override
-    public int getCharge(Level level, BlockPos pos, BlockState state) {
-        return Integer.MAX_VALUE;
-    }
-
-    @Override
     public BlockState withCharge(BlockState state, float newCharge) {
         return state;
     }
 
     @Override
     protected boolean hasAnalogOutputSignal(BlockState state) {
-        return false;
-    }
-
-    @Override
-    public boolean acceptsInput(Level level, BlockPos pos, BlockState state, KineticImpactType impactType, Direction inputDir) {
         return false;
     }
 }

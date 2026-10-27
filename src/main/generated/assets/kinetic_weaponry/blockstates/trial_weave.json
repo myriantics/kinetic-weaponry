@@ -1,10 +1,43 @@
 {
   "variants": {
-    "triggered=false": {
-      "model": "kinetic_weaponry:block/trial_weave_idle"
-    },
-    "triggered=true": {
+    "state=conducting": {
       "model": "kinetic_weaponry:block/trial_weave_triggered"
+    },
+    "state=conducting_down": {
+      "model": "kinetic_weaponry:block/trial_weave_triggered"
+    },
+    "state=conducting_east": {
+      "model": "kinetic_weaponry:block/trial_weave_triggered"
+    },
+    "state=conducting_north": {
+      "model": "kinetic_weaponry:block/trial_weave_triggered"
+    },
+    "state=conducting_up": {
+      "model": "kinetic_weaponry:block/trial_weave_triggered"
+    },
+    "state=conducting_west": {
+      "model": "kinetic_weaponry:block/trial_weave_triggered"
+    },
+    "state=emitting_xy_north": {
+      "model": "kinetic_weaponry:block/trial_weave_triggered"
+    },
+    "state=emitting_xy_south": {
+      "model": "kinetic_weaponry:block/trial_weave_triggered"
+    },
+    "state=emitting_xz_down": {
+      "model": "kinetic_weaponry:block/trial_weave_triggered"
+    },
+    "state=emitting_xz_up": {
+      "model": "kinetic_weaponry:block/trial_weave_triggered"
+    },
+    "state=emitting_yz_east": {
+      "model": "kinetic_weaponry:block/trial_weave_triggered"
+    },
+    "state=emitting_yz_west": {
+      "model": "kinetic_weaponry:block/trial_weave_triggered"
+    },
+    "state=inert": {
+      "model": "kinetic_weaponry:block/trial_weave_idle"
     }
   }
 }

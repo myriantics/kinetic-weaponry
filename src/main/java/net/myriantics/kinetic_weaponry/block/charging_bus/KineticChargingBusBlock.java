@@ -1,5 +1,6 @@
 package net.myriantics.kinetic_weaponry.block.charging_bus;
 
+import net.myriantics.kinetic_weaponry.mechanics.kinetic_charge.storage.KineticChargeSidedTransferContext;
 import net.myriantics.kinetic_weaponry.registry.block.KWBlockStateProperties;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.Level;
@@ -42,19 +43,29 @@ public class KineticChargingBusBlock extends AbstractKineticChargingBusBlock {
     }
 
     @Override
-    public int getCharge(Level level, BlockPos pos, BlockState state) {
+    public void setCharge(Level level, BlockPos pos, BlockState state, long amount) {
+        level.setBlockAndUpdate(pos, this.withCharge(state, Math.clamp(amount, 0, this.getMaxCharge(level, pos, state))));
+        level.updateNeighbourForOutputSignal(pos, this);
+    }
+
+    @Override
+    public long getCharge(Level level, BlockPos pos, BlockState state) {
         return state.getValue(KINETIC_CHARGE);
     }
 
     @Override
-    public int getMaxCharge(Level level, BlockPos pos) {
+    public long getMaxCharge(Level level, BlockPos pos, BlockState state) {
         return MAX_CHARGES;
     }
 
     @Override
-    public void setCharge(Level level, BlockPos pos, int charge) {
-        level.setBlockAndUpdate(pos, this.withCharge(level.getBlockState(pos), (float) charge / this.getMaxCharge(level, pos)));
-        level.updateNeighbourForOutputSignal(pos, this);
+    public boolean allowsInsertion(Level level, BlockPos pos, BlockState state, KineticChargeSidedTransferContext context) {
+        return true;
+    }
+
+    @Override
+    public boolean allowsExtraction(Level level, BlockPos pos, BlockState state, KineticChargeSidedTransferContext context) {
+        return true;
     }
 
     @Override

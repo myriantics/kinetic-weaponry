@@ -12,8 +12,9 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.myriantics.kinetic_weaponry.block.retention_module.KineticRetentionModuleBlockEntity;
-import net.myriantics.kinetic_weaponry.mechanics.kinetic_charge.KineticBlock;
-import net.myriantics.kinetic_weaponry.mechanics.kinetic_charge.KineticItem;
+import net.myriantics.kinetic_weaponry.mechanics.kinetic_charge.block.KineticChargeVisualizer;
+import net.myriantics.kinetic_weaponry.mechanics.kinetic_charge.block.SimpleKineticBlock;
+import net.myriantics.kinetic_weaponry.mechanics.kinetic_charge.SimpleKineticItem;
 import org.jetbrains.annotations.NotNull;
 
 public class KineticRetentionModuleDispenserBehavior extends OptionalDispenseItemBehavior {
@@ -44,8 +45,8 @@ public class KineticRetentionModuleDispenserBehavior extends OptionalDispenseIte
                 // place block in world in the correct direction
                 level.setBlockAndUpdate(
                         targetPos,
-                        stack.getItem() instanceof KineticItem kineticItem
-                                ? ((KineticBlock) state.getBlock()).withCharge(state, (float) kineticItem.getCharge(stack) / kineticItem.getMaxCharge(stack))
+                        stack.getItem() instanceof SimpleKineticItem kineticItem
+                                ? ((KineticChargeVisualizer) state.getBlock()).withCharge(state, (float) kineticItem.getCharge(stack) / kineticItem.getMaxCharge(stack))
                                 : state
                 );
 
