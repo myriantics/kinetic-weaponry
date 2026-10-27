@@ -115,7 +115,7 @@ public class TrialWeaveBlock extends Block implements KineticImpactListener {
 
     protected void triggerWeavesForConductionInstance(Level level, BlockPos pos, BlockState state, Direction impactedFace, ConductionInstance instance) {
         level.setBlockAndUpdate(pos, state.setValue(STATE, TrialWeaveState.getEmitting(impactedFace)));
-        this.scheduleCooldownFinishTick(level, pos);
+        this.scheduleCooldownFinishTick(level, pos, this);
 
         for (int i = 0; i < 5; i++) {
             Direction selectedConductionDirection = Direction.from3DDataValue(impactedFace.get3DDataValue() + 1 + i);
@@ -129,7 +129,7 @@ public class TrialWeaveBlock extends Block implements KineticImpactListener {
 
                 BlockPos weavePos = pos.relative(selectedConductionDirection, j + 1);
                 level.setBlockAndUpdate(weavePos, weaveState.setValue(STATE, TrialWeaveState.getConducting(selectedConductionDirection)));
-                ((TrialWeaveBlock) weaveState.getBlock()).scheduleCooldownFinishTick(level, weavePos);
+                this.scheduleCooldownFinishTick(level, weavePos, weaveState.getBlock());
             }
         }
     }
@@ -168,8 +168,16 @@ public class TrialWeaveBlock extends Block implements KineticImpactListener {
         level.setBlockAndUpdate(pos, state.setValue(STATE, TrialWeaveState.INERT));
     }
 
-    protected void scheduleCooldownFinishTick(Level level, BlockPos pos) {
-        level.scheduleTick(pos, this, this.getCooldownTicks());
+    @Override
+    protected void onPlace(BlockState state, Level level, BlockPos pos, BlockState oldState, boolean movedByPiston) {
+        super.onPlace(state, level, pos, oldState, movedByPiston);
+        if (!oldState.is(this) && level instanceof ServerLevel serverLevel && !serverLevel.getBlockTicks().hasScheduledTick(pos, this)) {
+            this.scheduleCooldownFinishTick(level, pos, this);
+        }
+    }
+
+    protected void scheduleCooldownFinishTick(Level level, BlockPos pos, Block block) {
+        level.scheduleTick(pos, block, this.getCooldownTicks());
     }
 
     protected boolean canConductKineticCharge(BlockState state) {
