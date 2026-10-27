@@ -40,6 +40,7 @@ public abstract class KWItemGroups {
                     // trial twine & weave
                     output.accept(KWItems.TRIAL_TWINE.value());
                     output.accept(KWItems.TRIAL_WEAVE.value());
+                    output.accept(KWItems.CRIMSON_TRIAL_WEAVE.value());
 
                     // equipment
                     output.accept(KWItems.KINETIC_SHORTBOW.value());

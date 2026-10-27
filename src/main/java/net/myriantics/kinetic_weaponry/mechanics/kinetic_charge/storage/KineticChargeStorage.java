@@ -13,23 +13,6 @@ import net.myriantics.kinetic_weaponry.registry.item.KWDataComponents;
 
 public interface KineticChargeStorage {
 
-    KineticChargeStorage EMPTY = new KineticChargeStorage() {
-        @Override
-        public long insert(long maxAmount, TransactionContext tx) {
-            return 0;
-        }
-
-        @Override
-        public long extract(long maxAmount, TransactionContext tx) {
-            return 0;
-        }
-
-        @Override
-        public long getAmount() {
-            return 0;
-        }
-    };
-
     BlockApiLookup<KineticChargeStorage, KineticChargeSidedTransferContext> SIDED = BlockApiLookup.get(
             KWCommon.locate("sided_kinetic_charge_storage"),
             KineticChargeStorage.class,
@@ -54,12 +37,6 @@ public interface KineticChargeStorage {
 
     long extract(long maxAmount, TransactionContext tx);
 
-    long getAmount();
-
-    default boolean isEmpty() {
-        return this.getAmount() <= 0;
-    }
-
     static void init() {
         SIDED.registerForBlockEntity(
                 KineticRetentionModuleBlockEntity::getStorage,
@@ -77,12 +54,12 @@ public interface KineticChargeStorage {
                     }
 
                     @Override
-                    protected void setCharge(long newCharge) {
+                    public void setCharge(long newCharge) {
                         this.charge = newCharge;
                     }
 
                     @Override
-                    protected long getMaxCharge() {
+                    public long getMaxCharge() {
                         return kineticBlock.getMaxCharge(level, pos, state);
                     }
 
@@ -113,12 +90,12 @@ public interface KineticChargeStorage {
                     private long kineticCharge = kineticItem.getCharge(itemStack);
 
                     @Override
-                    protected void setCharge(long newCharge) {
+                    public void setCharge(long newCharge) {
                         this.kineticCharge = newCharge;
                     }
 
                     @Override
-                    protected long getMaxCharge() {
+                    public long getMaxCharge() {
                         return kineticItem.getMaxCharge(itemStack);
                     }
 

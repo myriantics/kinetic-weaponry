@@ -32,6 +32,12 @@ public abstract class KWItems {
             new Item.Properties()
     );
 
+    public static final Holder<Item> CRIMSON_TRIAL_WEAVE = register(
+            "crimson_trial_weave",
+            properties -> new BlockItem(KWBlocks.CRIMSON_TRIAL_WEAVE.value(), properties),
+            new Item.Properties()
+    );
+
     public static final Holder<Item> TRIAL_TWINE = register(
             "trial_twine",
             Item::new,

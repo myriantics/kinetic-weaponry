@@ -16,6 +16,7 @@ import net.myriantics.kinetic_weaponry.block.retention_module.headgear.CreativeK
 import net.myriantics.kinetic_weaponry.block.retention_module.headgear.KineticRetentionHeadgearBlock;
 import net.myriantics.kinetic_weaponry.block.retention_module.backtank.CreativeKineticRetentionBacktankBlock;
 import net.myriantics.kinetic_weaponry.block.retention_module.backtank.KineticRetentionBacktankBlock;
+import net.myriantics.kinetic_weaponry.block.trial_weave.RedstoneTrialWeaveBlock;
 import net.myriantics.kinetic_weaponry.block.trial_weave.TrialWeaveBlock;
 
 import java.util.function.Function;
@@ -28,6 +29,14 @@ public abstract class KWBlocks {
             copyProperties(Blocks.WHITE_WOOL)
                     .lightLevel(state -> state.getValue(TrialWeaveBlock.STATE).isActive() ? 6 : 0)
                     .mapColor(MapColor.COLOR_CYAN)
+                    .emissiveRendering((blockState, blockGetter, blockPos) -> blockState.getValue(TrialWeaveBlock.STATE).isActive())
+    );
+
+    public static final Holder<Block> CRIMSON_TRIAL_WEAVE = register(
+            "crimson_trial_weave",
+            RedstoneTrialWeaveBlock::new,
+            copyProperties(TRIAL_WEAVE)
+                    .mapColor(MapColor.FIRE)
                     .emissiveRendering((blockState, blockGetter, blockPos) -> blockState.getValue(TrialWeaveBlock.STATE).isActive())
     );
 

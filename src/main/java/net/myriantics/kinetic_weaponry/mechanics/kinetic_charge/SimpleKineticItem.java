@@ -29,7 +29,7 @@ public interface SimpleKineticItem {
     }
 
     default long extractChargeFromEntity(LivingEntity livingEntity, KineticChargeStorage selfStorage, long toExtract, TransactionContext tx) {
-        long extracted = 0;
+        long totalExtracted = 0;
 
         if (!selfStorage.supportsInsertion()) {
             return 0;
@@ -41,20 +41,23 @@ public interface SimpleKineticItem {
                 ItemStack slotStack = livingEntity.getItemBySlot(slot);
                 @Nullable KineticChargeStorage storage = KineticChargeStorage.ITEM.find(slotStack, inventory == null ? ContainerItemContext.withConstant(slotStack) : ContainerItemContext.ofPlayerSlot((Player) livingEntity, inventory.getSlots().get(slot.getIndex())));
 
-                if (storage != null && !storage.isEmpty() && storage.supportsExtraction()) {
+                if (storage != null && storage.supportsExtraction()) {
                     try (Transaction extractionTransaction = Transaction.openNested(tx)) {
-                        extracted += KWUtil.extractFromTo(selfStorage, storage, toExtract - extracted, extractionTransaction);
-                        extractionTransaction.commit();
+                        long extractedFromSlot = KWUtil.extractFromTo(selfStorage, storage, toExtract - totalExtracted, extractionTransaction);
+                        if (extractedFromSlot > 0) {
+                            totalExtracted += extractedFromSlot;
+                            extractionTransaction.commit();
+                        }
                     }
                 }
 
-                if (extracted == toExtract) {
-                    return extracted;
+                if (totalExtracted == toExtract) {
+                    return totalExtracted;
                 }
             }
         }
 
-        return extracted;
+        return totalExtracted;
     }
 
     default long extractChargeFromEntity(LivingEntity livingEntity, long desiredCharge, TransactionContext tx) {
@@ -69,7 +72,7 @@ public interface SimpleKineticItem {
                 ItemStack equippedStack = livingEntity.getItemBySlot(slot);
                 @Nullable KineticChargeStorage storage = KineticChargeStorage.ITEM.find(equippedStack, inventory == null ? ContainerItemContext.withConstant(equippedStack) : ContainerItemContext.ofPlayerSlot((Player) livingEntity, inventory.getSlots().get(slot.getIndex())));
 
-                if (storage != null && !storage.isEmpty() && storage.supportsExtraction()) {
+                if (storage != null && storage.supportsExtraction()) {
                     try (Transaction nested = Transaction.openNested(tx)) {
                         long extracted = storage.extract(desiredCharge - totalExtracted, nested);
                         if (extracted > 0) {

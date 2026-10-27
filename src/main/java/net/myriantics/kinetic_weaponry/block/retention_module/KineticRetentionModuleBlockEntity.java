@@ -16,7 +16,6 @@ import net.myriantics.kinetic_weaponry.mechanics.kinetic_charge.storage.KineticC
 import net.myriantics.kinetic_weaponry.mechanics.kinetic_charge.storage.KineticChargeStorage;
 import net.myriantics.kinetic_weaponry.mechanics.kinetic_charge.storage.SimpleKineticChargeStorage;
 import net.myriantics.kinetic_weaponry.registry.block.KWBlockEntityTypes;
-import net.myriantics.kinetic_weaponry.registry.block.KWBlockStateProperties;
 import net.myriantics.kinetic_weaponry.registry.item.KWDataComponents;
 import net.myriantics.kinetic_weaponry.registry.misc.KWNbtIds;
 import org.jetbrains.annotations.Nullable;
@@ -28,12 +27,12 @@ public class KineticRetentionModuleBlockEntity extends BlockEntity {
     private float kineticImpactConversionEfficiency = 1f;
     private final KineticChargeStorage storage = new SimpleKineticChargeStorage() {
         @Override
-        protected void setCharge(long newCharge) {
+        public void setCharge(long newCharge) {
             KineticRetentionModuleBlockEntity.this.charge = newCharge;
         }
 
         @Override
-        protected long getMaxCharge() {
+        public long getMaxCharge() {
             return KineticRetentionModuleBlockEntity.this.maxCharge;
         }
 

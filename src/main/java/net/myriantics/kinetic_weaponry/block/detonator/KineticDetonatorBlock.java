@@ -13,7 +13,6 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.level.block.state.properties.DirectionProperty;
-import net.myriantics.kinetic_weaponry.mechanics.kinetic_charge.KineticImpactType;
 import net.myriantics.kinetic_weaponry.mechanics.kinetic_charge.impact.KineticImpactListener;
 import net.myriantics.kinetic_weaponry.mechanics.kinetic_charge.storage.KineticChargeSidedTransferContext;
 import net.myriantics.kinetic_weaponry.mechanics.kinetic_charge.storage.KineticChargeStorage;
@@ -44,18 +43,18 @@ public class KineticDetonatorBlock extends Block implements KineticImpactListene
                     private long charge = 0;
 
                     @Override
-                    protected void setCharge(long newCharge) {
+                    public void setCharge(long newCharge) {
                         this.charge = newCharge;
                     }
 
                     @Override
-                    protected long getMaxCharge() {
-                        return 0;
+                    public long getMaxCharge() {
+                        return Long.MAX_VALUE;
                     }
 
                     @Override
                     public long getAmount() {
-                        return Long.MAX_VALUE;
+                        return 0;
                     }
 
                     @Override

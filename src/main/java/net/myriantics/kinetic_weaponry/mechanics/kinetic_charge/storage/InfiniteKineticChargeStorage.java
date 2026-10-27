@@ -21,11 +21,6 @@ public final class InfiniteKineticChargeStorage implements KineticChargeStorage 
 
     @Override
     public long extract(long maxAmount, TransactionContext tx) {
-        return Long.MAX_VALUE;
-    }
-
-    @Override
-    public long getAmount() {
-        return Long.MAX_VALUE;
+        return maxAmount;
     }
 }

@@ -44,7 +44,7 @@ public class KineticChargingBusBlock extends AbstractKineticChargingBusBlock {
 
     @Override
     public void setCharge(Level level, BlockPos pos, BlockState state, long amount) {
-        level.setBlockAndUpdate(pos, this.withCharge(state, Math.clamp(amount, 0, this.getMaxCharge(level, pos, state))));
+        level.setBlockAndUpdate(pos, this.withCharge(state, (float) Math.clamp(amount, 0, this.getMaxCharge(level, pos, state)) / this.getMaxCharge(level, pos, state)));
         level.updateNeighbourForOutputSignal(pos, this);
     }
 

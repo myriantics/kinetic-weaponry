@@ -6,6 +6,7 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.crafting.CraftingBookCategory;
+import net.minecraft.world.item.crafting.Ingredient;
 import net.myriantics.kinetic_weaponry.registry.item.KWItems;
 import net.myriantics.kinetic_weaponry.tag.KWItemTags;
 import net.myriantics.myrror.datagen.template.recipe.MyrrorRecipeProvider;
@@ -19,6 +20,24 @@ public class KWCraftingRecipeProvider extends CraftingRecipeProvider {
     @Override
     protected void generateRecipes() {
         add2x2PackingUnpackingRecipes(KWItems.TRIAL_WEAVE.value(), KWItems.TRIAL_TWINE.value(), craftingBuilder -> craftingBuilder);
+        add2x2UnpackingRecipe(
+                Ingredient.of(KWItems.CRIMSON_TRIAL_WEAVE.value()),
+                KWItems.TRIAL_TWINE.value(),
+                shapelessBuilder -> shapelessBuilder
+                        .category(CraftingBookCategory.MISC)
+        );
+        addShapedCraftingRecipe(
+                new String[] {
+                        " R",
+                        "RWR",
+                        " R "
+                },
+                new ItemStack(KWItems.CRIMSON_TRIAL_WEAVE),
+                shapedBuilder -> shapedBuilder
+                        .associate('R', Items.REDSTONE)
+                        .associate('W', KWItems.TRIAL_WEAVE.value())
+                        .category(CraftingBookCategory.REDSTONE)
+        );
         addShapedCraftingRecipe(
                 new String[] {
                         "CBT",

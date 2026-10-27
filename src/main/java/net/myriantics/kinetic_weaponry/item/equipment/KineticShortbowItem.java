@@ -139,7 +139,7 @@ public class KineticShortbowItem extends ProjectileWeaponItem implements SimpleK
             return InteractionResultHolder.fail(usedStack);
         }
 
-        if (storage.isEmpty() && !player.isCreative()) {
+        if (this.getCharge(usedStack) == 0 && !player.isCreative()) {
             try (Transaction tx = Transaction.openOuter()) {
                 long extracted = this.extractChargeFromEntity(player, 1, tx);
                 if (extracted > 0 && storage.insert(this.getMaxCharge(usedStack), tx) > 0) {

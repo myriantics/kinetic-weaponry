@@ -42,7 +42,14 @@ public abstract class SimpleKineticChargeStorage extends SnapshotParticipant<Lon
         this.setCharge(snapshot);
     }
 
-    protected abstract void setCharge(long newCharge);
+    public abstract void setCharge(long newCharge);
 
-    protected abstract long getMaxCharge();
+    public abstract long getMaxCharge();
+
+    protected abstract long getAmount();
+
+    protected boolean isEmpty() {
+        return this.getAmount() <= 0;
+    }
+
 }

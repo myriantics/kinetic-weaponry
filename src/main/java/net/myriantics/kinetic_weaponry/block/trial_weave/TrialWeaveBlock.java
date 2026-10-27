@@ -11,8 +11,6 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
-import net.minecraft.world.level.block.state.properties.BlockStateProperties;
-import net.minecraft.world.level.block.state.properties.BooleanProperty;
 import net.minecraft.world.level.block.state.properties.EnumProperty;
 import net.myriantics.kinetic_weaponry.mechanics.kinetic_charge.impact.KineticImpactListener;
 import net.myriantics.kinetic_weaponry.mechanics.kinetic_charge.storage.KineticChargeSidedTransferContext;
@@ -24,7 +22,6 @@ import org.jetbrains.annotations.Nullable;
 public class TrialWeaveBlock extends Block implements KineticImpactListener {
 
     public static final EnumProperty<TrialWeaveState> STATE = KWBlockStateProperties.TRIAL_WEAVE_STATE;
-    public static final int TRANSFER_COOLDOWN_TICKS = 4;
 
     public TrialWeaveBlock(Properties properties) {
         super(properties);
@@ -38,8 +35,9 @@ public class TrialWeaveBlock extends Block implements KineticImpactListener {
 
     protected void registerStorage() {
         KineticChargeStorage.SIDED.registerForBlocks(
-                (level, pos, state, blockEntity, context) -> context.getImpactedFace() == null ? null : new SimpleKineticChargeStorage() {
-                    private long charge;
+                (level, pos, state, blockEntity, context) -> context.getImpactedFace() == null ? null : new KineticChargeStorage() {
+                    private ConductionInstance conductionInstance = null;
+                    private boolean initialized;
 
                     @Override
                     public boolean supportsExtraction() {
@@ -47,28 +45,36 @@ public class TrialWeaveBlock extends Block implements KineticImpactListener {
                     }
 
                     @Override
-                    protected void setCharge(long newCharge) {
-                        this.charge = newCharge;
+                    public long extract(long maxAmount, TransactionContext tx) {
+                        return 0;
                     }
 
                     @Override
-                    protected long getMaxCharge() {
-                        return Long.MAX_VALUE;
+                    public long insert(long maxAmount, TransactionContext tx) {
+                        if (!this.initialized) {
+                            tx.addOuterCloseCallback(this::onFinalCommit);
+                            this.initialized = true;
+                        }
+                        this.conductionInstance = TrialWeaveBlock.this.gatherConductionData(level, pos, context.getImpactedFace(), context.getSource());
+                        return TrialWeaveBlock.this.distributeChargeToConductedStorages(maxAmount, this.conductionInstance, tx);
                     }
 
-                    @Override
-                    public long getAmount() {
-                        return this.charge;
-                    }
-
-                    @Override
-                    protected void onFinalCommit() {
-                        super.onFinalCommit();
-                        TrialWeaveBlock.this.triggerConductionCascade(level, pos, state, this.charge, context.getImpactedFace(), context.getSource());
+                    private void onFinalCommit(TransactionContext.Result result) {
+                        if (result.wasCommitted() && this.conductionInstance != null) {
+                            TrialWeaveBlock.this.triggerWeavesForConductionInstance(level, pos, state, context.getImpactedFace(), this.conductionInstance);
+                        }
                     }
                 },
                 this
         );
+    }
+
+    protected int getCooldownTicks() {
+        return 8;
+    }
+
+    protected int getTransmissionRange() {
+        return 8;
     }
 
     @Override
@@ -80,61 +86,81 @@ public class TrialWeaveBlock extends Block implements KineticImpactListener {
     public void onKineticImpact(Level level, BlockPos pos, BlockState state, float impactDamage, KineticChargeSidedTransferContext context) {
         Direction impactedFace = context.getImpactedFace();
         if (!state.getValue(STATE).isActive() && impactedFace != null && impactDamage > 0) {
-            this.triggerConductionCascade(level, pos, state, (long) impactDamage, impactedFace, context.getSource());
+            ConductionInstance instance = this.gatherConductionData(level, pos, context.getImpactedFace(), context.getSource());
+            this.triggerWeavesForConductionInstance(level, pos, state, context.getImpactedFace(), instance);
+            try (Transaction tx = Transaction.openOuter()) {
+                this.distributeChargeToConductedStorages((long) impactDamage, instance, tx);
+                tx.commit();
+            }
         }
     }
 
-    public void triggerConductionCascade(Level level, BlockPos pos, BlockState state, long conductedCharge, Direction impactedFace, @Nullable Entity source) {
-        this.scheduleCooldownFinishTick(level, pos);
-        level.setBlockAndUpdate(pos, state.setValue(STATE, TrialWeaveState.getEmitting(impactedFace)));
+    protected long distributeChargeToConductedStorages(long inboundCharge, ConductionInstance instance, TransactionContext tx) {
+        long totalInserted = 0;
+        for (@Nullable KineticChargeStorage storage : instance.storages()) {
+            if (storage != null) {
+                try (Transaction inner = Transaction.openNested(tx)) {
+                    totalInserted += storage.insert(inboundCharge - totalInserted, inner);
+                    inner.commit();
+                }
+            }
 
-        KineticChargeStorage[] storages = new KineticChargeStorage[5];
-        int validStorages = 0;
+            if (totalInserted == inboundCharge) {
+                break;
+            }
+        }
+
+        return totalInserted;
+    }
+
+    protected void triggerWeavesForConductionInstance(Level level, BlockPos pos, BlockState state, Direction impactedFace, ConductionInstance instance) {
+        level.setBlockAndUpdate(pos, state.setValue(STATE, TrialWeaveState.getEmitting(impactedFace)));
+        this.scheduleCooldownFinishTick(level, pos);
 
         for (int i = 0; i < 5; i++) {
             Direction selectedConductionDirection = Direction.from3DDataValue(impactedFace.get3DDataValue() + 1 + i);
-            if ((storages[i] = this.conductToPotentialStorage(level, pos, conductedCharge, selectedConductionDirection, source)) != null) {
-                validStorages++;
-            }
-        }
+            BlockState[] weaveStates = instance.weavesToTrigger[i];
 
-        if (validStorages > 0) {
-            long remainingCharge = conductedCharge;
-            for (@Nullable KineticChargeStorage storage : storages) {
-                if (storage != null && storage.supportsInsertion()) {
-                    try (Transaction tx = Transaction.openOuter()) {
-                        long inserted = storage.insert(remainingCharge, tx);
-                        if (inserted > 0) {
-                            remainingCharge -= inserted;
-                            tx.commit();
-                        } else {
-                            tx.abort();
-                        }
-                    }
+            for (int j = 0; j < weaveStates.length; j++) {
+                BlockState weaveState = weaveStates[j];
+                if (weaveState == null) {
+                    break;
                 }
+
+                BlockPos weavePos = pos.relative(selectedConductionDirection, j + 1);
+                level.setBlockAndUpdate(weavePos, weaveState.setValue(STATE, TrialWeaveState.getConducting(selectedConductionDirection)));
+                ((TrialWeaveBlock) weaveState.getBlock()).scheduleCooldownFinishTick(level, weavePos);
             }
         }
     }
 
-    protected @Nullable KineticChargeStorage conductToPotentialStorage(Level level, BlockPos originPos, long conductedCharge, Direction conductionDirection, @Nullable Entity source) {
-        for (int i = 1; i <= 8; i++) {
-            BlockPos targetPos = originPos.relative(conductionDirection, i);
-            BlockState targetState = level.getBlockState(targetPos);
+    protected ConductionInstance gatherConductionData(Level level, BlockPos originPos, Direction impactedFace, Entity source) {
+        BlockState[][] affectedWeaves = new BlockState[5][this.getTransmissionRange()];
+        KineticChargeStorage[] storages = new KineticChargeStorage[5];
 
-            // don't cascade kinetic charge transfers to other trial weave blocks because that causes recursive fuckery
-            if (targetState.getBlock() instanceof TrialWeaveBlock trialWeaveBlock) {
-                if (trialWeaveBlock.canConduct(targetState)) {
-                    trialWeaveBlock.trigger(level, targetPos, targetState, conductionDirection);
-                    continue;
-                } else {
-                    return null;
+        for (int i = 0; i < 5; i++) {
+            Direction selectedConductionDirection = Direction.from3DDataValue(impactedFace.get3DDataValue() + 1 + i);
+
+            for (int j = 1; j <= this.getTransmissionRange(); j++) {
+                BlockPos targetPos = originPos.relative(selectedConductionDirection, j);
+                BlockState targetState = level.getBlockState(targetPos);
+
+                // don't cascade kinetic charge transfers to other trial weave blocks because that causes recursive fuckery
+                if (targetState.getBlock() instanceof TrialWeaveBlock trialWeaveBlock) {
+                    if (trialWeaveBlock.canConductKineticCharge(targetState)) {
+                        affectedWeaves[i][j - 1] = targetState;
+                        continue;
+                    } else {
+                        break;
+                    }
                 }
-            }
 
-            return KineticChargeStorage.SIDED.find(level, targetPos, targetState, null, KineticChargeSidedTransferContext.of(conductionDirection, source));
+                storages[i] = KineticChargeStorage.SIDED.find(level, targetPos, targetState, null, KineticChargeSidedTransferContext.of(selectedConductionDirection.getOpposite(), source));
+                break;
+            }
         }
 
-        return null;
+        return new ConductionInstance(storages, affectedWeaves);
     }
 
     @Override
@@ -143,15 +169,13 @@ public class TrialWeaveBlock extends Block implements KineticImpactListener {
     }
 
     protected void scheduleCooldownFinishTick(Level level, BlockPos pos) {
-        level.scheduleTick(pos, this, TRANSFER_COOLDOWN_TICKS);
+        level.scheduleTick(pos, this, this.getCooldownTicks());
     }
 
-    protected void trigger(Level level, BlockPos pos, BlockState state, Direction direction) {
-        this.scheduleCooldownFinishTick(level, pos);
-        level.setBlockAndUpdate(pos, state.setValue(STATE, TrialWeaveState.getConducting(direction)));
-    }
-
-    protected boolean canConduct(BlockState state) {
+    protected boolean canConductKineticCharge(BlockState state) {
         return !state.getValue(STATE).isActive();
+    }
+
+    protected record ConductionInstance(KineticChargeStorage[] storages, BlockState[][] weavesToTrigger) {
     }
 }
