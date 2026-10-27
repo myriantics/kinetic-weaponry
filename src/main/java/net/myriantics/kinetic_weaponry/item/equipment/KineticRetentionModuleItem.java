@@ -29,6 +29,7 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.myriantics.kinetic_weaponry.mechanics.kinetic_charge.storage.KineticChargeStorage;
 import net.myriantics.kinetic_weaponry.registry.item.KWDataComponents;
+import net.myriantics.kinetic_weaponry.tag.KWDamageTypeTags;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -120,7 +121,7 @@ public class KineticRetentionModuleItem extends BlockItem implements Equipable, 
     }
 
     public boolean absorbHelmetHitWhileEquipped(LivingEntity damagedEntity, DamageSource damageSource, float damageAmount, ItemStack moduleStack) {
-        return this.addChargeFromDamage(damagedEntity, moduleStack, damageAmount);
+        return damageSource.is(KWDamageTypeTags.EQUIPPED_KINETIC_RETENTION_HEADGEAR_ABSORBED) && this.addChargeFromDamage(damagedEntity, moduleStack, damageAmount);
     }
 
     public boolean absorbMaceHitWhileEquipped(LivingEntity livingEntity, DamageSource source, float amount, EquipmentSlot slot, ItemStack stack) {

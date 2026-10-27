@@ -37,6 +37,9 @@ public abstract class KWItemGroups {
                     output.accept(fullHeadgear);
                     output.accept(KWItems.CREATIVE_KINETIC_RETENTION_HEADGEAR.value());
 
+                    // minecarts
+                    output.accept(KWItems.KINETIC_CHARGING_BUS_MINECART.value());
+
                     // trial twine & weave
                     output.accept(KWItems.TRIAL_TWINE.value());
                     output.accept(KWItems.TRIAL_WEAVE.value());

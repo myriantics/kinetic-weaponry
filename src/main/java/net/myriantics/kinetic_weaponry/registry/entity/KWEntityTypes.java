@@ -10,6 +10,7 @@ import net.minecraft.world.entity.MobCategory;
 import net.myriantics.kinetic_weaponry.entity.crossbow_bolt.AbstractCrossbowBoltEntity;
 import net.myriantics.kinetic_weaponry.entity.crossbow_bolt.BlazingBoltEntity;
 import net.myriantics.kinetic_weaponry.entity.crossbow_bolt.BreezyBoltEntity;
+import net.myriantics.kinetic_weaponry.entity.minecart.MinecartKineticChargingBusEntity;
 
 import java.util.function.UnaryOperator;
 
@@ -27,6 +28,16 @@ public abstract class KWEntityTypes {
             BreezyBoltEntity::new,
             MobCategory.MISC,
             KWEntityTypes::crossbowBolt
+    );
+
+    public static final Holder<EntityType<MinecartKineticChargingBusEntity>> KINETIC_CHARGING_BUS_MINECART = register(
+            "kinetic_charging_bus_minecart",
+            MinecartKineticChargingBusEntity::new,
+            MobCategory.MISC,
+            builder -> builder
+                    .sized(0.98F, 0.7F)
+                    .passengerAttachments(0.1875F)
+                    .clientTrackingRange(8)
     );
 
     private static <T extends AbstractCrossbowBoltEntity> EntityType.Builder<T> crossbowBolt(EntityType.Builder<T> builder) {

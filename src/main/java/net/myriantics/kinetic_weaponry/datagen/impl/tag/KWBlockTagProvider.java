@@ -42,5 +42,7 @@ public class KWBlockTagProvider extends FabricTagProvider<Block> {
         getOrCreateTagBuilder(KWBlockTags.KINETIC_RETENTION_HEADGEAR)
                 .add(KWBlocks.CREATIVE_KINETIC_RETENTION_HEADGEAR.value())
                 .add(KWBlocks.KINETIC_RETENTION_HEADGEAR.value());
+        getOrCreateTagBuilder(KWBlockTags.KINETIC_MINECART_INTERFACE_ENABLING_RAILS)
+                .addOptionalTag(BlockTags.RAILS);
     }
 }

@@ -15,6 +15,7 @@ import net.myriantics.kinetic_weaponry.entity.crossbow_bolt.BreezyBoltEntity;
 import net.myriantics.kinetic_weaponry.item.ammo.CrossbowBoltItem;
 import net.myriantics.kinetic_weaponry.item.equipment.KineticCrossbowItem;
 import net.myriantics.kinetic_weaponry.item.equipment.KineticShortbowItem;
+import net.myriantics.kinetic_weaponry.item.minecart.KWMinecartItem;
 import net.myriantics.kinetic_weaponry.mechanics.weapon_heat.OverheatWeapon;
 import net.myriantics.kinetic_weaponry.registry.block.KWBlocks;
 import net.myriantics.kinetic_weaponry.item.equipment.KineticRetentionModuleItem;
@@ -105,6 +106,14 @@ public abstract class KWItems {
             (properties -> new BlockItem(KWBlocks.CREATIVE_KINETIC_CHARGING_BUS.value(), properties)),
             new Item.Properties()
                     .component(DataComponents.ENCHANTMENT_GLINT_OVERRIDE, true)
+                    .rarity(Rarity.EPIC)
+                    .stacksTo(1)
+    );
+
+    public static final Holder<Item> KINETIC_CHARGING_BUS_MINECART = register(
+            "kinetic_charging_bus_minecart",
+            KWMinecartItem::new,
+            new Item.Properties()
                     .rarity(Rarity.EPIC)
     );
 

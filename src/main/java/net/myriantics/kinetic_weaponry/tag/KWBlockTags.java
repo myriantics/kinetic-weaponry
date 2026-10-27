@@ -7,10 +7,11 @@ import net.myriantics.kinetic_weaponry.KWCommon;
 
 public abstract class KWBlockTags {
 
-    public static TagKey<Block> KINETIC_RETENTION_MODULES = create("kinetic_retention_module");
-    public static TagKey<Block> KINETIC_RETENTION_BACKTANKS = subTag("backtank", KINETIC_RETENTION_MODULES);
-    public static TagKey<Block> KINETIC_RETENTION_HEADGEAR = subTag("headgear", KINETIC_RETENTION_MODULES);
-    public static TagKey<Block> KINETIC_CHARGING_BUSES = create("kinetic_charging_bus");
+    public static final TagKey<Block> KINETIC_RETENTION_MODULES = create("kinetic_retention_module");
+    public static final TagKey<Block> KINETIC_RETENTION_BACKTANKS = subTag("backtank", KINETIC_RETENTION_MODULES);
+    public static final TagKey<Block> KINETIC_RETENTION_HEADGEAR = subTag("headgear", KINETIC_RETENTION_MODULES);
+    public static final TagKey<Block> KINETIC_CHARGING_BUSES = create("kinetic_charging_bus");
+    public static final TagKey<Block> KINETIC_MINECART_INTERFACE_ENABLING_RAILS = create("kinetic_minecart_interface_enabling_rails");
 
     private static TagKey<Block> create(String name) {
         return TagKey.create(Registries.BLOCK, KWCommon.locate(name));

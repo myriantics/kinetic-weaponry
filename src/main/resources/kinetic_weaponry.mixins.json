@@ -10,8 +10,10 @@
     "minecraft.kinetic_crossbow.CrossbowItemMixin",
     "minecraft.kinetic_retention_module.durability.LivingEntityMixin",
     "minecraft.kinetic_retention_module.mace_hit_absorption.LivingEntityMixin",
+    "minecraft.minecart.MinecartDispenseItemBehaviorMixin",
+    "minecraft.minecart.MinecartItemMixin",
     "minecraft.overheat_weapon.ThrownPotionEntityMixin",
-    "minecraft.swingable_item.LivingEntityMixin",
+    "minecraft.swingable_item.LivingEntityMixin"
   ],
   "injectors": {
     "defaultRequire": 1

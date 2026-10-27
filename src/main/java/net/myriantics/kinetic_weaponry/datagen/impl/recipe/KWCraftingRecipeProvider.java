@@ -52,6 +52,13 @@ public class KWCraftingRecipeProvider extends CraftingRecipeProvider {
                         .associate('B', Items.BREEZE_ROD)
                         .category(CraftingBookCategory.EQUIPMENT)
         );
+        addShapelessCraftingRecipe(
+                new ItemStack(KWItems.KINETIC_CHARGING_BUS_MINECART),
+                shapelessBuilder -> shapelessBuilder
+                        .requires(KWItems.KINETIC_CHARGING_BUS.value())
+                        .requires(Items.MINECART)
+                        .category(CraftingBookCategory.REDSTONE)
+        );
         addKineticCrossbowRecipe(Items.CHISELED_COPPER);
         addKineticCrossbowRecipe(Items.WAXED_CHISELED_COPPER);
         addKineticDetonatorRecipe(KWItems.KINETIC_DETONATOR, Items.CHISELED_COPPER);

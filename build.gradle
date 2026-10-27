@@ -42,6 +42,7 @@ fabricApi {
 }
 
 loom {
+    accessWidenerPath = file("src/main/resources/kinetic_weaponry.accesswidener")
     splitEnvironmentSourceSets()
 }
 

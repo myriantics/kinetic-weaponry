@@ -1,0 +1,12 @@
+{
+  "values": [
+    {
+      "id": "#kinetic_weaponry:kinetic_absorption/equipped_kinetic_retention_headgear",
+      "required": false
+    },
+    {
+      "id": "#kinetic_weaponry:kinetic_absorption/equipped_kinetic_retention_backtank",
+      "required": false
+    }
+  ]
+}

@@ -6,6 +6,7 @@ import net.myriantics.kinetic_weaponry.registry.advancement.KWCriteriaTriggers;
 import net.myriantics.kinetic_weaponry.registry.behavior.KWDispenserBehaviors;
 import net.myriantics.kinetic_weaponry.registry.block.KWBlockEntityTypes;
 import net.myriantics.kinetic_weaponry.registry.block.KWFlammableBlocks;
+import net.myriantics.kinetic_weaponry.registry.entity.KWMinecartComparatorRegistry;
 import net.myriantics.kinetic_weaponry.registry.item.KWArmorMaterials;
 import net.myriantics.kinetic_weaponry.registry.item.KWItemGroups;
 import net.myriantics.kinetic_weaponry.registry.item.KWItems;
@@ -56,6 +57,7 @@ public class KWCommon implements ModInitializer {
 
         KWEvents.init();
         KineticChargeStorage.init();
+        KWMinecartComparatorRegistry.init();
 
         LOGGER.info("Kinetic Weaponry has initialized!");
     }

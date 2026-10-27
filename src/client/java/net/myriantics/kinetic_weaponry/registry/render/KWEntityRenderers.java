@@ -1,8 +1,10 @@
 package net.myriantics.kinetic_weaponry.registry.render;
 
 import net.fabricmc.fabric.api.client.rendering.v1.EntityRendererRegistry;
+import net.minecraft.client.model.geom.ModelLayers;
 import net.minecraft.client.renderer.entity.EntityRenderDispatcher;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
+import net.minecraft.client.renderer.entity.MinecartRenderer;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.myriantics.kinetic_weaponry.KWCommon;
@@ -15,6 +17,7 @@ public class KWEntityRenderers {
     static {
         register(KWEntityTypes.BLAZING_BOLT.value(), CrossbowBoltRenderer::new);
         register(KWEntityTypes.BREEZY_BOLT.value(), CrossbowBoltRenderer::new);
+        register(KWEntityTypes.KINETIC_CHARGING_BUS_MINECART.value(), (context) -> new MinecartRenderer<>(context, ModelLayers.MINECART));
     }
 
     private static <T extends Entity> void register(EntityType<T> type, EntityRendererProvider<T> rendererFactory) {

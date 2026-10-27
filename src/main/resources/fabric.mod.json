@@ -14,6 +14,7 @@
   "license": "MIT",
   "icon": "assets/kinetic_weaponry/icon.png",
   "environment": "*",
+  "accessWidener": "kinetic_weaponry.accesswidener",
   "entrypoints": {
     "main": [
       "net.myriantics.kinetic_weaponry.KWCommon"
