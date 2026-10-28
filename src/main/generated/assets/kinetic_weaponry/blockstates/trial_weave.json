@@ -1,8 +1,5 @@
 {
   "variants": {
-    "state=conducting": {
-      "model": "kinetic_weaponry:block/trial_weave_triggered"
-    },
     "state=conducting_down": {
       "model": "kinetic_weaponry:block/trial_weave_triggered"
     },
@@ -10,6 +7,9 @@
       "model": "kinetic_weaponry:block/trial_weave_triggered"
     },
     "state=conducting_north": {
+      "model": "kinetic_weaponry:block/trial_weave_triggered"
+    },
+    "state=conducting_south": {
       "model": "kinetic_weaponry:block/trial_weave_triggered"
     },
     "state=conducting_up": {

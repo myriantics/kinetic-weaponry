@@ -63,6 +63,8 @@ public class KWCraftingRecipeProvider extends CraftingRecipeProvider {
         addKineticCrossbowRecipe(Items.WAXED_CHISELED_COPPER);
         addKineticDetonatorRecipe(KWItems.KINETIC_DETONATOR, Items.CHISELED_COPPER);
         addKineticDetonatorRecipe(KWItems.KINETIC_DETONATOR,  Items.WAXED_CHISELED_COPPER);
+        addKineticPulverizerRecipe(KWItems.KINETIC_PULVERIZER.value(), Items.CHISELED_COPPER);
+        addKineticPulverizerRecipe(KWItems.KINETIC_PULVERIZER.value(), Items.WAXED_CHISELED_COPPER);
         addKineticChargingBusRecipe(KWItems.KINETIC_CHARGING_BUS, Items.CHISELED_COPPER);
         addKineticChargingBusRecipe(KWItems.KINETIC_CHARGING_BUS, Items.WAXED_CHISELED_COPPER);
         addKineticRetentionBacktankRecipe(KWItems.KINETIC_RETENTION_BACKTANK, Items.COPPER_BULB);
@@ -85,6 +87,7 @@ public class KWCraftingRecipeProvider extends CraftingRecipeProvider {
                         .associate('H', Items.HEAVY_CORE)
                         .associate('C', chiseledBlock)
                         .associate('c', Items.COPPER_INGOT)
+                        .category(CraftingBookCategory.EQUIPMENT)
         );
     }
 
@@ -102,6 +105,7 @@ public class KWCraftingRecipeProvider extends CraftingRecipeProvider {
                         .associate('B', Items.BREEZE_ROD)
                         .associate('I', Items.COPPER_INGOT)
                         .associate('C', bulb)
+                        .category(CraftingBookCategory.EQUIPMENT)
         );
     }
 
@@ -119,6 +123,7 @@ public class KWCraftingRecipeProvider extends CraftingRecipeProvider {
                         .associate('B', Items.BREEZE_ROD)
                         .associate('I', Items.COPPER_INGOT)
                         .associate('C', bulb)
+                        .category(CraftingBookCategory.EQUIPMENT)
         );
     }
 
@@ -136,6 +141,23 @@ public class KWCraftingRecipeProvider extends CraftingRecipeProvider {
                         .associate('W', KWItems.TRIAL_WEAVE.value())
                         .associate('H', Items.HEAVY_CORE)
                         .associate('C', chiseledBlock)
+                        .category(CraftingBookCategory.REDSTONE)
+        );
+    }
+
+    private void addKineticPulverizerRecipe(Item result, Item chiseledCopperBlock) {
+        this.addShapedCraftingRecipe(
+                new String[] {
+                        "HC",
+                        "WP",
+                },
+                new ItemStack(result),
+                builder -> builder
+                        .associate('C', chiseledCopperBlock)
+                        .associate('H', Items.HEAVY_CORE)
+                        .associate('P', Items.PISTON)
+                        .associate('W', KWItems.TRIAL_WEAVE.value())
+                        .category(CraftingBookCategory.REDSTONE)
         );
     }
 
@@ -153,6 +175,7 @@ public class KWCraftingRecipeProvider extends CraftingRecipeProvider {
                         .associate('H', Items.HEAVY_CORE)
                         .associate('M', Items.TNT_MINECART)
                         .associate('C', chiseledBlock)
+                        .category(CraftingBookCategory.REDSTONE)
         );
     }
 }

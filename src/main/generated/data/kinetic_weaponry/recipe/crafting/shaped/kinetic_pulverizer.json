@@ -1,0 +1,26 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "redstone",
+  "key": {
+    "C": {
+      "item": "minecraft:chiseled_copper"
+    },
+    "H": {
+      "item": "minecraft:heavy_core"
+    },
+    "P": {
+      "item": "minecraft:piston"
+    },
+    "W": {
+      "item": "kinetic_weaponry:trial_weave"
+    }
+  },
+  "pattern": [
+    "HC",
+    "WP"
+  ],
+  "result": {
+    "count": 1,
+    "id": "kinetic_weaponry:kinetic_pulverizer"
+  }
+}
