@@ -16,6 +16,7 @@ import net.minecraft.world.item.component.ItemAttributeModifiers;
 import net.minecraft.world.item.context.UseOnContext;
 import net.minecraft.world.phys.Vec3;
 import net.myriantics.kinetic_weaponry.KWCommon;
+import net.myriantics.kinetic_weaponry.KWUtil;
 import net.myriantics.kinetic_weaponry.block.retention_module.AbstractKineticRetentionModuleBlock;
 import net.myriantics.kinetic_weaponry.block.retention_module.backtank.AbstractKineticRetentionBacktankBlock;
 import net.myriantics.kinetic_weaponry.block.retention_module.headgear.KineticRetentionHeadgearBlock;
@@ -149,7 +150,7 @@ public class KineticRetentionModuleItem extends BlockItem implements Equipable, 
     public boolean addChargeFromDamage(LivingEntity damagedEntity, ItemStack moduleStack, float damageAmount) {
         @Nullable KineticChargeStorage storage = KineticChargeStorage.ITEM.find(moduleStack, ContainerItemContext.withConstant(moduleStack));
 
-        int inboundCharge = (int) (damageAmount * moduleStack.getOrDefault(KWDataComponents.KINETIC_IMPACT_CONVERSION_EFFICIENCY.value(), this.type == ArmorItem.Type.HELMET ? KineticRetentionHeadgearBlock.IMPACT_CONVERSION_EFFICIENCY : AbstractKineticRetentionBacktankBlock.IMPACT_CONVERSION_EFFICIENCY));
+        int inboundCharge = (int) (damageAmount * KWUtil.KINETIC_IMPACT_FORCE_MULTIPLIER);
 
         if (storage != null && storage.supportsInsertion()) {
             try (Transaction tx = Transaction.openOuter()) {

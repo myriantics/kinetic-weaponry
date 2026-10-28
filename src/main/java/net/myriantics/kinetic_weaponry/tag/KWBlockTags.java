@@ -13,6 +13,8 @@ public abstract class KWBlockTags {
     public static final TagKey<Block> KINETIC_CHARGING_BUSES = create("kinetic_charging_bus");
     public static final TagKey<Block> KINETIC_MINECART_INTERFACE_ENABLING_RAILS = create("kinetic_minecart_interface_enabling_rails");
 
+    public static final TagKey<Block> KINETIC_PULVERIZER_BREAKING_DENYLIST = create("kinetic_pulverizer_breaking/denylist");
+
     private static TagKey<Block> create(String name) {
         return TagKey.create(Registries.BLOCK, KWCommon.locate(name));
     }

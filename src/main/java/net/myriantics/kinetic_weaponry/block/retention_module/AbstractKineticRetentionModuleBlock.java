@@ -96,7 +96,7 @@ public abstract class AbstractKineticRetentionModuleBlock extends BaseEntityBloc
             KineticChargeStorage storage = blockEntity.getStorage(context);
             if (storage != null && storage.supportsInsertion()) {
                 try (Transaction tx = Transaction.openOuter()) {
-                    if (blockEntity.getStorage(context).insert((long) (impactDamage * blockEntity.getKineticImpactConversionEfficiency()), tx) > 0) {
+                    if (blockEntity.getStorage(context).insert((long) impactDamage, tx) > 0) {
                         tx.commit();
                     } else {
                         tx.abort();

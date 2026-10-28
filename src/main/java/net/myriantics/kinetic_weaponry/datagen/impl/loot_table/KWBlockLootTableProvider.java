@@ -28,6 +28,8 @@ public class KWBlockLootTableProvider extends FabricBlockLootTableProvider {
         add(KWBlocks.KINETIC_DETONATOR.value(), this::dropSelfExplosionImmune);
         add(KWBlocks.KINETIC_CHARGING_BUS.value(), this::dropSelfExplosionImmune);
         add(KWBlocks.CREATIVE_KINETIC_CHARGING_BUS.value(), this::dropSelfExplosionImmune);
+        add(KWBlocks.KINETIC_PULVERIZER.value(), this::dropSelfExplosionImmune);
+        dropSelf(KWBlocks.CRIMSON_TRIAL_WEAVE.value());
         dropSelf(KWBlocks.TRIAL_WEAVE.value());
     }
 

@@ -24,7 +24,6 @@ public class KineticRetentionModuleBlockEntity extends BlockEntity {
 
     private long charge = 0;
     private long maxCharge = 0;
-    private float kineticImpactConversionEfficiency = 1f;
     private final KineticChargeStorage storage = new SimpleKineticChargeStorage() {
         @Override
         public void setCharge(long newCharge) {
@@ -69,7 +68,6 @@ public class KineticRetentionModuleBlockEntity extends BlockEntity {
         super.applyImplicitComponents(componentInput);
         this.maxCharge = componentInput.getOrDefault(KWDataComponents.MAX_KINETIC_CHARGE.value(), 0);
         this.charge = componentInput.getOrDefault(KWDataComponents.KINETIC_CHARGE.value(), 0);
-        this.kineticImpactConversionEfficiency = componentInput.getOrDefault(KWDataComponents.KINETIC_IMPACT_CONVERSION_EFFICIENCY.value(), 1f);
     }
 
     @Override
@@ -77,7 +75,6 @@ public class KineticRetentionModuleBlockEntity extends BlockEntity {
         super.collectImplicitComponents(components);
         components.set(KWDataComponents.MAX_KINETIC_CHARGE.value(), KWUtil.clampLong(this.getMaxCharge()));
         components.set(KWDataComponents.KINETIC_CHARGE.value(), KWUtil.clampLong(this.getCharge()));
-        components.set(KWDataComponents.KINETIC_IMPACT_CONVERSION_EFFICIENCY.value(), this.kineticImpactConversionEfficiency);
     }
 
     public KineticChargeStorage getStorage(KineticChargeSidedTransferContext context) {
@@ -101,10 +98,6 @@ public class KineticRetentionModuleBlockEntity extends BlockEntity {
 
     private void setMaxCharge(long maxCharge) {
         this.maxCharge = Math.abs(maxCharge);
-    }
-
-    public float getKineticImpactConversionEfficiency() {
-        return this.kineticImpactConversionEfficiency;
     }
 
     public void setChargeWithSFX(long charge) {
@@ -133,7 +126,6 @@ public class KineticRetentionModuleBlockEntity extends BlockEntity {
         super.saveAdditional(tag, registries);
         tag.putLong(KWNbtIds.KINETIC_CHARGE, this.charge);
         tag.putLong(KWNbtIds.MAX_KINETIC_CHARGE, this.maxCharge);
-        tag.putFloat(KWNbtIds.KINETIC_IMPACT_CONVERSION_EFFICIENCY, this.kineticImpactConversionEfficiency);
     }
 
     @Override
@@ -147,9 +139,6 @@ public class KineticRetentionModuleBlockEntity extends BlockEntity {
             if (this.level != null) {
                 this.updateState();
             }
-        }
-        if (tag.contains(KWNbtIds.KINETIC_IMPACT_CONVERSION_EFFICIENCY, CompoundTag.TAG_FLOAT)) {
-            this.kineticImpactConversionEfficiency = tag.getFloat(KWNbtIds.KINETIC_IMPACT_CONVERSION_EFFICIENCY);
         }
     }
 }

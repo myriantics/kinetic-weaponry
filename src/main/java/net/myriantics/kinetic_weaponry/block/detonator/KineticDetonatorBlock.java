@@ -100,13 +100,13 @@ public class KineticDetonatorBlock extends Block implements KineticImpactListene
 
     @Override
     public void onMeleeKineticImpact(Level level, BlockPos pos, BlockState state, Player player, ItemStack weaponStack, Direction impactedFace, float impactDamage) {
-        this.detonate(level, pos, state, player, impactDamage * DEFAULT_IMPACT_CONVERSION_EFFICIENCY);
+        KineticImpactListener.super.onMeleeKineticImpact(level, pos, state, player, weaponStack, state.getValue(FACING), impactDamage);
     }
 
     @Override
     public void onKineticImpact(Level level, BlockPos pos, BlockState state, float impactDamage, KineticChargeSidedTransferContext context) {
         if (state.getValue(FACING) == context.getImpactedFace()) {
-            this.detonate(level, pos, state, context.getSource(), impactDamage * DEFAULT_IMPACT_CONVERSION_EFFICIENCY);
+            this.detonate(level, pos, state, context.getSource(), impactDamage);
         }
     }
 }

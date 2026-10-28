@@ -21,7 +21,10 @@ public abstract class KWItemGroups {
                 builder.displayItems((parameters, output) -> {
                     output.accept(KWItems.KINETIC_CHARGING_BUS.value());
                     output.accept(KWItems.CREATIVE_KINETIC_CHARGING_BUS.value());
+                    output.accept(KWItems.KINETIC_CHARGING_BUS_MINECART.value());
                     output.accept(KWItems.KINETIC_DETONATOR.value());
+                    output.accept(KWItems.KINETIC_PULVERIZER.value());
+
 
                     // retention backtanks
                     output.accept(KWItems.KINETIC_RETENTION_BACKTANK.value());
@@ -36,9 +39,6 @@ public abstract class KWItemGroups {
                     ((SimpleKineticItem) KWItems.KINETIC_RETENTION_HEADGEAR.value()).setCharge(fullHeadgear, ((SimpleKineticItem) KWItems.KINETIC_RETENTION_HEADGEAR.value()).getMaxCharge(fullHeadgear));
                     output.accept(fullHeadgear);
                     output.accept(KWItems.CREATIVE_KINETIC_RETENTION_HEADGEAR.value());
-
-                    // minecarts
-                    output.accept(KWItems.KINETIC_CHARGING_BUS_MINECART.value());
 
                     // trial twine & weave
                     output.accept(KWItems.TRIAL_TWINE.value());

@@ -8,6 +8,7 @@ import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.item.FallingBlockEntity;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
+import net.myriantics.kinetic_weaponry.KWUtil;
 import net.myriantics.kinetic_weaponry.mechanics.kinetic_charge.block.SimpleKineticBlock;
 import net.myriantics.kinetic_weaponry.mechanics.kinetic_charge.impact.KineticImpactListener;
 import org.spongepowered.asm.mixin.Mixin;
@@ -34,7 +35,7 @@ public abstract class FallingBlockEntityMixin extends Entity {
 
         // if the landed-upon block is a kinetic block, trigger impact logic
         if (impactedState.getBlock() instanceof KineticImpactListener listener) {
-            listener.onFallingBlockKineticImpact(level, impactedBlockPos, impactedState, (FallingBlockEntity) (Object) this, damageBonus);
+            listener.onFallingBlockKineticImpact(level, impactedBlockPos, impactedState, (FallingBlockEntity) (Object) this, damageBonus * KWUtil.KINETIC_IMPACT_FORCE_MULTIPLIER);
         }
     }
 }

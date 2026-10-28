@@ -64,7 +64,7 @@ public abstract class AbstractKineticChargingBusBlock extends Block implements S
     @Override
     public void onKineticImpact(Level level, BlockPos pos, BlockState state, float impactDamage, KineticChargeSidedTransferContext context) {
         if (context.getImpactedFace() == state.getValue(FACING)) {
-            this.setCharge(level, pos, state, this.getCharge(level, pos, state) + Math.max(1, (long) (impactDamage * CHARGE_MULTIPLIER)));
+            this.setCharge(level, pos, state, this.getCharge(level, pos, state) + Math.max(1, (long) impactDamage));
         }
     }
 

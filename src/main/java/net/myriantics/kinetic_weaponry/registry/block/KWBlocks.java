@@ -12,6 +12,7 @@ import net.myriantics.kinetic_weaponry.block.charging_bus.KineticChargingBusBloc
 import net.myriantics.kinetic_weaponry.block.detonator.KineticDetonatorBlock;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockBehaviour;
+import net.myriantics.kinetic_weaponry.block.pulverizer.KineticPulverizerBlock;
 import net.myriantics.kinetic_weaponry.block.retention_module.headgear.CreativeKineticRetentionHeadgearBlock;
 import net.myriantics.kinetic_weaponry.block.retention_module.headgear.KineticRetentionHeadgearBlock;
 import net.myriantics.kinetic_weaponry.block.retention_module.backtank.CreativeKineticRetentionBacktankBlock;
@@ -43,6 +44,12 @@ public abstract class KWBlocks {
     public static final Holder<Block> KINETIC_DETONATOR = register(
             "kinetic_detonator",
             KineticDetonatorBlock::new,
+            copyProperties(Blocks.COPPER_BLOCK)
+    );
+
+    public static final Holder<Block> KINETIC_PULVERIZER = register(
+            "kinetic_pulverizer",
+            KineticPulverizerBlock::new,
             copyProperties(Blocks.COPPER_BLOCK)
     );
 

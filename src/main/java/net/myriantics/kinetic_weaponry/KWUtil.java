@@ -7,6 +7,9 @@ import net.myriantics.kinetic_weaponry.mechanics.kinetic_charge.storage.KineticC
 import org.jetbrains.annotations.Nullable;
 
 public abstract class KWUtil {
+
+    public static final float KINETIC_IMPACT_FORCE_MULTIPLIER = 1f/2;
+
     public static int clampLong(long value) {
         try {
             return Math.toIntExact(value);

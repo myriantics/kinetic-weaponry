@@ -18,7 +18,6 @@ public abstract class AbstractKineticRetentionBacktankBlock extends AbstractKine
     public static final DirectionProperty FACING = BlockStateProperties.FACING;
     public static final BooleanProperty POWERED = BlockStateProperties.POWERED;
     public static final BooleanProperty WATERLOGGED = BlockStateProperties.WATERLOGGED;
-    public static final float IMPACT_CONVERSION_EFFICIENCY = 1f/8;
 
     private static final VoxelShape X = Block.box(0, 4, 4, 16, 12, 12);
     private static final VoxelShape Y = Block.box(4, 0, 4, 12, 16, 12);

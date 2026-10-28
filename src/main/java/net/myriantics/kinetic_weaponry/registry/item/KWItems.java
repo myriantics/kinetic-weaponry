@@ -52,13 +52,19 @@ public abstract class KWItems {
                     .rarity(Rarity.EPIC)
     );
 
+    public static final Holder<Item> KINETIC_PULVERIZER = register(
+            "kinetic_pulverizer",
+            properties -> new BlockItem(KWBlocks.KINETIC_PULVERIZER.value(), properties),
+            new Item.Properties()
+                    .rarity(Rarity.EPIC)
+    );
+
     public static final Holder<Item> KINETIC_RETENTION_BACKTANK = register(
             "kinetic_retention_backtank",
             properties -> new KineticRetentionModuleItem(KWBlocks.KINETIC_RETENTION_BACKTANK.value(), ArmorItem.Type.CHESTPLATE, KWArmorMaterials.KINETIC_COPPER, properties),
             new Item.Properties()
                     .component(KWDataComponents.KINETIC_CHARGE.value(), 0)
                     .component(KWDataComponents.MAX_KINETIC_CHARGE.value(), KineticRetentionBacktankBlock.MAX_CHARGES)
-                    .component(KWDataComponents.KINETIC_IMPACT_CONVERSION_EFFICIENCY.value(), AbstractKineticRetentionBacktankBlock.IMPACT_CONVERSION_EFFICIENCY)
                     .durability(352)
                     .rarity(Rarity.EPIC)
     );
@@ -107,7 +113,6 @@ public abstract class KWItems {
             new Item.Properties()
                     .component(DataComponents.ENCHANTMENT_GLINT_OVERRIDE, true)
                     .rarity(Rarity.EPIC)
-                    .stacksTo(1)
     );
 
     public static final Holder<Item> KINETIC_CHARGING_BUS_MINECART = register(
@@ -115,6 +120,7 @@ public abstract class KWItems {
             KWMinecartItem::new,
             new Item.Properties()
                     .rarity(Rarity.EPIC)
+                    .stacksTo(1)
     );
 
     public static final Holder<Item> KINETIC_SHORTBOW = register(
