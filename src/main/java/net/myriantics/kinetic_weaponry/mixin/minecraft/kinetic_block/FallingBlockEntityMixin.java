@@ -35,7 +35,7 @@ public abstract class FallingBlockEntityMixin extends Entity {
 
         // if the landed-upon block is a kinetic block, trigger impact logic
         if (impactedState.getBlock() instanceof KineticImpactListener listener) {
-            listener.onFallingBlockKineticImpact(level, impactedBlockPos, impactedState, (FallingBlockEntity) (Object) this, damageBonus * KWUtil.KINETIC_IMPACT_FORCE_MULTIPLIER);
+            listener.onFallingBlockKineticImpact(level, impactedBlockPos, impactedState, (FallingBlockEntity) (Object) this, damageBonus * KWUtil.FALLING_BLOCK_KINETIC_IMPACT_FORCE_MULTIPLIER);
         }
     }
 }

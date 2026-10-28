@@ -15,6 +15,7 @@ import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.VoxelShape;
 import net.myriantics.kinetic_weaponry.block.retention_module.AbstractKineticRetentionModuleBlock;
 import net.myriantics.kinetic_weaponry.mechanics.kinetic_charge.KineticImpactType;
+import net.myriantics.kinetic_weaponry.mechanics.kinetic_charge.storage.KineticChargeSidedTransferContext;
 import org.jetbrains.annotations.Nullable;
 
 public abstract class AbstractKineticRetentionHeadgearBlock extends AbstractKineticRetentionModuleBlock {
@@ -57,5 +58,10 @@ public abstract class AbstractKineticRetentionHeadgearBlock extends AbstractKine
     @Override
     protected BlockState modifySneakPlaceState(BlockState state, BlockPlaceContext context, boolean sneaking) {
         return state.setValue(INVERTED, sneaking);
+    }
+
+    @Override
+    public void onKineticImpact(Level level, BlockPos pos, BlockState state, float impactDamage, KineticChargeSidedTransferContext context) {
+        super.onKineticImpact(level, pos, state, impactDamage, state.getValue(INVERTED) ? context.invert() : context);
     }
 }

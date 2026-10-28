@@ -8,7 +8,8 @@ import org.jetbrains.annotations.Nullable;
 
 public abstract class KWUtil {
 
-    public static final float KINETIC_IMPACT_FORCE_MULTIPLIER = 1f/2;
+    public static final float MELEE_KINETIC_IMPACT_FORCE_MULTIPLIER = 1f/8;
+    public static final float FALLING_BLOCK_KINETIC_IMPACT_FORCE_MULTIPLIER = 1f/4;
 
     public static int clampLong(long value) {
         try {

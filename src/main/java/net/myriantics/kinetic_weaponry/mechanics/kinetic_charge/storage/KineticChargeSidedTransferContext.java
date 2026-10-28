@@ -45,6 +45,18 @@ public final class KineticChargeSidedTransferContext {
         return new KineticChargeSidedTransferContext(direction, entity);
     }
 
+    public KineticChargeSidedTransferContext invert() {
+        return this.direction == null ? this : of(this.direction.getOpposite(), this.source);
+    }
+
+    public KineticChargeSidedTransferContext with(Direction newFacing) {
+        return of(newFacing, this.source);
+    }
+
+    public KineticChargeSidedTransferContext with(@Nullable Entity source) {
+        return of(this.direction, source);
+    }
+
     public @Nullable Direction getImpactedFace() {
         return this.direction;
     }

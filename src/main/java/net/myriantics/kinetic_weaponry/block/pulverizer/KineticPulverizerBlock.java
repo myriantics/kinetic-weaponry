@@ -1,10 +1,10 @@
 package net.myriantics.kinetic_weaponry.block.pulverizer;
 
-import net.fabricmc.fabric.api.transfer.v1.transaction.Transaction;
 import net.fabricmc.fabric.api.transfer.v1.transaction.TransactionContext;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.FrontAndTop;
+import net.minecraft.util.Mth;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
@@ -24,6 +24,7 @@ import org.jetbrains.annotations.Nullable;
 
 public class KineticPulverizerBlock extends Block implements KineticImpactListener {
 
+    private static final int MAX_CHARGE_ALLOWED_FOR_OPERATION = 15;
     public static final EnumProperty<FrontAndTop> ORIENTATION = BlockStateProperties.ORIENTATION;
 
     public KineticPulverizerBlock(Properties properties) {
@@ -59,13 +60,13 @@ public class KineticPulverizerBlock extends Block implements KineticImpactListen
                         if (!KineticPulverizerBlock.this.canBreakBlock(level, targetPos, targetState)) {
                             return 0;
                         }
-                        float hardness = KineticPulverizerBlock.this.getTargetBlockHardness(level, targetPos, targetState);
-                        if (hardness < 0) {
+                        final int requiredCharge = KineticPulverizerBlock.this.getRequiredKineticChargeForBlock(level, targetPos, targetState);
+                        if (requiredCharge < 0) {
                             return 0;
                         }
-                        if (maxAmount > hardness) {
+                        if (maxAmount >= requiredCharge) {
                             this.success = true;
-                            return Math.min((long) hardness, maxAmount);
+                            return Math.min(MAX_CHARGE_ALLOWED_FOR_OPERATION, maxAmount);
                         } else {
                             return 0;
                         }
@@ -90,7 +91,8 @@ public class KineticPulverizerBlock extends Block implements KineticImpactListen
             }
             return null;
             },
-                this);}
+                this);
+    }
 
     @Override
     protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> builder) {
@@ -110,6 +112,9 @@ public class KineticPulverizerBlock extends Block implements KineticImpactListen
         return true;
     }
 
+    /**
+     * @return A zero indicates that the pulverizer cannot break the block. Otherwise, the amount of kinetic charge required to break the block is returned.
+     */
     @Override
     protected int getAnalogOutputSignal(BlockState state, Level level, BlockPos pos) {
         BlockPos targetPos = pos.relative(state.getValue(ORIENTATION).front());
@@ -117,11 +122,7 @@ public class KineticPulverizerBlock extends Block implements KineticImpactListen
         if (!this.canBreakBlock(level, targetPos, targetState)) {
             return 0;
         }
-        float hardness = this.getTargetBlockHardness(level, targetPos, targetState);
-        if (hardness < 0) {
-            return 0;
-        }
-        return Math.clamp(((long) hardness) + 1, 0, 15);
+        return Math.max(this.getRequiredKineticChargeForBlock(level, targetPos, targetState), 0);
     }
 
     protected float getTargetBlockHardness(Level level, BlockPos targetPos, BlockState targetState) {
@@ -168,6 +169,18 @@ public class KineticPulverizerBlock extends Block implements KineticImpactListen
         return impactFace != null && (impactFace.getAxis() == orientation.top().getAxis() || impactFace.equals(orientation.front().getOpposite()));
     }
 
+    protected int getRequiredKineticChargeForBlock(Level level, BlockPos pos, BlockState state) {
+        return this.getRequiredKineticChargeForHardness(state.getDestroySpeed(level, pos));
+    }
+
+    protected int getRequiredKineticChargeForHardness(float hardness) {
+        if (hardness < 0) {
+            return -1;
+        }
+        final int requiredPower = (int) (hardness / 4) + 1;
+        return requiredPower > MAX_CHARGE_ALLOWED_FOR_OPERATION ? -1 : requiredPower;
+    }
+
     @Override
     public void onMeleeKineticImpact(Level level, BlockPos pos, BlockState state, Player player, ItemStack weaponStack, Direction impactedFace, float impactDamage) {
         KineticImpactListener.super.onMeleeKineticImpact(level, pos, state, player, weaponStack, state.getValue(ORIENTATION).front().getOpposite(), impactDamage);
@@ -181,11 +194,9 @@ public class KineticPulverizerBlock extends Block implements KineticImpactListen
             BlockState targetState = level.getBlockState(targetPos);
 
             if (this.canBreakBlock(level, targetPos, targetState)) {
-                float hardness = this.getTargetBlockHardness(level, targetPos, targetState);
-                if (hardness >= 0) {
-                    if (impactDamage >= hardness) {
-                        this.breakBlock(level, targetPos, context.getSource());
-                    }
+                int requiredKineticCharge = this.getRequiredKineticChargeForBlock(level, targetPos, targetState);
+                if (requiredKineticCharge >= 0 && impactDamage >= requiredKineticCharge) {
+                    this.breakBlock(level, targetPos, context.getSource());
                 }
             }
         }

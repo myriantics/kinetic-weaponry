@@ -18,8 +18,6 @@ import net.minecraft.world.phys.Vec3;
 import net.myriantics.kinetic_weaponry.KWCommon;
 import net.myriantics.kinetic_weaponry.KWUtil;
 import net.myriantics.kinetic_weaponry.block.retention_module.AbstractKineticRetentionModuleBlock;
-import net.myriantics.kinetic_weaponry.block.retention_module.backtank.AbstractKineticRetentionBacktankBlock;
-import net.myriantics.kinetic_weaponry.block.retention_module.headgear.KineticRetentionHeadgearBlock;
 import net.myriantics.kinetic_weaponry.mechanics.kinetic_charge.SimpleKineticItem;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResultHolder;
@@ -29,7 +27,6 @@ import net.minecraft.world.item.*;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.myriantics.kinetic_weaponry.mechanics.kinetic_charge.storage.KineticChargeStorage;
-import net.myriantics.kinetic_weaponry.registry.item.KWDataComponents;
 import net.myriantics.kinetic_weaponry.tag.KWDamageTypeTags;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -122,7 +119,7 @@ public class KineticRetentionModuleItem extends BlockItem implements Equipable, 
     }
 
     public boolean absorbHelmetHitWhileEquipped(LivingEntity damagedEntity, DamageSource damageSource, float damageAmount, ItemStack moduleStack) {
-        return damageSource.is(KWDamageTypeTags.EQUIPPED_KINETIC_RETENTION_HEADGEAR_ABSORBED) && this.addChargeFromDamage(damagedEntity, moduleStack, damageAmount);
+        return damageSource.is(KWDamageTypeTags.EQUIPPED_KINETIC_RETENTION_HEADGEAR_ABSORBED) && this.addChargeFromDamage(damagedEntity, moduleStack, damageAmount * KWUtil.FALLING_BLOCK_KINETIC_IMPACT_FORCE_MULTIPLIER);
     }
 
     public boolean absorbMaceHitWhileEquipped(LivingEntity livingEntity, DamageSource source, float amount, EquipmentSlot slot, ItemStack stack) {
@@ -138,7 +135,7 @@ public class KineticRetentionModuleItem extends BlockItem implements Equipable, 
                 Vec3 source2Target = damageSourcePosition.vectorTo(livingEntity.position());
                 source2Target = new Vec3(source2Target.x, 0.0, source2Target.z).normalize();
 
-                this.addChargeFromDamage(livingEntity, stack, amount);
+                this.addChargeFromDamage(livingEntity, stack, amount * KWUtil.MELEE_KINETIC_IMPACT_FORCE_MULTIPLIER);
 
                 return source2Target.dot(viewVector) < 0.0;
             }
@@ -150,7 +147,7 @@ public class KineticRetentionModuleItem extends BlockItem implements Equipable, 
     public boolean addChargeFromDamage(LivingEntity damagedEntity, ItemStack moduleStack, float damageAmount) {
         @Nullable KineticChargeStorage storage = KineticChargeStorage.ITEM.find(moduleStack, ContainerItemContext.withConstant(moduleStack));
 
-        int inboundCharge = (int) (damageAmount * KWUtil.KINETIC_IMPACT_FORCE_MULTIPLIER);
+        int inboundCharge = (int) damageAmount;
 
         if (storage != null && storage.supportsInsertion()) {
             try (Transaction tx = Transaction.openOuter()) {

@@ -83,9 +83,8 @@ public class KineticRetentionModuleBlockEntity extends BlockEntity {
         if (impactedFace == null) {
             return this.storage;
         }
-        boolean flipped = this.getBlockState().hasProperty(AbstractKineticRetentionHeadgearBlock.INVERTED) && this.getBlockState().getValue(AbstractKineticRetentionHeadgearBlock.INVERTED);
 
-        return !flipped && impactedFace == this.getBlockState().getValue(AbstractKineticRetentionModuleBlock.FACING) ? this.storage : null;
+        return impactedFace == this.getBlockState().getValue(AbstractKineticRetentionModuleBlock.FACING) ? this.storage : null;
     }
 
     private void setCharge(long charge) {
