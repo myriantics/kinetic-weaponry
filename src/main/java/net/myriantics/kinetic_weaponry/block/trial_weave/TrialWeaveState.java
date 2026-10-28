@@ -12,7 +12,7 @@ public enum TrialWeaveState implements StringRepresentable {
     EMITTING_XZ_UP("emitting_xz_up"),
     EMITTING_XZ_DOWN("emitting_xz_down"),
     CONDUCTING_NORTH("conducting_north"),
-    CONDUCTING_SOUTH("conducting"),
+    CONDUCTING_SOUTH("conducting_south"),
     CONDUCTING_EAST("conducting_east"),
     CONDUCTING_WEST("conducting_west"),
     CONDUCTING_UP("conducting_up"),
