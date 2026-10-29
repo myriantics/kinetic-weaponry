@@ -3,6 +3,7 @@ package net.myriantics.kinetic_weaponry.registry.block;
 import net.minecraft.world.level.block.state.properties.EnumProperty;
 import net.minecraft.world.level.block.state.properties.IntegerProperty;
 import net.myriantics.kinetic_weaponry.block.charging_bus.KineticChargingBusBlock;
+import net.myriantics.kinetic_weaponry.block.charging_bus.KineticChargingBusShape;
 import net.myriantics.kinetic_weaponry.block.retention_module.headgear.KineticRetentionHeadgearBlock;
 import net.myriantics.kinetic_weaponry.block.retention_module.backtank.KineticRetentionBacktankBlock;
 import net.myriantics.kinetic_weaponry.block.trial_weave.TrialWeaveState;
@@ -20,6 +21,7 @@ public abstract class KWBlockStateProperties {
             0,
             KineticChargingBusBlock.MAX_CHARGES
     );
+    public static final EnumProperty<KineticChargingBusShape> KINETIC_CHARGING_BUS_SHAPE = EnumProperty.create("shape", KineticChargingBusShape.class);
     public static final EnumProperty<TrialWeaveState> TRIAL_WEAVE_STATE = EnumProperty.create(
             "state",
             TrialWeaveState.class

@@ -88,6 +88,7 @@ public abstract class KWBlocks {
             KineticChargingBusBlock::new,
             copyProperties(Blocks.COPPER_BLOCK)
                     .lightLevel((state) -> (int) (15.0 / 4) * (state.getValue(KWBlockStateProperties.KINETIC_CHARGING_BUS_KINETIC_CHARGE) / 2))
+                    .isRedstoneConductor(Blocks::never)
     );
 
     public static final Holder<Block> CREATIVE_KINETIC_CHARGING_BUS = register(
@@ -95,6 +96,7 @@ public abstract class KWBlocks {
             CreativeKineticChargingBusBlock::new,
             copyProperties(KINETIC_CHARGING_BUS)
                     .lightLevel((state) -> 15)
+                    .isRedstoneConductor(Blocks::never)
     );
 
     private static BlockBehaviour.Properties copyProperties(Holder<Block> holder) {

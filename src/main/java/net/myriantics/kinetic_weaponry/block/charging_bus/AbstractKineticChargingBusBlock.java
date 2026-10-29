@@ -10,30 +10,27 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.level.block.state.properties.BooleanProperty;
 import net.minecraft.world.level.block.state.properties.DirectionProperty;
+import net.minecraft.world.level.block.state.properties.EnumProperty;
 import net.myriantics.kinetic_weaponry.mechanics.kinetic_charge.block.KineticChargeVisualizer;
 import net.myriantics.kinetic_weaponry.mechanics.kinetic_charge.block.SimpleKineticBlock;
 import net.myriantics.kinetic_weaponry.mechanics.kinetic_charge.impact.KineticImpactListener;
 import net.myriantics.kinetic_weaponry.mechanics.kinetic_charge.storage.KineticChargeSidedTransferContext;
 import net.myriantics.kinetic_weaponry.mechanics.kinetic_charge.storage.KineticChargeStorage;
+import net.myriantics.kinetic_weaponry.registry.block.KWBlockStateProperties;
 import net.myriantics.kinetic_weaponry.registry.misc.KWSoundEvents;
 import org.jetbrains.annotations.Nullable;
-
-import java.util.function.UnaryOperator;
 
 public abstract class AbstractKineticChargingBusBlock extends Block implements SimpleKineticBlock, KineticImpactListener, KineticChargeVisualizer {
     public static final BooleanProperty TRIGGERED = BlockStateProperties.TRIGGERED;
     public static final DirectionProperty FACING = BlockStateProperties.FACING;
-
-    private static final int[] RIGHT_THEN_LEFT = {0, 1, 3, 2};
-    private static final int[] LEFT_THEN_RIGHT = {0, 3, 1, 2};
-
-    public static float CHARGE_MULTIPLIER = 1/10f;
+    public static final EnumProperty<KineticChargingBusShape> SHAPE = KWBlockStateProperties.KINETIC_CHARGING_BUS_SHAPE;
 
     public AbstractKineticChargingBusBlock(Properties properties) {
         super(properties);
@@ -41,23 +38,61 @@ public abstract class AbstractKineticChargingBusBlock extends Block implements S
         registerDefaultState(stateDefinition.any()
                 .setValue(FACING, Direction.UP)
                 .setValue(TRIGGERED, false)
+                .setValue(SHAPE, KineticChargingBusShape.SINGLE)
         );
     }
 
     @Override
     protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> builder) {
-        builder.add(TRIGGERED, FACING);
+        builder.add(TRIGGERED, FACING, SHAPE);
+    }
+
+    @Override
+    protected BlockState updateShape(BlockState state, Direction updatedFace, BlockState neighborState, LevelAccessor level, BlockPos pos, BlockPos neighborPos) {
+        KineticChargingBusShape originalShape = state.getValue(SHAPE);
+        Direction facing = state.getValue(FACING);
+        if (updatedFace.getAxis() != facing.getAxis() || (!originalShape.isSingle() && originalShape.getDirectionToCounterpart(facing) != updatedFace)) {
+            return super.updateShape(state, updatedFace, neighborState, level, pos, neighborPos);
+        }
+
+        // reset shape if incompatible
+        if (!neighborState.is(this) || neighborState.getValue(FACING) != facing) {
+            return state.setValue(SHAPE, KineticChargingBusShape.SINGLE);
+        }
+
+        // early exit if compatible with neighbor
+        KineticChargingBusShape neighborShape = neighborState.getValue(SHAPE);
+        if (originalShape.isCompatibleWith(neighborShape)) {
+            return super.updateShape(state, updatedFace, neighborState, level, pos, neighborPos);
+        }
+
+        if (!neighborShape.isSingle() && neighborShape.getDirectionToCounterpart(facing) == updatedFace) {
+            return super.updateShape(state, updatedFace, neighborState, level, pos, neighborPos);
+        }
+
+        KineticChargingBusShape desiredShape = updatedFace == facing ? KineticChargingBusShape.BOTTOM : KineticChargingBusShape.TOP;
+        if (neighborState.getValue(SHAPE) != desiredShape) {
+            if (neighborState.getValue(TRIGGERED)) {
+                return state.setValue(SHAPE, desiredShape).setValue(TRIGGERED, true);
+            } else {
+                return state.setValue(SHAPE, desiredShape);
+            }
+        }
+
+        return super.updateShape(state, updatedFace, neighborState, level, pos, neighborPos);
     }
 
     @Override
     protected void neighborChanged(BlockState state, Level level, BlockPos pos, Block neighborBlock, BlockPos neighborPos, boolean movedByPiston) {
-        boolean isPowered = level.hasNeighborSignal(pos);
+        KineticChargingBusShape shape = state.getValue(SHAPE);
+        boolean isPowered = level.hasNeighborSignal(pos) || (!shape.isSingle() && level.hasNeighborSignal(pos.relative(state.getValue(FACING))));
         boolean isTriggered = state.getValue(TRIGGERED);
-        if (isPowered && !isTriggered) {
-            level.scheduleTick(pos, this, 2);
-            level.setBlockAndUpdate(pos, state.setValue(TRIGGERED, true));
-        } else if (!isPowered && isTriggered) {
-            level.setBlockAndUpdate(pos, state.setValue(TRIGGERED, false));
+        if (isPowered != isTriggered) {
+            // schedule tick on dominant block
+            if (shape.isDominant() && isPowered) {
+                level.scheduleTick(pos, this, 2);
+            }
+            level.setBlockAndUpdate(pos, state.setValue(TRIGGERED, isPowered));
         }
     }
 
@@ -75,18 +110,22 @@ public abstract class AbstractKineticChargingBusBlock extends Block implements S
 
     @Override
     protected void tick(BlockState state, ServerLevel level, BlockPos pos, RandomSource random) {
-        this.chargeDockedKineticBlocks(state, level, pos);
+        if (state.getValue(SHAPE).isDominant()) {
+            this.chargeDockedKineticBlocks(state, level, pos);
+        }
     }
 
     public void chargeDockedKineticBlocks(BlockState state, ServerLevel level, BlockPos pos) {
         final RandomSource random = level.getRandom();
         final Direction facing = state.getValue(FACING);
         final Direction.Axis axis = facing.getAxis();
+        final KineticChargingBusShape dominantShape = state.getValue(SHAPE);
         final long initialCharge = this.getCharge(level, pos, state);
 
         // Identify the strongest neighbor signal that doesn't lie on our facing axis.
         // If a duplicate is found, a random one is picked between them.
         int bestNeighborSignal = 0;
+        int bestCounterpartNeighborSignal = 0;
         @Nullable Direction preferredExportDirection = null;
         for (Direction direction : Direction.values()) {
             int signal = level.getSignal(pos.relative(direction), direction);
@@ -97,16 +136,29 @@ public abstract class AbstractKineticChargingBusBlock extends Block implements S
                 }
             }
         }
+        if (!dominantShape.isSingle()) {
+            boolean mayReplacePreferredDirection = preferredExportDirection == null;
+            BlockPos counterpartPos = pos.relative(facing);
+            for (Direction direction : Direction.values()) {
+                int signal = level.getSignal(counterpartPos.relative(direction), direction);
+                if (signal > bestCounterpartNeighborSignal) {
+                    bestCounterpartNeighborSignal = signal;
+                    if (mayReplacePreferredDirection && direction.getAxis() != facing.getAxis() && (preferredExportDirection == null || random.nextBoolean())) {
+                        preferredExportDirection = direction;
+                    }
+                }
+            }
+        }
 
-        final long maxExportPerSide = Math.min(bestNeighborSignal, initialCharge);
+        final long maxExportPerSide = Math.min(bestNeighborSignal + bestCounterpartNeighborSignal, initialCharge);
 
         KineticChargeStorage[] foundStorages = new KineticChargeStorage[4];
         int storageCount = 0;
 
-        // Since the redstone check is inverted direction, we need to invert the preferred export direction if we found it previously
-        // Otherwise, we hijack this null check to assign a new random preferred export direction that doesn't lie on our facing axis.
+        // Since the redstone check is inverted updatedFace, we need to invert the preferred export updatedFace if we found it previously
+        // Otherwise, we hijack this null check to assign a new random preferred export updatedFace that doesn't lie on our facing axis.
         if (preferredExportDirection == null) {
-            preferredExportDirection = Direction.from3DDataValue(facing.get3DDataValue() + facing.get3DDataValue() % 2 + random.nextInt(4));
+            preferredExportDirection = Direction.from3DDataValue(facing.get3DDataValue() + (2 - facing.get3DDataValue() % 2) + random.nextInt(4));
         } else {
             preferredExportDirection = preferredExportDirection.getOpposite();
         }
@@ -177,6 +229,6 @@ public abstract class AbstractKineticChargingBusBlock extends Block implements S
     @Nullable
     @Override
     public BlockState getStateForPlacement(BlockPlaceContext context) {
-        return super.getStateForPlacement(context).setValue(FACING, context.getClickedFace());
+        return super.getStateForPlacement(context).setValue(FACING, context.getNearestLookingDirection().getOpposite());
     }
 }
