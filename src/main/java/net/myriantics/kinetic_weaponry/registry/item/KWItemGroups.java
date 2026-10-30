@@ -24,6 +24,7 @@ public abstract class KWItemGroups {
                     output.accept(KWItems.KINETIC_CHARGING_BUS_MINECART.value());
                     output.accept(KWItems.KINETIC_DETONATOR.value());
                     output.accept(KWItems.KINETIC_PULVERIZER.value());
+                    output.accept(KWItems.KINETIC_REPULSOR.value());
 
 
                     // retention backtanks
@@ -48,6 +49,8 @@ public abstract class KWItemGroups {
                     // equipment
                     output.accept(KWItems.KINETIC_SHORTBOW.value());
                     output.accept(KWItems.KINETIC_CROSSBOW.value());
+                    output.accept(KWItems.BLAZING_BOLT.value());
+                    output.accept(KWItems.BREEZY_BOLT.value());
                 });
             }
     );

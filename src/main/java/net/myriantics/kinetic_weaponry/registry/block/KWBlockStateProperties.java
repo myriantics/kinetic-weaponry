@@ -4,6 +4,7 @@ import net.minecraft.world.level.block.state.properties.EnumProperty;
 import net.minecraft.world.level.block.state.properties.IntegerProperty;
 import net.myriantics.kinetic_weaponry.block.charging_bus.KineticChargingBusBlock;
 import net.myriantics.kinetic_weaponry.block.charging_bus.KineticChargingBusShape;
+import net.myriantics.kinetic_weaponry.block.repulsor.KineticRepulsorOrientation;
 import net.myriantics.kinetic_weaponry.block.retention_module.headgear.KineticRetentionHeadgearBlock;
 import net.myriantics.kinetic_weaponry.block.retention_module.backtank.KineticRetentionBacktankBlock;
 import net.myriantics.kinetic_weaponry.block.trial_weave.TrialWeaveState;
@@ -26,6 +27,7 @@ public abstract class KWBlockStateProperties {
             "state",
             TrialWeaveState.class
     );
+    public static final EnumProperty<KineticRepulsorOrientation> KINETIC_REPULSOR_ORIENTATION = EnumProperty.create("orientation", KineticRepulsorOrientation.class);
 
     private static IntegerProperty createKineticCharge(int min, int max) {
         return IntegerProperty.create("kinetic_charge", min, max);

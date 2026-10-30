@@ -59,6 +59,13 @@ public abstract class KWItems {
                     .rarity(Rarity.EPIC)
     );
 
+    public static final Holder<Item> KINETIC_REPULSOR = register(
+            "kinetic_repulsor",
+            properties -> new BlockItem(KWBlocks.KINETIC_REPULSOR.value(), properties),
+            new Item.Properties()
+                    .rarity(Rarity.EPIC)
+    );
+
     public static final Holder<Item> KINETIC_RETENTION_BACKTANK = register(
             "kinetic_retention_backtank",
             properties -> new KineticRetentionModuleItem(KWBlocks.KINETIC_RETENTION_BACKTANK.value(), ArmorItem.Type.CHESTPLATE, KWArmorMaterials.KINETIC_COPPER, properties),
