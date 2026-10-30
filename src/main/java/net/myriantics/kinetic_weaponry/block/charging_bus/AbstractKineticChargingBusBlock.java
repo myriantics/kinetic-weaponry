@@ -55,7 +55,7 @@ public abstract class AbstractKineticChargingBusBlock extends Block implements S
             return super.updateShape(state, updatedFace, neighborState, level, pos, neighborPos);
         }
 
-        // reset shape if incompatible
+        // reset offsetShape if incompatible
         if (!neighborState.is(this) || neighborState.getValue(FACING) != facing) {
             return state.setValue(SHAPE, KineticChargingBusShape.SINGLE);
         }
@@ -66,6 +66,7 @@ public abstract class AbstractKineticChargingBusBlock extends Block implements S
             return super.updateShape(state, updatedFace, neighborState, level, pos, neighborPos);
         }
 
+        // protect against overriding already assembled double charging buses
         if (!neighborShape.isSingle() && neighborShape.getDirectionToCounterpart(facing) == updatedFace) {
             return super.updateShape(state, updatedFace, neighborState, level, pos, neighborPos);
         }
@@ -229,6 +230,29 @@ public abstract class AbstractKineticChargingBusBlock extends Block implements S
     @Nullable
     @Override
     public BlockState getStateForPlacement(BlockPlaceContext context) {
+        Level level = context.getLevel();
+        BlockPos placementPos = context.getClickedPos();
+        if (!context.isSecondaryUseActive()) {
+            for (Direction direction : context.getNearestLookingDirections()) {
+                BlockPos offsetPos = placementPos.relative(direction);
+                BlockState offsetState = level.getBlockState(offsetPos);
+
+                if (!offsetState.is(this)) {
+                    continue;
+                }
+
+                KineticChargingBusShape offsetShape = offsetState.getValue(SHAPE);
+                Direction offsetFacing = offsetState.getValue(FACING);
+                if (offsetFacing.getAxis() != direction.getAxis()) {
+                    continue;
+                }
+
+                if (offsetShape.isSingle() || offsetShape.getDirectionToCounterpart(offsetFacing) == direction.getOpposite()) {
+                    return this.defaultBlockState().setValue(FACING, offsetFacing).setValue(SHAPE, direction == offsetFacing ? KineticChargingBusShape.BOTTOM : KineticChargingBusShape.TOP);
+                }
+            }
+        }
+
         return super.getStateForPlacement(context).setValue(FACING, context.getNearestLookingDirection().getOpposite());
     }
 }
