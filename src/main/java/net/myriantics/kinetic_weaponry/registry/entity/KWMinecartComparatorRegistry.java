@@ -2,7 +2,8 @@ package net.myriantics.kinetic_weaponry.registry.entity;
 
 import net.fabricmc.fabric.api.object.builder.v1.entity.MinecartComparatorLogicRegistry;
 import net.myriantics.kinetic_weaponry.KWCommon;
-import net.myriantics.kinetic_weaponry.entity.minecart.MinecartKineticChargingBusEntity;
+import net.myriantics.kinetic_weaponry.entity.minecart.charging_bus.AbstractMinecartKineticChargingBusEntity;
+import net.myriantics.kinetic_weaponry.entity.minecart.charging_bus.MinecartKineticChargingBusEntity;
 
 public abstract class KWMinecartComparatorRegistry {
 

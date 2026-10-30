@@ -22,6 +22,7 @@ public abstract class KWItemGroups {
                     output.accept(KWItems.KINETIC_CHARGING_BUS.value());
                     output.accept(KWItems.CREATIVE_KINETIC_CHARGING_BUS.value());
                     output.accept(KWItems.KINETIC_CHARGING_BUS_MINECART.value());
+                    output.accept(KWItems.CREATIVE_KINETIC_CHARGING_BUS_MINECART.value());
                     output.accept(KWItems.KINETIC_DETONATOR.value());
                     output.accept(KWItems.KINETIC_PULVERIZER.value());
                     output.accept(KWItems.KINETIC_REPULSOR.value());

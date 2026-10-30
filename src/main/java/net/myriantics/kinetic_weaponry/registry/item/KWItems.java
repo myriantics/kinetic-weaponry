@@ -12,6 +12,7 @@ import net.myriantics.kinetic_weaponry.block.retention_module.headgear.KineticRe
 import net.myriantics.kinetic_weaponry.block.retention_module.backtank.KineticRetentionBacktankBlock;
 import net.myriantics.kinetic_weaponry.entity.crossbow_bolt.BlazingBoltEntity;
 import net.myriantics.kinetic_weaponry.entity.crossbow_bolt.BreezyBoltEntity;
+import net.myriantics.kinetic_weaponry.entity.minecart.KWMinecartType;
 import net.myriantics.kinetic_weaponry.item.ammo.CrossbowBoltItem;
 import net.myriantics.kinetic_weaponry.item.equipment.KineticCrossbowItem;
 import net.myriantics.kinetic_weaponry.item.equipment.KineticShortbowItem;
@@ -124,7 +125,15 @@ public abstract class KWItems {
 
     public static final Holder<Item> KINETIC_CHARGING_BUS_MINECART = register(
             "kinetic_charging_bus_minecart",
-            KWMinecartItem::new,
+            (properties -> new KWMinecartItem(KWMinecartType.KINETIC_CHARGING_BUS, properties)),
+            new Item.Properties()
+                    .rarity(Rarity.EPIC)
+                    .stacksTo(1)
+    );
+
+    public static final Holder<Item> CREATIVE_KINETIC_CHARGING_BUS_MINECART = register(
+            "creative_kinetic_charging_bus_minecart",
+            (properties -> new KWMinecartItem(KWMinecartType.CREATIVE_KINETIC_CHARGING_BUS, properties)),
             new Item.Properties()
                     .rarity(Rarity.EPIC)
                     .stacksTo(1)

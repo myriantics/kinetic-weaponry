@@ -23,7 +23,7 @@ public abstract class KWUtil {
         }
     }
 
-    public static long extractFromTo(KineticChargeStorage extracter, KineticChargeStorage extractee, long maxAmount, TransactionContext tx) {
+    public static long extractToFrom(KineticChargeStorage extracter, KineticChargeStorage extractee, long maxAmount, TransactionContext tx) {
         StoragePreconditions.notNegative(maxAmount);
 
         if (extracter == null || extractee == null) {

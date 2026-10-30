@@ -43,7 +43,7 @@ public interface SimpleKineticItem {
 
                 if (storage != null && storage.supportsExtraction()) {
                     try (Transaction extractionTransaction = Transaction.openNested(tx)) {
-                        long extractedFromSlot = KWUtil.extractFromTo(selfStorage, storage, toExtract - totalExtracted, extractionTransaction);
+                        long extractedFromSlot = KWUtil.extractToFrom(selfStorage, storage, toExtract - totalExtracted, extractionTransaction);
                         if (extractedFromSlot > 0) {
                             totalExtracted += extractedFromSlot;
                             extractionTransaction.commit();

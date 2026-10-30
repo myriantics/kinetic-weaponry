@@ -5,11 +5,10 @@ import net.fabricmc.fabric.api.lookup.v1.item.ItemApiLookup;
 import net.fabricmc.fabric.api.transfer.v1.context.ContainerItemContext;
 import net.fabricmc.fabric.api.transfer.v1.transaction.TransactionContext;
 import net.minecraft.core.Direction;
-import net.minecraft.world.level.entity.EntityTypeTest;
 import net.minecraft.world.phys.AABB;
 import net.myriantics.kinetic_weaponry.KWCommon;
 import net.myriantics.kinetic_weaponry.block.retention_module.KineticRetentionModuleBlockEntity;
-import net.myriantics.kinetic_weaponry.entity.minecart.MinecartKineticChargingBusEntity;
+import net.myriantics.kinetic_weaponry.entity.minecart.charging_bus.AbstractMinecartKineticChargingBusEntity;
 import net.myriantics.kinetic_weaponry.mechanics.kinetic_charge.block.SimpleKineticBlock;
 import net.myriantics.kinetic_weaponry.mechanics.kinetic_charge.SimpleKineticItem;
 import net.myriantics.kinetic_weaponry.registry.block.KWBlockEntityTypes;
@@ -54,7 +53,7 @@ public interface KineticChargeStorage {
             if (context.getImpactedFace() == Direction.UP && state.is(KWBlockTags.KINETIC_MINECART_INTERFACE_ENABLING_RAILS)) {
                 double limiter = 0.2;
                 AABB searchAABB = new AABB(pos.getX() + limiter, pos.getY(), pos.getZ() + limiter, pos.getX() + 1 - limiter, pos.getY() + 1 - limiter, pos.getZ() + 1 - limiter);
-                List<MinecartKineticChargingBusEntity> minecarts = level.getEntitiesOfClass(MinecartKineticChargingBusEntity.class, searchAABB);
+                List<AbstractMinecartKineticChargingBusEntity> minecarts = level.getEntitiesOfClass(AbstractMinecartKineticChargingBusEntity.class, searchAABB);
                 
                 return minecarts.get(level.getRandom().nextInt(minecarts.size())).getStorage();
             }

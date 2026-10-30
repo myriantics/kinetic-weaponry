@@ -18,6 +18,7 @@ public class KWEntityRenderers {
         register(KWEntityTypes.BLAZING_BOLT.value(), CrossbowBoltRenderer::new);
         register(KWEntityTypes.BREEZY_BOLT.value(), CrossbowBoltRenderer::new);
         register(KWEntityTypes.KINETIC_CHARGING_BUS_MINECART.value(), (context) -> new MinecartRenderer<>(context, ModelLayers.MINECART));
+        register(KWEntityTypes.CREATIVE_KINETIC_CHARGING_BUS_MINECART.value(), (context) -> new MinecartRenderer<>(context, ModelLayers.MINECART));
     }
 
     private static <T extends Entity> void register(EntityType<T> type, EntityRendererProvider<T> rendererFactory) {
