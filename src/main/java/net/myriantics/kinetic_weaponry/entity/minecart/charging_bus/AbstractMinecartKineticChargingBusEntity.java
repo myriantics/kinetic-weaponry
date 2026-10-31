@@ -76,7 +76,7 @@ public abstract class AbstractMinecartKineticChargingBusEntity extends AbstractM
     @Override
     public void activateMinecart(int x, int y, int z, boolean powered) {
         if (powered) {
-            if (!this.active || (this.lastTriggeredPos.getX() != x || this.lastTriggeredPos.getY() != y || this.lastTriggeredPos.getZ() != z) || this.lastTriggeredPos == null) {
+            if (!this.active || this.lastTriggeredPos == null || (this.lastTriggeredPos.getX() != x || this.lastTriggeredPos.getY() != y || this.lastTriggeredPos.getZ() != z)) {
                 final BlockPos activatorRailPos = new BlockPos(x, y, z);
                 this.transferToNearbyStorages(activatorRailPos);
                 this.lastTriggeredPos = activatorRailPos;
@@ -150,11 +150,7 @@ public abstract class AbstractMinecartKineticChargingBusEntity extends AbstractM
             this.active = compound.getBoolean(KWNbtIds.ACTIVE);
         }
         if (this.active && compound.contains(KWNbtIds.LAST_TRIGGERED_POS, Tag.TAG_COMPOUND)) {
-            try {
-                this.lastTriggeredPos = BlockPos.CODEC.decode(NbtOps.INSTANCE, compound.get(KWNbtIds.LAST_TRIGGERED_POS)).map(Pair::getFirst).getOrThrow();
-            } catch (IllegalArgumentException e) {
-                this.lastTriggeredPos = null;
-            }
+            BlockPos.CODEC.decode(NbtOps.INSTANCE, compound.get(KWNbtIds.LAST_TRIGGERED_POS)).map(Pair::getFirst).ifSuccess(blockPos -> this.lastTriggeredPos = blockPos);
         }
     }
 }

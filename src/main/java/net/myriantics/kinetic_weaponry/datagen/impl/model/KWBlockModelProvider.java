@@ -7,10 +7,12 @@ import net.minecraft.data.models.blockstates.PropertyDispatch;
 import net.minecraft.data.models.blockstates.Variant;
 import net.minecraft.data.models.blockstates.VariantProperties;
 import net.minecraft.data.models.model.*;
+import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.level.block.state.properties.IntegerProperty;
+import net.myriantics.kinetic_weaponry.block.charging_bus.KineticChargingBusBlock;
 import net.myriantics.kinetic_weaponry.block.retention_module.headgear.AbstractKineticRetentionHeadgearBlock;
 import net.myriantics.kinetic_weaponry.block.retention_module.headgear.KineticRetentionHeadgearBlock;
 import net.myriantics.kinetic_weaponry.block.retention_module.backtank.KineticRetentionBacktankBlock;
@@ -34,6 +36,8 @@ public class KWBlockModelProvider extends MyrrorBlockModelSubProvider {
         generateCreativeKineticRetentionModule(KWBlocks.CREATIVE_KINETIC_RETENTION_BACKTANK.value(), KWModelTemplates.STANDARD_KINETIC_RETENTION_MODULE);
         generateKineticRetentionHeadgear(KWBlocks.KINETIC_RETENTION_HEADGEAR.value(), KineticRetentionHeadgearBlock.KINETIC_CHARGE);
         generateCreativeKineticRetentionModule(KWBlocks.CREATIVE_KINETIC_RETENTION_HEADGEAR.value(), KWModelTemplates.KINETIC_RETENTION_HEADGEAR);
+
+        generateKineticChargingBus(KWBlocks.KINETIC_CHARGING_BUS.value(), KineticChargingBusBlock.KINETIC_CHARGE);
 
         generateTrialWeave(KWBlocks.TRIAL_WEAVE.value());
     }
@@ -180,6 +184,47 @@ public class KWBlockModelProvider extends MyrrorBlockModelSubProvider {
         );
     }
 
+    private void generateKineticChargingBus(Block block, IntegerProperty property) {
+        int min = ((IntegerPropertyAccessor) property).kinetic_weaponry$getMin();
+        if (min != 0) {
+            throw new IllegalArgumentException("Minimum value of " + property + " in block " + block + " is [" + min + "] - should be 0!");
+        }
+        int max = ((IntegerPropertyAccessor) property).kinetic_weaponry$getMax();
+
+        ResourceLocation[] charge2Ids = new ResourceLocation[max + 1];
+        for (int i = 0; i < charge2Ids.length; i++) {
+            TextureMapping mapping = new TextureMapping()
+                    .put(TextureSlot.TOP, TextureMapping.getBlockTexture(block, "/top"))
+                    .put(TextureSlot.BOTTOM, TextureMapping.getBlockTexture(block, "/bottom"))
+                    .put(TextureSlot.SIDE, TextureMapping.getBlockTexture(block, "/side/charge_" + i))
+                    .put(TextureSlot.PARTICLE, TextureMapping.getBlockTexture(block, "/side"));
+
+            charge2Ids[i] = TexturedModel.createDefault(
+                    (b) -> mapping,
+                    ModelTemplates.CUBE_BOTTOM_TOP
+            ).createWithSuffix(block, "/normal/charge_" + i, generators.modelOutput);
+        }
+
+        MultiVariantGenerator variantGenerator = MultiVariantGenerator.multiVariant(
+                block,
+                Variant.variant().with(VariantProperties.MODEL, charge2Ids[0])
+        ).with(createUpDefaultRotationStates());
+
+        // add kinetic charge if needed
+        if (max > 0) {
+            PropertyDispatch.C1<Integer> dispatch = PropertyDispatch.property(property);
+
+            for (int i = 0; i < charge2Ids.length; i++) {
+                dispatch = dispatch.select(i, Variant.variant().with(VariantProperties.MODEL, charge2Ids[i]));
+            }
+
+            variantGenerator.with(dispatch);
+        }
+
+        generators.delegateItemModel(block, charge2Ids[0]);
+        generators.blockStateOutput.accept(variantGenerator);
+    }
+
     public static PropertyDispatch createDownDefaultRotationStates() {
         return PropertyDispatch.property(BlockStateProperties.FACING)
                 .select(Direction.UP, Variant.variant().with(VariantProperties.X_ROT, VariantProperties.Rotation.R180))
@@ -198,5 +243,9 @@ public class KWBlockModelProvider extends MyrrorBlockModelSubProvider {
                 .select(Direction.SOUTH, Variant.variant().with(VariantProperties.X_ROT, VariantProperties.Rotation.R270))
                 .select(Direction.EAST, Variant.variant().with(VariantProperties.X_ROT, VariantProperties.Rotation.R90).with(VariantProperties.Y_ROT, VariantProperties.Rotation.R90))
                 .select(Direction.WEST, Variant.variant().with(VariantProperties.X_ROT, VariantProperties.Rotation.R90).with(VariantProperties.Y_ROT, VariantProperties.Rotation.R270));
+    }
+
+    private static Variant modelVariant(ResourceLocation location) {
+        return Variant.variant().with(VariantProperties.MODEL, location);
     }
 }
