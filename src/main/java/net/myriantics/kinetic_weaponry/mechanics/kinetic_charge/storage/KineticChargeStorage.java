@@ -54,7 +54,11 @@ public interface KineticChargeStorage {
                 double limiter = 0.2;
                 AABB searchAABB = new AABB(pos.getX() + limiter, pos.getY(), pos.getZ() + limiter, pos.getX() + 1 - limiter, pos.getY() + 1 - limiter, pos.getZ() + 1 - limiter);
                 List<AbstractMinecartKineticChargingBusEntity> minecarts = level.getEntitiesOfClass(AbstractMinecartKineticChargingBusEntity.class, searchAABB);
-                
+
+                if (minecarts.isEmpty()) {
+                    return null;
+                }
+
                 return minecarts.get(level.getRandom().nextInt(minecarts.size())).getStorage();
             }
 
