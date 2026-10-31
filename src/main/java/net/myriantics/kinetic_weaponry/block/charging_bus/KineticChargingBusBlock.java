@@ -65,6 +65,10 @@ public class KineticChargingBusBlock extends AbstractKineticChargingBusBlock {
 
     @Override
     public void setCharge(Level level, BlockPos pos, BlockState state, long amount) {
+        long maxCharge = this.getMaxCharge(level, pos, state);
+        if (amount > maxCharge) {
+            return;
+        }
         KineticChargingBusShape shape = state.getValue(SHAPE);
         if (shape.isSingle()) {
             level.setBlockAndUpdate(pos, state.setValue(KINETIC_CHARGE, (int) Math.clamp(amount, 0, this.getMaxCharge(level, pos, state))));
