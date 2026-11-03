@@ -76,5 +76,9 @@ public class KWItemTagProvider extends FabricTagProvider<Item> {
                 .add(KWItems.TRIAL_TWINE.value());
         getOrCreateTagBuilder(KWItemTags.KINETIC_CROSSBOW_REPAIR_ITEMS)
                 .add(KWItems.TRIAL_TWINE.value());
+        getOrCreateTagBuilder(ItemTags.MINING_ENCHANTABLE)
+                .add(KWItems.CRYSTALLINE_KINETIC_PULVERIZER.value());
+        getOrCreateTagBuilder(ItemTags.MINING_LOOT_ENCHANTABLE)
+                .add(KWItems.CRYSTALLINE_KINETIC_PULVERIZER.value());
     }
 }

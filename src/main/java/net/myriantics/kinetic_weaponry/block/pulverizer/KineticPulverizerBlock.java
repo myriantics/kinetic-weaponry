@@ -4,18 +4,24 @@ import net.fabricmc.fabric.api.transfer.v1.transaction.TransactionContext;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.FrontAndTop;
-import net.minecraft.util.Mth;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.tags.BlockTags;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
 import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.GameMasterBlock;
+import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.level.block.state.properties.EnumProperty;
+import net.minecraft.world.level.storage.loot.LootParams;
+import net.minecraft.world.level.storage.loot.parameters.LootContextParams;
+import net.minecraft.world.phys.Vec3;
 import net.myriantics.kinetic_weaponry.mechanics.kinetic_charge.impact.KineticImpactListener;
 import net.myriantics.kinetic_weaponry.mechanics.kinetic_charge.storage.KineticChargeSidedTransferContext;
 import net.myriantics.kinetic_weaponry.mechanics.kinetic_charge.storage.KineticChargeStorage;
@@ -74,7 +80,8 @@ public class KineticPulverizerBlock extends Block implements KineticImpactListen
 
                     private void onOuterClose(TransactionContext.Result result) {
                         if (result.wasCommitted() && this.success) {
-                            KineticPulverizerBlock.this.breakBlock(level, pos.relative(frontAndTop.front()), context.getSource());
+                            BlockPos targetPos = pos.relative(frontAndTop.front());
+                            KineticPulverizerBlock.this.breakBlock(level, pos, state, targetPos, level.getBlockState(targetPos), context.getSource());
                         }
                     }
 
@@ -145,8 +152,44 @@ public class KineticPulverizerBlock extends Block implements KineticImpactListen
         return true;
     }
 
-    protected void breakBlock(Level level, BlockPos targetPos, @Nullable Entity cause) {
-        level.destroyBlock(targetPos, true, cause);
+    protected ItemStack createMiningStack(Level level, BlockPos pos, BlockState state, BlockPos targetPos, BlockState targetState) {
+        ItemStack miningTool;
+        if (targetState.is(BlockTags.MINEABLE_WITH_PICKAXE)) {
+            miningTool = new ItemStack(Items.NETHERITE_PICKAXE, 1);
+        } else if (targetState.is(BlockTags.MINEABLE_WITH_AXE)) {
+            miningTool = new ItemStack(Items.NETHERITE_AXE, 1);
+        } else if (targetState.is(BlockTags.MINEABLE_WITH_SHOVEL)) {
+            miningTool = new ItemStack(Items.NETHERITE_SHOVEL, 1);
+        } else if (targetState.is(BlockTags.MINEABLE_WITH_HOE)) {
+            miningTool = new ItemStack(Items.NETHERITE_HOE, 1);
+        } else if (targetState.is(BlockTags.SWORD_EFFICIENT)) {
+            miningTool = new ItemStack(Items.NETHERITE_SWORD, 1);
+        } else {
+            miningTool = new ItemStack(Items.NETHERITE_PICKAXE, 1);
+        }
+        return miningTool;
+    }
+
+    protected void breakBlock(Level level, BlockPos pos, BlockState state, BlockPos targetPos, BlockState targetState, @Nullable Entity cause) {
+        ItemStack toolStack = this.createMiningStack(level, pos, state, targetPos, targetState);
+        if (level instanceof ServerLevel serverLevel) {
+            LootParams.Builder builder = new LootParams.Builder(serverLevel);
+            builder.withParameter(LootContextParams.ORIGIN, Vec3.atCenterOf(targetPos));
+            builder.withParameter(LootContextParams.TOOL, toolStack);
+            if (cause != null) {
+                builder.withParameter(LootContextParams.THIS_ENTITY, cause);
+            }
+            if (level.getBlockEntity(targetPos) instanceof BlockEntity blockEntity) {
+                builder.withParameter(LootContextParams.BLOCK_ENTITY, blockEntity);
+            }
+            targetState.getDrops(builder).forEach(stack -> Block.popResource(level, targetPos, stack));
+        }
+
+
+        level.destroyBlock(targetPos, false, cause);
+        if (level instanceof ServerLevel serverLevel) {
+            targetState.spawnAfterBreak(serverLevel, targetPos, toolStack, true);
+        }
     }
 
     @Override
@@ -196,7 +239,7 @@ public class KineticPulverizerBlock extends Block implements KineticImpactListen
             if (this.canBreakBlock(level, targetPos, targetState)) {
                 int requiredKineticCharge = this.getRequiredKineticChargeForBlock(level, targetPos, targetState);
                 if (requiredKineticCharge >= 0 && impactDamage >= requiredKineticCharge) {
-                    this.breakBlock(level, targetPos, context.getSource());
+                    this.breakBlock(level, pos, state, targetPos, targetState, context.getSource());
                 }
             }
         }

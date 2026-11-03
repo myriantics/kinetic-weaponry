@@ -60,6 +60,13 @@ public abstract class KWItems {
                     .rarity(Rarity.EPIC)
     );
 
+    public static final Holder<Item> CRYSTALLINE_KINETIC_PULVERIZER = register(
+            "crystalline_kinetic_pulverizer",
+            properties -> new BlockItem(KWBlocks.CRYSTALLINE_KINETIC_PULVERIZER.value(), properties),
+            new Item.Properties()
+                    .rarity(Rarity.EPIC)
+    );
+
     public static final Holder<Item> KINETIC_REPULSOR = register(
             "kinetic_repulsor",
             properties -> new BlockItem(KWBlocks.KINETIC_REPULSOR.value(), properties),

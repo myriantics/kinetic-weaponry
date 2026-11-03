@@ -6,6 +6,7 @@ import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.myriantics.kinetic_weaponry.KWCommon;
+import net.myriantics.kinetic_weaponry.block.pulverizer.crystalliine.CrystallineKineticPulverizerBlockEntity;
 import net.myriantics.kinetic_weaponry.block.retention_module.KineticRetentionModuleBlockEntity;
 
 public abstract class KWBlockEntityTypes {
@@ -18,6 +19,14 @@ public abstract class KWBlockEntityTypes {
                     KWBlocks.CREATIVE_KINETIC_RETENTION_BACKTANK.value(),
                     KWBlocks.KINETIC_RETENTION_HEADGEAR.value(),
                     KWBlocks.CREATIVE_KINETIC_RETENTION_HEADGEAR.value()
+            )
+    );
+
+    public static final Holder<BlockEntityType<CrystallineKineticPulverizerBlockEntity>> CRYSTALLINE_KINETIC_PULVERIZER = register(
+            "crystalline_kinetic_pulverizer",
+            BlockEntityType.Builder.of(
+                    CrystallineKineticPulverizerBlockEntity::new,
+                    KWBlocks.CRYSTALLINE_KINETIC_PULVERIZER.value()
             )
     );
 
