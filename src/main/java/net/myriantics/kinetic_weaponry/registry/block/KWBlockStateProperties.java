@@ -1,5 +1,6 @@
 package net.myriantics.kinetic_weaponry.registry.block;
 
+import net.minecraft.world.level.block.state.properties.BooleanProperty;
 import net.minecraft.world.level.block.state.properties.EnumProperty;
 import net.minecraft.world.level.block.state.properties.IntegerProperty;
 import net.myriantics.kinetic_weaponry.block.charging_bus.KineticChargingBusBlock;
@@ -28,6 +29,7 @@ public abstract class KWBlockStateProperties {
             TrialWeaveState.class
     );
     public static final EnumProperty<KineticRepulsorOrientation> KINETIC_REPULSOR_ORIENTATION = EnumProperty.create("orientation", KineticRepulsorOrientation.class);
+    public static final BooleanProperty COOLDOWN = BooleanProperty.create("cooldown");
 
     private static IntegerProperty createKineticCharge(int min, int max) {
         return IntegerProperty.create("kinetic_charge", min, max);

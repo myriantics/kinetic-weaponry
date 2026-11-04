@@ -4,6 +4,8 @@ import net.fabricmc.fabric.api.transfer.v1.storage.StoragePreconditions;
 import net.fabricmc.fabric.api.transfer.v1.transaction.TransactionContext;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.util.RandomSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
@@ -12,6 +14,7 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
+import net.minecraft.world.level.block.state.properties.BooleanProperty;
 import net.minecraft.world.level.block.state.properties.EnumProperty;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
@@ -24,16 +27,21 @@ import org.jetbrains.annotations.Nullable;
 public class KineticRepulsorBlock extends Block implements KineticImpactListener {
 
     public static final int MAX_CHAINING_RANGE = 16;
+    public static final int COOLDOWN_TICKS = 2;
+    public static final BooleanProperty COOLDOWN = KWBlockStateProperties.COOLDOWN;
     public static final EnumProperty<KineticRepulsorOrientation> ORIENTATION = KWBlockStateProperties.KINETIC_REPULSOR_ORIENTATION;
 
     public KineticRepulsorBlock(Properties properties) {
         super(properties);
         this.initStorage();
+        this.registerDefaultState(this.getStateDefinition().any()
+                .setValue(ORIENTATION, KineticRepulsorOrientation.UP_ALONG_X)
+                .setValue(COOLDOWN, false)
+        );
     }
 
     protected void initStorage() {
-        KineticChargeStorage.SIDED.registerForBlocks((level, pos, state, blockEntity, context) -> context.getImpactedFace() == null || context.getImpactedFace().getAxis() != state.getValue(ORIENTATION).getAlignmentAxis() ? null : new KineticChargeStorage() {
-                    private RepulsionVelocityDefinition[] velocityDefinitions = null;
+        KineticChargeStorage.SIDED.registerForBlocks((level, pos, state, blockEntity, context) -> state.getValue(COOLDOWN) || context.getImpactedFace() == null || context.getImpactedFace().getAxis() != state.getValue(ORIENTATION).getAlignmentAxis() ? null : new KineticChargeStorage() {
                     private long charge = 0;
                     private boolean initialized = false;
 
@@ -48,7 +56,6 @@ public class KineticRepulsorBlock extends Block implements KineticImpactListener
                             return 0;
                         }
 
-                        this.velocityDefinitions = KineticRepulsorBlock.this.gatherChainedRepulsors(level, pos, state, context.getImpactedFace());
                         this.charge += maxAmount;
                         return maxAmount;
                     }
@@ -65,8 +72,8 @@ public class KineticRepulsorBlock extends Block implements KineticImpactListener
                     }
 
                     private void onOuterClose(TransactionContext.Result result) {
-                        if (result.wasCommitted() && this.charge > 0 && this.velocityDefinitions != null) {
-                            KineticRepulsorBlock.this.performRepulsionAlongChain(level, this.velocityDefinitions, this.charge);
+                        if (result.wasCommitted() && this.charge > 0) {
+                            KineticRepulsorBlock.this.performRepulsionAlongChain(level, pos, state, context.getImpactedFace(), this.charge);
                         }
                     }
 
@@ -77,7 +84,7 @@ public class KineticRepulsorBlock extends Block implements KineticImpactListener
 
     @Override
     protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> builder) {
-        builder.add(ORIENTATION);
+        builder.add(ORIENTATION, COOLDOWN);
     }
 
     @Override
@@ -94,61 +101,85 @@ public class KineticRepulsorBlock extends Block implements KineticImpactListener
         return ((14 * Math.log10(inboundCharge) + 6) / 1.5) / 20;
     }
 
-    protected void performRepulsionAlongChain(Level level, RepulsionVelocityDefinition[] velocityDefinitions, long kineticCharge) {
+    protected Vec3 createAppliedVelocityForFacing(Direction repulsionDirection, long kineticCharge) {
         final double velocityScalar = this.getVelocityScalarForChargeImpulse(kineticCharge);
-
-        for (@Nullable RepulsionVelocityDefinition definition : velocityDefinitions) {
-            if (definition == null) {
-                break;
-            }
-            for (Entity entity : level.getEntities(null, definition.bounds())) {
-                entity.addDeltaMovement(
-                        new Vec3(
-                                definition.repulsionDirection().getStepX() * velocityScalar,
-                                definition.repulsionDirection().getStepY() * velocityScalar,
-                                definition.repulsionDirection().getStepZ() * velocityScalar
-                        )
-                );
-                entity.hurtMarked = true;
-            }
-        }
+        return new Vec3(
+                repulsionDirection.getStepX() * velocityScalar,
+                repulsionDirection.getStepY() * velocityScalar,
+                repulsionDirection.getStepZ() * velocityScalar
+        );
     }
 
-    protected RepulsionVelocityDefinition[] gatherChainedRepulsors(Level level, BlockPos pos, BlockState state, Direction impactedFace) {
-        RepulsionVelocityDefinition[] velocityDefinitions = new RepulsionVelocityDefinition[MAX_CHAINING_RANGE];
-        KineticRepulsorOrientation orientation = state.getValue(ORIENTATION);
-        Direction searchingDir = impactedFace.getOpposite();
+    protected void performRepulsionAlongChain(Level level, BlockPos pos, BlockState state, Direction impactedFace, long kineticCharge) {
+        final KineticRepulsorOrientation originOrientation = state.getValue(ORIENTATION);
+        final Direction searchingDir = impactedFace.getOpposite();
 
         BlockPos firstPositionInCurrentSegment = pos;
         BlockPos latestPositionInCurrentSegment = pos;
-        Direction currentDirection = orientation.getFacing();
-        int definitions = 0;
+        KineticRepulsorOrientation currentOrientation = originOrientation;
         for (int i = 0; i < MAX_CHAINING_RANGE; i++) {
-            BlockPos nextCandidatePos = pos.relative(searchingDir, i + 1);
-            BlockState nextCandidateState = level.getBlockState(nextCandidatePos);
+            final BlockPos nextCandidatePos = pos.relative(searchingDir, i + 1);
+            final BlockState nextCandidateState = level.getBlockState(nextCandidatePos);
             if (!nextCandidateState.is(this)) {
                 break;
             }
 
-            KineticRepulsorOrientation candidateOrientation = nextCandidateState.getValue(ORIENTATION);
-            if (orientation.getAlignmentAxis() != candidateOrientation.getAlignmentAxis()) {
+            final KineticRepulsorOrientation candidateOrientation = nextCandidateState.getValue(ORIENTATION);
+            if (originOrientation.getAlignmentAxis() != candidateOrientation.getAlignmentAxis()) {
                 break;
             }
 
-            if (currentDirection == candidateOrientation.getFacing()) {
+            if (currentOrientation == candidateOrientation) {
                 latestPositionInCurrentSegment = nextCandidatePos;
             } else {
-                velocityDefinitions[definitions] = new RepulsionVelocityDefinition(AABB.encapsulatingFullBlocks(firstPositionInCurrentSegment.relative(currentDirection), latestPositionInCurrentSegment.relative(currentDirection)), currentDirection);
-                definitions++;
+                this.applyVelocityBetweenPositions(level, firstPositionInCurrentSegment, latestPositionInCurrentSegment, currentOrientation, kineticCharge);
                 firstPositionInCurrentSegment = nextCandidatePos;
                 latestPositionInCurrentSegment = nextCandidatePos;
-                currentDirection = candidateOrientation.getFacing();
+                currentOrientation = candidateOrientation;
             }
         }
 
-        velocityDefinitions[definitions] = new RepulsionVelocityDefinition(AABB.encapsulatingFullBlocks(firstPositionInCurrentSegment.relative(currentDirection), latestPositionInCurrentSegment.relative(currentDirection)), currentDirection);
+        this.applyVelocityBetweenPositions(level, firstPositionInCurrentSegment, latestPositionInCurrentSegment, currentOrientation, kineticCharge);
+    }
 
-        return velocityDefinitions;
+    // TODO: make this work on client-controlled vehicles
+    protected void applyVelocityBetweenPositions(Level level, BlockPos start, BlockPos end, KineticRepulsorOrientation repulsorOrientation, long kineticCharge) {
+        final Direction repulsionDirection = repulsorOrientation.getFacing();
+        final Vec3 appliedVelocity = this.createAppliedVelocityForFacing(repulsionDirection, kineticCharge);
+        for (Entity entity : level.getEntities(null, AABB.encapsulatingFullBlocks(start.relative(repulsionDirection), end.relative(repulsionDirection)))) {
+            entity.addDeltaMovement(appliedVelocity);
+            entity.hurtMarked = true;
+            if (repulsionDirection == Direction.UP) {
+                entity.resetFallDistance();
+            }
+        }
+        for (BlockPos pos : BlockPos.betweenClosed(start, end)) {
+            this.triggerCooldown(level, pos, level.getBlockState(pos));
+        }
+    }
+
+    @Override
+    protected void onPlace(BlockState state, Level level, BlockPos pos, BlockState oldState, boolean movedByPiston) {
+        super.onPlace(state, level, pos, oldState, movedByPiston);
+        if (!level.isClientSide() && !oldState.is(this) && state.getValue(COOLDOWN) && !level.getBlockTicks().hasScheduledTick(pos, this)) {
+            if (movedByPiston) {
+                level.setBlockAndUpdate(pos, state.setValue(COOLDOWN, false));
+            } else {
+                this.triggerCooldown(level, pos, state);
+            }
+        }
+    }
+
+    @Override
+    protected void tick(BlockState state, ServerLevel level, BlockPos pos, RandomSource random) {
+        if (state.getValue(COOLDOWN)) {
+            level.setBlockAndUpdate(pos, state.setValue(COOLDOWN, false));
+        }
+    }
+
+    protected void triggerCooldown(Level level, BlockPos pos, BlockState state) {
+        level.setBlockAndUpdate(pos, state.setValue(COOLDOWN, true));
+        level.scheduleTick(pos, state.getBlock(), COOLDOWN_TICKS);
     }
 
     @Override
@@ -185,8 +216,5 @@ public class KineticRepulsorBlock extends Block implements KineticImpactListener
 
 
         return this.defaultBlockState().setValue(ORIENTATION, KineticRepulsorOrientation.of(facing, selectedAxis));
-    }
-
-    protected record RepulsionVelocityDefinition(AABB bounds, Direction repulsionDirection) {
     }
 }
