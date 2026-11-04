@@ -5,6 +5,7 @@ import net.minecraft.core.Registry;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.util.Unit;
 import net.minecraft.world.item.component.ChargedProjectiles;
+import net.minecraft.world.level.block.Block;
 import net.myriantics.kinetic_weaponry.KWCommon;
 import net.myriantics.kinetic_weaponry.block.retention_module.headgear.AbstractKineticRetentionHeadgearBlock;
 import net.myriantics.kinetic_weaponry.block.retention_module.headgear.KineticRetentionHeadgearBlock;
@@ -46,9 +47,18 @@ public abstract class KWItems {
             new Item.Properties()
     );
 
+    public static final Holder<Item> OMINOUS_ANVIL = register(
+            "ominous_anvil",
+            BlockItem::new,
+            KWBlocks.OMINOUS_ANVIL.value(),
+            new Item.Properties()
+                    .rarity(Rarity.EPIC)
+    );
+
     public static final Holder<Item> KINETIC_DETONATOR = register(
             "kinetic_detonator",
-            properties -> new BlockItem(KWBlocks.KINETIC_DETONATOR.value(), properties),
+            BlockItem::new,
+            KWBlocks.KINETIC_DETONATOR.value(),
             new Item.Properties()
                     .rarity(Rarity.EPIC)
     );
@@ -62,7 +72,8 @@ public abstract class KWItems {
 
     public static final Holder<Item> KINETIC_REPULSOR = register(
             "kinetic_repulsor",
-            properties -> new BlockItem(KWBlocks.KINETIC_REPULSOR.value(), properties),
+            BlockItem::new,
+            KWBlocks.KINETIC_REPULSOR.value(),
             new Item.Properties()
                     .rarity(Rarity.EPIC)
     );
@@ -110,14 +121,16 @@ public abstract class KWItems {
 
     public static final Holder<Item> KINETIC_CHARGING_BUS = register(
             "kinetic_charging_bus",
-            (properties -> new BlockItem(KWBlocks.KINETIC_CHARGING_BUS.value(), properties)),
+            BlockItem::new,
+            KWBlocks.KINETIC_CHARGING_BUS.value(),
             new Item.Properties()
                     .rarity(Rarity.EPIC)
     );
 
     public static final Holder<Item> CREATIVE_KINETIC_CHARGING_BUS = register(
             "creative_kinetic_charging_bus",
-            (properties -> new BlockItem(KWBlocks.CREATIVE_KINETIC_CHARGING_BUS.value(), properties)),
+            BlockItem::new,
+            KWBlocks.CREATIVE_KINETIC_CHARGING_BUS.value(),
             new Item.Properties()
                     .component(DataComponents.ENCHANTMENT_GLINT_OVERRIDE, true)
                     .rarity(Rarity.EPIC)
@@ -177,11 +190,19 @@ public abstract class KWItems {
             new Item.Properties()
     );
 
+    private static Holder<Item> register(String name, SimpleBlockItemInitializer initializer, Block block, Item.Properties properties) {
+        return Registry.registerForHolder(BuiltInRegistries.ITEM, KWCommon.locate(name), initializer.create(block, properties));
+    }
+
     private static Holder<Item> register(String name, Function<Item.Properties, Item> constructor, Item.Properties properties) {
         return Registry.registerForHolder(BuiltInRegistries.ITEM, KWCommon.locate(name), constructor.apply(properties));
     }
 
     public static void init() {
         KWCommon.LOGGER.info("Registered Kinetic Weaponry's Items!");
+    }
+
+    private interface SimpleBlockItemInitializer {
+        BlockItem create(Block block, Item.Properties properties);
     }
 }

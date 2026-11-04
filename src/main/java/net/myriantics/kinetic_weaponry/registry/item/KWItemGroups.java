@@ -26,6 +26,7 @@ public abstract class KWItemGroups {
                     output.accept(KWItems.KINETIC_DETONATOR.value());
                     output.accept(KWItems.KINETIC_PULVERIZER.value());
                     output.accept(KWItems.KINETIC_REPULSOR.value());
+                    output.accept(KWItems.OMINOUS_ANVIL.value());
 
 
                     // retention backtanks
@@ -45,7 +46,7 @@ public abstract class KWItemGroups {
                     // trial twine & weave
                     output.accept(KWItems.TRIAL_TWINE.value());
                     output.accept(KWItems.TRIAL_WEAVE.value());
-                    output.accept(KWItems.CRIMSON_TRIAL_WEAVE.value());
+                    output.accept(KWItems.CRIMSON_TRIAL_WEAVE.value());;
 
                     // equipment
                     output.accept(KWItems.KINETIC_SHORTBOW.value());

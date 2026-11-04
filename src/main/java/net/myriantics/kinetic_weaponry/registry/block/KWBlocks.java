@@ -12,6 +12,7 @@ import net.myriantics.kinetic_weaponry.block.charging_bus.KineticChargingBusBloc
 import net.myriantics.kinetic_weaponry.block.detonator.KineticDetonatorBlock;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockBehaviour;
+import net.myriantics.kinetic_weaponry.block.ominous_anvil.OminousAnvilBlock;
 import net.myriantics.kinetic_weaponry.block.pulverizer.KineticPulverizerBlock;
 import net.myriantics.kinetic_weaponry.block.pulverizer.enchanted.EnchantedKineticPulverizerBlock;
 import net.myriantics.kinetic_weaponry.block.repulsor.KineticRepulsorBlock;
@@ -41,6 +42,13 @@ public abstract class KWBlocks {
             copyProperties(TRIAL_WEAVE)
                     .mapColor(MapColor.FIRE)
                     .emissiveRendering((blockState, blockGetter, blockPos) -> blockState.getValue(TrialWeaveBlock.STATE).isActive())
+    );
+
+    public static final Holder<Block> OMINOUS_ANVIL = register(
+            "ominous_anvil",
+            OminousAnvilBlock::new,
+            copyProperties(Blocks.ANVIL)
+                    .pushReaction(PushReaction.PUSH_ONLY)
     );
 
     public static final Holder<Block> KINETIC_DETONATOR = register(
