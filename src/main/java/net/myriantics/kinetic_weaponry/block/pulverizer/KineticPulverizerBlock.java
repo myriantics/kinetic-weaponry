@@ -66,7 +66,7 @@ public class KineticPulverizerBlock extends Block implements KineticImpactListen
                         if (!KineticPulverizerBlock.this.canBreakBlock(level, targetPos, targetState)) {
                             return 0;
                         }
-                        final int requiredCharge = KineticPulverizerBlock.this.getRequiredKineticChargeForBlock(level, targetPos, targetState);
+                        final int requiredCharge = KineticPulverizerBlock.this.getRequiredKineticChargeForTargetBlock(level, pos, state, targetPos, targetState);
                         if (requiredCharge < 0) {
                             return 0;
                         }
@@ -129,7 +129,7 @@ public class KineticPulverizerBlock extends Block implements KineticImpactListen
         if (!this.canBreakBlock(level, targetPos, targetState)) {
             return 0;
         }
-        return Math.max(this.getRequiredKineticChargeForBlock(level, targetPos, targetState), 0);
+        return Math.max(this.getRequiredKineticChargeForTargetBlock(level, pos, state, targetPos, targetState), 0);
     }
 
     protected float getTargetBlockHardness(Level level, BlockPos targetPos, BlockState targetState) {
@@ -212,11 +212,8 @@ public class KineticPulverizerBlock extends Block implements KineticImpactListen
         return impactFace != null && (impactFace.getAxis() == orientation.top().getAxis() || impactFace.equals(orientation.front().getOpposite()));
     }
 
-    protected int getRequiredKineticChargeForBlock(Level level, BlockPos pos, BlockState state) {
-        return this.getRequiredKineticChargeForHardness(state.getDestroySpeed(level, pos));
-    }
-
-    protected int getRequiredKineticChargeForHardness(float hardness) {
+    protected int getRequiredKineticChargeForTargetBlock(Level level, BlockPos pos, BlockState state, BlockPos targetPos, BlockState targetState) {
+        final float hardness = targetState.getDestroySpeed(level, pos);
         if (hardness < 0) {
             return -1;
         }
@@ -237,7 +234,7 @@ public class KineticPulverizerBlock extends Block implements KineticImpactListen
             BlockState targetState = level.getBlockState(targetPos);
 
             if (this.canBreakBlock(level, targetPos, targetState)) {
-                int requiredKineticCharge = this.getRequiredKineticChargeForBlock(level, targetPos, targetState);
+                int requiredKineticCharge = this.getRequiredKineticChargeForTargetBlock(level, pos, state, targetPos, targetState);
                 if (requiredKineticCharge >= 0 && impactDamage >= requiredKineticCharge) {
                     this.breakBlock(level, pos, state, targetPos, targetState, context.getSource());
                 }

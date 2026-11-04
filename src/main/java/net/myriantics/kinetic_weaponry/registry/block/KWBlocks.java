@@ -13,7 +13,7 @@ import net.myriantics.kinetic_weaponry.block.detonator.KineticDetonatorBlock;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.myriantics.kinetic_weaponry.block.pulverizer.KineticPulverizerBlock;
-import net.myriantics.kinetic_weaponry.block.pulverizer.crystalliine.CrystallineKineticPulverizerBlock;
+import net.myriantics.kinetic_weaponry.block.pulverizer.enchanted.EnchantedKineticPulverizerBlock;
 import net.myriantics.kinetic_weaponry.block.repulsor.KineticRepulsorBlock;
 import net.myriantics.kinetic_weaponry.block.retention_module.headgear.CreativeKineticRetentionHeadgearBlock;
 import net.myriantics.kinetic_weaponry.block.retention_module.headgear.KineticRetentionHeadgearBlock;
@@ -55,9 +55,9 @@ public abstract class KWBlocks {
             copyProperties(Blocks.COPPER_BLOCK)
     );
 
-    public static final Holder<Block> CRYSTALLINE_KINETIC_PULVERIZER = register(
-            "crystalline_kinetic_pulverizer",
-            CrystallineKineticPulverizerBlock::new,
+    public static final Holder<Block> ENCHANTED_KINETIC_PULVERIZER = register(
+            "enchanted_kinetic_pulverizer",
+            EnchantedKineticPulverizerBlock::new,
             copyProperties(Blocks.AMETHYST_BLOCK)
     );
 

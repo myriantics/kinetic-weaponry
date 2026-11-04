@@ -6,7 +6,6 @@ import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.util.Unit;
 import net.minecraft.world.item.component.ChargedProjectiles;
 import net.myriantics.kinetic_weaponry.KWCommon;
-import net.myriantics.kinetic_weaponry.block.retention_module.backtank.AbstractKineticRetentionBacktankBlock;
 import net.myriantics.kinetic_weaponry.block.retention_module.headgear.AbstractKineticRetentionHeadgearBlock;
 import net.myriantics.kinetic_weaponry.block.retention_module.headgear.KineticRetentionHeadgearBlock;
 import net.myriantics.kinetic_weaponry.block.retention_module.backtank.KineticRetentionBacktankBlock;
@@ -14,6 +13,7 @@ import net.myriantics.kinetic_weaponry.entity.crossbow_bolt.BlazingBoltEntity;
 import net.myriantics.kinetic_weaponry.entity.crossbow_bolt.BreezyBoltEntity;
 import net.myriantics.kinetic_weaponry.entity.minecart.KWMinecartType;
 import net.myriantics.kinetic_weaponry.item.ammo.CrossbowBoltItem;
+import net.myriantics.kinetic_weaponry.item.blockitem.EnchantableBlockItem;
 import net.myriantics.kinetic_weaponry.item.equipment.KineticCrossbowItem;
 import net.myriantics.kinetic_weaponry.item.equipment.KineticShortbowItem;
 import net.myriantics.kinetic_weaponry.item.minecart.KWMinecartItem;
@@ -55,14 +55,7 @@ public abstract class KWItems {
 
     public static final Holder<Item> KINETIC_PULVERIZER = register(
             "kinetic_pulverizer",
-            properties -> new BlockItem(KWBlocks.KINETIC_PULVERIZER.value(), properties),
-            new Item.Properties()
-                    .rarity(Rarity.EPIC)
-    );
-
-    public static final Holder<Item> CRYSTALLINE_KINETIC_PULVERIZER = register(
-            "crystalline_kinetic_pulverizer",
-            properties -> new BlockItem(KWBlocks.CRYSTALLINE_KINETIC_PULVERIZER.value(), properties),
+            properties -> new EnchantableBlockItem(KWBlocks.KINETIC_PULVERIZER.value(), KWBlocks.ENCHANTED_KINETIC_PULVERIZER.value(), 8, properties),
             new Item.Properties()
                     .rarity(Rarity.EPIC)
     );

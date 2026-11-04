@@ -20,15 +20,22 @@ public class KWBlockTagProvider extends FabricTagProvider<Block> {
     @Override
     protected void addTags(HolderLookup.Provider wrapperLookup) {
         getOrCreateTagBuilder(BlockTags.WOOL)
-                .add(KWBlocks.TRIAL_WEAVE.value());
+                .add(KWBlocks.TRIAL_WEAVE.value())
+                .add(KWBlocks.CRIMSON_TRIAL_WEAVE.value());
         getOrCreateTagBuilder(BlockTags.MINEABLE_WITH_PICKAXE)
                 .forceAddTag(KWBlockTags.KINETIC_RETENTION_MODULES)
                 .forceAddTag(KWBlockTags.KINETIC_CHARGING_BUSES)
+                .add(KWBlocks.KINETIC_PULVERIZER.value())
+                .add(KWBlocks.ENCHANTED_KINETIC_PULVERIZER.value())
+                .add(KWBlocks.KINETIC_REPULSOR.value())
                 .add(KWBlocks.KINETIC_DETONATOR.value());
         getOrCreateTagBuilder(BlockTags.NEEDS_STONE_TOOL)
                 .forceAddTag(KWBlockTags.KINETIC_RETENTION_MODULES)
                 .forceAddTag(KWBlockTags.KINETIC_CHARGING_BUSES)
-                .add(KWBlocks.KINETIC_DETONATOR.value());
+                .add(KWBlocks.KINETIC_DETONATOR.value())
+                .add(KWBlocks.KINETIC_PULVERIZER.value())
+                .add(KWBlocks.ENCHANTED_KINETIC_PULVERIZER.value())
+                .add(KWBlocks.KINETIC_REPULSOR.value());
 
         getOrCreateTagBuilder(KWBlockTags.KINETIC_CHARGING_BUSES)
                 .add(KWBlocks.KINETIC_CHARGING_BUS.value())
