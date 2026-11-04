@@ -80,5 +80,7 @@ public class KWItemTagProvider extends FabricTagProvider<Item> {
                 .add(KWItems.KINETIC_PULVERIZER.value());
         getOrCreateTagBuilder(ItemTags.MINING_LOOT_ENCHANTABLE)
                 .add(KWItems.KINETIC_PULVERIZER.value());
+        getOrCreateTagBuilder(KWItemTags.ALLOWS_BULK_OPERATIONS_IN_GRINDSTONE)
+                .add(KWItems.KINETIC_PULVERIZER.value());
     }
 }

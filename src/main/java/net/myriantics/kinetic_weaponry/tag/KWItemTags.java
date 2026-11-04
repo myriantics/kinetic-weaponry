@@ -14,6 +14,7 @@ public class KWItemTags {
     public static final TagKey<Item> CROSSBOW_BOLTS = create("crossbow_bolts");
     public static final TagKey<Item> KINETIC_CROSSBOW_REPAIR_ITEMS = create("kinetic_crossbow_repair_items");
     public static final TagKey<Item> KINETIC_SHORTBOW_REPAIR_ITEMS = create("kinetic_shortbow_repair_items");
+    public static final TagKey<Item> ALLOWS_BULK_OPERATIONS_IN_GRINDSTONE = create("allows_bulk_operations_in_grindstone");
 
     private static TagKey<Item> create(String name) {
         return TagKey.create(Registries.ITEM, KWCommon.locate(name));

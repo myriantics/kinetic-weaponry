@@ -6,6 +6,8 @@
     "minecraft.attack_use.LivingEntityMixin",
     "minecraft.crossbow_bolt.AbstractArrowMixin",
     "minecraft.datagen.IntegerPropertyAccessor",
+    "minecraft.enchanting.GrindstoneMenuMixin",
+    "minecraft.enchanting.GrindstoneMenuResultSlotMixin",
     "minecraft.kinetic_block.FallingBlockEntityMixin",
     "minecraft.kinetic_crossbow.CrossbowItemMixin",
     "minecraft.kinetic_retention_module.durability.LivingEntityMixin",
@@ -18,5 +20,8 @@
   ],
   "injectors": {
     "defaultRequire": 1
+  },
+  "mixinextras": {
+    "minVersion": "0.5.0-beta.1"
   }
 }
