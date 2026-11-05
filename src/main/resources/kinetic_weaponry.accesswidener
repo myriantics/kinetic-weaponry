@@ -1,2 +1,7 @@
 accessWidener	v2	named
 accessible method net/minecraft/world/entity/vehicle/VehicleEntity getDropItem ()Lnet/minecraft/world/item/Item;
+accessible field net/minecraft/world/level/storage/loot/entries/LootPoolSingletonContainer functions Ljava/util/List;
+accessible field net/minecraft/world/level/storage/loot/entries/LootPoolEntryContainer conditions Ljava/util/List;
+accessible field net/minecraft/world/level/storage/loot/functions/SetEnchantmentsFunction enchantments Ljava/util/Map;
+accessible field net/minecraft/world/level/storage/loot/entries/LootPoolSingletonContainer$Builder functions Lcom/google/common/collect/ImmutableList$Builder;
+accessible field net/minecraft/world/level/storage/loot/entries/LootItem item Lnet/minecraft/core/Holder;

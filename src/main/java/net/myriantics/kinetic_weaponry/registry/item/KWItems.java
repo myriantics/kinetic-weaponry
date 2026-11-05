@@ -5,6 +5,7 @@ import net.minecraft.core.Registry;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.util.Unit;
 import net.minecraft.world.item.component.ChargedProjectiles;
+import net.minecraft.world.item.enchantment.ItemEnchantments;
 import net.minecraft.world.level.block.Block;
 import net.myriantics.kinetic_weaponry.KWCommon;
 import net.myriantics.kinetic_weaponry.block.retention_module.headgear.AbstractKineticRetentionHeadgearBlock;
@@ -45,6 +46,16 @@ public abstract class KWItems {
             "trial_twine",
             Item::new,
             new Item.Properties()
+    );
+
+    public static final Holder<Item> GUIDEBOOK = register(
+            "guidebook",
+            Item::new,
+            new Item.Properties()
+                    .rarity(Rarity.UNCOMMON)
+                    .component(KWDataComponents.ENCHANTMENT_CARRIER.value(), Unit.INSTANCE)
+                    .component(DataComponents.STORED_ENCHANTMENTS, ItemEnchantments.EMPTY)
+                    .stacksTo(1)
     );
 
     public static final Holder<Item> OMINOUS_ANVIL = register(

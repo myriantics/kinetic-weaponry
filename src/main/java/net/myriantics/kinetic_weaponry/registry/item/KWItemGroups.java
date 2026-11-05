@@ -3,12 +3,16 @@ package net.myriantics.kinetic_weaponry.registry.item;
 import net.fabricmc.fabric.api.itemgroup.v1.FabricItemGroup;
 import net.minecraft.core.Registry;
 import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.core.registries.Registries;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.enchantment.EnchantmentHelper;
+import net.minecraft.world.item.enchantment.Enchantments;
 import net.myriantics.kinetic_weaponry.KWCommon;
 import net.myriantics.kinetic_weaponry.mechanics.kinetic_charge.SimpleKineticItem;
+import net.myriantics.kinetic_weaponry.mixin.minecraft.enchantment_carrier.EnchantmentHelperMixin;
 
 import java.util.function.Consumer;
 import java.util.function.Supplier;
@@ -27,6 +31,12 @@ public abstract class KWItemGroups {
                     output.accept(KWItems.KINETIC_PULVERIZER.value());
                     output.accept(KWItems.KINETIC_REPULSOR.value());
                     output.accept(KWItems.OMINOUS_ANVIL.value());
+                    output.accept(KWItems.GUIDEBOOK.value());
+                    parameters.holders().lookup(Registries.ENCHANTMENT).flatMap(lookup -> lookup.get(Enchantments.WIND_BURST)).ifPresent(holder -> {
+                        ItemStack windBurstIGuidebook = new ItemStack(KWItems.GUIDEBOOK);
+                        windBurstIGuidebook.enchant(holder, 1);
+                        output.accept(windBurstIGuidebook);
+                    });
 
 
                     // retention backtanks

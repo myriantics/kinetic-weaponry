@@ -5,7 +5,7 @@ import net.minecraft.tags.TagKey;
 import net.minecraft.world.item.Item;
 import net.myriantics.kinetic_weaponry.KWCommon;
 
-public class KWItemTags {
+public abstract class KWItemTags {
     public static final TagKey<Item> KINETIC_RETENTION_MODULES = create("kinetic_retention_module");
     public static final TagKey<Item> KINETIC_RETENTION_BACKTANKS = subTag("backtank", KINETIC_RETENTION_MODULES);
     public static final TagKey<Item> KINETIC_RETENTION_HEADGEAR = subTag("headgear", KINETIC_RETENTION_MODULES);

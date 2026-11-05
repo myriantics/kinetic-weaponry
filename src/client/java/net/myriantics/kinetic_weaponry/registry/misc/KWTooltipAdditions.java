@@ -1,10 +1,12 @@
 package net.myriantics.kinetic_weaponry.registry.misc;
 
+import net.minecraft.core.component.DataComponents;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
+import net.minecraft.world.item.enchantment.ItemEnchantments;
 import net.myriantics.kinetic_weaponry.KWCommon;
 import net.myriantics.kinetic_weaponry.mechanics.kinetic_charge.SimpleKineticItem;
 import net.myriantics.kinetic_weaponry.mechanics.weapon_heat.OverheatWeapon;
@@ -40,6 +42,12 @@ public abstract class KWTooltipAdditions {
                 return null;
             }
         });
+        register(((tooltipContext, player, stack, tooltipFlag) -> {
+            if (stack.has(KWDataComponents.ENCHANTMENT_CARRIER.value()) && !stack.getOrDefault(DataComponents.STORED_ENCHANTMENTS, ItemEnchantments.EMPTY).isEmpty()) {
+                return Component.translatable("tooltip.kinetic_weaponry.enchantment_carrier");
+            }
+            return null;
+        }));
     }
 
     private static void register(TooltipAddition addition) {

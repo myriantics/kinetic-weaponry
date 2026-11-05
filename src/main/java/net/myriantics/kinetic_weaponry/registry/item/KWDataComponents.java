@@ -19,6 +19,13 @@ public abstract class KWDataComponents {
 
     private static final Codec<Integer> POSITIVE_INTEGERS = Codec.intRange(0, Integer.MAX_VALUE);
 
+    public static final Holder<DataComponentType<Unit>> ENCHANTMENT_CARRIER = register(
+            "enchantment_carrier",
+            unitBuilder -> unitBuilder
+                    .persistent(Unit.CODEC)
+                    .networkSynchronized(StreamCodec.unit(Unit.INSTANCE))
+    );
+
     public static final Holder<DataComponentType<Integer>> MAX_KINETIC_CHARGE = register(
             "max_kinetic_charge",
             integerBuilder -> integerBuilder
