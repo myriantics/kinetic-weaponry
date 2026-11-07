@@ -10,6 +10,7 @@ import org.spongepowered.asm.mixin.Mutable;
 import org.spongepowered.asm.mixin.Shadow;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.function.Predicate;
 import java.util.function.UnaryOperator;
 
@@ -22,7 +23,11 @@ public abstract class LootPoolBuilderMixin implements KWLootTables.LootPoolEntry
 
     @Override
     public void kinetic_weaponry$modifyEntries(Predicate<LootPoolEntryContainer> containerPredicate, UnaryOperator<LootPoolEntryContainer> containerReplacer) {
-        ArrayList<LootPoolEntryContainer> containers = new ArrayList<>(this.entries.build());
+        List<LootPoolEntryContainer> containers = this.entries.build();
+
+        if (containers.stream().noneMatch(containerPredicate)) {
+            return;
+        }
 
         ImmutableList.Builder<LootPoolEntryContainer> newBuilder = new ImmutableList.Builder<>();
         for (LootPoolEntryContainer container : containers) {
