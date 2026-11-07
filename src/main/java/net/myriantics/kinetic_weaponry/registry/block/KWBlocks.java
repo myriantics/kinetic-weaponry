@@ -12,6 +12,7 @@ import net.myriantics.kinetic_weaponry.block.charging_bus.KineticChargingBusBloc
 import net.myriantics.kinetic_weaponry.block.detonator.KineticDetonatorBlock;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockBehaviour;
+import net.myriantics.kinetic_weaponry.block.interface_rail.KineticInterfaceRailBlock;
 import net.myriantics.kinetic_weaponry.block.ominous_anvil.OminousAnvilBlock;
 import net.myriantics.kinetic_weaponry.block.pulverizer.KineticPulverizerBlock;
 import net.myriantics.kinetic_weaponry.block.pulverizer.enchanted.EnchantedKineticPulverizerBlock;
@@ -67,6 +68,12 @@ public abstract class KWBlocks {
             "enchanted_kinetic_pulverizer",
             EnchantedKineticPulverizerBlock::new,
             copyProperties(Blocks.AMETHYST_BLOCK)
+    );
+
+    public static final Holder<Block> KINETIC_INTERFACE_RAIL = register(
+            "kinetic_interface_rail",
+            KineticInterfaceRailBlock::new,
+            copyProperties(Blocks.COPPER_BLOCK)
     );
 
     public static final Holder<Block> KINETIC_REPULSOR = register(

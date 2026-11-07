@@ -3,6 +3,7 @@ package net.myriantics.kinetic_weaponry.registry.block;
 import net.minecraft.world.level.block.state.properties.BooleanProperty;
 import net.minecraft.world.level.block.state.properties.EnumProperty;
 import net.minecraft.world.level.block.state.properties.IntegerProperty;
+import net.minecraft.world.level.block.state.properties.RailShape;
 import net.myriantics.kinetic_weaponry.block.charging_bus.KineticChargingBusBlock;
 import net.myriantics.kinetic_weaponry.block.charging_bus.KineticChargingBusShape;
 import net.myriantics.kinetic_weaponry.block.repulsor.KineticRepulsorOrientation;
@@ -30,6 +31,11 @@ public abstract class KWBlockStateProperties {
     );
     public static final EnumProperty<KineticRepulsorOrientation> KINETIC_REPULSOR_ORIENTATION = EnumProperty.create("orientation", KineticRepulsorOrientation.class);
     public static final BooleanProperty COOLDOWN = BooleanProperty.create("cooldown");
+    public static final EnumProperty<RailShape> HORIZONTAL_STRAIGHT_RAIL_SHAPE = EnumProperty.create(
+            "shape",
+            RailShape.class,
+            railShape -> !railShape.isAscending() && railShape != RailShape.NORTH_EAST && railShape != RailShape.SOUTH_EAST && railShape != RailShape.NORTH_WEST && railShape != RailShape.SOUTH_WEST
+    );
 
     private static IntegerProperty createKineticCharge(int min, int max) {
         return IntegerProperty.create("kinetic_charge", min, max);

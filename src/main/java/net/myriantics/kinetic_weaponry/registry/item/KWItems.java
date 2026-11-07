@@ -89,6 +89,14 @@ public abstract class KWItems {
                     .rarity(Rarity.EPIC)
     );
 
+    public static final Holder<Item> KINETIC_INTERFACE_RAIL = register(
+            "kinetic_interface_rail",
+            BlockItem::new,
+            KWBlocks.KINETIC_INTERFACE_RAIL.value(),
+            new Item.Properties()
+                    .rarity(Rarity.EPIC)
+    );
+
     public static final Holder<Item> KINETIC_RETENTION_BACKTANK = register(
             "kinetic_retention_backtank",
             properties -> new KineticRetentionModuleItem(KWBlocks.KINETIC_RETENTION_BACKTANK.value(), ArmorItem.Type.CHESTPLATE, KWArmorMaterials.KINETIC_COPPER, properties),

@@ -20,13 +20,14 @@ import java.util.function.Supplier;
 public abstract class KWItemGroups {
     public static final CreativeModeTab KINETIC_WEAPONRY = register(
             "kinetic_weaponry",
-            () -> new ItemStack(KWItems.KINETIC_DETONATOR),
+            () -> new ItemStack(KWItems.KINETIC_CHARGING_BUS),
             builder -> {
                 builder.displayItems((parameters, output) -> {
                     output.accept(KWItems.KINETIC_CHARGING_BUS.value());
                     output.accept(KWItems.CREATIVE_KINETIC_CHARGING_BUS.value());
                     output.accept(KWItems.KINETIC_CHARGING_BUS_MINECART.value());
                     output.accept(KWItems.CREATIVE_KINETIC_CHARGING_BUS_MINECART.value());
+                    output.accept(KWItems.KINETIC_INTERFACE_RAIL.value());
                     output.accept(KWItems.KINETIC_DETONATOR.value());
                     output.accept(KWItems.KINETIC_PULVERIZER.value());
                     output.accept(KWItems.KINETIC_REPULSOR.value());

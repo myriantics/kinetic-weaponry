@@ -12,6 +12,7 @@
     "minecraft.enchantment_carrier.SetEnchantmentsFunctionMixin",
     "minecraft.kinetic_block.FallingBlockEntityMixin",
     "minecraft.kinetic_crossbow.CrossbowItemMixin",
+    "minecraft.kinetic_interface_rail.DetectorRailBlockMixin",
     "minecraft.kinetic_retention_module.durability.LivingEntityMixin",
     "minecraft.kinetic_retention_module.mace_hit_absorption.LivingEntityMixin",
     "minecraft.loot.LootPoolBuilderMixin",

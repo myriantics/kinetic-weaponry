@@ -52,6 +52,19 @@ public class KWCraftingRecipeProvider extends CraftingRecipeProvider {
                         .associate('B', Items.BREEZE_ROD)
                         .category(CraftingBookCategory.EQUIPMENT)
         );
+        addShapedCraftingRecipe(
+                new String[] {
+                        "DHD",
+                        "DCD",
+                        "DBD"
+                },
+                new ItemStack(KWItems.KINETIC_INTERFACE_RAIL, 6),
+                builder -> builder
+                        .associate('D', Items.DETECTOR_RAIL)
+                        .associate('H', Items.HEAVY_CORE)
+                        .associate('C', Items.CHISELED_COPPER)
+                        .associate('B', Items.BREEZE_ROD)
+        );
         addShapelessCraftingRecipe(
                 new ItemStack(KWItems.KINETIC_CHARGING_BUS_MINECART),
                 shapelessBuilder -> shapelessBuilder
