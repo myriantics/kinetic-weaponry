@@ -5,3 +5,6 @@ accessible field net/minecraft/world/level/storage/loot/entries/LootPoolEntryCon
 accessible field net/minecraft/world/level/storage/loot/functions/SetEnchantmentsFunction enchantments Ljava/util/Map;
 accessible field net/minecraft/world/level/storage/loot/entries/LootPoolSingletonContainer$Builder functions Lcom/google/common/collect/ImmutableList$Builder;
 accessible field net/minecraft/world/level/storage/loot/entries/LootItem item Lnet/minecraft/core/Holder;
+accessible field net/minecraft/world/level/storage/loot/LootTable$Builder paramSet Lnet/minecraft/world/level/storage/loot/parameters/LootContextParamSet;
+accessible method net/minecraft/world/level/storage/loot/functions/SetItemFunction <init> (Ljava/util/List;Lnet/minecraft/core/Holder;)V
+mutable field net/minecraft/world/level/storage/loot/entries/LootPoolSingletonContainer functions Ljava/util/List;

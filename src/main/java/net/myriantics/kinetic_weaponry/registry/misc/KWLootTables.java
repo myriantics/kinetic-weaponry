@@ -1,5 +1,6 @@
 package net.myriantics.kinetic_weaponry.registry.misc;
 
+import com.google.common.collect.ImmutableList;
 import net.fabricmc.fabric.api.loot.v3.LootTableSource;
 import net.minecraft.advancements.critereon.EntityPredicate;
 import net.minecraft.core.HolderLookup;
@@ -15,15 +16,15 @@ import net.minecraft.world.level.storage.loot.LootTable;
 import net.minecraft.world.level.storage.loot.entries.LootItem;
 import net.minecraft.world.level.storage.loot.entries.LootPoolEntryContainer;
 import net.minecraft.world.level.storage.loot.entries.LootPoolSingletonContainer;
-import net.minecraft.world.level.storage.loot.functions.LootItemFunction;
-import net.minecraft.world.level.storage.loot.functions.SetEnchantmentsFunction;
-import net.minecraft.world.level.storage.loot.functions.SetItemCountFunction;
+import net.minecraft.world.level.storage.loot.functions.*;
+import net.minecraft.world.level.storage.loot.parameters.LootContextParams;
 import net.minecraft.world.level.storage.loot.predicates.LootItemEntityPropertyCondition;
 import net.minecraft.world.level.storage.loot.providers.number.UniformGenerator;
 import net.myriantics.kinetic_weaponry.KWCommon;
 import net.myriantics.kinetic_weaponry.registry.item.KWItems;
 import net.myriantics.kinetic_weaponry.tag.KWEntityTypeTags;
 
+import java.util.List;
 import java.util.function.Consumer;
 import java.util.function.Function;
 import java.util.function.Predicate;
@@ -40,12 +41,28 @@ public abstract class KWLootTables {
             return;
         }
 
-        if (lootTableResourceKey.equals(EntityType.SPIDER.getDefaultLootTable()) || lootTableResourceKey.equals(EntityType.CAVE_SPIDER.getDefaultLootTable())) {
-            trialTwineDrop(1, 3).accept(builder);
-        } else if (lootTableResourceKey.equals(EntityType.STRIDER.getDefaultLootTable())) {
-            trialTwineDrop(2, 5).accept(builder);
-        } else if (lootTableResourceKey.equals(EntityType.CAT.getDefaultLootTable())) {
-            trialTwineDrop(1, 2).accept(builder);
+        // conditional trial twine drops
+        if (builder.paramSet.isAllowed(LootContextParams.ATTACKING_ENTITY)) {
+            builder.modifyPools(poolBuilder -> ((LootPoolEntryModifier) poolBuilder).kinetic_weaponry$modifyEntries(lootPoolEntryContainer -> {
+                if (!(lootPoolEntryContainer instanceof LootItem lootItem)) {
+                    return false;
+                }
+
+                if (lootItem.item.value() == Items.STRING) {
+                    return true;
+                }
+
+                return false;
+            }, lootPoolEntryContainer -> {
+
+                LootPoolSingletonContainer.Builder<?> lootItem = LootItem.lootTableItem(KWItems.TRIAL_TWINE.value());
+                lootItem.functions.addAll(((LootItem) lootPoolEntryContainer).functions);
+                lootItem.functions.add(new SetItemFunction(
+                        List.of(LootItemEntityPropertyCondition.hasProperties(LootContext.EntityTarget.ATTACKER, EntityPredicate.Builder.entity().of(KWEntityTypeTags.TRIAL_TWINE_DROP_TRIGGERING_ATTACKERS)).build()),
+                        KWItems.TRIAL_TWINE
+                ));
+                return lootItem.build();
+            }));
         }
 
         // override wind burst drop with custom book
@@ -72,16 +89,6 @@ public abstract class KWLootTables {
                 return lootItem.build();
             }));
         }
-    }
-
-    private static Consumer<LootTable.Builder> trialTwineDrop(int min, int max) {
-        return (builder) -> builder.pool(
-                LootPool.lootPool()
-                        .when(LootItemEntityPropertyCondition.hasProperties(LootContext.EntityTarget.ATTACKER, EntityPredicate.Builder.entity().of(KWEntityTypeTags.TRIAL_TWINE_DROP_TRIGGERING_ATTACKERS)))
-                        .add(
-                                LootItem.lootTableItem(KWItems.TRIAL_TWINE.value()).apply(SetItemCountFunction.setCount(UniformGenerator.between(min, max)))
-                        ).build()
-        );
     }
 
     public interface LootPoolEntryModifier {
