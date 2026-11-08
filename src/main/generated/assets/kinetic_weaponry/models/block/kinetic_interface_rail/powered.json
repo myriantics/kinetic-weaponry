@@ -1,0 +1,13 @@
+{
+  "parent": "kinetic_weaponry:block/encased_rail",
+  "textures": {
+    "bottom": "kinetic_weaponry:block/kinetic_interface_rail/bottom/powered",
+    "inner_side": "kinetic_weaponry:block/kinetic_interface_rail/inner_side",
+    "inner_top": "kinetic_weaponry:block/kinetic_interface_rail/inner_top",
+    "outer_rim": "kinetic_weaponry:block/kinetic_interface_rail/outer_rim",
+    "particle": "kinetic_weaponry:block/kinetic_interface_rail/side",
+    "rail": "kinetic_weaponry:block/kinetic_interface_rail/rail/powered",
+    "side": "kinetic_weaponry:block/kinetic_interface_rail/side",
+    "top": "kinetic_weaponry:block/kinetic_interface_rail/top/powered"
+  }
+}

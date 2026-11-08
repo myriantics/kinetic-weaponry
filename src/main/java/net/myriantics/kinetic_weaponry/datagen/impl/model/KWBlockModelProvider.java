@@ -12,7 +12,9 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.level.block.state.properties.IntegerProperty;
+import net.minecraft.world.level.block.state.properties.RailShape;
 import net.myriantics.kinetic_weaponry.block.charging_bus.KineticChargingBusBlock;
+import net.myriantics.kinetic_weaponry.block.interface_rail.KineticInterfaceRailBlock;
 import net.myriantics.kinetic_weaponry.block.retention_module.headgear.AbstractKineticRetentionHeadgearBlock;
 import net.myriantics.kinetic_weaponry.block.retention_module.headgear.KineticRetentionHeadgearBlock;
 import net.myriantics.kinetic_weaponry.block.retention_module.backtank.KineticRetentionBacktankBlock;
@@ -20,6 +22,7 @@ import net.myriantics.kinetic_weaponry.block.trial_weave.TrialWeaveBlock;
 import net.myriantics.kinetic_weaponry.mixin.minecraft.datagen.IntegerPropertyAccessor;
 import net.myriantics.kinetic_weaponry.registry.block.KWBlocks;
 import net.myriantics.kinetic_weaponry.registry.render.KWModelTemplates;
+import net.myriantics.kinetic_weaponry.registry.render.KWTextureSlots;
 import net.myriantics.myrror.datagen.template.model.MyrrorBlockModelSubProvider;
 import net.myriantics.myrror.datagen.template.model.MyrrorModelProvider;
 
@@ -31,6 +34,7 @@ public class KWBlockModelProvider extends MyrrorBlockModelSubProvider {
     @Override
     public void generate() {
         generateFacing(KWBlocks.KINETIC_DETONATOR.value());
+        generateKineticInterfaceRail(KWBlocks.KINETIC_INTERFACE_RAIL.value());
 
         generateKineticRetentionModule(KWBlocks.KINETIC_RETENTION_BACKTANK.value(), KineticRetentionBacktankBlock.KINETIC_CHARGE, KWModelTemplates.STANDARD_KINETIC_RETENTION_MODULE);
         generateCreativeKineticRetentionModule(KWBlocks.CREATIVE_KINETIC_RETENTION_BACKTANK.value(), KWModelTemplates.STANDARD_KINETIC_RETENTION_MODULE);
@@ -182,6 +186,43 @@ public class KWBlockModelProvider extends MyrrorBlockModelSubProvider {
         generators.blockStateOutput.accept(
                 variantGenerator
         );
+    }
+
+    private void generateKineticInterfaceRail(Block block) {
+        if (!(block instanceof KineticInterfaceRailBlock railBlock)) {
+            throw new IllegalArgumentException(block + " must be a Kinetic Interface Rail!");
+        }
+
+        ResourceLocation baseRl = ModelLocationUtils.getModelLocation(block);
+
+        TextureMapping poweredMapping = new TextureMapping()
+                .put(TextureSlot.TOP, baseRl.withSuffix("/top/powered"))
+                .put(TextureSlot.SIDE, baseRl.withSuffix("/side"))
+                .put(TextureSlot.BOTTOM, baseRl.withSuffix("/bottom/powered"))
+                .put(KWTextureSlots.OUTER_RIM, baseRl.withSuffix("/outer_rim"))
+                .put(TextureSlot.INNER_TOP, baseRl.withSuffix("/inner_top"))
+                .put(TextureSlot.RAIL, baseRl.withSuffix("/rail/powered"))
+                .put(KWTextureSlots.INNER_SIDE, baseRl.withSuffix("/inner_side"))
+                .put(TextureSlot.PARTICLE, baseRl.withSuffix("/side"));
+        TextureMapping depoweredMapping = poweredMapping
+                .copyAndUpdate(TextureSlot.TOP, baseRl.withSuffix("/top/depowered"))
+                .put(TextureSlot.BOTTOM, baseRl.withSuffix("/bottom/depowered"))
+                .put(TextureSlot.RAIL, baseRl.withSuffix("/rail/depowered"));
+
+        ResourceLocation poweredModel = KWModelTemplates.ENCASED_RAIL.createWithSuffix(block, "/powered", poweredMapping, this.generators.modelOutput);
+        ResourceLocation depoweredModel = KWModelTemplates.ENCASED_RAIL.createWithSuffix(block, "/depowered", depoweredMapping, this.generators.modelOutput);
+
+        MultiVariantGenerator variantGenerator = MultiVariantGenerator.multiVariant(
+                block,
+                Variant.variant().with(VariantProperties.MODEL, depoweredModel)
+        ).with(PropertyDispatch.properties(KineticInterfaceRailBlock.SHAPE, KineticInterfaceRailBlock.POWERED)
+                .select(RailShape.NORTH_SOUTH, false, modelVariant(depoweredModel))
+                .select(RailShape.NORTH_SOUTH, true, modelVariant(poweredModel))
+                .select(RailShape.EAST_WEST, false, modelVariant(depoweredModel).with(VariantProperties.Y_ROT, VariantProperties.Rotation.R90))
+                .select(RailShape.EAST_WEST, true, modelVariant(poweredModel).with(VariantProperties.Y_ROT, VariantProperties.Rotation.R90))
+        );
+
+        this.generators.blockStateOutput.accept(variantGenerator);
     }
 
     private void generateKineticChargingBus(Block block, IntegerProperty property) {

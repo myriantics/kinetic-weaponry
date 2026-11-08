@@ -8,7 +8,7 @@ import java.util.Optional;
 
 public abstract class KWModelTemplates {
 
-    public static ModelTemplate STANDARD_KINETIC_RETENTION_MODULE = block(
+    public static final ModelTemplate STANDARD_KINETIC_RETENTION_MODULE = block(
             "kinetic_retention_backtank_template",
             TextureSlot.TOP,
             TextureSlot.SIDE,
@@ -16,7 +16,7 @@ public abstract class KWModelTemplates {
             TextureSlot.PARTICLE
     );
 
-    public static ModelTemplate KINETIC_RETENTION_HEADGEAR = block(
+    public static final ModelTemplate KINETIC_RETENTION_HEADGEAR = block(
             "kinetic_retention_headgear_template",
             TextureSlot.TOP,
             TextureSlot.SIDE,
@@ -24,7 +24,7 @@ public abstract class KWModelTemplates {
             TextureSlot.PARTICLE
     );
 
-    public static ModelTemplate KINETIC_RETENTION_HEADGEAR_INVERTED = block(
+    public static final ModelTemplate KINETIC_RETENTION_HEADGEAR_INVERTED = block(
             "kinetic_retention_headgear_inverted_template",
             TextureSlot.TOP,
             TextureSlot.SIDE,
@@ -32,17 +32,29 @@ public abstract class KWModelTemplates {
             TextureSlot.PARTICLE
     );
 
-    public static ModelTemplate KINETIC_SHORTBOW = item(
+    public static final ModelTemplate KINETIC_SHORTBOW = item(
             "kinetic_shortbow_parent",
             TextureSlot.LAYER0,
             TextureSlot.LAYER1,
             TextureSlot.LAYER2
     );
 
-    public static ModelTemplate KINETIC_CROSSBOW = item(
+    public static final ModelTemplate KINETIC_CROSSBOW = item(
             "kinetic_crossbow_parent",
             TextureSlot.LAYER0,
             TextureSlot.LAYER1
+    );
+
+    public static final ModelTemplate ENCASED_RAIL = block(
+            "encased_rail",
+            KWTextureSlots.OUTER_RIM,
+            TextureSlot.SIDE,
+            TextureSlot.TOP,
+            TextureSlot.BOTTOM,
+            KWTextureSlots.INNER_SIDE,
+            TextureSlot.INNER_TOP,
+            TextureSlot.RAIL,
+            TextureSlot.PARTICLE
     );
 
     private static ModelTemplate block(String path, TextureSlot... textureSlots) {

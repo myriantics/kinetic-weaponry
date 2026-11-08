@@ -1,0 +1,18 @@
+{
+  "variants": {
+    "powered=false,shape=east_west": {
+      "model": "kinetic_weaponry:block/kinetic_interface_rail/depowered",
+      "y": 90
+    },
+    "powered=false,shape=north_south": {
+      "model": "kinetic_weaponry:block/kinetic_interface_rail/depowered"
+    },
+    "powered=true,shape=east_west": {
+      "model": "kinetic_weaponry:block/kinetic_interface_rail/powered",
+      "y": 90
+    },
+    "powered=true,shape=north_south": {
+      "model": "kinetic_weaponry:block/kinetic_interface_rail/powered"
+    }
+  }
+}
