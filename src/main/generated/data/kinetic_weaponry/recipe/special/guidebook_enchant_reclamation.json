@@ -1,6 +1,10 @@
 {
   "type": "kinetic_weaponry:crafting/stored_enchantment_reclamation",
   "category": "misc",
+  "fallback_result": {
+    "count": 1,
+    "id": "minecraft:book"
+  },
   "ingredient": {
     "item": "kinetic_weaponry:guidebook"
   },

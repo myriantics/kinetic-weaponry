@@ -125,7 +125,7 @@ public class GenericCloningRecipe extends CustomRecipe {
 
     @Override
     public boolean canCraftInDimensions(int width, int height) {
-        return width * height > 1 + this.cloningIngredients.size();
+        return width * height > 1 + this.cloningIngredients.size() && width * height <= 9;
     }
 
     @Override

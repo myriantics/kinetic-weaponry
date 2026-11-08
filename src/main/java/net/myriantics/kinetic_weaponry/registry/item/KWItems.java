@@ -19,6 +19,7 @@ import net.myriantics.kinetic_weaponry.item.blockitem.EnchantableBlockItem;
 import net.myriantics.kinetic_weaponry.item.equipment.KineticCrossbowItem;
 import net.myriantics.kinetic_weaponry.item.equipment.KineticShortbowItem;
 import net.myriantics.kinetic_weaponry.item.minecart.KWMinecartItem;
+import net.myriantics.kinetic_weaponry.item.misc.GuidebookItem;
 import net.myriantics.kinetic_weaponry.mechanics.weapon_heat.OverheatWeapon;
 import net.myriantics.kinetic_weaponry.registry.block.KWBlocks;
 import net.myriantics.kinetic_weaponry.item.equipment.KineticRetentionModuleItem;
@@ -50,7 +51,7 @@ public abstract class KWItems {
 
     public static final Holder<Item> GUIDEBOOK = register(
             "guidebook",
-            Item::new,
+            GuidebookItem::new,
             new Item.Properties()
                     .rarity(Rarity.UNCOMMON)
                     .component(KWDataComponents.ENCHANTMENT_CARRIER.value(), Unit.INSTANCE)

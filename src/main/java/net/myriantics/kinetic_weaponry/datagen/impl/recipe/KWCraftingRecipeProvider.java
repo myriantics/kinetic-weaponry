@@ -25,7 +25,7 @@ public class KWCraftingRecipeProvider extends CraftingRecipeProvider {
 
     @Override
     protected void generateRecipes() {
-        acceptRecipe(KWCommon.locate("special/guidebook_enchant_reclamation"), new StoredEnchantmentReclamationRecipe(Ingredient.of(KWItems.GUIDEBOOK.value()), CraftingBookCategory.MISC));
+        acceptRecipe(KWCommon.locate("special/guidebook_enchant_reclamation"), new StoredEnchantmentReclamationRecipe(Ingredient.of(KWItems.GUIDEBOOK.value()), new ItemStack(Items.ENCHANTED_BOOK), new ItemStack(Items.BOOK), CraftingBookCategory.MISC));
         acceptRecipe(KWCommon.locate("special/guidebook_cloning"), new GenericCloningRecipe(Ingredient.of(KWItems.GUIDEBOOK.value()), List.of(Ingredient.of(Items.WRITABLE_BOOK)), HolderSet.empty(), CraftingBookCategory.MISC));
         add2x2PackingUnpackingRecipes(KWItems.TRIAL_WEAVE.value(), KWItems.TRIAL_TWINE.value(), craftingBuilder -> craftingBuilder);
         add2x2UnpackingRecipe(
