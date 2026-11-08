@@ -131,8 +131,8 @@ public class KineticInterfaceRailBlock extends DetectorRailBlock implements Kine
 
     @Override
     protected int getSignal(BlockState state, BlockGetter level, BlockPos pos, Direction direction) {
-        if (direction == Direction.UP) {
-            return super.getSignal(state, level, pos, direction);
+        if (state.getValue(POWERED) && direction.getAxis() == Direction.Axis.Y) {
+            return 15;
         } else {
             return 0;
         }
