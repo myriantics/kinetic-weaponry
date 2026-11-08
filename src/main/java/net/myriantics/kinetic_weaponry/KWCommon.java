@@ -13,10 +13,7 @@ import net.myriantics.kinetic_weaponry.registry.item.KWItems;
 import net.myriantics.kinetic_weaponry.registry.item.KWDataComponents;
 import net.myriantics.kinetic_weaponry.registry.block.KWBlocks;
 import net.myriantics.kinetic_weaponry.registry.entity.KWEntityTypes;
-import net.myriantics.kinetic_weaponry.registry.misc.KWAttachmentTypes;
-import net.myriantics.kinetic_weaponry.registry.misc.KWEvents;
-import net.myriantics.kinetic_weaponry.registry.misc.KWSoundEvents;
-import net.myriantics.kinetic_weaponry.registry.misc.KWPackets;
+import net.myriantics.kinetic_weaponry.registry.misc.*;
 import net.minecraft.resources.ResourceLocation;
 import org.slf4j.Logger;
 
@@ -58,6 +55,7 @@ public class KWCommon implements ModInitializer {
         KWEvents.init();
         KineticChargeStorage.init();
         KWMinecartComparatorRegistry.init();
+        KWRecipeSerializers.init();
 
         LOGGER.info("Kinetic Weaponry has initialized!");
     }

@@ -1,0 +1,13 @@
+{
+  "type": "kinetic_weaponry:crafting/generic_cloning",
+  "category": "misc",
+  "cloning_ingredients": [
+    {
+      "item": "minecraft:writable_book"
+    }
+  ],
+  "cloning_target": {
+    "item": "kinetic_weaponry:guidebook"
+  },
+  "transferred_components": []
+}

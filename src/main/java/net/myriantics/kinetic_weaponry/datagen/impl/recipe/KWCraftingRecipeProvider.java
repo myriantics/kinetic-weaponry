@@ -1,16 +1,22 @@
 package net.myriantics.kinetic_weaponry.datagen.impl.recipe;
 
 import net.minecraft.core.Holder;
+import net.minecraft.core.HolderSet;
 import net.minecraft.data.recipes.RecipeOutput;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.crafting.CraftingBookCategory;
 import net.minecraft.world.item.crafting.Ingredient;
+import net.myriantics.kinetic_weaponry.KWCommon;
+import net.myriantics.kinetic_weaponry.recipe.generic_cloning.GenericCloningRecipe;
+import net.myriantics.kinetic_weaponry.recipe.stored_enchantment_reclamation.StoredEnchantmentReclamationRecipe;
 import net.myriantics.kinetic_weaponry.registry.item.KWItems;
 import net.myriantics.kinetic_weaponry.tag.KWItemTags;
 import net.myriantics.myrror.datagen.template.recipe.MyrrorRecipeProvider;
 import net.myriantics.myrror.datagen.template.recipe.providers.CraftingRecipeProvider;
+
+import java.util.List;
 
 public class KWCraftingRecipeProvider extends CraftingRecipeProvider {
     public KWCraftingRecipeProvider(MyrrorRecipeProvider provider, RecipeOutput output) {
@@ -19,6 +25,8 @@ public class KWCraftingRecipeProvider extends CraftingRecipeProvider {
 
     @Override
     protected void generateRecipes() {
+        acceptRecipe(KWCommon.locate("special/guidebook_enchant_reclamation"), new StoredEnchantmentReclamationRecipe(Ingredient.of(KWItems.GUIDEBOOK.value()), CraftingBookCategory.MISC));
+        acceptRecipe(KWCommon.locate("special/guidebook_cloning"), new GenericCloningRecipe(Ingredient.of(KWItems.GUIDEBOOK.value()), List.of(Ingredient.of(Items.WRITABLE_BOOK)), HolderSet.empty(), CraftingBookCategory.MISC));
         add2x2PackingUnpackingRecipes(KWItems.TRIAL_WEAVE.value(), KWItems.TRIAL_TWINE.value(), craftingBuilder -> craftingBuilder);
         add2x2UnpackingRecipe(
                 Ingredient.of(KWItems.CRIMSON_TRIAL_WEAVE.value()),
