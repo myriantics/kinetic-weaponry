@@ -41,6 +41,7 @@ public class KineticInterfaceRailBlock extends DetectorRailBlock implements Kine
             box(0, 2, 2, 16, 14, 14),
             BooleanOp.ONLY_FIRST
     );
+    public static final VoxelShape ONLY_TOP = box(0, 14, 0, 16, 16, 16);
     public static final EnumProperty<RailShape> SHAPE = KWBlockStateProperties.HORIZONTAL_STRAIGHT_RAIL_SHAPE;
     public static final BooleanProperty POWERED = DetectorRailBlock.POWERED;
     public static final BooleanProperty WATERLOGGED = DetectorRailBlock.WATERLOGGED;
@@ -79,9 +80,9 @@ public class KineticInterfaceRailBlock extends DetectorRailBlock implements Kine
                 AbstractMinecartKineticChargingBusEntity selected = kineticCarts.get((startIndex + i) % kineticCarts.size());
                 try (Transaction tx = Transaction.openOuter()) {
                     if (selected.getStorage().insert(1, tx) > 0) {
+                        tx.abort();
                         return selected.getStorage();
                     }
-                    tx.abort();
                 }
             }
         }
@@ -91,7 +92,7 @@ public class KineticInterfaceRailBlock extends DetectorRailBlock implements Kine
     @Override
     protected VoxelShape getCollisionShape(BlockState state, BlockGetter level, BlockPos pos, CollisionContext context) {
         if (context instanceof EntityCollisionContext entityCollisionContext && entityCollisionContext.getEntity() instanceof AbstractMinecart abstractMinecart && abstractMinecart.isOnRails()) {
-            return Shapes.empty();
+            return ONLY_TOP;
         } else {
             return super.getCollisionShape(state, level, pos, context);
         }
