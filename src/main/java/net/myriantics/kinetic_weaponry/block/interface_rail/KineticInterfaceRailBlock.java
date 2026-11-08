@@ -125,6 +125,20 @@ public class KineticInterfaceRailBlock extends DetectorRailBlock implements Kine
     }
 
     @Override
+    protected boolean isSignalSource(BlockState state) {
+        return false;
+    }
+
+    @Override
+    protected int getSignal(BlockState state, BlockGetter level, BlockPos pos, Direction direction) {
+        if (direction == Direction.UP) {
+            return super.getSignal(state, level, pos, direction);
+        } else {
+            return 0;
+        }
+    }
+
+    @Override
     public void onMeleeKineticImpact(Level level, BlockPos pos, BlockState state, Player player, ItemStack weaponStack, Direction impactedFace, float impactDamage) {
         if (!state.getValue(POWERED)) {
             return;
