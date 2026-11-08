@@ -10,7 +10,6 @@ import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.codec.ByteBufCodecs;
 import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.Items;
 import net.minecraft.world.item.crafting.*;
 import net.minecraft.world.level.Level;
 import net.myriantics.kinetic_weaponry.registry.misc.KWRecipeSerializers;
@@ -48,11 +47,19 @@ public class GenericCloningRecipe extends CustomRecipe {
         }
         byte satisfiedCloningRequirements = 0;
         for (int i = 0; i < input.size(); i++) {
+            // don't check the cloning target for the ingedients
             if (i == cloningTargetIndex) {
                 continue;
             }
             ItemStack selected = input.getItem(i);
 
+            if (selected.isEmpty()) {
+                continue;
+            }
+
+            boolean validForAnyIngredient = false;
+
+            // iterate through the cloning ingredients and check them off the list in the byte
             for (byte j = 0; j < this.cloningIngredients.size(); j++) {
                 if ((satisfiedCloningRequirements & (1 << j)) > 0) {
                     continue;
@@ -60,9 +67,16 @@ public class GenericCloningRecipe extends CustomRecipe {
 
                 if (this.cloningIngredients.get(j).test(selected)) {
                     satisfiedCloningRequirements |= (1 << j);
+                    validForAnyIngredient = true;
+                    break;
                 }
             }
+            // filter out any stray items
+            if (!validForAnyIngredient) {
+                return false;
+            }
         }
+        // validate that al the cloning ingredients were checked off
         for (int i = 0; i < this.cloningIngredients.size(); i++) {
             if ((satisfiedCloningRequirements & (1 << i)) == 0) {
                 return false;
