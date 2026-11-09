@@ -3,6 +3,7 @@ package net.myriantics.kinetic_weaponry.entity.crossbow_bolt;
 import net.minecraft.core.Position;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.world.entity.Entity;
@@ -56,9 +57,11 @@ public class BreezyBoltEntity extends AbstractCrossbowBoltEntity {
     }
 
     protected void tryApplyUpdraft(Entity entity) {
-        if (entity.isEffectiveAi()) {
-            Vec3 updraftMovement = new Vec3(0, (double) (3 * (this.kineticCharge + 1)) /20, 0);
-            entity.addDeltaMovement(updraftMovement);
+        Vec3 updraftMovement = new Vec3(0, (double) (3 * (this.kineticCharge + 1)) /20, 0);
+        entity.addDeltaMovement(updraftMovement);
+        entity.hurtMarked = true;
+        if (entity instanceof ServerPlayer serverPlayer) {
+            serverPlayer.onExplosionHit(this);
         }
     }
 

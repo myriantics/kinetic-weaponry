@@ -5,6 +5,7 @@
   "mixins": [
     "minecraft.attack_use.LivingEntityMixin",
     "minecraft.crossbow_bolt.AbstractArrowMixin",
+    "minecraft.crossbow_bolt.ServerPlayerMixin",
     "minecraft.datagen.IntegerPropertyAccessor",
     "minecraft.enchanting.GrindstoneMenuMixin",
     "minecraft.enchanting.GrindstoneMenuResultSlotMixin",
