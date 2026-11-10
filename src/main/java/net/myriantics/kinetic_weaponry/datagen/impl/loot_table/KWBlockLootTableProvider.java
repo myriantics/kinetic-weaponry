@@ -21,6 +21,7 @@ public class KWBlockLootTableProvider extends FabricBlockLootTableProvider {
 
     @Override
     public void generate() {
+        add(KWBlocks.KINETIC_INTERFACE_RAIL.value(), this::dropSelfExplosionImmune);
         add(KWBlocks.KINETIC_RETENTION_BACKTANK.value(), this::createKineticRetentionModuleDrop);
         add(KWBlocks.CREATIVE_KINETIC_RETENTION_BACKTANK.value(), this::createKineticRetentionModuleDrop);
         add(KWBlocks.KINETIC_RETENTION_HEADGEAR.value(), this::createKineticRetentionModuleDrop);
