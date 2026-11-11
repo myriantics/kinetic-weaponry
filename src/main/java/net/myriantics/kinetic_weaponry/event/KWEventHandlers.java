@@ -10,6 +10,7 @@ import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.block.LevelEvent;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerPlayer;
@@ -38,6 +39,7 @@ public class KWEventHandlers {
                     if (player instanceof ServerPlayer serverPlayer) {
                         KWAdvancementTriggers.triggerKineticImpact(serverPlayer, serverPlayer.serverLevel(), blockPos);
                         serverPlayer.setSpawnExtraParticlesOnFall(true);
+                        level.levelEvent(LevelEvent.PARTICLES_SMASH_ATTACK, blockPos, 750);
                         if (serverPlayer.isIgnoringFallDamageFromCurrentImpulse() && serverPlayer.currentImpulseImpactPos != null) {
                             if (serverPlayer.currentImpulseImpactPos.y > serverPlayer.position().y) {
                                 serverPlayer.currentImpulseImpactPos = serverPlayer.position();
