@@ -2,6 +2,8 @@ package net.myriantics.kinetic_weaponry.block.charging_bus;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
 import net.myriantics.kinetic_weaponry.mechanics.kinetic_charge.KineticImpactType;
@@ -24,6 +26,11 @@ public class CreativeKineticChargingBusBlock extends AbstractKineticChargingBusB
     @Override
     public long getMaxCharge(Level level, BlockPos pos, BlockState state) {
         return 0;
+    }
+
+    @Override
+    public boolean onMeleeKineticImpact(Level level, BlockPos pos, BlockState state, Player player, ItemStack weaponStack, Direction impactedFace, float impactDamage) {
+        return false;
     }
 
     @Override

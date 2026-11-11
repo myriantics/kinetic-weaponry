@@ -34,29 +34,27 @@ public class KWEventHandlers {
             attackDamage += Items.MACE.getAttackDamageBonus(player, attackDamage, Explosion.getDefaultDamageSource(level, player));
 
             if (attackDamage > 0) {
-                if (player instanceof ServerPlayer serverPlayer) {
-                    KWAdvancementTriggers.triggerKineticImpact(serverPlayer, serverPlayer.serverLevel(), blockPos);
-                }
-                listener.onMeleeKineticImpact(level, blockPos, targetState, player, maceStack, direction, attackDamage * KWUtil.MELEE_KINETIC_IMPACT_FORCE_MULTIPLIER);
-
-                if (player instanceof ServerPlayer serverPlayer) {
-                    serverPlayer.setSpawnExtraParticlesOnFall(true);
-                    if (serverPlayer.isIgnoringFallDamageFromCurrentImpulse() && serverPlayer.currentImpulseImpactPos != null) {
-                        if (serverPlayer.currentImpulseImpactPos.y > serverPlayer.position().y) {
+                if (listener.onMeleeKineticImpact(level, blockPos, targetState, player, maceStack, direction, attackDamage * KWUtil.MELEE_KINETIC_IMPACT_FORCE_MULTIPLIER)) {
+                    if (player instanceof ServerPlayer serverPlayer) {
+                        KWAdvancementTriggers.triggerKineticImpact(serverPlayer, serverPlayer.serverLevel(), blockPos);
+                        serverPlayer.setSpawnExtraParticlesOnFall(true);
+                        if (serverPlayer.isIgnoringFallDamageFromCurrentImpulse() && serverPlayer.currentImpulseImpactPos != null) {
+                            if (serverPlayer.currentImpulseImpactPos.y > serverPlayer.position().y) {
+                                serverPlayer.currentImpulseImpactPos = serverPlayer.position();
+                            }
+                        } else {
                             serverPlayer.currentImpulseImpactPos = serverPlayer.position();
                         }
-                    } else {
-                        serverPlayer.currentImpulseImpactPos = serverPlayer.position();
+
+                        serverPlayer.setIgnoreFallDamageFromCurrentImpulse(true);
+                        serverPlayer.setDeltaMovement(serverPlayer.getDeltaMovement().with(Direction.Axis.Y, 0.01F));
+                        serverPlayer.connection.send(new ClientboundSetEntityMotionPacket(serverPlayer));
+                        SoundEvent soundevent = attackDamage > 10 ? SoundEvents.MACE_SMASH_GROUND_HEAVY : SoundEvents.MACE_SMASH_GROUND;
+                        level.playSound(null, player.getX(), player.getY(), player.getZ(), soundevent, player.getSoundSource(), 1.0F, 1.0F);
+
+                        player.resetFallDistance();
+                        maceStack.hurtAndBreak(1, player, EquipmentSlot.MAINHAND);
                     }
-
-                    serverPlayer.setIgnoreFallDamageFromCurrentImpulse(true);
-                    serverPlayer.setDeltaMovement(serverPlayer.getDeltaMovement().with(Direction.Axis.Y, 0.01F));
-                    serverPlayer.connection.send(new ClientboundSetEntityMotionPacket(serverPlayer));
-                    SoundEvent soundevent = attackDamage > 10 ? SoundEvents.MACE_SMASH_GROUND_HEAVY : SoundEvents.MACE_SMASH_GROUND;
-                    level.playSound(null, player.getX(), player.getY(), player.getZ(), soundevent, player.getSoundSource(), 1.0F, 1.0F);
-
-                    player.resetFallDistance();
-                    maceStack.hurtAndBreak(1, player, EquipmentSlot.MAINHAND);
                 }
             }
 

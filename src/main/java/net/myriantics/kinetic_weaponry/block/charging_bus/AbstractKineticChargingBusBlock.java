@@ -98,8 +98,10 @@ public abstract class AbstractKineticChargingBusBlock extends Block implements S
     }
 
     @Override
-    public void onMeleeKineticImpact(Level level, BlockPos pos, BlockState state, Player player, ItemStack weaponStack, Direction impactedFace, float impactDamage) {
+    public boolean onMeleeKineticImpact(Level level, BlockPos pos, BlockState state, Player player, ItemStack weaponStack, Direction impactedFace, float impactDamage) {
+        final long originalCharge = this.getCharge(level, pos, state);
         KineticImpactListener.super.onMeleeKineticImpact(level, pos, state, player, weaponStack, state.getValue(FACING), impactDamage);
+        return originalCharge != this.getCharge(level, pos, level.getBlockState(pos));
     }
 
     @Override

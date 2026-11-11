@@ -86,8 +86,14 @@ public abstract class AbstractKineticRetentionModuleBlock extends BaseEntityBloc
     }
 
     @Override
-    public void onMeleeKineticImpact(Level level, BlockPos pos, BlockState state, Player player, ItemStack weaponStack, Direction impactedFace, float impactDamage) {
-        KineticImpactListener.super.onMeleeKineticImpact(level, pos, state, player, weaponStack, state.getValue(FACING), impactDamage);
+    public boolean onMeleeKineticImpact(Level level, BlockPos pos, BlockState state, Player player, ItemStack weaponStack, Direction impactedFace, float impactDamage) {
+        if (level.getBlockEntity(pos) instanceof KineticRetentionModuleBlockEntity blockEntity) {
+            if (blockEntity.getCharge() < blockEntity.getMaxCharge()) {
+                KineticImpactListener.super.onMeleeKineticImpact(level, pos, state, player, weaponStack, state.getValue(FACING), impactDamage);
+                return true;
+            }
+        }
+        return false;
     }
 
     @Override

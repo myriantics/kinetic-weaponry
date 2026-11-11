@@ -8,7 +8,6 @@ import net.minecraft.world.entity.vehicle.AbstractMinecart;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.level.block.BaseRailBlock;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.DetectorRailBlock;
 import net.minecraft.world.level.block.state.BlockState;
@@ -140,18 +139,23 @@ public class KineticInterfaceRailBlock extends DetectorRailBlock implements Kine
     }
 
     @Override
-    public void onMeleeKineticImpact(Level level, BlockPos pos, BlockState state, Player player, ItemStack weaponStack, Direction impactedFace, float impactDamage) {
+    public boolean onMeleeKineticImpact(Level level, BlockPos pos, BlockState state, Player player, ItemStack weaponStack, Direction impactedFace, float impactDamage) {
         if (!state.getValue(POWERED)) {
-            return;
+            return false;
         }
 
         @Nullable KineticChargeStorage storage = this.findSuitableCartStorage(level, pos);
         if (storage != null) {
             try (Transaction tx = Transaction.openOuter()) {
-                storage.insert((long) impactDamage, tx);
-                tx.commit();
+
+                if (storage.insert((long) impactDamage, tx) > 0) {
+                    tx.commit();
+                    return true;
+                }
             }
         }
+
+        return false;
     }
 
     @Override

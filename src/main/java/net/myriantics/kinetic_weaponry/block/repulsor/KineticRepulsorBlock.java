@@ -88,8 +88,9 @@ public class KineticRepulsorBlock extends Block implements KineticImpactListener
     }
 
     @Override
-    public void onMeleeKineticImpact(Level level, BlockPos pos, BlockState state, Player player, ItemStack weaponStack, Direction impactedFace, float impactDamage) {
+    public boolean onMeleeKineticImpact(Level level, BlockPos pos, BlockState state, Player player, ItemStack weaponStack, Direction impactedFace, float impactDamage) {
         KineticImpactListener.super.onMeleeKineticImpact(level, pos, state, player, weaponStack, impactedFace, impactDamage);
+        return true;
     }
 
     @Override

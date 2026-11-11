@@ -222,8 +222,15 @@ public class KineticPulverizerBlock extends Block implements KineticImpactListen
     }
 
     @Override
-    public void onMeleeKineticImpact(Level level, BlockPos pos, BlockState state, Player player, ItemStack weaponStack, Direction impactedFace, float impactDamage) {
-        KineticImpactListener.super.onMeleeKineticImpact(level, pos, state, player, weaponStack, state.getValue(ORIENTATION).front().getOpposite(), impactDamage);
+    public boolean onMeleeKineticImpact(Level level, BlockPos pos, BlockState state, Player player, ItemStack weaponStack, Direction impactedFace, float impactDamage) {
+        final FrontAndTop orientation = state.getValue(ORIENTATION);
+        final BlockPos targetPos = pos.relative(orientation.front());
+        final BlockState targetState = level.getBlockState(targetPos);
+        if (this.getTargetBlockHardness(level, targetPos, targetState) > 0) {
+            KineticImpactListener.super.onMeleeKineticImpact(level, pos, state, player, weaponStack, orientation.front().getOpposite(), impactDamage);
+            return true;
+        }
+        return false;
     }
 
     @Override
