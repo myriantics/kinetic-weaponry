@@ -2,11 +2,14 @@ package net.myriantics.kinetic_weaponry.registry.behavior;
 
 import net.minecraft.core.Holder;
 import net.minecraft.core.dispenser.DispenseItemBehavior;
+import net.minecraft.core.dispenser.ProjectileDispenseBehavior;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.DispenserBlock;
 import net.myriantics.kinetic_weaponry.KWCommon;
 import net.myriantics.kinetic_weaponry.mechanics.dispenser_behavior.KineticRetentionModuleDispenserBehavior;
 import net.myriantics.kinetic_weaponry.registry.item.KWItems;
+
+import java.util.function.Function;
 
 public abstract class KWDispenserBehaviors {
     static {
@@ -15,6 +18,12 @@ public abstract class KWDispenserBehaviors {
         register(KWItems.CREATIVE_KINETIC_RETENTION_BACKTANK, behavior);
         register(KWItems.KINETIC_RETENTION_HEADGEAR, behavior);
         register(KWItems.CREATIVE_KINETIC_RETENTION_HEADGEAR, behavior);
+        registerProjectile(KWItems.BLAZING_BOLT, ProjectileDispenseBehavior::new);
+        registerProjectile(KWItems.BREEZY_BOLT, ProjectileDispenseBehavior::new);
+    }
+
+    private static void registerProjectile(Holder<Item> holder, Function<Item, ProjectileDispenseBehavior> ctor) {
+        register(holder, ctor.apply(holder.value()));
     }
 
     private static void register(Holder<Item> holder, DispenseItemBehavior behavior) {
