@@ -6,10 +6,12 @@ import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
+import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.enchantment.EnchantmentHelper;
 import net.minecraft.world.level.block.LevelEvent;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.core.BlockPos;
@@ -31,8 +33,9 @@ public class KWEventHandlers {
         ItemStack maceStack = player.getItemInHand(interactionHand);
         if (player.getAbilities().mayBuild && targetState.getBlock() instanceof KineticImpactListener listener && maceStack.getItem() instanceof MaceItem && MaceItem.canSmashAttack(player)) {
 
+            DamageSource source = player.damageSources().playerAttack(player);
             float attackDamage = (float) Objects.requireNonNull(player.getAttribute(Attributes.ATTACK_DAMAGE)).getValue();
-            attackDamage += Items.MACE.getAttackDamageBonus(player, attackDamage, Explosion.getDefaultDamageSource(level, player));
+            attackDamage += Items.MACE.getAttackDamageBonus(player, attackDamage, source);
 
             if (attackDamage > 0) {
                 if (listener.onMeleeKineticImpact(level, blockPos, targetState, player, maceStack, direction, attackDamage * KWUtil.MELEE_KINETIC_IMPACT_FORCE_MULTIPLIER)) {
@@ -54,6 +57,7 @@ public class KWEventHandlers {
                         SoundEvent soundevent = attackDamage > 10 ? SoundEvents.MACE_SMASH_GROUND_HEAVY : SoundEvents.MACE_SMASH_GROUND;
                         level.playSound(null, player.getX(), player.getY(), player.getZ(), soundevent, player.getSoundSource(), 1.0F, 1.0F);
 
+                        EnchantmentHelper.doPostAttackEffectsWithItemSource(serverPlayer.serverLevel(), null, source, maceStack);
                         player.resetFallDistance();
                         maceStack.hurtAndBreak(1, player, EquipmentSlot.MAINHAND);
                     }
