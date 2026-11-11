@@ -3,11 +3,13 @@ package net.myriantics.kinetic_weaponry.entity.minecart.charging_bus;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.state.BlockState;
 import net.myriantics.kinetic_weaponry.block.charging_bus.KineticChargingBusBlock;
 import net.myriantics.kinetic_weaponry.entity.minecart.KWMinecartType;
 import net.myriantics.kinetic_weaponry.item.minecart.KWMinecartItem;
 import net.myriantics.kinetic_weaponry.mechanics.kinetic_charge.storage.InfiniteKineticChargeStorage;
 import net.myriantics.kinetic_weaponry.mechanics.kinetic_charge.storage.KineticChargeStorage;
+import net.myriantics.kinetic_weaponry.registry.block.KWBlocks;
 import net.myriantics.kinetic_weaponry.registry.entity.KWEntityTypes;
 import net.myriantics.kinetic_weaponry.registry.item.KWItems;
 
@@ -42,5 +44,10 @@ public class CreativeMinecartKineticChargingBusEntity extends AbstractMinecartKi
     @Override
     public Item getDropItem() {
         return KWItems.CREATIVE_KINETIC_CHARGING_BUS_MINECART.value();
+    }
+
+    @Override
+    public BlockState getDefaultDisplayBlockState() {
+        return KWBlocks.CREATIVE_KINETIC_CHARGING_BUS.value().defaultBlockState();
     }
 }
