@@ -4,8 +4,11 @@ import net.fabricmc.fabric.api.transfer.v1.transaction.Transaction;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.Tag;
+import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.damagesource.DamageSource;
+import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.MaceItem;
@@ -68,6 +71,10 @@ public class MinecartKineticChargingBusEntity extends AbstractMinecartKineticCha
             try (Transaction tx = Transaction.openOuter()) {
                 if (this.storage.insert((long) (amount / 10), tx) > 0) {
                     tx.commit();
+                    if (source.getEntity() instanceof ServerPlayer serverPlayer) {
+                        KWUtil.runSmashAttackSFX(serverPlayer, serverPlayer.serverLevel(), this.getOnPos(), amount);
+                        KWUtil.runSmashAttackSideEffects(serverPlayer, source, weapon);
+                    }
                     return true;
                 }
             }
@@ -138,5 +145,15 @@ public class MinecartKineticChargingBusEntity extends AbstractMinecartKineticCha
         if (compound.contains(KWNbtIds.KINETIC_CHARGE, Tag.TAG_LONG)) {
             this.charge = Math.clamp(compound.getLong(KWNbtIds.KINETIC_CHARGE), 0, this.maxCharge);
         }
+    }
+
+    public float getContextualPickRadius(Entity interactor, float original) {
+        if (interactor instanceof LivingEntity livingEntity && !interactor.onGround()) {
+            ItemStack heldItem = livingEntity.getWeaponItem();
+            if (heldItem.getItem() instanceof MaceItem) {
+                return original + 0.5f;
+            }
+        }
+        return original;
     }
 }

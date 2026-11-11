@@ -41,25 +41,8 @@ public class KWEventHandlers {
                 if (listener.onMeleeKineticImpact(level, blockPos, targetState, player, maceStack, direction, attackDamage * KWUtil.MELEE_KINETIC_IMPACT_FORCE_MULTIPLIER)) {
                     if (player instanceof ServerPlayer serverPlayer) {
                         KWAdvancementTriggers.triggerKineticImpact(serverPlayer, serverPlayer.serverLevel(), blockPos);
-                        serverPlayer.setSpawnExtraParticlesOnFall(true);
-                        level.levelEvent(LevelEvent.PARTICLES_SMASH_ATTACK, blockPos, 750);
-                        if (serverPlayer.isIgnoringFallDamageFromCurrentImpulse() && serverPlayer.currentImpulseImpactPos != null) {
-                            if (serverPlayer.currentImpulseImpactPos.y > serverPlayer.position().y) {
-                                serverPlayer.currentImpulseImpactPos = serverPlayer.position();
-                            }
-                        } else {
-                            serverPlayer.currentImpulseImpactPos = serverPlayer.position();
-                        }
-
-                        serverPlayer.setIgnoreFallDamageFromCurrentImpulse(true);
-                        serverPlayer.setDeltaMovement(serverPlayer.getDeltaMovement().with(Direction.Axis.Y, 0.01F));
-                        serverPlayer.connection.send(new ClientboundSetEntityMotionPacket(serverPlayer));
-                        SoundEvent soundevent = attackDamage > 10 ? SoundEvents.MACE_SMASH_GROUND_HEAVY : SoundEvents.MACE_SMASH_GROUND;
-                        level.playSound(null, player.getX(), player.getY(), player.getZ(), soundevent, player.getSoundSource(), 1.0F, 1.0F);
-
-                        EnchantmentHelper.doPostAttackEffectsWithItemSource(serverPlayer.serverLevel(), null, source, maceStack);
-                        player.resetFallDistance();
-                        maceStack.hurtAndBreak(1, player, EquipmentSlot.MAINHAND);
+                        KWUtil.runSmashAttackSFX(serverPlayer, level, blockPos, attackDamage);
+                        KWUtil.runSmashAttackSideEffects(serverPlayer, source, maceStack);
                     }
                 }
             }

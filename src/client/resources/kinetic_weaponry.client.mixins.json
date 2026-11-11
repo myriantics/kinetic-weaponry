@@ -3,16 +3,17 @@
   "package": "net.myriantics.kinetic_weaponry.mixin",
   "compatibilityLevel": "JAVA_21",
   "client": [
-    "minecraft.kinetic_retention_module.HumanoidArmorLayerMixin",
     "minecraft.attack_use.MinecraftHandleKeybindsMixin",
-    "minecraft.kinetic_retention_module.SmithingScreenMixin",
     "minecraft.kinetic_crossbow.ItemInHandRendererMixin",
-    "minecraft.kinetic_crossbow.PlayerRendererMixin"
+    "minecraft.kinetic_crossbow.PlayerRendererMixin",
+    "minecraft.kinetic_retention_module.HumanoidArmorLayerMixin",
+    "minecraft.kinetic_retention_module.SmithingScreenMixin"
   ],
   "injectors": {
     "defaultRequire": 1
   },
   "mixins": [
+    "minecraft.minecart.ProjectileUtilMixin",
     "minecraft.tooltip.ItemStackMixin"
   ]
 }
