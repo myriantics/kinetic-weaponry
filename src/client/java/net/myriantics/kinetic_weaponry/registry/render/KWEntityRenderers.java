@@ -5,6 +5,7 @@ import net.minecraft.client.model.geom.ModelLayers;
 import net.minecraft.client.renderer.entity.EntityRenderDispatcher;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.client.renderer.entity.MinecartRenderer;
+import net.minecraft.client.renderer.entity.NoopRenderer;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.myriantics.kinetic_weaponry.KWCommon;
@@ -19,6 +20,7 @@ public class KWEntityRenderers {
         register(KWEntityTypes.BREEZY_BOLT.value(), CrossbowBoltRenderer::new);
         register(KWEntityTypes.KINETIC_CHARGING_BUS_MINECART.value(), (context) -> new MinecartRenderer<>(context, ModelLayers.MINECART));
         register(KWEntityTypes.CREATIVE_KINETIC_CHARGING_BUS_MINECART.value(), (context) -> new MinecartRenderer<>(context, ModelLayers.MINECART));
+        register(KWEntityTypes.KINETIC_IMPACT_HANDLER.value(), NoopRenderer::new);
     }
 
     private static <T extends Entity> void register(EntityType<T> type, EntityRendererProvider<T> rendererFactory) {

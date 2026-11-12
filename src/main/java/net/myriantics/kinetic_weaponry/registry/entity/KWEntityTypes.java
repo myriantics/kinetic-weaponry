@@ -10,6 +10,7 @@ import net.minecraft.world.entity.MobCategory;
 import net.myriantics.kinetic_weaponry.entity.crossbow_bolt.AbstractCrossbowBoltEntity;
 import net.myriantics.kinetic_weaponry.entity.crossbow_bolt.BlazingBoltEntity;
 import net.myriantics.kinetic_weaponry.entity.crossbow_bolt.BreezyBoltEntity;
+import net.myriantics.kinetic_weaponry.entity.internal.KineticImpactHandlerEntity;
 import net.myriantics.kinetic_weaponry.entity.minecart.charging_bus.AbstractMinecartKineticChargingBusEntity;
 import net.myriantics.kinetic_weaponry.entity.minecart.charging_bus.CreativeMinecartKineticChargingBusEntity;
 import net.myriantics.kinetic_weaponry.entity.minecart.charging_bus.MinecartKineticChargingBusEntity;
@@ -30,6 +31,17 @@ public abstract class KWEntityTypes {
             BreezyBoltEntity::new,
             MobCategory.MISC,
             KWEntityTypes::crossbowBolt
+    );
+
+    public static final Holder<EntityType<KineticImpactHandlerEntity>> KINETIC_IMPACT_HANDLER = register(
+            "kinetic_impact_handler",
+            KineticImpactHandlerEntity::new,
+            MobCategory.MISC,
+            builder -> builder
+                    .noSave()
+                    .noSummon()
+                    .sized(0, 0)
+                    .eyeHeight(0)
     );
 
     public static final Holder<EntityType<MinecartKineticChargingBusEntity>> KINETIC_CHARGING_BUS_MINECART = register(

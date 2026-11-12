@@ -6,16 +6,20 @@ import net.fabricmc.fabric.api.transfer.v1.transaction.TransactionContext;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.network.protocol.game.ClientboundSetEntityMotionPacket;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.damagesource.DamageSource;
+import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.enchantment.EnchantmentHelper;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.LevelEvent;
+import net.myriantics.kinetic_weaponry.entity.internal.KineticImpactHandlerEntity;
 import net.myriantics.kinetic_weaponry.mechanics.kinetic_charge.storage.KineticChargeStorage;
+import net.myriantics.kinetic_weaponry.registry.entity.KWEntityTypes;
 import org.jetbrains.annotations.Nullable;
 
 public abstract class KWUtil {
@@ -74,7 +78,9 @@ public abstract class KWUtil {
         level.playSound(null, serverPlayer.getX(), serverPlayer.getY(), serverPlayer.getZ(), soundevent, serverPlayer.getSoundSource(), 1.0F, 1.0F);
     }
 
-    public static void runSmashAttackSideEffects(ServerPlayer serverPlayer, DamageSource source, ItemStack maceStack) {
+    public static void runSmashAttackSideEffects(ServerPlayer serverPlayer, @Nullable Entity target, DamageSource source, ItemStack maceStack) {
+        ServerLevel serverLevel = serverPlayer.serverLevel();
+
         if (serverPlayer.isIgnoringFallDamageFromCurrentImpulse() && serverPlayer.currentImpulseImpactPos != null) {
             if (serverPlayer.currentImpulseImpactPos.y > serverPlayer.position().y) {
                 serverPlayer.currentImpulseImpactPos = serverPlayer.position();
@@ -87,8 +93,18 @@ public abstract class KWUtil {
         serverPlayer.setDeltaMovement(serverPlayer.getDeltaMovement().with(Direction.Axis.Y, 0.01F));
         serverPlayer.connection.send(new ClientboundSetEntityMotionPacket(serverPlayer));
 
+        if (target == null) {
+            KineticImpactHandlerEntity handlerEntity = KWEntityTypes.KINETIC_IMPACT_HANDLER.value().create(serverLevel);
+            if (handlerEntity != null) {
+                serverLevel.addFreshEntity(handlerEntity);
+                EnchantmentHelper.doPostAttackEffectsWithItemSource(serverLevel, handlerEntity, source, maceStack);
+                handlerEntity.discard();
+            }
+        } else {
+
+            EnchantmentHelper.doPostAttackEffectsWithItemSource(serverLevel, target, source, maceStack);
+        }
         serverPlayer.resetFallDistance();
-        EnchantmentHelper.doPostAttackEffectsWithItemSource(serverPlayer.serverLevel(), null, source, maceStack);
         maceStack.hurtAndBreak(1, serverPlayer, EquipmentSlot.MAINHAND);
     }
 }

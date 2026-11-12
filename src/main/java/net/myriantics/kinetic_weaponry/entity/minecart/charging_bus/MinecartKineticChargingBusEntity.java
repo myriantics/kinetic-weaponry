@@ -75,7 +75,7 @@ public class MinecartKineticChargingBusEntity extends AbstractMinecartKineticCha
                     if (source.getEntity() instanceof ServerPlayer serverPlayer) {
                         KWAdvancementTriggers.triggerKineticEntityImpact(serverPlayer, serverPlayer.serverLevel(), this);
                         KWUtil.runSmashAttackSFX(serverPlayer, serverPlayer.serverLevel(), this.getOnPos(), amount);
-                        KWUtil.runSmashAttackSideEffects(serverPlayer, source, weapon);
+                        KWUtil.runSmashAttackSideEffects(serverPlayer, this, source, weapon);
                     }
                     return true;
                 }

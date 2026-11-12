@@ -35,7 +35,7 @@ public class KWEventHandlers {
                     if (player instanceof ServerPlayer serverPlayer) {
                         KWAdvancementTriggers.triggerKineticBlockImpact(serverPlayer, serverPlayer.serverLevel(), blockPos);
                         KWUtil.runSmashAttackSFX(serverPlayer, level, blockPos, attackDamage);
-                        KWUtil.runSmashAttackSideEffects(serverPlayer, source, maceStack);
+                        KWUtil.runSmashAttackSideEffects(serverPlayer, null, source, maceStack);
                     }
                 }
             }
