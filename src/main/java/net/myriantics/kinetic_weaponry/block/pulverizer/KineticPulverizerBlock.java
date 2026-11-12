@@ -72,7 +72,7 @@ public class KineticPulverizerBlock extends Block implements KineticImpactListen
                         }
                         if (maxAmount >= requiredCharge) {
                             this.success = true;
-                            return Math.min(MAX_CHARGE_ALLOWED_FOR_OPERATION, maxAmount);
+                            return Math.min(requiredCharge, maxAmount);
                         } else {
                             return 0;
                         }

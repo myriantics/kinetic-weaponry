@@ -1,0 +1,57 @@
+{
+  "variants": {
+    "orientation=down_east": {
+      "model": "kinetic_weaponry:block/kinetic_pulverizer",
+      "x": 90,
+      "y": 90
+    },
+    "orientation=down_north": {
+      "model": "kinetic_weaponry:block/kinetic_pulverizer",
+      "x": 90
+    },
+    "orientation=down_south": {
+      "model": "kinetic_weaponry:block/kinetic_pulverizer",
+      "x": 90,
+      "y": 180
+    },
+    "orientation=down_west": {
+      "model": "kinetic_weaponry:block/kinetic_pulverizer",
+      "x": 90,
+      "y": 270
+    },
+    "orientation=east_up": {
+      "model": "kinetic_weaponry:block/kinetic_pulverizer",
+      "y": 90
+    },
+    "orientation=north_up": {
+      "model": "kinetic_weaponry:block/kinetic_pulverizer"
+    },
+    "orientation=south_up": {
+      "model": "kinetic_weaponry:block/kinetic_pulverizer",
+      "y": 180
+    },
+    "orientation=up_east": {
+      "model": "kinetic_weaponry:block/kinetic_pulverizer",
+      "x": 270,
+      "y": 270
+    },
+    "orientation=up_north": {
+      "model": "kinetic_weaponry:block/kinetic_pulverizer",
+      "x": 270,
+      "y": 180
+    },
+    "orientation=up_south": {
+      "model": "kinetic_weaponry:block/kinetic_pulverizer",
+      "x": 270
+    },
+    "orientation=up_west": {
+      "model": "kinetic_weaponry:block/kinetic_pulverizer",
+      "x": 270,
+      "y": 90
+    },
+    "orientation=west_up": {
+      "model": "kinetic_weaponry:block/kinetic_pulverizer",
+      "y": 270
+    }
+  }
+}

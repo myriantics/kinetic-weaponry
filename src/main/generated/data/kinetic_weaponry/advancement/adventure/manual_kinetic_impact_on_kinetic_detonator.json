@@ -3,11 +3,11 @@
   "criteria": {
     "manual_kinetic_impact_on_kinetic_detonator": {
       "conditions": {
-        "block_predicate": {
+        "predicate": {
           "blocks": "kinetic_weaponry:kinetic_detonator"
         }
       },
-      "trigger": "kinetic_weaponry:kinetic_impact"
+      "trigger": "kinetic_weaponry:kinetic_block_impact"
     }
   },
   "display": {

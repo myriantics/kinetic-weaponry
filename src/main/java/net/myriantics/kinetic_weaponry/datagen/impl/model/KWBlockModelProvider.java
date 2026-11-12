@@ -7,7 +7,6 @@ import net.minecraft.data.models.blockstates.PropertyDispatch;
 import net.minecraft.data.models.blockstates.Variant;
 import net.minecraft.data.models.blockstates.VariantProperties;
 import net.minecraft.data.models.model.*;
-import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
@@ -15,12 +14,14 @@ import net.minecraft.world.level.block.state.properties.IntegerProperty;
 import net.minecraft.world.level.block.state.properties.RailShape;
 import net.myriantics.kinetic_weaponry.block.charging_bus.KineticChargingBusBlock;
 import net.myriantics.kinetic_weaponry.block.interface_rail.KineticInterfaceRailBlock;
+import net.myriantics.kinetic_weaponry.block.pulverizer.KineticPulverizerBlock;
 import net.myriantics.kinetic_weaponry.block.retention_module.headgear.AbstractKineticRetentionHeadgearBlock;
 import net.myriantics.kinetic_weaponry.block.retention_module.headgear.KineticRetentionHeadgearBlock;
 import net.myriantics.kinetic_weaponry.block.retention_module.backtank.KineticRetentionBacktankBlock;
 import net.myriantics.kinetic_weaponry.block.trial_weave.TrialWeaveBlock;
 import net.myriantics.kinetic_weaponry.mixin.minecraft.datagen.IntegerPropertyAccessor;
 import net.myriantics.kinetic_weaponry.registry.block.KWBlocks;
+import net.myriantics.kinetic_weaponry.registry.item.KWItems;
 import net.myriantics.kinetic_weaponry.registry.render.KWModelTemplates;
 import net.myriantics.kinetic_weaponry.registry.render.KWTextureSlots;
 import net.myriantics.myrror.datagen.template.model.MyrrorBlockModelSubProvider;
@@ -40,6 +41,9 @@ public class KWBlockModelProvider extends MyrrorBlockModelSubProvider {
         generateCreativeKineticRetentionModule(KWBlocks.CREATIVE_KINETIC_RETENTION_BACKTANK.value(), KWModelTemplates.STANDARD_KINETIC_RETENTION_MODULE);
         generateKineticRetentionHeadgear(KWBlocks.KINETIC_RETENTION_HEADGEAR.value(), KineticRetentionHeadgearBlock.KINETIC_CHARGE);
         generateCreativeKineticRetentionModule(KWBlocks.CREATIVE_KINETIC_RETENTION_HEADGEAR.value(), KWModelTemplates.KINETIC_RETENTION_HEADGEAR);
+
+        generators.delegateItemModel(KWItems.KINETIC_PULVERIZER.value(), generateKineticPulverizer(KWBlocks.KINETIC_PULVERIZER.value()));
+        generateKineticPulverizer(KWBlocks.ENCHANTED_KINETIC_PULVERIZER.value());
 
         generateKineticChargingBus(KWBlocks.KINETIC_CHARGING_BUS.value(), KineticChargingBusBlock.KINETIC_CHARGE);
 
@@ -264,6 +268,22 @@ public class KWBlockModelProvider extends MyrrorBlockModelSubProvider {
 
         generators.delegateItemModel(block, charge2Ids[0]);
         generators.blockStateOutput.accept(variantGenerator);
+    }
+
+    private ResourceLocation generateKineticPulverizer(Block block) {
+        ResourceLocation location = ModelLocationUtils.getModelLocation(block);
+        TextureMapping mapping = new TextureMapping()
+                .put(TextureSlot.FRONT, location.withSuffix("/front"))
+                .put(TextureSlot.TOP, location.withSuffix("/top"))
+                .put(TextureSlot.SIDE, location.withSuffix("/side"))
+                .put(TextureSlot.BOTTOM, location.withSuffix("/bottom"))
+                .put(TextureSlot.PARTICLE, location.withSuffix("/particle"));
+        ModelTemplates.CUBE_ORIENTABLE.create(location, mapping, generators.modelOutput);
+        generators.blockStateOutput.accept(
+                MultiVariantGenerator.multiVariant(block, modelVariant(location))
+                        .with(PropertyDispatch.property(KineticPulverizerBlock.ORIENTATION).generate(frontAndTop -> generators.applyRotation(frontAndTop, Variant.variant())))
+        );
+        return location;
     }
 
     public static PropertyDispatch createDownDefaultRotationStates() {

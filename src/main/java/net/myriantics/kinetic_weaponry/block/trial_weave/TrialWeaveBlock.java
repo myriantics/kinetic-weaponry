@@ -172,8 +172,12 @@ public class TrialWeaveBlock extends Block implements KineticImpactListener {
     @Override
     protected void onPlace(BlockState state, Level level, BlockPos pos, BlockState oldState, boolean movedByPiston) {
         super.onPlace(state, level, pos, oldState, movedByPiston);
-        if (!oldState.is(this) && level instanceof ServerLevel serverLevel && !serverLevel.getBlockTicks().hasScheduledTick(pos, this)) {
-            this.scheduleCooldownFinishTick(level, pos, this);
+        if (!level.isClientSide() && !oldState.is(this) && state.getValue(STATE).isActive() && !level.getBlockTicks().hasScheduledTick(pos, this)) {
+            if (movedByPiston) {
+                level.setBlockAndUpdate(pos, state.setValue(STATE, TrialWeaveState.INERT));
+            } else {
+                this.scheduleCooldownFinishTick(level, pos, this);
+            }
         }
     }
 

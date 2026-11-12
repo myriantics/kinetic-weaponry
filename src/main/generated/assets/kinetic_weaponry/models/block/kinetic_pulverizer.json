@@ -1,0 +1,8 @@
+{
+  "parent": "minecraft:block/orientable",
+  "textures": {
+    "front": "kinetic_weaponry:block/kinetic_pulverizer/front",
+    "side": "kinetic_weaponry:block/kinetic_pulverizer/side",
+    "top": "kinetic_weaponry:block/kinetic_pulverizer/top"
+  }
+}
