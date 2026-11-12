@@ -1,24 +1,17 @@
 package net.myriantics.kinetic_weaponry.event;
 
 import net.minecraft.core.Direction;
-import net.minecraft.network.protocol.game.ClientboundSetEntityMotionPacket;
-import net.minecraft.sounds.SoundEvent;
-import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.damagesource.DamageSource;
-import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.enchantment.EnchantmentHelper;
-import net.minecraft.world.level.block.LevelEvent;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.MaceItem;
-import net.minecraft.world.level.Explosion;
 import net.minecraft.world.level.Level;
 import net.myriantics.kinetic_weaponry.KWUtil;
 import net.myriantics.kinetic_weaponry.mechanics.kinetic_charge.impact.KineticImpactListener;
@@ -40,7 +33,7 @@ public class KWEventHandlers {
             if (attackDamage > 0) {
                 if (listener.onMeleeKineticImpact(level, blockPos, targetState, player, maceStack, direction, attackDamage * KWUtil.MELEE_KINETIC_IMPACT_FORCE_MULTIPLIER)) {
                     if (player instanceof ServerPlayer serverPlayer) {
-                        KWAdvancementTriggers.triggerKineticImpact(serverPlayer, serverPlayer.serverLevel(), blockPos);
+                        KWAdvancementTriggers.triggerKineticBlockImpact(serverPlayer, serverPlayer.serverLevel(), blockPos);
                         KWUtil.runSmashAttackSFX(serverPlayer, level, blockPos, attackDamage);
                         KWUtil.runSmashAttackSideEffects(serverPlayer, source, maceStack);
                     }

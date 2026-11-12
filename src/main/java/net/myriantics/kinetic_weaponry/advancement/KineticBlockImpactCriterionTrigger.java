@@ -10,9 +10,8 @@ import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 
 import java.util.Optional;
-import java.util.logging.Level;
 
-public class KineticImpactCriterionTrigger extends SimpleCriterionTrigger<KineticImpactCriterionTrigger.Conditions> {
+public class KineticBlockImpactCriterionTrigger extends SimpleCriterionTrigger<KineticBlockImpactCriterionTrigger.Conditions> {
 
     @Override
     public Codec<Conditions> codec() {
@@ -26,7 +25,7 @@ public class KineticImpactCriterionTrigger extends SimpleCriterionTrigger<Kineti
     public record Conditions(Optional<ContextAwarePredicate> player, Optional<BlockPredicate> predicate) implements SimpleCriterionTrigger.SimpleInstance {
         public static final Codec<Conditions> CODEC = RecordCodecBuilder.create(instance -> instance.group(
                 ContextAwarePredicate.CODEC.optionalFieldOf("player").forGetter(Conditions::player),
-                BlockPredicate.CODEC.optionalFieldOf("block_predicate").forGetter(Conditions::predicate)
+                BlockPredicate.CODEC.optionalFieldOf("predicate").forGetter(Conditions::predicate)
         ).apply(instance, Conditions::new));
 
         public static Conditions create(BlockPredicate predicate) {

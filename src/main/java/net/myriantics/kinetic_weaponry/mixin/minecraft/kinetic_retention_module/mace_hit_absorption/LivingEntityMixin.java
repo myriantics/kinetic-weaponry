@@ -8,6 +8,7 @@ import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
 import com.llamalad7.mixinextras.sugar.Local;
 import com.llamalad7.mixinextras.sugar.ref.LocalBooleanRef;
 import com.llamalad7.mixinextras.sugar.ref.LocalFloatRef;
+import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
@@ -17,6 +18,7 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.MaceItem;
 import net.minecraft.world.level.Level;
 import net.myriantics.kinetic_weaponry.item.equipment.KineticRetentionModuleItem;
+import net.myriantics.kinetic_weaponry.registry.advancement.KWAdvancementTriggers;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
@@ -49,10 +51,17 @@ public abstract class LivingEntityMixin extends Entity {
 
         // test each of our equipped items for being a kinetic retention module and try to absorb mace hit if so
         if (weaponItem != null && weaponItem.getItem() instanceof MaceItem) {
+
             for (EquipmentSlot slot : EquipmentSlot.values()) {
                 ItemStack stack = this.getItemBySlot(slot);
                 if (stack != null && !stack.isEmpty() && stack.getItem() instanceof KineticRetentionModuleItem retentionModuleItem && retentionModuleItem.absorbMaceHitWhileEquipped((LivingEntity)(Object) this, source, amount.get(), slot, stack)) {
                     amount.set(0f);
+                    if (source.getEntity() instanceof ServerPlayer serverPlayer) {
+                        KWAdvancementTriggers.triggerKineticEntityImpact(serverPlayer, serverPlayer.serverLevel(), this);
+                    }
+                    if ((Object) this instanceof ServerPlayer serverPlayer) {
+                        KWAdvancementTriggers.triggerKineticImpactAbsorption(serverPlayer, source.getEntity(), slot, stack);
+                    }
                     break;
                 }
             }
@@ -77,6 +86,9 @@ public abstract class LivingEntityMixin extends Entity {
         // if we properly absorb charge, nullify all damage.
         if (helmetStack.getItem() instanceof KineticRetentionModuleItem retentionModuleItem && retentionModuleItem.absorbHelmetHitWhileEquipped(instance, damageSource, damageAmount, helmetStack)) {
             mutableDamageAmount.set(0);
+            if ((Object) this instanceof ServerPlayer serverPlayer) {
+                KWAdvancementTriggers.triggerKineticImpactAbsorption(serverPlayer, damageSource.getEntity(), EquipmentSlot.HEAD, helmetStack);
+            }
         }
     }
 }

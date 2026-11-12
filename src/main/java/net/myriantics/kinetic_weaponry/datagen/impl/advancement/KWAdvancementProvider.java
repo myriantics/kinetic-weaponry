@@ -6,7 +6,7 @@ import net.minecraft.advancements.critereon.BlockPredicate;
 import net.minecraft.advancements.critereon.InventoryChangeTrigger;
 import net.minecraft.advancements.critereon.ItemPredicate;
 import net.minecraft.resources.ResourceLocation;
-import net.myriantics.kinetic_weaponry.advancement.KineticImpactCriterionTrigger;
+import net.myriantics.kinetic_weaponry.advancement.KineticBlockImpactCriterionTrigger;
 import net.myriantics.kinetic_weaponry.advancement.KineticItemChargeCriterionTrigger;
 import net.myriantics.kinetic_weaponry.registry.advancement.KWCriteriaTriggers;
 import net.myriantics.kinetic_weaponry.registry.block.KWBlocks;
@@ -29,7 +29,7 @@ public class KWAdvancementProvider extends MyrrorAdvancementSubProvider {
 
         AdvancementHolder wearKineticRetentionModule = addTask(revaulting, "wear_kinetic_retention_module", KWItems.KINETIC_RETENTION_BACKTANK.value(), CriteriaTriggers.INVENTORY_CHANGED.createCriterion(InventoryChangeTrigger.TriggerInstance.hasItems(ItemPredicate.Builder.item().of(KWItemTags.KINETIC_RETENTION_MODULES)).triggerInstance()));
         AdvancementHolder chargeKineticShortbow = addTask(wearKineticRetentionModule, "charge_kinetic_shortbow", KWItems.KINETIC_SHORTBOW.value(), KWCriteriaTriggers.KINETIC_ITEM_CHARGE.value().createCriterion(KineticItemChargeCriterionTrigger.Conditions.create(ItemPredicate.Builder.item().of(KWItems.KINETIC_SHORTBOW.value()).build())));
-        AdvancementHolder kineticImpactKineticDetonator = addTask(revaulting, "manual_kinetic_impact_on_kinetic_detonator", KWItems.KINETIC_DETONATOR.value(), KWCriteriaTriggers.KINETIC_IMPACT.value().createCriterion(KineticImpactCriterionTrigger.Conditions.create(BlockPredicate.Builder.block().of(KWBlocks.KINETIC_DETONATOR.value()).build())));
-        AdvancementHolder kineticImpactKineticChargingBus = addTask(revaulting, "manual_kinetic_impact_on_kinetic_charging_bus", KWItems.KINETIC_CHARGING_BUS.value(), KWCriteriaTriggers.KINETIC_IMPACT.value().createCriterion(KineticImpactCriterionTrigger.Conditions.create(BlockPredicate.Builder.block().of(KWBlocks.KINETIC_CHARGING_BUS.value()).build())));
+        AdvancementHolder kineticImpactKineticDetonator = addTask(revaulting, "manual_kinetic_impact_on_kinetic_detonator", KWItems.KINETIC_DETONATOR.value(), KWCriteriaTriggers.KINETIC_BLOCK_IMPACT.value().createCriterion(KineticBlockImpactCriterionTrigger.Conditions.create(BlockPredicate.Builder.block().of(KWBlocks.KINETIC_DETONATOR.value()).build())));
+        AdvancementHolder kineticImpactKineticChargingBus = addTask(revaulting, "manual_kinetic_impact_on_kinetic_charging_bus", KWItems.KINETIC_CHARGING_BUS.value(), KWCriteriaTriggers.KINETIC_BLOCK_IMPACT.value().createCriterion(KineticBlockImpactCriterionTrigger.Conditions.create(BlockPredicate.Builder.block().of(KWBlocks.KINETIC_CHARGING_BUS.value()).build())));
     }
 }

@@ -19,6 +19,7 @@ import net.myriantics.kinetic_weaponry.entity.minecart.KWMinecartType;
 import net.myriantics.kinetic_weaponry.mechanics.kinetic_charge.block.KineticChargeVisualizer;
 import net.myriantics.kinetic_weaponry.mechanics.kinetic_charge.storage.KineticChargeStorage;
 import net.myriantics.kinetic_weaponry.mechanics.kinetic_charge.storage.SimpleKineticChargeStorage;
+import net.myriantics.kinetic_weaponry.registry.advancement.KWAdvancementTriggers;
 import net.myriantics.kinetic_weaponry.registry.block.KWBlocks;
 import net.myriantics.kinetic_weaponry.registry.entity.KWEntityTypes;
 import net.myriantics.kinetic_weaponry.registry.item.KWDataComponents;
@@ -72,6 +73,7 @@ public class MinecartKineticChargingBusEntity extends AbstractMinecartKineticCha
                 if (this.storage.insert((long) (amount / 10), tx) > 0) {
                     tx.commit();
                     if (source.getEntity() instanceof ServerPlayer serverPlayer) {
+                        KWAdvancementTriggers.triggerKineticEntityImpact(serverPlayer, serverPlayer.serverLevel(), this);
                         KWUtil.runSmashAttackSFX(serverPlayer, serverPlayer.serverLevel(), this.getOnPos(), amount);
                         KWUtil.runSmashAttackSideEffects(serverPlayer, source, weapon);
                     }
