@@ -23,6 +23,7 @@ import net.minecraft.world.level.storage.loot.LootParams;
 import net.minecraft.world.level.storage.loot.parameters.LootContextParams;
 import net.minecraft.world.phys.Vec3;
 import net.myriantics.kinetic_weaponry.mechanics.kinetic_charge.impact.KineticImpactListener;
+import net.myriantics.kinetic_weaponry.mechanics.kinetic_charge.impact.MeleeKineticImpactResult;
 import net.myriantics.kinetic_weaponry.mechanics.kinetic_charge.storage.KineticChargeSidedTransferContext;
 import net.myriantics.kinetic_weaponry.mechanics.kinetic_charge.storage.KineticChargeStorage;
 import net.myriantics.kinetic_weaponry.tag.KWBlockTags;
@@ -222,15 +223,15 @@ public class KineticPulverizerBlock extends Block implements KineticImpactListen
     }
 
     @Override
-    public boolean onMeleeKineticImpact(Level level, BlockPos pos, BlockState state, Player player, ItemStack weaponStack, Direction impactedFace, float impactDamage) {
+    public MeleeKineticImpactResult onMeleeKineticImpact(Level level, BlockPos pos, BlockState state, Player player, ItemStack weaponStack, Direction impactedFace, float impactDamage) {
         final FrontAndTop orientation = state.getValue(ORIENTATION);
         final BlockPos targetPos = pos.relative(orientation.front());
         final BlockState targetState = level.getBlockState(targetPos);
         if (this.getTargetBlockHardness(level, targetPos, targetState) > 0) {
             KineticImpactListener.super.onMeleeKineticImpact(level, pos, state, player, weaponStack, orientation.front().getOpposite(), impactDamage);
-            return true;
+            return MeleeKineticImpactResult.SUCCESS_NO_ENTITY;
         }
-        return false;
+        return MeleeKineticImpactResult.FAIL;
     }
 
     @Override

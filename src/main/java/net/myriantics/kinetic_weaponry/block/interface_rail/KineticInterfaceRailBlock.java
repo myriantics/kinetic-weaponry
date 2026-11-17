@@ -20,6 +20,7 @@ import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.shapes.*;
 import net.myriantics.kinetic_weaponry.entity.minecart.charging_bus.AbstractMinecartKineticChargingBusEntity;
 import net.myriantics.kinetic_weaponry.mechanics.kinetic_charge.impact.KineticImpactListener;
+import net.myriantics.kinetic_weaponry.mechanics.kinetic_charge.impact.MeleeKineticImpactResult;
 import net.myriantics.kinetic_weaponry.mechanics.kinetic_charge.storage.EmptyKineticChargeStorage;
 import net.myriantics.kinetic_weaponry.mechanics.kinetic_charge.storage.KineticChargeSidedTransferContext;
 import net.myriantics.kinetic_weaponry.mechanics.kinetic_charge.storage.KineticChargeStorage;
@@ -59,9 +60,9 @@ public class KineticInterfaceRailBlock extends DetectorRailBlock implements Kine
         KineticChargeStorage.SIDED.registerForBlocks(
                 (level, pos, state, blockEntity, context) -> {
                     if (state.getValue(POWERED) && (context.getImpactedFace() == null || this.offersStorageToFace(state, context.getImpactedFace()))) {
-                        @Nullable KineticChargeStorage foundStorage = this.findSuitableCartStorage(level, pos);
+                        @Nullable AbstractMinecartKineticChargingBusEntity foundStorage = this.findSuitableCartStorage(level, pos);
                         if (foundStorage != null) {
-                            return foundStorage;
+                            return foundStorage.getStorage();
                         }
                     }
 
@@ -71,7 +72,7 @@ public class KineticInterfaceRailBlock extends DetectorRailBlock implements Kine
         );
     }
 
-    protected @Nullable KineticChargeStorage findSuitableCartStorage(Level level, BlockPos pos) {
+    protected @Nullable AbstractMinecartKineticChargingBusEntity findSuitableCartStorage(Level level, BlockPos pos) {
         List<AbstractMinecartKineticChargingBusEntity> kineticCarts = level.getEntitiesOfClass(AbstractMinecartKineticChargingBusEntity.class, new AABB(pos));
         if (!kineticCarts.isEmpty()) {
             final int startIndex = level.getRandom().nextInt(kineticCarts.size());
@@ -80,7 +81,7 @@ public class KineticInterfaceRailBlock extends DetectorRailBlock implements Kine
                 try (Transaction tx = Transaction.openOuter()) {
                     if (selected.getStorage().insert(1, tx) > 0) {
                         tx.abort();
-                        return selected.getStorage();
+                        return selected;
                     }
                 }
             }
@@ -139,23 +140,23 @@ public class KineticInterfaceRailBlock extends DetectorRailBlock implements Kine
     }
 
     @Override
-    public boolean onMeleeKineticImpact(Level level, BlockPos pos, BlockState state, Player player, ItemStack weaponStack, Direction impactedFace, float impactDamage) {
+    public MeleeKineticImpactResult onMeleeKineticImpact(Level level, BlockPos pos, BlockState state, Player player, ItemStack weaponStack, Direction impactedFace, float impactDamage) {
         if (!state.getValue(POWERED)) {
-            return false;
+            return MeleeKineticImpactResult.FAIL;
         }
 
-        @Nullable KineticChargeStorage storage = this.findSuitableCartStorage(level, pos);
+        @Nullable AbstractMinecartKineticChargingBusEntity storage = this.findSuitableCartStorage(level, pos);
         if (storage != null) {
             try (Transaction tx = Transaction.openOuter()) {
 
-                if (storage.insert((long) impactDamage, tx) > 0) {
+                if (storage.getStorage().insert((long) impactDamage, tx) > 0) {
                     tx.commit();
-                    return true;
+                    return MeleeKineticImpactResult.success(storage);
                 }
             }
         }
 
-        return false;
+        return MeleeKineticImpactResult.FAIL;
     }
 
     @Override
@@ -164,10 +165,10 @@ public class KineticInterfaceRailBlock extends DetectorRailBlock implements Kine
             return;
         }
 
-        @Nullable KineticChargeStorage foundStorage = this.findSuitableCartStorage(level, pos);
+        @Nullable AbstractMinecartKineticChargingBusEntity foundStorage = this.findSuitableCartStorage(level, pos);
         if (foundStorage != null) {
             try (Transaction tx = Transaction.openOuter()) {
-                foundStorage.insert((long) impactDamage, tx);
+                foundStorage.getStorage().insert((long) impactDamage, tx);
                 tx.commit();
             }
         }

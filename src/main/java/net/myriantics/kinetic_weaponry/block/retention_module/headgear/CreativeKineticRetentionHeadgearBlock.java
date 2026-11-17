@@ -8,7 +8,7 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.BaseEntityBlock;
 import net.minecraft.world.level.block.state.BlockState;
-import net.myriantics.kinetic_weaponry.mechanics.kinetic_charge.KineticImpactType;
+import net.myriantics.kinetic_weaponry.mechanics.kinetic_charge.impact.MeleeKineticImpactResult;
 
 public class CreativeKineticRetentionHeadgearBlock extends AbstractKineticRetentionHeadgearBlock {
     private static final MapCodec<CreativeKineticRetentionHeadgearBlock> CODEC = simpleCodec(CreativeKineticRetentionHeadgearBlock::new);
@@ -32,7 +32,7 @@ public class CreativeKineticRetentionHeadgearBlock extends AbstractKineticRetent
     }
 
     @Override
-    public boolean onMeleeKineticImpact(Level level, BlockPos pos, BlockState state, Player player, ItemStack weaponStack, Direction impactedFace, float impactDamage) {
-        return false;
+    public MeleeKineticImpactResult onMeleeKineticImpact(Level level, BlockPos pos, BlockState state, Player player, ItemStack weaponStack, Direction impactedFace, float impactDamage) {
+        return MeleeKineticImpactResult.FAIL;
     }
 }

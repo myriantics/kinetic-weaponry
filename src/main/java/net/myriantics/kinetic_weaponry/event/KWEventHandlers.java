@@ -15,6 +15,7 @@ import net.minecraft.world.item.MaceItem;
 import net.minecraft.world.level.Level;
 import net.myriantics.kinetic_weaponry.KWUtil;
 import net.myriantics.kinetic_weaponry.mechanics.kinetic_charge.impact.KineticImpactListener;
+import net.myriantics.kinetic_weaponry.mechanics.kinetic_charge.impact.MeleeKineticImpactResult;
 import net.myriantics.kinetic_weaponry.registry.advancement.KWAdvancementTriggers;
 
 import java.util.Objects;
@@ -31,11 +32,12 @@ public class KWEventHandlers {
             attackDamage += Items.MACE.getAttackDamageBonus(player, attackDamage, source);
 
             if (attackDamage > 0) {
-                if (listener.onMeleeKineticImpact(level, blockPos, targetState, player, maceStack, direction, attackDamage * KWUtil.MELEE_KINETIC_IMPACT_FORCE_MULTIPLIER)) {
+                MeleeKineticImpactResult result = listener.onMeleeKineticImpact(level, blockPos, targetState, player, maceStack, direction, attackDamage * KWUtil.MELEE_KINETIC_IMPACT_FORCE_MULTIPLIER);
+                if (result.isSuccess()) {
                     if (player instanceof ServerPlayer serverPlayer) {
                         KWAdvancementTriggers.triggerKineticBlockImpact(serverPlayer, serverPlayer.serverLevel(), blockPos);
                         KWUtil.runSmashAttackSFX(serverPlayer, level, blockPos, attackDamage);
-                        KWUtil.runSmashAttackSideEffects(serverPlayer, null, source, maceStack);
+                        KWUtil.runSmashAttackSideEffects(serverPlayer, result.getImpactedEntity(), source, maceStack);
                     }
                 }
             }

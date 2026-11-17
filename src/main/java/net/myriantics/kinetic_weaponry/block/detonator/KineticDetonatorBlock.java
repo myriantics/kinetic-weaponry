@@ -4,6 +4,7 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.context.BlockPlaceContext;
@@ -13,7 +14,10 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.level.block.state.properties.DirectionProperty;
+import net.minecraft.world.level.gameevent.GameEvent;
+import net.myriantics.kinetic_weaponry.entity.misc.PrimedKineticDetonatorEntity;
 import net.myriantics.kinetic_weaponry.mechanics.kinetic_charge.impact.KineticImpactListener;
+import net.myriantics.kinetic_weaponry.mechanics.kinetic_charge.impact.MeleeKineticImpactResult;
 import net.myriantics.kinetic_weaponry.mechanics.kinetic_charge.storage.KineticChargeSidedTransferContext;
 import net.myriantics.kinetic_weaponry.mechanics.kinetic_charge.storage.KineticChargeStorage;
 import net.myriantics.kinetic_weaponry.mechanics.kinetic_charge.storage.SimpleKineticChargeStorage;
@@ -60,7 +64,7 @@ public class KineticDetonatorBlock extends Block implements KineticImpactListene
                     @Override
                     protected void onFinalCommit() {
                         super.onFinalCommit();
-                        KineticDetonatorBlock.this.detonate(level, pos, state, context.getSource(), this.charge * KINETIC_CHARGE_TRANSFER_CONVERSION_EFFICIENCY);
+                        KineticDetonatorBlock.this.prime(level, pos, state, context.getSource() instanceof LivingEntity livingEntity ? livingEntity : null, this.charge * KINETIC_CHARGE_TRANSFER_CONVERSION_EFFICIENCY);
                     }
                 },
                 this
@@ -78,36 +82,32 @@ public class KineticDetonatorBlock extends Block implements KineticImpactListene
         return this.defaultBlockState().setValue(FACING, context.getClickedFace());
     }
 
+    protected PrimedKineticDetonatorEntity prime(Level level, BlockPos pos, BlockState state, @Nullable LivingEntity owner, float explosionPower) {
+        if (level.isClientSide()) {
+            return null;
+        }
 
-    protected void detonate(Level level, BlockPos pos, BlockState state, @Nullable Entity source, float explosionPower) {
-        if (level instanceof ServerLevel serverLevel) {
-            // so the explosion actually goes through the block
-            serverLevel.setBlockAndUpdate(pos, Blocks.AIR.defaultBlockState());
-            // low effort special effects go brrt
-            serverLevel.addDestroyBlockEffect(pos, state);
-            // kaboom? yes rico, kaboom.
-            serverLevel.explode(
-                    source,
-                    pos.getCenter().x,
-                    pos.getCenter().y,
-                    pos.getCenter().z,
-                    Math.clamp(explosionPower, 0, EXPLOSION_POWER_CAP),
-                    false,
-                    Level.ExplosionInteraction.BLOCK
-            );
+        level.destroyBlock(pos, false);
+        level.addDestroyBlockEffect(pos, state);
+        PrimedKineticDetonatorEntity entity = new PrimedKineticDetonatorEntity(level, pos.getX() + 0.5, pos.getY(), pos.getZ() + 0.5, owner, Math.clamp(explosionPower, 0, EXPLOSION_POWER_CAP));
+        if (level.addFreshEntity(entity)) {
+            level.gameEvent(owner, GameEvent.PRIME_FUSE, pos);
+            return entity;
+        } else {
+            return null;
         }
     }
 
     @Override
-    public boolean onMeleeKineticImpact(Level level, BlockPos pos, BlockState state, Player player, ItemStack weaponStack, Direction impactedFace, float impactDamage) {
-        KineticImpactListener.super.onMeleeKineticImpact(level, pos, state, player, weaponStack, state.getValue(FACING), impactDamage);
-        return true;
+    public MeleeKineticImpactResult onMeleeKineticImpact(Level level, BlockPos pos, BlockState state, Player player, ItemStack weaponStack, Direction impactedFace, float impactDamage) {
+        PrimedKineticDetonatorEntity entity = this.prime(level, pos, state, player, impactDamage);
+        return MeleeKineticImpactResult.of(true, entity);
     }
 
     @Override
     public void onKineticImpact(Level level, BlockPos pos, BlockState state, float impactDamage, KineticChargeSidedTransferContext context) {
-        if (state.getValue(FACING) == context.getImpactedFace()) {
-            this.detonate(level, pos, state, context.getSource(), impactDamage);
+        if (state.getValue(FACING) == context.getImpactedFace() && context.getSource() instanceof LivingEntity livingEntity) {
+            this.prime(level, pos, state, livingEntity, impactDamage);
         }
     }
 }

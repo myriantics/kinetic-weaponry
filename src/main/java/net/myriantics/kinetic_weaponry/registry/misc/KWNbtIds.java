@@ -8,6 +8,7 @@ public abstract class KWNbtIds {
     public static final String MAX_KINETIC_CHARGE = of("max_kinetic_charge");
     public static final String ACTIVE = of("active");
     public static final String LAST_TRIGGERED_POS = of("last_triggered_pos");
+    public static final String EXPLOSION_POWER = of("explosion_power");
 
     private static String of(String name) {
         return KWCommon.locate(name).toString();

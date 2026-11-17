@@ -4,6 +4,7 @@ import net.minecraft.core.Holder;
 import net.minecraft.core.Registry;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.SoundType;
 import net.minecraft.world.level.material.MapColor;
 import net.minecraft.world.level.material.PushReaction;
 import net.myriantics.kinetic_weaponry.KWCommon;
@@ -67,7 +68,8 @@ public abstract class KWBlocks {
     public static final Holder<Block> ENCHANTED_KINETIC_PULVERIZER = register(
             "enchanted_kinetic_pulverizer",
             EnchantedKineticPulverizerBlock::new,
-            copyProperties(Blocks.AMETHYST_BLOCK)
+            copyProperties(KINETIC_PULVERIZER.value())
+                    .sound(SoundType.AMETHYST)
     );
 
     public static final Holder<Block> KINETIC_INTERFACE_RAIL = register(

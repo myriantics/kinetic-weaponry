@@ -51,9 +51,16 @@ public class KWBlockModelProvider extends MyrrorBlockModelSubProvider {
     }
 
     private void generateFacing(Block block) {
-        ResourceLocation resourceLocation = TexturedModel.CUBE_TOP_BOTTOM.create(block, this.generators.modelOutput);
-        this.generators.blockStateOutput.accept(MultiVariantGenerator.multiVariant(block, Variant.variant().with(VariantProperties.MODEL, resourceLocation)).with(createUpDefaultRotationStates()));
-        this.generators.delegateItemModel(block, resourceLocation);
+        ResourceLocation baseRl = ModelLocationUtils.getModelLocation(block);
+        TextureMapping mapping = new TextureMapping()
+                .put(TextureSlot.TOP, baseRl.withSuffix("/top"))
+                .put(TextureSlot.SIDE, baseRl.withSuffix("/side"))
+                .put(TextureSlot.BOTTOM, baseRl.withSuffix("/bottom"))
+                .put(TextureSlot.PARTICLE, baseRl.withSuffix("/side"));
+        ModelTemplates.CUBE_BOTTOM_TOP.create(baseRl, mapping, generators.modelOutput);
+
+        this.generators.blockStateOutput.accept(MultiVariantGenerator.multiVariant(block, modelVariant(baseRl)).with(createUpDefaultRotationStates()));
+        this.generators.delegateItemModel(block, baseRl);
     }
 
     private void generateTrialWeave(Block block) {

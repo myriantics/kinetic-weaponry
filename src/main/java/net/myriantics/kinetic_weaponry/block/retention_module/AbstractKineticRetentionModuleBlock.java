@@ -20,6 +20,7 @@ import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.level.block.state.properties.BooleanProperty;
 import net.minecraft.world.level.block.state.properties.DirectionProperty;
 import net.myriantics.kinetic_weaponry.mechanics.kinetic_charge.impact.KineticImpactListener;
+import net.myriantics.kinetic_weaponry.mechanics.kinetic_charge.impact.MeleeKineticImpactResult;
 import net.myriantics.kinetic_weaponry.mechanics.kinetic_charge.storage.KineticChargeSidedTransferContext;
 import net.myriantics.kinetic_weaponry.mechanics.kinetic_charge.storage.KineticChargeStorage;
 import org.jetbrains.annotations.NotNull;
@@ -86,14 +87,14 @@ public abstract class AbstractKineticRetentionModuleBlock extends BaseEntityBloc
     }
 
     @Override
-    public boolean onMeleeKineticImpact(Level level, BlockPos pos, BlockState state, Player player, ItemStack weaponStack, Direction impactedFace, float impactDamage) {
+    public MeleeKineticImpactResult onMeleeKineticImpact(Level level, BlockPos pos, BlockState state, Player player, ItemStack weaponStack, Direction impactedFace, float impactDamage) {
         if (level.getBlockEntity(pos) instanceof KineticRetentionModuleBlockEntity blockEntity) {
             if (blockEntity.getCharge() < blockEntity.getMaxCharge()) {
                 KineticImpactListener.super.onMeleeKineticImpact(level, pos, state, player, weaponStack, state.getValue(FACING), impactDamage);
-                return true;
+                return MeleeKineticImpactResult.SUCCESS_NO_ENTITY;
             }
         }
-        return false;
+        return MeleeKineticImpactResult.FAIL;
     }
 
     @Override

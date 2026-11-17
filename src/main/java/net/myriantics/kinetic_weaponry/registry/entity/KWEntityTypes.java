@@ -14,6 +14,7 @@ import net.myriantics.kinetic_weaponry.entity.internal.KineticImpactHandlerEntit
 import net.myriantics.kinetic_weaponry.entity.minecart.charging_bus.AbstractMinecartKineticChargingBusEntity;
 import net.myriantics.kinetic_weaponry.entity.minecart.charging_bus.CreativeMinecartKineticChargingBusEntity;
 import net.myriantics.kinetic_weaponry.entity.minecart.charging_bus.MinecartKineticChargingBusEntity;
+import net.myriantics.kinetic_weaponry.entity.misc.PrimedKineticDetonatorEntity;
 
 import java.util.function.UnaryOperator;
 
@@ -62,6 +63,16 @@ public abstract class KWEntityTypes {
                     .sized(0.98F, 0.7F)
                     .passengerAttachments(0.1875F)
                     .clientTrackingRange(8)
+    );
+
+    public static final Holder<EntityType<PrimedKineticDetonatorEntity>> PRIMED_KINETIC_DETONATOR = register(
+            "primed_kinetic_detonator",
+            PrimedKineticDetonatorEntity::new,
+            MobCategory.MISC,
+            builder -> builder
+                    .sized(0.98f, 0.48f)
+                    .eyeHeight(0.24f)
+                    .clientTrackingRange(10)
     );
 
     private static <T extends AbstractCrossbowBoltEntity> EntityType.Builder<T> crossbowBolt(EntityType.Builder<T> builder) {

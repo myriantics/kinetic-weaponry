@@ -24,6 +24,9 @@
     "minecraft.ominous_anvil.AnvilMenuMixin",
     "minecraft.ominous_anvil.FallingBlockEntityMixin",
     "minecraft.overheat_weapon.ThrownPotionEntityMixin",
+    "minecraft.primed_kinetic_detonator.PrimedTntAccessor",
+    "minecraft.primed_kinetic_detonator.PrimedTntInvoker",
+    "minecraft.primed_kinetic_detonator.PrimedTntMixin",
     "minecraft.swingable_item.LivingEntityMixin"
   ],
   "injectors": {

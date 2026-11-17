@@ -10,9 +10,9 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.myriantics.kinetic_weaponry.mechanics.kinetic_charge.storage.KineticChargeSidedTransferContext;
 
 public interface KineticImpactListener {
-    default boolean onMeleeKineticImpact(Level level, BlockPos pos, BlockState state, Player player, ItemStack weaponStack, Direction impactedFace, float impactDamage) {
+    default MeleeKineticImpactResult onMeleeKineticImpact(Level level, BlockPos pos, BlockState state, Player player, ItemStack weaponStack, Direction impactedFace, float impactDamage) {
         this.onKineticImpact(level, pos, state, impactDamage, KineticChargeSidedTransferContext.of(impactedFace, player));
-        return true;
+        return MeleeKineticImpactResult.SUCCESS_NO_ENTITY;
     }
 
     default void onFallingBlockKineticImpact(Level level, BlockPos pos, BlockState state, FallingBlockEntity entity, float impactDamage) {
