@@ -1,25 +1,44 @@
 package net.myriantics.kinetic_weaponry.entity.misc;
 
+import net.minecraft.core.Direction;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.nbt.NbtOps;
+import net.minecraft.network.syncher.EntityDataAccessor;
+import net.minecraft.network.syncher.EntityDataSerializers;
+import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.item.PrimedTnt;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.phys.AABB;
 import net.myriantics.kinetic_weaponry.mixin.minecraft.primed_kinetic_detonator.PrimedTntAccessor;
 import net.myriantics.kinetic_weaponry.mixin.minecraft.primed_kinetic_detonator.PrimedTntInvoker;
 import net.myriantics.kinetic_weaponry.registry.entity.KWEntityTypes;
+import net.myriantics.kinetic_weaponry.registry.item.KWItems;
 import net.myriantics.kinetic_weaponry.registry.misc.KWNbtIds;
 import org.jetbrains.annotations.Nullable;
 
 public class PrimedKineticDetonatorEntity extends PrimedTnt {
 
+    private static final double WIDTH = 0.98f;
+    private static final double HEIGHT = 0.48f;
+    private static final AABB[] AABB_FOR_AXIS_ORDINAL = new AABB[] {
+            new AABB(-HEIGHT / 2, 0 ,-WIDTH / 2, HEIGHT / 2, WIDTH, WIDTH / 2), // x
+            new AABB(-WIDTH / 2, 0, -WIDTH / 2, WIDTH / 2, HEIGHT, WIDTH / 2), // y
+            new AABB(-WIDTH / 2, 0, -HEIGHT / 2, WIDTH / 2, WIDTH, HEIGHT / 2), // z
+    };
+
+    private static final EntityDataAccessor<Direction> DATA_DIRECTION = SynchedEntityData.defineId(PrimedKineticDetonatorEntity.class, EntityDataSerializers.DIRECTION);
+
     private float explosionPower = 0.0f;
 
     public PrimedKineticDetonatorEntity(EntityType<? extends PrimedTnt> entityType, Level level) {
         super(entityType, level);
+        this.recalculateBoundingBox();
     }
 
-    public PrimedKineticDetonatorEntity(Level level, double x, double y, double z, @Nullable LivingEntity owner, float explosionPower) {
+    public PrimedKineticDetonatorEntity(Level level, double x, double y, double z, @Nullable LivingEntity owner, float explosionPower, Direction direction) {
         this(KWEntityTypes.PRIMED_KINETIC_DETONATOR.value(), level);
         this.explosionPower = explosionPower;
         this.setFuse(Math.clamp(30 - (int) explosionPower, 10, 30));
@@ -31,6 +50,13 @@ public class PrimedKineticDetonatorEntity extends PrimedTnt {
         this.yo = y;
         this.zo = z;
         ((PrimedTntAccessor) this).kinetic_weaponry$setOwner(owner);
+        this.setDirection(direction);
+    }
+
+    @Override
+    protected void defineSynchedData(SynchedEntityData.Builder builder) {
+        super.defineSynchedData(builder);
+        builder.define(DATA_DIRECTION, Direction.UP);
     }
 
     @Override
@@ -46,8 +72,37 @@ public class PrimedKineticDetonatorEntity extends PrimedTnt {
         }
     }
 
+    protected Direction getFacingDirection() {
+        return this.getEntityData().get(DATA_DIRECTION);
+    }
+
+    @Override
+    public void refreshDimensions() {
+        this.recalculateBoundingBox();
+    }
+
+    @Override
+    public void setPos(double x, double y, double z) {
+        super.setPos(x, y, z);
+        this.recalculateBoundingBox();
+    }
+
+    protected void setDirection(Direction direction) {
+        this.getEntityData().set(DATA_DIRECTION, direction);
+        this.recalculateBoundingBox();
+    }
+
+    protected void recalculateBoundingBox() {
+        this.setBoundingBox(AABB_FOR_AXIS_ORDINAL[this.getFacingDirection().getAxis().ordinal()].move(this.position()));
+    }
+
     public float getExplosionPower() {
         return this.explosionPower;
+    }
+
+    @Override
+    public @Nullable ItemStack getPickResult() {
+        return new ItemStack(KWItems.KINETIC_DETONATOR);
     }
 
     @Override
@@ -56,11 +111,14 @@ public class PrimedKineticDetonatorEntity extends PrimedTnt {
         if (compound.contains(KWNbtIds.EXPLOSION_POWER, CompoundTag.TAG_FLOAT)) {
             this.explosionPower = Math.max(compound.getFloat(KWNbtIds.EXPLOSION_POWER), 0);
         }
+        Direction.CODEC.decode(NbtOps.INSTANCE, compound.get(KWNbtIds.DIRECTION)).ifSuccess(pair -> this.setDirection(pair.getFirst()));
     }
 
     @Override
     protected void addAdditionalSaveData(CompoundTag compound) {
         super.addAdditionalSaveData(compound);
         compound.putFloat(KWNbtIds.EXPLOSION_POWER, this.explosionPower);
+        Direction.CODEC.encode(this.getFacingDirection(), NbtOps.INSTANCE, new CompoundTag()).ifSuccess(tag -> compound.put(KWNbtIds.DIRECTION, tag));
+
     }
 }

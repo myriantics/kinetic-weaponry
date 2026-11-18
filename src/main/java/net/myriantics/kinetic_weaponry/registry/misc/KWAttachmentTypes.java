@@ -3,6 +3,7 @@ package net.myriantics.kinetic_weaponry.registry.misc;
 import net.fabricmc.fabric.api.attachment.v1.AttachmentRegistry;
 import net.fabricmc.fabric.api.attachment.v1.AttachmentSyncPredicate;
 import net.fabricmc.fabric.api.attachment.v1.AttachmentType;
+import net.minecraft.core.Direction;
 import net.minecraft.network.codec.ByteBufCodecs;
 import net.myriantics.kinetic_weaponry.KWCommon;
 

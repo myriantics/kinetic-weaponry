@@ -79,7 +79,7 @@ public class KineticDetonatorBlock extends Block implements KineticImpactListene
     @Nullable
     @Override
     public BlockState getStateForPlacement(BlockPlaceContext context) {
-        return this.defaultBlockState().setValue(FACING, context.getClickedFace());
+        return this.defaultBlockState().setValue(FACING, context.getNearestLookingDirection().getOpposite());
     }
 
     protected PrimedKineticDetonatorEntity prime(Level level, BlockPos pos, BlockState state, @Nullable LivingEntity owner, float explosionPower) {
@@ -89,7 +89,7 @@ public class KineticDetonatorBlock extends Block implements KineticImpactListene
 
         level.destroyBlock(pos, false);
         level.addDestroyBlockEffect(pos, state);
-        PrimedKineticDetonatorEntity entity = new PrimedKineticDetonatorEntity(level, pos.getX() + 0.5, pos.getY(), pos.getZ() + 0.5, owner, Math.clamp(explosionPower, 0, EXPLOSION_POWER_CAP));
+        PrimedKineticDetonatorEntity entity = new PrimedKineticDetonatorEntity(level, pos.getX() + 0.5, pos.getY(), pos.getZ() + 0.5, owner, Math.clamp(explosionPower, 0, EXPLOSION_POWER_CAP), state.getValue(FACING));
         if (level.addFreshEntity(entity)) {
             level.gameEvent(owner, GameEvent.PRIME_FUSE, pos);
             return entity;

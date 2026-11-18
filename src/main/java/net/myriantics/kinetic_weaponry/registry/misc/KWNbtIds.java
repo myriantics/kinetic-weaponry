@@ -9,6 +9,7 @@ public abstract class KWNbtIds {
     public static final String ACTIVE = of("active");
     public static final String LAST_TRIGGERED_POS = of("last_triggered_pos");
     public static final String EXPLOSION_POWER = of("explosion_power");
+    public static final String DIRECTION = of("direction");
 
     private static String of(String name) {
         return KWCommon.locate(name).toString();
