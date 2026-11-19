@@ -106,8 +106,8 @@ public class KineticDetonatorBlock extends Block implements KineticImpactListene
 
     @Override
     public void onKineticImpact(Level level, BlockPos pos, BlockState state, float impactDamage, KineticChargeSidedTransferContext context) {
-        if (state.getValue(FACING) == context.getImpactedFace() && context.getSource() instanceof LivingEntity livingEntity) {
-            this.prime(level, pos, state, livingEntity, impactDamage);
+        if (state.getValue(FACING) == context.getImpactedFace()) {
+            this.prime(level, pos, state, context.getSource() instanceof LivingEntity livingEntity ? livingEntity : null, impactDamage);
         }
     }
 }

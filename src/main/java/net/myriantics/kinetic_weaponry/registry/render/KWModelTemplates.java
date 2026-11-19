@@ -16,6 +16,14 @@ public abstract class KWModelTemplates {
             TextureSlot.PARTICLE
     );
 
+    public static final ModelTemplate PRIMED_KINETIC_DETONATOR = block(
+            "primed_kinetic_detonator",
+            TextureSlot.TOP,
+            TextureSlot.SIDE,
+            TextureSlot.BOTTOM,
+            TextureSlot.PARTICLE
+    );
+
     public static final ModelTemplate KINETIC_RETENTION_HEADGEAR = block(
             "kinetic_retention_headgear_template",
             TextureSlot.TOP,

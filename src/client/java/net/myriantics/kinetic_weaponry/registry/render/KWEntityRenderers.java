@@ -12,6 +12,7 @@ import net.myriantics.kinetic_weaponry.KWCommon;
 import net.myriantics.kinetic_weaponry.item.ammo.CrossbowBoltItem;
 import net.myriantics.kinetic_weaponry.registry.entity.KWEntityTypes;
 import net.myriantics.kinetic_weaponry.render.CrossbowBoltRenderer;
+import net.myriantics.kinetic_weaponry.render.PrimedKineticDetonatorRenderer;
 
 public class KWEntityRenderers {
 
@@ -21,7 +22,7 @@ public class KWEntityRenderers {
         register(KWEntityTypes.KINETIC_CHARGING_BUS_MINECART.value(), (context) -> new MinecartRenderer<>(context, ModelLayers.MINECART));
         register(KWEntityTypes.CREATIVE_KINETIC_CHARGING_BUS_MINECART.value(), (context) -> new MinecartRenderer<>(context, ModelLayers.MINECART));
         register(KWEntityTypes.KINETIC_IMPACT_HANDLER.value(), NoopRenderer::new);
-        register(KWEntityTypes.PRIMED_KINETIC_DETONATOR.value(), NoopRenderer::new);
+        register(KWEntityTypes.PRIMED_KINETIC_DETONATOR.value(), PrimedKineticDetonatorRenderer::new);
     }
 
     private static <T extends Entity> void register(EntityType<T> type, EntityRendererProvider<T> rendererFactory) {

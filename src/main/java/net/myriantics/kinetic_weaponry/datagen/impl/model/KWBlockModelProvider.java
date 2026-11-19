@@ -19,6 +19,7 @@ import net.myriantics.kinetic_weaponry.block.retention_module.headgear.AbstractK
 import net.myriantics.kinetic_weaponry.block.retention_module.headgear.KineticRetentionHeadgearBlock;
 import net.myriantics.kinetic_weaponry.block.retention_module.backtank.KineticRetentionBacktankBlock;
 import net.myriantics.kinetic_weaponry.block.trial_weave.TrialWeaveBlock;
+import net.myriantics.kinetic_weaponry.entity.misc.PrimedKineticDetonatorEntity;
 import net.myriantics.kinetic_weaponry.mixin.minecraft.datagen.IntegerPropertyAccessor;
 import net.myriantics.kinetic_weaponry.registry.block.KWBlocks;
 import net.myriantics.kinetic_weaponry.registry.item.KWItems;
@@ -34,6 +35,7 @@ public class KWBlockModelProvider extends MyrrorBlockModelSubProvider {
 
     @Override
     public void generate() {
+        generatePrimedKineticDetonatorModel();
         generateFacing(KWBlocks.KINETIC_DETONATOR.value());
         generateKineticInterfaceRail(KWBlocks.KINETIC_INTERFACE_RAIL.value());
 
@@ -48,6 +50,17 @@ public class KWBlockModelProvider extends MyrrorBlockModelSubProvider {
         generateKineticChargingBus(KWBlocks.KINETIC_CHARGING_BUS.value(), KineticChargingBusBlock.KINETIC_CHARGE);
 
         generateTrialWeave(KWBlocks.TRIAL_WEAVE.value());
+    }
+
+    private void generatePrimedKineticDetonatorModel() {
+        ResourceLocation basedRl = ModelLocationUtils.getModelLocation(KWBlocks.KINETIC_DETONATOR.value());
+        ResourceLocation baseRl = PrimedKineticDetonatorEntity.DEFAULT_MODEL_LOCATION;
+        TextureMapping mapping = new TextureMapping()
+                .put(TextureSlot.TOP, basedRl.withSuffix("/top"))
+                .put(TextureSlot.SIDE, basedRl.withSuffix("/side"))
+                .put(TextureSlot.BOTTOM, basedRl.withSuffix("/bottom"))
+                .put(TextureSlot.PARTICLE, basedRl.withSuffix("/side"));
+        KWModelTemplates.PRIMED_KINETIC_DETONATOR.create(baseRl, mapping, generators.modelOutput);
     }
 
     private void generateFacing(Block block) {

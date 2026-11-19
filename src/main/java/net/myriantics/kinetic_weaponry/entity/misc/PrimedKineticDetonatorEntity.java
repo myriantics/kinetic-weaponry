@@ -1,11 +1,13 @@
 package net.myriantics.kinetic_weaponry.entity.misc;
 
 import net.minecraft.core.Direction;
+import net.minecraft.data.models.model.ModelLocationUtils;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.NbtOps;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.item.PrimedTnt;
@@ -14,6 +16,7 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.AABB;
 import net.myriantics.kinetic_weaponry.mixin.minecraft.primed_kinetic_detonator.PrimedTntAccessor;
 import net.myriantics.kinetic_weaponry.mixin.minecraft.primed_kinetic_detonator.PrimedTntInvoker;
+import net.myriantics.kinetic_weaponry.registry.block.KWBlocks;
 import net.myriantics.kinetic_weaponry.registry.entity.KWEntityTypes;
 import net.myriantics.kinetic_weaponry.registry.item.KWItems;
 import net.myriantics.kinetic_weaponry.registry.misc.KWNbtIds;
@@ -21,6 +24,7 @@ import org.jetbrains.annotations.Nullable;
 
 public class PrimedKineticDetonatorEntity extends PrimedTnt {
 
+    public static final ResourceLocation DEFAULT_MODEL_LOCATION = ModelLocationUtils.getModelLocation(KWBlocks.KINETIC_DETONATOR.value()).withSuffix("/primed");
     private static final double WIDTH = 0.98f;
     private static final double HEIGHT = 0.48f;
     private static final AABB[] AABB_FOR_AXIS_ORDINAL = new AABB[] {
@@ -35,7 +39,6 @@ public class PrimedKineticDetonatorEntity extends PrimedTnt {
 
     public PrimedKineticDetonatorEntity(EntityType<? extends PrimedTnt> entityType, Level level) {
         super(entityType, level);
-        this.recalculateBoundingBox();
     }
 
     public PrimedKineticDetonatorEntity(Level level, double x, double y, double z, @Nullable LivingEntity owner, float explosionPower, Direction direction) {
@@ -72,7 +75,7 @@ public class PrimedKineticDetonatorEntity extends PrimedTnt {
         }
     }
 
-    protected Direction getFacingDirection() {
+    public Direction getDirection() {
         return this.getEntityData().get(DATA_DIRECTION);
     }
 
@@ -93,7 +96,7 @@ public class PrimedKineticDetonatorEntity extends PrimedTnt {
     }
 
     protected void recalculateBoundingBox() {
-        this.setBoundingBox(AABB_FOR_AXIS_ORDINAL[this.getFacingDirection().getAxis().ordinal()].move(this.position()));
+        this.setBoundingBox(AABB_FOR_AXIS_ORDINAL[this.getDirection().getAxis().ordinal()].move(this.position()));
     }
 
     public float getExplosionPower() {
@@ -118,7 +121,7 @@ public class PrimedKineticDetonatorEntity extends PrimedTnt {
     protected void addAdditionalSaveData(CompoundTag compound) {
         super.addAdditionalSaveData(compound);
         compound.putFloat(KWNbtIds.EXPLOSION_POWER, this.explosionPower);
-        Direction.CODEC.encode(this.getFacingDirection(), NbtOps.INSTANCE, new CompoundTag()).ifSuccess(tag -> compound.put(KWNbtIds.DIRECTION, tag));
+        Direction.CODEC.encode(this.getDirection(), NbtOps.INSTANCE, new CompoundTag()).ifSuccess(tag -> compound.put(KWNbtIds.DIRECTION, tag));
 
     }
 }
