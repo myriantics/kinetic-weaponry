@@ -1,5 +1,6 @@
 package net.myriantics.kinetic_weaponry.entity.misc;
 
+import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.data.models.model.ModelLocationUtils;
 import net.minecraft.nbt.CompoundTag;
@@ -12,10 +13,12 @@ import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.item.PrimedTnt;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.BlockGetter;
+import net.minecraft.world.level.Explosion;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.material.FluidState;
 import net.minecraft.world.phys.AABB;
-import net.myriantics.kinetic_weaponry.mixin.minecraft.primed_kinetic_detonator.PrimedTntAccessor;
-import net.myriantics.kinetic_weaponry.mixin.minecraft.primed_kinetic_detonator.PrimedTntInvoker;
 import net.myriantics.kinetic_weaponry.registry.block.KWBlocks;
 import net.myriantics.kinetic_weaponry.registry.entity.KWEntityTypes;
 import net.myriantics.kinetic_weaponry.registry.item.KWItems;
@@ -35,6 +38,7 @@ public class PrimedKineticDetonatorEntity extends PrimedTnt {
 
     private static final EntityDataAccessor<Direction> DATA_DIRECTION = SynchedEntityData.defineId(PrimedKineticDetonatorEntity.class, EntityDataSerializers.DIRECTION);
 
+    private float breachScalar = 1.0f;
     private float explosionPower = 0.0f;
 
     public PrimedKineticDetonatorEntity(EntityType<? extends PrimedTnt> entityType, Level level) {
@@ -52,7 +56,6 @@ public class PrimedKineticDetonatorEntity extends PrimedTnt {
         this.xo = x;
         this.yo = y;
         this.zo = z;
-        ((PrimedTntAccessor) this).kinetic_weaponry$setOwner(owner);
         this.setDirection(direction);
     }
 
@@ -60,6 +63,10 @@ public class PrimedKineticDetonatorEntity extends PrimedTnt {
     protected void defineSynchedData(SynchedEntityData.Builder builder) {
         super.defineSynchedData(builder);
         builder.define(DATA_DIRECTION, Direction.UP);
+    }
+
+    public void setBreachScalar(float newBreachingValue) {
+        this.breachScalar = Math.clamp(newBreachingValue, 0, 1);
     }
 
     @Override
@@ -71,8 +78,28 @@ public class PrimedKineticDetonatorEntity extends PrimedTnt {
 
         if (this.tickCount > 4 && (this.horizontalCollision || this.verticalCollision)) {
             this.discard();
-            ((PrimedTntInvoker) this).kinetic_weaponry$invokeExplode();
+            this.explode();
         }
+    }
+
+    @Override
+    public void explode() {
+        this.level().explode(
+                this,
+                Explosion.getDefaultDamageSource(this.level(), this),
+                null,
+                this.getX(),
+                this.getY(0.0625),
+                this.getZ(),
+                this.explosionPower,
+                this.isOnFire(),
+                Level.ExplosionInteraction.TNT
+        );
+    }
+
+    @Override
+    public float getBlockExplosionResistance(Explosion explosion, BlockGetter level, BlockPos pos, BlockState blockState, FluidState fluidState, float explosionPower) {
+        return super.getBlockExplosionResistance(explosion, level, pos, blockState, fluidState, explosionPower) * this.breachScalar;
     }
 
     public Direction getDirection() {
@@ -114,6 +141,11 @@ public class PrimedKineticDetonatorEntity extends PrimedTnt {
         if (compound.contains(KWNbtIds.EXPLOSION_POWER, CompoundTag.TAG_FLOAT)) {
             this.explosionPower = Math.max(compound.getFloat(KWNbtIds.EXPLOSION_POWER), 0);
         }
+        if (compound.contains(KWNbtIds.BREACH_SCALAR, CompoundTag.TAG_FLOAT)) {
+            this.setBreachScalar(compound.getFloat(KWNbtIds.BREACH_SCALAR));
+        } else {
+            this.setBreachScalar(1f);
+        }
         Direction.CODEC.decode(NbtOps.INSTANCE, compound.get(KWNbtIds.DIRECTION)).ifSuccess(pair -> this.setDirection(pair.getFirst()));
     }
 
@@ -121,6 +153,9 @@ public class PrimedKineticDetonatorEntity extends PrimedTnt {
     protected void addAdditionalSaveData(CompoundTag compound) {
         super.addAdditionalSaveData(compound);
         compound.putFloat(KWNbtIds.EXPLOSION_POWER, this.explosionPower);
+        if (this.breachScalar != 1) {
+            compound.putFloat(KWNbtIds.BREACH_SCALAR, this.breachScalar);
+        }
         Direction.CODEC.encode(this.getDirection(), NbtOps.INSTANCE, new CompoundTag()).ifSuccess(tag -> compound.put(KWNbtIds.DIRECTION, tag));
 
     }

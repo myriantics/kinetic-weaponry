@@ -2,6 +2,7 @@ package net.myriantics.kinetic_weaponry.mechanics.kinetic_charge.impact;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.item.FallingBlockEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
@@ -10,7 +11,7 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.myriantics.kinetic_weaponry.mechanics.kinetic_charge.storage.KineticChargeSidedTransferContext;
 
 public interface KineticImpactListener {
-    default MeleeKineticImpactResult onMeleeKineticImpact(Level level, BlockPos pos, BlockState state, Player player, ItemStack weaponStack, Direction impactedFace, float impactDamage) {
+    default MeleeKineticImpactResult onMeleeKineticImpact(Level level, BlockPos pos, BlockState state, Player player, ItemStack weaponStack, Direction impactedFace, DamageSource damageSource, float impactDamage) {
         this.onKineticImpact(level, pos, state, impactDamage, KineticChargeSidedTransferContext.of(impactedFace, player));
         return MeleeKineticImpactResult.SUCCESS_NO_ENTITY;
     }

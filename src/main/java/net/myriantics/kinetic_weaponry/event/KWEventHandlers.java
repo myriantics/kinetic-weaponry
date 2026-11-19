@@ -32,7 +32,7 @@ public class KWEventHandlers {
             attackDamage += Items.MACE.getAttackDamageBonus(player, attackDamage, source);
 
             if (attackDamage > 0) {
-                MeleeKineticImpactResult result = listener.onMeleeKineticImpact(level, blockPos, targetState, player, maceStack, direction, attackDamage * KWUtil.MELEE_KINETIC_IMPACT_FORCE_MULTIPLIER);
+                MeleeKineticImpactResult result = listener.onMeleeKineticImpact(level, blockPos, targetState, player, maceStack, direction, source, attackDamage * KWUtil.MELEE_KINETIC_IMPACT_FORCE_MULTIPLIER);
                 if (result.isSuccess()) {
                     if (player instanceof ServerPlayer serverPlayer) {
                         KWAdvancementTriggers.triggerKineticBlockImpact(serverPlayer, serverPlayer.serverLevel(), blockPos);

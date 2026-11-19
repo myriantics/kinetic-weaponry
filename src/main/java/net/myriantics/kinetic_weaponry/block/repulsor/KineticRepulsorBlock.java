@@ -6,6 +6,7 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.util.RandomSource;
+import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
@@ -89,8 +90,8 @@ public class KineticRepulsorBlock extends Block implements KineticImpactListener
     }
 
     @Override
-    public MeleeKineticImpactResult onMeleeKineticImpact(Level level, BlockPos pos, BlockState state, Player player, ItemStack weaponStack, Direction impactedFace, float impactDamage) {
-        KineticImpactListener.super.onMeleeKineticImpact(level, pos, state, player, weaponStack, impactedFace, impactDamage);
+    public MeleeKineticImpactResult onMeleeKineticImpact(Level level, BlockPos pos, BlockState state, Player player, ItemStack weaponStack, Direction impactedFace, DamageSource damageSource, float impactDamage) {
+        KineticImpactListener.super.onMeleeKineticImpact(level, pos, state, player, weaponStack, impactedFace, damageSource, impactDamage);
         return MeleeKineticImpactResult.SUCCESS_NO_ENTITY;
     }
 

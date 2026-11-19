@@ -2,6 +2,7 @@ package net.myriantics.kinetic_weaponry.block.charging_bus;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
@@ -29,7 +30,7 @@ public class CreativeKineticChargingBusBlock extends AbstractKineticChargingBusB
     }
 
     @Override
-    public MeleeKineticImpactResult onMeleeKineticImpact(Level level, BlockPos pos, BlockState state, Player player, ItemStack weaponStack, Direction impactedFace, float impactDamage) {
+    public MeleeKineticImpactResult onMeleeKineticImpact(Level level, BlockPos pos, BlockState state, Player player, ItemStack weaponStack, Direction impactedFace, DamageSource damageSource, float impactDamage) {
         return MeleeKineticImpactResult.FAIL;
     }
 

@@ -105,6 +105,7 @@ public abstract class KWUtil {
             EnchantmentHelper.doPostAttackEffectsWithItemSource(serverLevel, target, source, maceStack);
         }
         serverPlayer.resetFallDistance();
+        serverPlayer.resetAttackStrengthTicker();
         maceStack.hurtAndBreak(1, serverPlayer, EquipmentSlot.MAINHAND);
     }
 }

@@ -6,6 +6,7 @@ import net.minecraft.core.Direction;
 import net.minecraft.core.FrontAndTop;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.tags.BlockTags;
+import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
@@ -223,12 +224,12 @@ public class KineticPulverizerBlock extends Block implements KineticImpactListen
     }
 
     @Override
-    public MeleeKineticImpactResult onMeleeKineticImpact(Level level, BlockPos pos, BlockState state, Player player, ItemStack weaponStack, Direction impactedFace, float impactDamage) {
+    public MeleeKineticImpactResult onMeleeKineticImpact(Level level, BlockPos pos, BlockState state, Player player, ItemStack weaponStack, Direction impactedFace, DamageSource damageSource, float impactDamage) {
         final FrontAndTop orientation = state.getValue(ORIENTATION);
         final BlockPos targetPos = pos.relative(orientation.front());
         final BlockState targetState = level.getBlockState(targetPos);
         if (this.getTargetBlockHardness(level, targetPos, targetState) > 0) {
-            KineticImpactListener.super.onMeleeKineticImpact(level, pos, state, player, weaponStack, orientation.front().getOpposite(), impactDamage);
+            KineticImpactListener.super.onMeleeKineticImpact(level, pos, state, player, weaponStack, orientation.front().getOpposite(), damageSource, impactDamage);
             return MeleeKineticImpactResult.SUCCESS_NO_ENTITY;
         }
         return MeleeKineticImpactResult.FAIL;

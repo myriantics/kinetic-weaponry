@@ -8,3 +8,6 @@ accessible field net/minecraft/world/level/storage/loot/entries/LootItem item Ln
 accessible field net/minecraft/world/level/storage/loot/LootTable$Builder paramSet Lnet/minecraft/world/level/storage/loot/parameters/LootContextParamSet;
 accessible method net/minecraft/world/level/storage/loot/functions/SetItemFunction <init> (Ljava/util/List;Lnet/minecraft/core/Holder;)V
 mutable field net/minecraft/world/level/storage/loot/entries/LootPoolSingletonContainer functions Ljava/util/List;
+accessible field net/minecraft/world/entity/item/PrimedTnt owner Lnet/minecraft/world/entity/LivingEntity;
+accessible method net/minecraft/world/entity/item/PrimedTnt explode ()V
+extendable method net/minecraft/world/entity/item/PrimedTnt explode ()V

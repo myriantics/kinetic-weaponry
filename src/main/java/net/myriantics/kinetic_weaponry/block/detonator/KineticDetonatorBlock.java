@@ -1,13 +1,21 @@
 package net.myriantics.kinetic_weaponry.block.detonator;
 
+import it.unimi.dsi.fastutil.objects.Object2IntMap;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.core.Holder;
+import net.minecraft.core.HolderLookup;
+import net.minecraft.core.registries.Registries;
 import net.minecraft.server.level.ServerLevel;
-import net.minecraft.world.entity.Entity;
+import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.context.BlockPlaceContext;
+import net.minecraft.world.item.enchantment.ConditionalEffect;
+import net.minecraft.world.item.enchantment.Enchantment;
+import net.minecraft.world.item.enchantment.EnchantmentEffectComponents;
+import net.minecraft.world.item.enchantment.effects.EnchantmentValueEffect;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.*;
 import net.minecraft.world.level.block.state.BlockState;
@@ -15,6 +23,7 @@ import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.level.block.state.properties.DirectionProperty;
 import net.minecraft.world.level.gameevent.GameEvent;
+import net.minecraft.world.level.storage.loot.LootContext;
 import net.myriantics.kinetic_weaponry.entity.misc.PrimedKineticDetonatorEntity;
 import net.myriantics.kinetic_weaponry.mechanics.kinetic_charge.impact.KineticImpactListener;
 import net.myriantics.kinetic_weaponry.mechanics.kinetic_charge.impact.MeleeKineticImpactResult;
@@ -22,6 +31,8 @@ import net.myriantics.kinetic_weaponry.mechanics.kinetic_charge.storage.KineticC
 import net.myriantics.kinetic_weaponry.mechanics.kinetic_charge.storage.KineticChargeStorage;
 import net.myriantics.kinetic_weaponry.mechanics.kinetic_charge.storage.SimpleKineticChargeStorage;
 import org.jetbrains.annotations.Nullable;
+
+import java.util.List;
 
 public class KineticDetonatorBlock extends Block implements KineticImpactListener {
 
@@ -99,8 +110,28 @@ public class KineticDetonatorBlock extends Block implements KineticImpactListene
     }
 
     @Override
-    public MeleeKineticImpactResult onMeleeKineticImpact(Level level, BlockPos pos, BlockState state, Player player, ItemStack weaponStack, Direction impactedFace, float impactDamage) {
+    public MeleeKineticImpactResult onMeleeKineticImpact(Level level, BlockPos pos, BlockState state, Player player, ItemStack weaponStack, Direction impactedFace, DamageSource damageSource, float impactDamage) {
         PrimedKineticDetonatorEntity entity = this.prime(level, pos, state, player, impactDamage);
+        if (entity != null) {
+            float breachScalar = 1f;
+            for (Object2IntMap.Entry<Holder<Enchantment>> enchantment : weaponStack.getEnchantments().entrySet()) {
+                final int enchantmentLevel = enchantment.getIntValue();
+
+                List<ConditionalEffect<EnchantmentValueEffect>> effects = enchantment.getKey().value().getEffects(EnchantmentEffectComponents.ARMOR_EFFECTIVENESS);
+                if (effects.isEmpty()) {
+                    continue;
+                }
+
+                LootContext damageContext = Enchantment.damageContext((ServerLevel) level, enchantmentLevel, entity, damageSource);
+
+                for (ConditionalEffect<EnchantmentValueEffect> effect : effects) {
+                    if (effect.matches(damageContext)) {
+                        breachScalar = effect.effect().process(enchantmentLevel, level.getRandom(), breachScalar);
+                    }
+                }
+            }
+            entity.setBreachScalar(breachScalar);
+        }
         return MeleeKineticImpactResult.of(true, entity);
     }
 

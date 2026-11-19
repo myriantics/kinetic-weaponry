@@ -1,6 +1,7 @@
 package net.myriantics.kinetic_weaponry.block.retention_module;
 
 import net.fabricmc.fabric.api.transfer.v1.transaction.Transaction;
+import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.material.FluidState;
@@ -87,10 +88,10 @@ public abstract class AbstractKineticRetentionModuleBlock extends BaseEntityBloc
     }
 
     @Override
-    public MeleeKineticImpactResult onMeleeKineticImpact(Level level, BlockPos pos, BlockState state, Player player, ItemStack weaponStack, Direction impactedFace, float impactDamage) {
+    public MeleeKineticImpactResult onMeleeKineticImpact(Level level, BlockPos pos, BlockState state, Player player, ItemStack weaponStack, Direction impactedFace, DamageSource damageSource, float impactDamage) {
         if (level.getBlockEntity(pos) instanceof KineticRetentionModuleBlockEntity blockEntity) {
             if (blockEntity.getCharge() < blockEntity.getMaxCharge()) {
-                KineticImpactListener.super.onMeleeKineticImpact(level, pos, state, player, weaponStack, state.getValue(FACING), impactDamage);
+                KineticImpactListener.super.onMeleeKineticImpact(level, pos, state, player, weaponStack, state.getValue(FACING), damageSource, impactDamage);
                 return MeleeKineticImpactResult.SUCCESS_NO_ENTITY;
             }
         }
