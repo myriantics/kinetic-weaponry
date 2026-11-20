@@ -9,12 +9,14 @@ import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.item.PrimedTnt;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Explosion;
+import net.minecraft.world.level.ExplosionDamageCalculator;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.material.FluidState;
@@ -56,6 +58,7 @@ public class PrimedKineticDetonatorEntity extends PrimedTnt {
         this.xo = x;
         this.yo = y;
         this.zo = z;
+        this.owner = owner;
         this.setDirection(direction);
     }
 
@@ -87,7 +90,12 @@ public class PrimedKineticDetonatorEntity extends PrimedTnt {
         this.level().explode(
                 this,
                 Explosion.getDefaultDamageSource(this.level(), this),
-                null,
+                new ExplosionDamageCalculator() {
+                    @Override
+                    public boolean shouldDamageEntity(Explosion explosion, Entity entity) {
+                        return super.shouldDamageEntity(explosion, entity) && entity != PrimedKineticDetonatorEntity.this.getOwner();
+                    }
+                },
                 this.getX(),
                 this.getY(0.0625),
                 this.getZ(),
