@@ -4,7 +4,7 @@ import com.llamalad7.mixinextras.injector.ModifyExpressionValue;
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
 import net.minecraft.client.Options;
 import net.myriantics.kinetic_weaponry.mechanics.attack_use.AttackUseItem;
-import net.myriantics.kinetic_weaponry.networking.packets.PlayerAttackUseUpdateC2SPacket;
+import net.myriantics.kinetic_weaponry.networking.serverbound.PlayerAttackUseUpdateC2SPacket;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.player.LocalPlayer;
 import org.spongepowered.asm.mixin.Final;

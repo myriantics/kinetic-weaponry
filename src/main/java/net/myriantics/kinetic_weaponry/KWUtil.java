@@ -10,6 +10,7 @@ import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
+import net.minecraft.util.Mth;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EquipmentSlot;
@@ -107,5 +108,13 @@ public abstract class KWUtil {
         serverPlayer.resetFallDistance();
         serverPlayer.resetAttackStrengthTicker();
         maceStack.hurtAndBreak(1, serverPlayer, EquipmentSlot.MAINHAND);
+    }
+
+    public static float simulateFallingBlockDamageCalcs(float fallDistance, float fallDamagePerDistance, float maxFallDamage) {
+        int trimmedFallDistance = Mth.ceil(fallDistance - 1.0f);
+        if (trimmedFallDistance < 0) {
+            return 0;
+        }
+        return Math.min(Mth.floor(trimmedFallDistance * fallDamagePerDistance), maxFallDamage);
     }
 }

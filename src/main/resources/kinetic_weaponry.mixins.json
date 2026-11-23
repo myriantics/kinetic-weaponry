@@ -22,6 +22,7 @@
     "minecraft.minecart.MinecartDispenseItemBehaviorMixin",
     "minecraft.minecart.MinecartItemMixin",
     "minecraft.ominous_anvil.AnvilMenuMixin",
+    "minecraft.ominous_anvil.FallingBlockEntityAccessor",
     "minecraft.ominous_anvil.FallingBlockEntityMixin",
     "minecraft.overheat_weapon.ThrownPotionEntityMixin",
     "minecraft.swingable_item.LivingEntityMixin"

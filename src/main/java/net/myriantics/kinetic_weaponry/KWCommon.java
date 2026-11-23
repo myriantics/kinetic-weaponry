@@ -48,7 +48,6 @@ public class KWCommon implements ModInitializer {
         KWAttachmentTypes.init();
 
         KWPackets.init();
-        KWPackets.initC2SRecievers();
 
         KWCriteriaTriggers.init();
 
