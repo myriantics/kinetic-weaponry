@@ -28,8 +28,12 @@ public abstract class FallingBlockEntityMixin extends Entity {
     public void chargeKineticBlocks(float fallDistance, float multiplier, DamageSource source, CallbackInfoReturnable<Boolean> cir, @Local(ordinal = 2) float damageBonus) {
         final Level level = this.level();
 
+        if (level.isClientSide()) {
+            return;
+        }
+
         final AABB boundingBox = this.getBoundingBox();
-        for (BlockPos pos : BlockPos.betweenClosedStream(this.getBoundingBox().deflate(0, boundingBox.maxY - boundingBox.minY, 0)).toList()) {
+        BlockPos.betweenClosedStream(boundingBox.deflate(1.0E-7, 1.0E-7, 1.0E-7).move(0, boundingBox.maxY - boundingBox.minY, 0)).forEach(pos -> {
             BlockPos impactedBlockPos = pos;
             BlockState impactedState = level.getBlockState(impactedBlockPos);
 
@@ -43,6 +47,6 @@ public abstract class FallingBlockEntityMixin extends Entity {
             if (impactedState.getBlock() instanceof KineticImpactListener listener) {
                 listener.onFallingBlockKineticImpact(level, impactedBlockPos, impactedState, (FallingBlockEntity) (Object) this, damageBonus * KWUtil.FALLING_BLOCK_KINETIC_IMPACT_FORCE_MULTIPLIER);
             }
-        }
+        });
     }
 }

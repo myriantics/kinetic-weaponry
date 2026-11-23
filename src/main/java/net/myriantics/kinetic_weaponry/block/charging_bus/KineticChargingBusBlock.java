@@ -137,12 +137,12 @@ public class KineticChargingBusBlock extends AbstractKineticChargingBusBlock {
 
     @Override
     public boolean allowsInsertion(Level level, BlockPos pos, BlockState state, KineticChargeSidedTransferContext context) {
-        return true;
+        return context.getImpactedFace() == state.getValue(FACING);
     }
 
     @Override
     public boolean allowsExtraction(Level level, BlockPos pos, BlockState state, KineticChargeSidedTransferContext context) {
-        return true;
+        return context.getImpactedFace() != null && context.getImpactedFace().getAxis() != state.getValue(FACING).getAxis();
     }
 
     @Override
