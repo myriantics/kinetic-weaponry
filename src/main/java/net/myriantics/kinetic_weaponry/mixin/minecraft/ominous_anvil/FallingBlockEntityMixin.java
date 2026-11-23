@@ -62,7 +62,7 @@ public abstract class FallingBlockEntityMixin extends Entity {
         original.call();
         if (!this.isRemoved() && this.getBlockState().getBlock() instanceof OminousAnvilBlock ominousAnvilBlock) {
             final float simulatedFallDamage = KWUtil.simulateFallingBlockDamageCalcs(this.fallDistance, this.fallDamagePerDistance, this.fallDamageMax);
-            final int newStrength = ominousAnvilBlock.getFallingBlockDamageSignalStrength(simulatedFallDamage, this.fallDamageMax);
+            final int newStrength = ominousAnvilBlock.getFallingBlockDamageSignalStrength(simulatedFallDamage);
             BlockState updated = ominousAnvilBlock.getStateForStrength(this.getBlockState(), newStrength);
             if (updated != this.getBlockState()) {
                 this.blockState = updated;
@@ -78,7 +78,7 @@ public abstract class FallingBlockEntityMixin extends Entity {
     private int kinetic_weaponry$changeOminousAnvilSignalStrengthToReflectFallDamage(int a, int b, Operation<Integer> original) {
         final int damage = original.call(a, b);
         if (this.getBlockState().getBlock() instanceof OminousAnvilBlock ominousAnvilBlock) {
-            BlockState updated = ominousAnvilBlock.getStateForStrength(this.getBlockState(), damage);
+            BlockState updated = ominousAnvilBlock.getStateForStrength(this.getBlockState(), ominousAnvilBlock.getFallingBlockDamageSignalStrength(damage));
             if (updated != this.getBlockState()) {
                 this.blockState = updated;
                 FallingBlockStateUpdatePacket.updateTracking((FallingBlockEntity) (Object) this);

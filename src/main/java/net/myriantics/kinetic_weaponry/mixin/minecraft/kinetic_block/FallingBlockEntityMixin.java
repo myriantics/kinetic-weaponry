@@ -8,6 +8,7 @@ import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.item.FallingBlockEntity;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.phys.AABB;
 import net.myriantics.kinetic_weaponry.KWUtil;
 import net.myriantics.kinetic_weaponry.mechanics.kinetic_charge.block.SimpleKineticBlock;
 import net.myriantics.kinetic_weaponry.mechanics.kinetic_charge.impact.KineticImpactListener;
@@ -25,17 +26,23 @@ public abstract class FallingBlockEntityMixin extends Entity {
 
     @Inject(method = "causeFallDamage", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/level/Level;getEntities(Lnet/minecraft/world/entity/Entity;Lnet/minecraft/world/phys/AABB;Ljava/util/function/Predicate;)Ljava/util/List;"))
     public void chargeKineticBlocks(float fallDistance, float multiplier, DamageSource source, CallbackInfoReturnable<Boolean> cir, @Local(ordinal = 2) float damageBonus) {
-        BlockPos entityPos = this.blockPosition();
-        Level level = this.level();
+        final Level level = this.level();
 
-        // if the block the entity is in isnt a kinetic impact block, check the one below.
-        BlockPos impactedBlockPos = level.getBlockState(entityPos).getBlock() instanceof SimpleKineticBlock ? entityPos : entityPos.below();
+        final AABB boundingBox = this.getBoundingBox();
+        for (BlockPos pos : BlockPos.betweenClosedStream(this.getBoundingBox().deflate(0, boundingBox.maxY - boundingBox.minY, 0)).toList()) {
+            BlockPos impactedBlockPos = pos;
+            BlockState impactedState = level.getBlockState(impactedBlockPos);
 
-        BlockState impactedState = level.getBlockState(impactedBlockPos);
+            // if the direct target block isnt a kinetic impact block, check the one below.
+            if (!(impactedState.getBlock() instanceof KineticImpactListener)) {
+                impactedBlockPos = pos.below();
+                impactedState = level.getBlockState(impactedBlockPos);
+            }
 
-        // if the landed-upon block is a kinetic block, trigger impact logic
-        if (impactedState.getBlock() instanceof KineticImpactListener listener) {
-            listener.onFallingBlockKineticImpact(level, impactedBlockPos, impactedState, (FallingBlockEntity) (Object) this, damageBonus * KWUtil.FALLING_BLOCK_KINETIC_IMPACT_FORCE_MULTIPLIER);
+            // if the landed-upon block is a kinetic block, trigger impact logic
+            if (impactedState.getBlock() instanceof KineticImpactListener listener) {
+                listener.onFallingBlockKineticImpact(level, impactedBlockPos, impactedState, (FallingBlockEntity) (Object) this, damageBonus * KWUtil.FALLING_BLOCK_KINETIC_IMPACT_FORCE_MULTIPLIER);
+            }
         }
     }
 }

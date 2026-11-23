@@ -19,6 +19,7 @@ import net.minecraft.world.level.block.state.properties.DirectionProperty;
 import net.minecraft.world.level.block.state.properties.IntegerProperty;
 import net.minecraft.world.level.material.FluidState;
 import net.minecraft.world.level.material.Fluids;
+import net.myriantics.kinetic_weaponry.KWUtil;
 
 public class OminousAnvilBlock extends AnvilBlock {
     public static final int CRUSHING_DAMAGE_MAX = 60;
@@ -85,8 +86,8 @@ public class OminousAnvilBlock extends AnvilBlock {
         return direction.getAxis() == Direction.Axis.Y ? state.getValue(POWER) : 0;
     }
 
-    public int getFallingBlockDamageSignalStrength(float damage, float maxDamage) {
-        return Math.clamp((int) (damage / maxDamage), 0, 15);
+    public int getFallingBlockDamageSignalStrength(float damage) {
+        return Math.clamp((int) (damage * KWUtil.FALLING_BLOCK_KINETIC_IMPACT_FORCE_MULTIPLIER), 0, 15);
     }
 
     public int getStrengthForAnvilOperation(int cost, int maxCost) {
