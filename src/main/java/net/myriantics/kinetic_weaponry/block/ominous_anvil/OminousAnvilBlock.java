@@ -54,6 +54,11 @@ public class OminousAnvilBlock extends AnvilBlock {
     }
 
     @Override
+    protected FluidState getFluidState(BlockState state) {
+        return state.getValue(WATERLOGGED) ? Fluids.WATER.getSource(false) : super.getFluidState(state);
+    }
+
+    @Override
     protected void tick(BlockState state, ServerLevel level, BlockPos pos, RandomSource random) {
         super.tick(state, level, pos, random);
         if (level.getBlockState(pos).is(this) && state.getValue(POWER) > 0) {
