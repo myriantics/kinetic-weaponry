@@ -9,6 +9,7 @@ public abstract class KWClientPackets {
 
     public static void registerS2CPacketRecievers() {
         registerReciever(KWPackets.FALLING_BLOCK_STATE_UPDATE_S2C_ID, KWClientPlayNetworkHandler::handleFallingBlockStateUpdate);
+        registerReciever(KWPackets.ATTACK_STRENGTH_TICKER_RESET_S2C_ID, KWClientPlayNetworkHandler::resetAttackStrengthTicker);
     }
 
     private static <T extends CustomPacketPayload> void registerReciever(CustomPacketPayload.Type<T> type, ClientPlayNetworking.PlayPayloadHandler<T> handler) {

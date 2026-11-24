@@ -5,6 +5,7 @@ import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.item.FallingBlockEntity;
 import net.myriantics.kinetic_weaponry.mixin.minecraft.ominous_anvil.FallingBlockEntityAccessor;
+import net.myriantics.kinetic_weaponry.networking.clientbound.AttackStrengthTickerResetPacket;
 import net.myriantics.kinetic_weaponry.networking.clientbound.FallingBlockStateUpdatePacket;
 import org.jetbrains.annotations.Nullable;
 
@@ -16,6 +17,12 @@ public abstract class KWClientPlayNetworkHandler {
                 return;
             }
             ((FallingBlockEntityAccessor) fallingBlock).kinetic_weaponry$setBlockState(fallingBlockStateUpdatePacket.state());
+        });
+    }
+
+    public static void resetAttackStrengthTicker(AttackStrengthTickerResetPacket attackStrengthTickerResetPacket, ClientPlayNetworking.Context context) {
+        context.client().execute(() -> {
+            context.player().resetAttackStrengthTicker();
         });
     }
 }

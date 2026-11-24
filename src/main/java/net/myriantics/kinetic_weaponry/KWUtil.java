@@ -1,5 +1,6 @@
 package net.myriantics.kinetic_weaponry;
 
+import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
 import net.fabricmc.fabric.api.transfer.v1.storage.StoragePreconditions;
 import net.fabricmc.fabric.api.transfer.v1.transaction.Transaction;
 import net.fabricmc.fabric.api.transfer.v1.transaction.TransactionContext;
@@ -20,6 +21,7 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.LevelEvent;
 import net.myriantics.kinetic_weaponry.entity.internal.KineticImpactHandlerEntity;
 import net.myriantics.kinetic_weaponry.mechanics.kinetic_charge.storage.KineticChargeStorage;
+import net.myriantics.kinetic_weaponry.networking.clientbound.AttackStrengthTickerResetPacket;
 import net.myriantics.kinetic_weaponry.registry.entity.KWEntityTypes;
 import org.jetbrains.annotations.Nullable;
 
@@ -107,6 +109,7 @@ public abstract class KWUtil {
         }
         serverPlayer.resetFallDistance();
         serverPlayer.resetAttackStrengthTicker();
+        ServerPlayNetworking.send(serverPlayer, AttackStrengthTickerResetPacket.INSTANCE);
         maceStack.hurtAndBreak(1, serverPlayer, EquipmentSlot.MAINHAND);
     }
 
