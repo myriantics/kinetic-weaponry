@@ -67,6 +67,19 @@ public class OminousAnvilBlock extends AnvilBlock {
     }
 
     @Override
+    protected void onPlace(BlockState state, Level level, BlockPos pos, BlockState oldState, boolean movedByPiston) {
+        super.onPlace(state, level, pos, oldState, movedByPiston);
+        if (movedByPiston) {
+            level.setBlockAndUpdate(pos, state.setValue(POWER, 0));
+        }
+
+        if (!oldState.is(this) || !state.getValue(POWER).equals(oldState.getValue(POWER))) {
+            level.updateNeighborsAt(pos.above(), this);
+            level.updateNeighborsAt(pos.below(), this);
+        }
+    }
+
+    @Override
     protected boolean hasAnalogOutputSignal(BlockState state) {
         return true;
     }
