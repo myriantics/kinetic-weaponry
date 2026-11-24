@@ -18,6 +18,7 @@ public class KWClient implements ClientModInitializer {
         KWEntityRenderers.init();
         KWClientPackets.registerS2CPacketRecievers();
         BlockRenderLayerMap.INSTANCE.putBlock(KWBlocks.KINETIC_INTERFACE_RAIL.value(), RenderType.cutout());
+        BlockRenderLayerMap.INSTANCE.putBlock(KWBlocks.OMINOUS_ANVIL.value(), RenderType.cutout());
         KWCommon.LOGGER.info("Kinetic Weaponry has initialized clientside!");
     }
 }

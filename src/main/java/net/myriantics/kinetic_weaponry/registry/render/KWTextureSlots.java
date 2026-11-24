@@ -4,6 +4,8 @@ import net.minecraft.data.models.model.TextureSlot;
 
 public class KWTextureSlots {
 
+    public static final TextureSlot BANNER = create("banner");
+    public static final TextureSlot ANVIL = create("anvil");
     public static final TextureSlot INNER_SIDE = create("inner_side");
     public static final TextureSlot OUTER_RIM = create("outer_rim");
 

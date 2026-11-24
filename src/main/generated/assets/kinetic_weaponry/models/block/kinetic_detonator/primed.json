@@ -1,0 +1,9 @@
+{
+  "parent": "kinetic_weaponry:block/primed_kinetic_detonator",
+  "textures": {
+    "bottom": "kinetic_weaponry:block/kinetic_detonator/bottom",
+    "particle": "kinetic_weaponry:block/kinetic_detonator/side",
+    "side": "kinetic_weaponry:block/kinetic_detonator/side",
+    "top": "kinetic_weaponry:block/kinetic_detonator/top"
+  }
+}

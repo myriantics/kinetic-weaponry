@@ -1,0 +1,8 @@
+{
+  "parent": "kinetic_weaponry:block/adorned_anvil_template",
+  "textures": {
+    "anvil": "kinetic_weaponry:block/ominous_anvil/anvil",
+    "banner": "kinetic_weaponry:block/ominous_anvil/banner",
+    "particle": "kinetic_weaponry:block/ominous_anvil/particle"
+  }
+}

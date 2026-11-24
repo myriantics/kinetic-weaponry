@@ -50,6 +50,21 @@ public class KWBlockModelProvider extends MyrrorBlockModelSubProvider {
         generateKineticChargingBus(KWBlocks.KINETIC_CHARGING_BUS.value(), KineticChargingBusBlock.KINETIC_CHARGE);
 
         generateTrialWeave(KWBlocks.TRIAL_WEAVE.value());
+        generateAdornedAnvil(KWBlocks.OMINOUS_ANVIL.value());
+    }
+
+    private void generateAdornedAnvil(Block block) {
+        ResourceLocation baseRl = ModelLocationUtils.getModelLocation(KWBlocks.OMINOUS_ANVIL.value());
+        TextureMapping mapping = new TextureMapping()
+                .put(KWTextureSlots.BANNER, baseRl.withSuffix("/banner"))
+                .put(KWTextureSlots.ANVIL, baseRl.withSuffix("/anvil"))
+                .put(TextureSlot.PARTICLE, baseRl.withSuffix("/particle"));
+        KWModelTemplates.ADORNED_ANVIL.create(baseRl, mapping, generators.modelOutput);
+        generators.delegateItemModel(block, baseRl);
+
+        generators.blockStateOutput.accept(MultiVariantGenerator.multiVariant(block, modelVariant(baseRl))
+                .with(BlockModelGenerators.createHorizontalFacingDispatch())
+        );
     }
 
     private void generatePrimedKineticDetonatorModel() {

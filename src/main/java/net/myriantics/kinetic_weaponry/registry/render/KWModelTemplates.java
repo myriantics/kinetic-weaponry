@@ -65,6 +65,13 @@ public abstract class KWModelTemplates {
             TextureSlot.PARTICLE
     );
 
+    public static final ModelTemplate ADORNED_ANVIL = block(
+            "adorned_anvil_template",
+            KWTextureSlots.BANNER,
+            KWTextureSlots.ANVIL,
+            TextureSlot.PARTICLE
+    );
+
     private static ModelTemplate block(String path, TextureSlot... textureSlots) {
         return new ModelTemplate(
                 Optional.of(KWCommon.locate("block/" + path)),

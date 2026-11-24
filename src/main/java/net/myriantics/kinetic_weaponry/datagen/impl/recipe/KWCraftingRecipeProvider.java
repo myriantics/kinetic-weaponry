@@ -36,6 +36,21 @@ public class KWCraftingRecipeProvider extends CraftingRecipeProvider {
         );
         addShapedCraftingRecipe(
                 new String[] {
+                        "BWB",
+                        " H ",
+                        "ICI"
+                },
+                new ItemStack(KWItems.OMINOUS_ANVIL),
+                builder -> builder
+                        .associate('B', Items.IRON_BLOCK)
+                        .associate('W', KWItems.CRIMSON_TRIAL_WEAVE.value())
+                        .associate('H', Items.HEAVY_CORE)
+                        .associate('I', Items.IRON_INGOT)
+                        .associate('C', Items.CHISELED_COPPER)
+                        .category(CraftingBookCategory.REDSTONE)
+        );
+        addShapedCraftingRecipe(
+                new String[] {
                         " R ",
                         "RWR",
                         " R "

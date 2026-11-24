@@ -1,0 +1,30 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "redstone",
+  "key": {
+    "B": {
+      "item": "minecraft:iron_block"
+    },
+    "C": {
+      "item": "minecraft:chiseled_copper"
+    },
+    "H": {
+      "item": "minecraft:heavy_core"
+    },
+    "I": {
+      "item": "minecraft:iron_ingot"
+    },
+    "W": {
+      "item": "kinetic_weaponry:crimson_trial_weave"
+    }
+  },
+  "pattern": [
+    "BWB",
+    " H ",
+    "ICI"
+  ],
+  "result": {
+    "count": 1,
+    "id": "kinetic_weaponry:ominous_anvil"
+  }
+}

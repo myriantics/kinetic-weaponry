@@ -1,0 +1,19 @@
+{
+  "variants": {
+    "facing=east": {
+      "model": "kinetic_weaponry:block/ominous_anvil",
+      "y": 90
+    },
+    "facing=north": {
+      "model": "kinetic_weaponry:block/ominous_anvil"
+    },
+    "facing=south": {
+      "model": "kinetic_weaponry:block/ominous_anvil",
+      "y": 180
+    },
+    "facing=west": {
+      "model": "kinetic_weaponry:block/ominous_anvil",
+      "y": 270
+    }
+  }
+}

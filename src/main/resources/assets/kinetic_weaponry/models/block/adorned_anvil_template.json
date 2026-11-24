@@ -1,0 +1,84 @@
+{
+	"format_version": "26.3",
+	"credit": "Made with Blockbench",
+	"parent": "block/block",
+	"texture_size": [32, 32],
+	"elements": [
+		{
+			"name": "Anvil base",
+			"from": [2, 0, 2],
+			"to": [14, 4, 14],
+			"faces": {
+				"north": {"uv": [14, 10, 16, 16], "rotation": 90, "texture": "#anvil"},
+				"east": {"uv": [12, 10, 14, 16], "rotation": 90, "texture": "#anvil"},
+				"south": {"uv": [14, 10, 16, 16], "rotation": 90, "texture": "#anvil"},
+				"west": {"uv": [12, 10, 14, 16], "rotation": 90, "texture": "#anvil"},
+				"up": {"uv": [12, 16, 6, 10], "texture": "#anvil"},
+				"down": {"uv": [6, 10, 12, 16], "texture": "#anvil", "cullface": "down"}
+			}
+		},
+		{
+			"name": "Lower narrow portion",
+			"from": [4, 4, 3],
+			"to": [12, 5, 13],
+			"faces": {
+				"north": {"uv": [5, 11.5, 5.5, 15.5], "rotation": 90, "texture": "#anvil"},
+				"east": {"uv": [0, 16, 5, 15.5], "texture": "#anvil"},
+				"south": {"uv": [5, 11.5, 5.5, 15.5], "rotation": 90, "texture": "#anvil"},
+				"west": {"uv": [0, 15.5, 5, 16], "texture": "#anvil"},
+				"up": {"uv": [0, 11.5, 5, 15.5], "rotation": 90, "texture": "#anvil"}
+			}
+		},
+		{
+			"name": "Wider section beneath top portion",
+			"from": [6, 5, 4],
+			"to": [10, 10, 12],
+			"faces": {
+				"north": {"uv": [13, 4, 15, 6.5], "texture": "#anvil"},
+				"east": {"uv": [15.5, 4, 13, 0], "rotation": 90, "texture": "#anvil"},
+				"south": {"uv": [15, 4, 13, 6.5], "texture": "#anvil"},
+				"west": {"uv": [15.5, 4, 13, 0], "rotation": 90, "texture": "#anvil"}
+			}
+		},
+		{
+			"name": "Anvil top",
+			"from": [3, 10, 0],
+			"to": [13, 16, 16],
+			"faces": {
+				"north": {"uv": [0, 8, 5, 11], "texture": "#anvil"},
+				"east": {"uv": [13, 0, 10, 8], "rotation": 270, "texture": "#anvil"},
+				"south": {"uv": [0, 8, 5, 11], "texture": "#anvil"},
+				"west": {"uv": [10, 0, 13, 8], "rotation": 90, "texture": "#anvil"},
+				"up": {"uv": [5, 0, 10, 8], "rotation": 180, "texture": "#anvil"},
+				"down": {"uv": [0, 0, 5, 8], "rotation": 180, "texture": "#anvil"}
+			}
+		},
+		{
+			"name": "crimson_banner_outer",
+			"from": [2.97, 5.97, 1.97],
+			"to": [13.03, 16.03, 14.03],
+			"rotation": {"angle": 0, "axis": "y", "origin": [7, 14, 6]},
+			"faces": {
+				"east": {"uv": [0, 0, 6, 5], "texture": "#banner"},
+				"west": {"uv": [0, 0, 6, 5], "texture": "#banner"},
+				"up": {"uv": [0, 10, 5, 16], "texture": "#banner"}
+			}
+		},
+		{
+			"name": "crimson_banner_inner",
+			"from": [13, 16, 14],
+			"to": [3, 6, 2],
+			"rotation": {"angle": 0, "axis": "y", "origin": [17, 24, 18]},
+			"faces": {
+				"east": {"uv": [0, 10, 6, 5], "texture": "#banner"},
+				"west": {"uv": [0, 10, 6, 5], "texture": "#banner"}
+			}
+		}
+	],
+	"display": {
+		"fixed": {
+			"rotation": [0, 90, 0],
+			"scale": [0.5, 0.5, 0.5]
+		}
+	}
+}
