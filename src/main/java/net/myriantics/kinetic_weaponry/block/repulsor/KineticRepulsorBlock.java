@@ -12,6 +12,7 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
@@ -98,6 +99,44 @@ public class KineticRepulsorBlock extends Block implements KineticImpactListener
     @Override
     public void onKineticImpact(Level level, BlockPos pos, BlockState state, float impactDamage, KineticChargeSidedTransferContext context) {
 
+    }
+
+    @Override
+    protected BlockState updateShape(BlockState state, Direction direction, BlockState neighborState, LevelAccessor level, BlockPos pos, BlockPos neighborPos) {
+        KineticRepulsorOrientation originalOrientation = state.getValue(ORIENTATION);
+        if (neighborState.is(this)) {
+            KineticRepulsorOrientation neighborOrientation = neighborState.getValue(ORIENTATION);
+
+            // update shape to reflect match
+            if (neighborOrientation.getFacing() == originalOrientation.getFacing()) {
+                switch (originalOrientation.getArchetype()) {
+                    case UNALIGNED -> {
+                        return state.setValue(ORIENTATION, KineticRepulsorOrientation.findEndpoint(originalOrientation.getFacing(), direction));
+                    }
+                    case ENDPOINT -> {
+                        if (neighborOrientation.getAlignmentAxis() == direction.getAxis() && originalOrientation.getOpenFace() != direction) {
+                            return state.setValue(ORIENTATION, KineticRepulsorOrientation.findConnector(originalOrientation.getFacing(), neighborOrientation.getAlignmentAxis()));
+                        }
+                    }
+                }
+            }
+        } else {
+            // update shape to reflect mismatch
+            if (direction.getAxis() == originalOrientation.getAlignmentAxis()) {
+                switch (originalOrientation.getArchetype()) {
+                    case CONNECTOR -> {
+                        return state.setValue(ORIENTATION, KineticRepulsorOrientation.findEndpoint(originalOrientation.getFacing(), direction.getOpposite()));
+                    }
+                    case ENDPOINT -> {
+                        if (originalOrientation.getOpenFace() == direction) {
+                            return state.setValue(ORIENTATION, KineticRepulsorOrientation.findUnaligned(originalOrientation.getFacing()));
+                        }
+                    }
+                }
+            }
+        }
+
+        return super.updateShape(state, direction, neighborState, level, pos, neighborPos);
     }
 
     protected double getVelocityScalarForChargeImpulse(long inboundCharge) {
@@ -192,32 +231,32 @@ public class KineticRepulsorBlock extends Block implements KineticImpactListener
         Direction[] directions = context.getNearestLookingDirections();
         Direction facing = directions[0].getOpposite();
 
-        Direction.Axis selectedAxis = null;
-        for (Direction offset : directions) {
-            if (offset.getAxis() == directions[0].getAxis()) {
-                continue;
-            }
-            BlockPos neighborPos = placementPos.relative(offset);
+        KineticRepulsorOrientation orientation = KineticRepulsorOrientation.findUnaligned(facing);
+
+        for (int i = 1; i <= 2; i++) {
+            Direction selected = directions[i];
+
+            BlockPos neighborPos = placementPos.relative(selected);
             BlockState neighborState = level.getBlockState(neighborPos);
-            if (!neighborState.is(this)) {
-                continue;
+            if (neighborState.is(this) && orientation.mayConnectTo(neighborState.getValue(ORIENTATION), selected)) {
+                orientation = KineticRepulsorOrientation.findEndpoint(orientation.getFacing(), selected);
             }
-            KineticRepulsorOrientation neighborOrientation = neighborState.getValue(ORIENTATION);
-            if (neighborOrientation.getFacing() == facing && neighborOrientation.getAlignmentAxis() == offset.getAxis()) {
-                selectedAxis = neighborOrientation.getAlignmentAxis();
+
+            BlockPos oppositeNeighborPos = placementPos.relative(selected.getOpposite());
+            BlockState oppositeNeighborState = level.getBlockState(oppositeNeighborPos);
+            if (oppositeNeighborState.is(this) && orientation.mayConnectTo(oppositeNeighborState.getValue(ORIENTATION), selected.getOpposite())) {
+                if (orientation.getArchetype() == KineticRepulsorOrientation.Archetype.ENDPOINT) {
+                    orientation = KineticRepulsorOrientation.findConnector(orientation.getFacing(), selected.getAxis());
+                } else {
+                    orientation = KineticRepulsorOrientation.findEndpoint(orientation.getFacing(), selected.getOpposite());
+                }
+            }
+
+            if (orientation.getArchetype().isConnected()) {
                 break;
             }
         }
 
-        if (selectedAxis != null) {
-            if (context.getClickedFace().getAxis() != facing.getAxis()) {
-                selectedAxis = context.getClickedFace().getAxis();
-            } else {
-                selectedAxis = directions[2].getAxis();
-            }
-        }
-
-
-        return this.defaultBlockState().setValue(ORIENTATION, KineticRepulsorOrientation.of(facing, selectedAxis));
+        return this.defaultBlockState().setValue(ORIENTATION, orientation);
     }
 }
