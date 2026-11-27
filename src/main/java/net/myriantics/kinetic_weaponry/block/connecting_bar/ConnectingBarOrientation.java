@@ -1,4 +1,4 @@
-package net.myriantics.kinetic_weaponry.block.repulsor;
+package net.myriantics.kinetic_weaponry.block.connecting_bar;
 
 import net.minecraft.core.Direction;
 import net.minecraft.util.StringRepresentable;
@@ -6,7 +6,7 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.Locale;
 
-public enum KineticRepulsorOrientation implements StringRepresentable {
+public enum ConnectingBarOrientation implements StringRepresentable {
     NORTH_UNALIGNED(Direction.NORTH),
     NORTH_ALONG_X(Direction.NORTH, Direction.Axis.X),
     NORTH_ALONG_X_OPEN_EAST(Direction.NORTH, Direction.EAST),
@@ -58,19 +58,19 @@ public enum KineticRepulsorOrientation implements StringRepresentable {
     private final @Nullable Direction openFace;
     private final Archetype archetype;
 
-    KineticRepulsorOrientation(Direction facing) {
+    ConnectingBarOrientation(Direction facing) {
         this(facing, null, null);
     }
 
-    KineticRepulsorOrientation(Direction facing, Direction.Axis alignmentAxis) {
+    ConnectingBarOrientation(Direction facing, Direction.Axis alignmentAxis) {
         this(facing, alignmentAxis, null);
     }
 
-    KineticRepulsorOrientation(Direction facing, Direction openFace) {
+    ConnectingBarOrientation(Direction facing, Direction openFace) {
         this(facing, openFace.getAxis(), openFace);
     }
 
-    KineticRepulsorOrientation(Direction facing, @Nullable Direction.Axis alignmentAxis, @Nullable Direction openFace) {
+    ConnectingBarOrientation(Direction facing, @Nullable Direction.Axis alignmentAxis, @Nullable Direction openFace) {
         this.facing = facing;
         if (this.facing.getAxis() == alignmentAxis) {
             throw new IllegalArgumentException(USER_DID_A_BAD);
@@ -96,7 +96,7 @@ public enum KineticRepulsorOrientation implements StringRepresentable {
         return this.openFace;
     }
 
-    public boolean mayConnectTo(KineticRepulsorOrientation other, Direction faceOtherIsAttachedTo) {
+    public boolean mayConnectTo(ConnectingBarOrientation other, Direction faceOtherIsAttachedTo) {
         if (this.facing != other.facing) {
             return false;
         }
@@ -108,7 +108,7 @@ public enum KineticRepulsorOrientation implements StringRepresentable {
         return true;
     }
 
-    public static KineticRepulsorOrientation findUnaligned(Direction facing) {
+    public static ConnectingBarOrientation findUnaligned(Direction facing) {
         return switch (facing) {
             case DOWN -> DOWN_UNALIGNED;
             case UP -> UP_UNALIGNED;
@@ -119,7 +119,7 @@ public enum KineticRepulsorOrientation implements StringRepresentable {
         };
     }
 
-    public static KineticRepulsorOrientation findConnector(Direction facing, Direction.Axis alignmentAxis) {
+    public static ConnectingBarOrientation findConnector(Direction facing, Direction.Axis alignmentAxis) {
         if (facing.getAxis() == alignmentAxis) {
             throw new IllegalArgumentException(USER_DID_A_BAD);
         }
@@ -134,7 +134,7 @@ public enum KineticRepulsorOrientation implements StringRepresentable {
         };
     }
 
-    public static KineticRepulsorOrientation findEndpoint(Direction facing, Direction openDirection) {
+    public static ConnectingBarOrientation findEndpoint(Direction facing, Direction openDirection) {
         return switch (facing) {
             case DOWN -> switch (openDirection) {
                 case NORTH -> DOWN_ALONG_Z_OPEN_NORTH;
@@ -218,7 +218,7 @@ public enum KineticRepulsorOrientation implements StringRepresentable {
             return this != UNALIGNED;
         }
 
-        private String createStringRepresentation(KineticRepulsorOrientation orientation) {
+        private String createStringRepresentation(ConnectingBarOrientation orientation) {
             return switch (this) {
                 case UNALIGNED -> orientation.getFacing().getName() + "_unaligned";
                 case ENDPOINT -> orientation.getFacing().getName() + "_along_" + orientation.getAlignmentAxis().getName() + "_open_" + orientation.openFace.getName();

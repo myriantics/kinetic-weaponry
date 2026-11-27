@@ -16,10 +16,13 @@ import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
+import net.minecraft.world.level.block.state.pattern.BlockInWorld;
 import net.minecraft.world.level.block.state.properties.BooleanProperty;
 import net.minecraft.world.level.block.state.properties.EnumProperty;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
+import net.myriantics.kinetic_weaponry.block.connecting_bar.ConnectingBarBlock;
+import net.myriantics.kinetic_weaponry.block.connecting_bar.ConnectingBarOrientation;
 import net.myriantics.kinetic_weaponry.mechanics.kinetic_charge.impact.KineticImpactListener;
 import net.myriantics.kinetic_weaponry.mechanics.kinetic_charge.impact.MeleeKineticImpactResult;
 import net.myriantics.kinetic_weaponry.mechanics.kinetic_charge.storage.KineticChargeSidedTransferContext;
@@ -27,18 +30,17 @@ import net.myriantics.kinetic_weaponry.mechanics.kinetic_charge.storage.KineticC
 import net.myriantics.kinetic_weaponry.registry.block.KWBlockStateProperties;
 import org.jetbrains.annotations.Nullable;
 
-public class KineticRepulsorBlock extends Block implements KineticImpactListener {
+public class KineticRepulsorBlock extends ConnectingBarBlock implements KineticImpactListener {
 
     public static final int MAX_CHAINING_RANGE = 16;
     public static final int COOLDOWN_TICKS = 2;
     public static final BooleanProperty COOLDOWN = KWBlockStateProperties.COOLDOWN;
-    public static final EnumProperty<KineticRepulsorOrientation> ORIENTATION = KWBlockStateProperties.KINETIC_REPULSOR_ORIENTATION;
+    public static final EnumProperty<ConnectingBarOrientation> ORIENTATION = ConnectingBarBlock.ORIENTATION;
 
     public KineticRepulsorBlock(Properties properties) {
         super(properties);
         this.initStorage();
-        this.registerDefaultState(this.getStateDefinition().any()
-                .setValue(ORIENTATION, KineticRepulsorOrientation.UP_ALONG_X)
+        this.registerDefaultState(this.defaultBlockState()
                 .setValue(COOLDOWN, false)
         );
     }
@@ -63,7 +65,6 @@ public class KineticRepulsorBlock extends Block implements KineticImpactListener
                         return maxAmount;
                     }
 
-
                     @Override
                     public boolean supportsExtraction() {
                         return false;
@@ -87,7 +88,8 @@ public class KineticRepulsorBlock extends Block implements KineticImpactListener
 
     @Override
     protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> builder) {
-        builder.add(ORIENTATION, COOLDOWN);
+        super.createBlockStateDefinition(builder);
+        builder.add(COOLDOWN);
     }
 
     @Override
@@ -99,44 +101,6 @@ public class KineticRepulsorBlock extends Block implements KineticImpactListener
     @Override
     public void onKineticImpact(Level level, BlockPos pos, BlockState state, float impactDamage, KineticChargeSidedTransferContext context) {
 
-    }
-
-    @Override
-    protected BlockState updateShape(BlockState state, Direction direction, BlockState neighborState, LevelAccessor level, BlockPos pos, BlockPos neighborPos) {
-        KineticRepulsorOrientation originalOrientation = state.getValue(ORIENTATION);
-        if (neighborState.is(this)) {
-            KineticRepulsorOrientation neighborOrientation = neighborState.getValue(ORIENTATION);
-
-            // update shape to reflect match
-            if (neighborOrientation.getFacing() == originalOrientation.getFacing()) {
-                switch (originalOrientation.getArchetype()) {
-                    case UNALIGNED -> {
-                        return state.setValue(ORIENTATION, KineticRepulsorOrientation.findEndpoint(originalOrientation.getFacing(), direction));
-                    }
-                    case ENDPOINT -> {
-                        if (neighborOrientation.getAlignmentAxis() == direction.getAxis() && originalOrientation.getOpenFace() != direction) {
-                            return state.setValue(ORIENTATION, KineticRepulsorOrientation.findConnector(originalOrientation.getFacing(), neighborOrientation.getAlignmentAxis()));
-                        }
-                    }
-                }
-            }
-        } else {
-            // update shape to reflect mismatch
-            if (direction.getAxis() == originalOrientation.getAlignmentAxis()) {
-                switch (originalOrientation.getArchetype()) {
-                    case CONNECTOR -> {
-                        return state.setValue(ORIENTATION, KineticRepulsorOrientation.findEndpoint(originalOrientation.getFacing(), direction.getOpposite()));
-                    }
-                    case ENDPOINT -> {
-                        if (originalOrientation.getOpenFace() == direction) {
-                            return state.setValue(ORIENTATION, KineticRepulsorOrientation.findUnaligned(originalOrientation.getFacing()));
-                        }
-                    }
-                }
-            }
-        }
-
-        return super.updateShape(state, direction, neighborState, level, pos, neighborPos);
     }
 
     protected double getVelocityScalarForChargeImpulse(long inboundCharge) {
@@ -153,12 +117,12 @@ public class KineticRepulsorBlock extends Block implements KineticImpactListener
     }
 
     protected void performRepulsionAlongChain(Level level, BlockPos pos, BlockState state, Direction impactedFace, long kineticCharge) {
-        final KineticRepulsorOrientation originOrientation = state.getValue(ORIENTATION);
+        final ConnectingBarOrientation originOrientation = state.getValue(ORIENTATION);
         final Direction searchingDir = impactedFace.getOpposite();
 
         BlockPos firstPositionInCurrentSegment = pos;
         BlockPos latestPositionInCurrentSegment = pos;
-        KineticRepulsorOrientation currentOrientation = originOrientation;
+        ConnectingBarOrientation currentOrientation = originOrientation;
         for (int i = 0; i < MAX_CHAINING_RANGE; i++) {
             final BlockPos nextCandidatePos = pos.relative(searchingDir, i + 1);
             final BlockState nextCandidateState = level.getBlockState(nextCandidatePos);
@@ -166,7 +130,7 @@ public class KineticRepulsorBlock extends Block implements KineticImpactListener
                 break;
             }
 
-            final KineticRepulsorOrientation candidateOrientation = nextCandidateState.getValue(ORIENTATION);
+            final ConnectingBarOrientation candidateOrientation = nextCandidateState.getValue(ORIENTATION);
             if (originOrientation.getAlignmentAxis() != candidateOrientation.getAlignmentAxis()) {
                 break;
             }
@@ -185,7 +149,7 @@ public class KineticRepulsorBlock extends Block implements KineticImpactListener
     }
 
     // TODO: make this work on client-controlled vehicles
-    protected void applyVelocityBetweenPositions(Level level, BlockPos start, BlockPos end, KineticRepulsorOrientation repulsorOrientation, long kineticCharge) {
+    protected void applyVelocityBetweenPositions(Level level, BlockPos start, BlockPos end, ConnectingBarOrientation repulsorOrientation, long kineticCharge) {
         final Direction repulsionDirection = repulsorOrientation.getFacing();
         final Vec3 appliedVelocity = this.createAppliedVelocityForFacing(repulsionDirection, kineticCharge);
         for (Entity entity : level.getEntities(null, AABB.encapsulatingFullBlocks(start.relative(repulsionDirection), end.relative(repulsionDirection)))) {
@@ -224,39 +188,11 @@ public class KineticRepulsorBlock extends Block implements KineticImpactListener
         level.scheduleTick(pos, state.getBlock(), COOLDOWN_TICKS);
     }
 
-    @Override
-    public @Nullable BlockState getStateForPlacement(BlockPlaceContext context) {
-        Level level = context.getLevel();
-        BlockPos placementPos = context.getClickedPos();
-        Direction[] directions = context.getNearestLookingDirections();
-        Direction facing = directions[0].getOpposite();
+    protected int getMaxChainingRange() {
+        return MAX_CHAINING_RANGE;
+    }
 
-        KineticRepulsorOrientation orientation = KineticRepulsorOrientation.findUnaligned(facing);
+    protected record RepulsionInstance(BlockInWorld[] repulsors, int length, Vec3 velocity) {
 
-        for (int i = 1; i <= 2; i++) {
-            Direction selected = directions[i];
-
-            BlockPos neighborPos = placementPos.relative(selected);
-            BlockState neighborState = level.getBlockState(neighborPos);
-            if (neighborState.is(this) && orientation.mayConnectTo(neighborState.getValue(ORIENTATION), selected)) {
-                orientation = KineticRepulsorOrientation.findEndpoint(orientation.getFacing(), selected);
-            }
-
-            BlockPos oppositeNeighborPos = placementPos.relative(selected.getOpposite());
-            BlockState oppositeNeighborState = level.getBlockState(oppositeNeighborPos);
-            if (oppositeNeighborState.is(this) && orientation.mayConnectTo(oppositeNeighborState.getValue(ORIENTATION), selected.getOpposite())) {
-                if (orientation.getArchetype() == KineticRepulsorOrientation.Archetype.ENDPOINT) {
-                    orientation = KineticRepulsorOrientation.findConnector(orientation.getFacing(), selected.getAxis());
-                } else {
-                    orientation = KineticRepulsorOrientation.findEndpoint(orientation.getFacing(), selected.getOpposite());
-                }
-            }
-
-            if (orientation.getArchetype().isConnected()) {
-                break;
-            }
-        }
-
-        return this.defaultBlockState().setValue(ORIENTATION, orientation);
     }
 }

@@ -6,7 +6,7 @@ import net.minecraft.world.level.block.state.properties.IntegerProperty;
 import net.minecraft.world.level.block.state.properties.RailShape;
 import net.myriantics.kinetic_weaponry.block.charging_bus.KineticChargingBusBlock;
 import net.myriantics.kinetic_weaponry.block.charging_bus.KineticChargingBusShape;
-import net.myriantics.kinetic_weaponry.block.repulsor.KineticRepulsorOrientation;
+import net.myriantics.kinetic_weaponry.block.connecting_bar.ConnectingBarOrientation;
 import net.myriantics.kinetic_weaponry.block.retention_module.headgear.KineticRetentionHeadgearBlock;
 import net.myriantics.kinetic_weaponry.block.retention_module.backtank.KineticRetentionBacktankBlock;
 import net.myriantics.kinetic_weaponry.block.trial_weave.TrialWeaveState;
@@ -29,7 +29,7 @@ public abstract class KWBlockStateProperties {
             "state",
             TrialWeaveState.class
     );
-    public static final EnumProperty<KineticRepulsorOrientation> KINETIC_REPULSOR_ORIENTATION = EnumProperty.create("orientation", KineticRepulsorOrientation.class);
+    public static final EnumProperty<ConnectingBarOrientation> CONNECTING_BAR_ORIENTATION = EnumProperty.create("orientation", ConnectingBarOrientation.class);
     public static final BooleanProperty COOLDOWN = BooleanProperty.create("cooldown");
     public static final EnumProperty<RailShape> HORIZONTAL_STRAIGHT_RAIL_SHAPE = EnumProperty.create(
             "shape",
