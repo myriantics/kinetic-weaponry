@@ -96,12 +96,16 @@ public enum ConnectingBarOrientation implements StringRepresentable {
         return this.openFace;
     }
 
-    public boolean mayConnectTo(ConnectingBarOrientation other, Direction faceOtherIsAttachedTo) {
+    public boolean mayConnectTo(ConnectingBarOrientation other, Direction directionToOther) {
         if (this.facing != other.facing) {
             return false;
         }
 
-        if (other.getArchetype() != Archetype.UNALIGNED && other.getAlignmentAxis() != faceOtherIsAttachedTo.getAxis()) {
+        if (other.getFacing().getAxis() == directionToOther.getAxis()) {
+            return false;
+        }
+
+        if (other.getArchetype() != Archetype.UNALIGNED && other.getAlignmentAxis() != directionToOther.getAxis()) {
             return false;
         }
 

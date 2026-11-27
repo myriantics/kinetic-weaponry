@@ -10,9 +10,7 @@ import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
@@ -28,7 +26,6 @@ import net.myriantics.kinetic_weaponry.mechanics.kinetic_charge.impact.MeleeKine
 import net.myriantics.kinetic_weaponry.mechanics.kinetic_charge.storage.KineticChargeSidedTransferContext;
 import net.myriantics.kinetic_weaponry.mechanics.kinetic_charge.storage.KineticChargeStorage;
 import net.myriantics.kinetic_weaponry.registry.block.KWBlockStateProperties;
-import org.jetbrains.annotations.Nullable;
 
 public class KineticRepulsorBlock extends ConnectingBarBlock implements KineticImpactListener {
 
@@ -46,7 +43,7 @@ public class KineticRepulsorBlock extends ConnectingBarBlock implements KineticI
     }
 
     protected void initStorage() {
-        KineticChargeStorage.SIDED.registerForBlocks((level, pos, state, blockEntity, context) -> state.getValue(COOLDOWN) || context.getImpactedFace() == null || context.getImpactedFace().getAxis() != state.getValue(ORIENTATION).getAlignmentAxis() ? null : new KineticChargeStorage() {
+        KineticChargeStorage.SIDED.registerForBlocks((level, pos, state, blockEntity, context) -> !this.acceptsKineticChargeFromSide(state, context.getImpactedFace()) ? null : new KineticChargeStorage() {
                     private long charge = 0;
                     private boolean initialized = false;
 
@@ -100,7 +97,37 @@ public class KineticRepulsorBlock extends ConnectingBarBlock implements KineticI
 
     @Override
     public void onKineticImpact(Level level, BlockPos pos, BlockState state, float impactDamage, KineticChargeSidedTransferContext context) {
+        Direction impactedFace = context.getImpactedFace();
+        if (this.acceptsKineticChargeFromSide(state, impactedFace)) {
+            this.performRepulsionAlongChain(level, pos, state, impactedFace, (long) impactDamage);
+        }
+    }
 
+    protected boolean acceptsKineticChargeFromSide(BlockState state, Direction side) {
+        if (state.getValue(COOLDOWN)) {
+            return false;
+        }
+        if (side == null) {
+            return false;
+        }
+        ConnectingBarOrientation orientation = state.getValue(ORIENTATION);
+        switch (orientation.getArchetype()) {
+            case UNALIGNED -> {
+                if (side.getAxis() == orientation.getFacing().getAxis()) {
+                    return false;
+                }
+            }
+            case ENDPOINT -> {
+                if (side != orientation.getOpenFace().getOpposite()) {
+                    return false;
+                }
+            }
+            case CONNECTOR -> {
+                return false;
+            }
+        }
+
+        return true;
     }
 
     protected double getVelocityScalarForChargeImpulse(long inboundCharge) {
@@ -116,41 +143,49 @@ public class KineticRepulsorBlock extends ConnectingBarBlock implements KineticI
         );
     }
 
-    protected void performRepulsionAlongChain(Level level, BlockPos pos, BlockState state, Direction impactedFace, long kineticCharge) {
+    protected void performRepulsionAlongChain(Level level, BlockPos originPos, BlockState state, Direction impactedFace, long kineticCharge) {
         final ConnectingBarOrientation originOrientation = state.getValue(ORIENTATION);
         final Direction searchingDir = impactedFace.getOpposite();
 
-        BlockPos firstPositionInCurrentSegment = pos;
-        BlockPos latestPositionInCurrentSegment = pos;
-        ConnectingBarOrientation currentOrientation = originOrientation;
-        for (int i = 0; i < MAX_CHAINING_RANGE; i++) {
-            final BlockPos nextCandidatePos = pos.relative(searchingDir, i + 1);
-            final BlockState nextCandidateState = level.getBlockState(nextCandidatePos);
-            if (!nextCandidateState.is(this)) {
+        BlockPos chainEndpoint;
+        if (originOrientation.getArchetype().isConnected()) {
+
+            final ConnectingBarOrientation desiredConnectorOrientation = ConnectingBarOrientation.findConnector(originOrientation.getFacing(), originOrientation.getAlignmentAxis());
+            final ConnectingBarOrientation desiredEndpointOrientation = ConnectingBarOrientation.findEndpoint(originOrientation.getFacing(), originOrientation.getOpenFace().getOpposite());
+
+            BlockPos.MutableBlockPos mutable = originPos.mutable();
+            for (int i = 0; i < this.getMaxChainingRange(); i++) {
+                mutable.move(searchingDir);
+                BlockState targetState = level.getBlockState(mutable);
+
+                if (!targetState.is(this) || targetState.getValue(COOLDOWN)) {
+                    // move back to last valid pos
+                    mutable.move(searchingDir.getOpposite());
+                    break;
+                }
+
+                ConnectingBarOrientation orientation = targetState.getValue(ORIENTATION);
+                if (orientation == desiredConnectorOrientation) {
+                    continue;
+                }
+                if (orientation == desiredEndpointOrientation) {
+                    break;
+                }
+
+                // if two good cases didnt happen, break
                 break;
             }
-
-            final ConnectingBarOrientation candidateOrientation = nextCandidateState.getValue(ORIENTATION);
-            if (originOrientation.getAlignmentAxis() != candidateOrientation.getAlignmentAxis()) {
-                break;
-            }
-
-            if (currentOrientation == candidateOrientation) {
-                latestPositionInCurrentSegment = nextCandidatePos;
-            } else {
-                this.applyVelocityBetweenPositions(level, firstPositionInCurrentSegment, latestPositionInCurrentSegment, currentOrientation, kineticCharge);
-                firstPositionInCurrentSegment = nextCandidatePos;
-                latestPositionInCurrentSegment = nextCandidatePos;
-                currentOrientation = candidateOrientation;
-            }
+            chainEndpoint = mutable.immutable();
+        } else {
+            chainEndpoint = originPos;
         }
 
-        this.applyVelocityBetweenPositions(level, firstPositionInCurrentSegment, latestPositionInCurrentSegment, currentOrientation, kineticCharge);
+
+        this.applyVelocityBetweenPositions(level, originPos, chainEndpoint, originOrientation.getFacing(), kineticCharge);
     }
 
     // TODO: make this work on client-controlled vehicles
-    protected void applyVelocityBetweenPositions(Level level, BlockPos start, BlockPos end, ConnectingBarOrientation repulsorOrientation, long kineticCharge) {
-        final Direction repulsionDirection = repulsorOrientation.getFacing();
+    protected void applyVelocityBetweenPositions(Level level, BlockPos start, BlockPos end, Direction repulsionDirection, long kineticCharge) {
         final Vec3 appliedVelocity = this.createAppliedVelocityForFacing(repulsionDirection, kineticCharge);
         for (Entity entity : level.getEntities(null, AABB.encapsulatingFullBlocks(start.relative(repulsionDirection), end.relative(repulsionDirection)))) {
             entity.addDeltaMovement(appliedVelocity);
@@ -192,7 +227,6 @@ public class KineticRepulsorBlock extends ConnectingBarBlock implements KineticI
         return MAX_CHAINING_RANGE;
     }
 
-    protected record RepulsionInstance(BlockInWorld[] repulsors, int length, Vec3 velocity) {
-
+    protected record RepulsionInstance(BlockInWorld[] repulsors, AABB repulsionBox, int length, Vec3 velocity) {
     }
 }
